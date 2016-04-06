@@ -3,23 +3,57 @@
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'basic',
+    'id' => 'OakCMS',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'defaultRoute' => 'system/default/index',
+    'bootstrap' => [
+        'log',
+        'app\modules\admin\Bootstrap'
+    ],
+    'modules' => [
+        'system' => [
+            'class' => 'app\modules\system\Module',
+        ],
+        'admin' => [
+            'class' => 'app\modules\admin\Module',
+            'modules' => [
+                'users' => [
+                    'class' => 'app\modules\user\Module',
+                    'controllerNamespace' => 'app\modules\user\controllers\backend',
+                    'viewPath' => '@app/modules/user/views/backend',
+                ],
+            ]
+        ],
+        'user' => [
+            'class' => 'app\modules\user\Module',
+        ],
+    ],
     'components' => [
+        'view' => [
+            'theme' => [
+                'basePath' => '@app/templates/frontend/base',
+                'baseUrl' => '@web/templates/frontend/base/web',
+                'pathMap' => [
+                    '@app/views' => '@app/templates/frontend/base/views',
+                    '@app/modules' => '@app/templates/frontend/base/views/modules',
+                    '@app/widgets' => '@app/templates/frontend/base/views/widgets'
+                ],
+            ],
+        ],
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => 'RaIVFkZ0TQqbRQi6gwb2tnqQ2_kEXpou',
+            'cookieValidationKey' => getenv('COOKIE_VALIDATION_KEY'),
+            'baseUrl'=> '',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\modules\user\models\User',
             'enableAutoLogin' => true,
+            'loginUrl'        => ['/admin/default/login'],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'system/default/error',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
@@ -31,21 +65,32 @@ $config = [
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
+                'db'=>[
+                    'class' => 'yii\log\DbTarget',
                     'levels' => ['error', 'warning'],
+                    'except'=>['yii\web\HttpException:*', 'yii\i18n\I18N\*'],
+                    'prefix'=>function () {
+                        $url = !Yii::$app->request->isConsoleRequest ? Yii::$app->request->getUrl() : null;
+                        return sprintf('[%s][%s]', Yii::$app->id, $url);
+                    },
+                    'logVars'=>[],
+                    'logTable'=>'{{%system_log}}'
+                ]
+            ],
+        ],
+        'i18n' => [
+            'translations' => [
+                '*'=> [
+                    'class' => 'yii\i18n\DbMessageSource',
+                    'sourceMessageTable'=>'{{%i18n_source_message}}',
+                    'messageTable'=>'{{%i18n_message}}',
+                    'enableCaching' => true,
+                    'cachingDuration' => 900
                 ],
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
+        'urlManager' => require(__DIR__ . '/urlManager.php'),
     ],
     'params' => $params,
 ];

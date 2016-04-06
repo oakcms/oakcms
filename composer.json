@@ -1,8 +1,8 @@
 {
-    "name": "yiisoft/yii2-app-basic",
-    "description": "Yii 2 Basic Project Template",
-    "keywords": ["yii2", "framework", "basic", "project template"],
-    "homepage": "http://www.yiiframework.com/",
+    "name": "scriptua/oakcms",
+    "description": "OakCMS Yii 2 sample cms",
+    "keywords": ["yii2", "framework", "OakCMS", "cms"],
+    "homepage": "http://codice.in.ua/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
@@ -23,7 +23,17 @@
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
+        "yiisoft/yii2-faker": "*",
+        "yiisoft/yii2-authclient": "~2.0",
+        "yiisoft/yii2-jui": "~2.0",
+        "vlucas/phpdotenv": "~1.0",
+        "bower-asset/admin-lte": "~2.0",
+        "bower-asset/font-awesome": "~4.0",
+        "bower-asset/fancybox": "*",
+        "bower-asset/jquery-slimscroll": "^1.3",
+        "dragonjet/yii2-opengraph": "dev-master",
+        "2amigos/yii2-translateable-behavior" : "*",
+        "trntv/yii2-aceeditor": "~2.0"
     },
     "config": {
         "process-timeout": 1800
