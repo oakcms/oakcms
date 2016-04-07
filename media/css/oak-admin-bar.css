@@ -1,0 +1,46 @@
+#oak_admin_bar {
+    background: #3c8dbc;
+    font-size: 14px;
+    font-weight: normal;
+    color: #fff;
+    height: 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 600px;
+    z-index: 99999999;
+}
+#oak_admin_bar .cms-logo {
+    margin: 5px;
+    color: #fff;
+    display: block;
+    float: left;
+}
+#oak_admin_bar .cms-logo:hover,
+#oak_admin_bar .cms-logo:focus,
+#oak_admin_bar .cms-logo:active {
+    text-decoration: none;
+}
+
+#oak_admin_bar .live-edit {
+    margin-left: 30px;
+    margin-top: 5px;
+    float: left;
+}
+
+#oak_admin_bar .live-edit .simple-switch-outter {
+    width: 40px;
+    height: 20px;
+}
+#oak_admin_bar .live-edit .simple-switch-outter .simple-switch-circle {
+    height: 20px;
+    width: 20px;
+}
+#oak_admin_bar .live-edit .simple-switch-outter.unchecked,
+#oak_admin_bar .live-edit .simple-switch-outter.checked {
+    border-color: transparent;
+}
+.oak-admin-bar .navbar-fixed-top {
+    top: 30px;
+}

@@ -52,6 +52,8 @@ class DefaultController extends Controller
 
     public function actionLogin()
     {
+        $this->layout = '//_clear';
+
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();

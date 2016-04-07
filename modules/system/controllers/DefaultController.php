@@ -2,7 +2,7 @@
 
 namespace app\modules\system\controllers;
 
-use yii\web\Controller;
+use app\components\Controller;
 
 /**
  * Default controller for the `system` module
@@ -26,5 +26,11 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    public function actionLiveEdit($id)
+    {
+        \Yii::$app->session->set('oak_live_edit', $id);
+        $this->back();
     }
 }

@@ -10,13 +10,44 @@
 return [
     'enablePrettyUrl' => true,
     'showScriptName' => false,
+    'enableStrictParsing' => true,
     'rules' => [
         '' => 'system/default/index',
-        '<action:error>' => 'main/default/<action>',
-        '<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/default/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>' => '<module>/<controller>/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>' => '<module>/<controller>/view',
-        '<module:[\w\-]+>' => '<module>/default/index',
-        '<module:[\w\-]+>/<controller:[\w\-]+>' => '<module>/<controller>/index',
+
+        [
+            'pattern'   => '<action:error>',
+            'route'     => 'main/default/<action>',
+            'suffix'    => '',
+        ],
+
+        [
+            'pattern'   => '<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>',
+            'route'     => 'user/default/<action>',
+            'suffix'    => '',
+        ],
+
+        [
+            'pattern'   => '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>',
+            'route'     => '<module>/<controller>/<action>',
+            'suffix'    => '',
+        ],
+
+        [
+            'pattern'   => '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>',
+            'route'     => '<module>/<controller>/view',
+            'suffix'    => '',
+        ],
+
+        [
+            'pattern'   => '<module:[\w\-]+>',
+            'route'     => '<module>/default/index',
+            'suffix'    => '',
+        ],
+
+        [
+            'pattern'   => '<module:[\w\-]+>/<controller:[\w\-]+>',
+            'route'     => '<module>/<controller>/index',
+            'suffix'    => '',
+        ],
     ],
 ];

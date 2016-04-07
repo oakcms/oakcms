@@ -9,11 +9,9 @@
 
 use yii\widgets\Breadcrumbs;
 
-$this->bodyClass = 'skin-blue sidebar-collapse sidebar-mini';
+$this->bodyClass[] = 'base';
 ?>
-<?php $this->beginContent('@app/templates/backend/base/views/layouts/_clear.php'); ?>
-<?= \Yii::$app->view->renderFile('@app/templates/backend/base/views/layouts/blocks/header.php'); ?>
-<?= \Yii::$app->view->renderFile('@app/templates/backend/base/views/layouts/blocks/sidebar.php'); ?>
+<?php $this->beginContent('@app/templates/frontend/base/views/layouts/_clear.php'); ?>
 <div class="content-wrapper">
 
     <section class="content-header">

@@ -22,9 +22,7 @@ class BaseAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-        'assets/smooth-scroll/SmoothScroll.js',
-        'assets/jarallax/jarallax.js',
-        'assets/mobirise/js/script.js',
+        'js/oak.js',
 
     ];
     public $depends = [

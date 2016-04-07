@@ -23,6 +23,10 @@ use yii\web\IdentityInterface;
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
+    const ROLE_USER = 'user';
+    const ROLE_MANAGER = 'manager';
+    const ROLE_ADMINISTRATOR = 'administrator';
+
     const S_WAIT = 0;
     const S_ACTIVE = 1;
     const S_BLOCKED = 2;

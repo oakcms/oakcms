@@ -8,15 +8,17 @@
  */
 use yii\helpers\Url;
 
+$asset = \app\assets\MediaSystem::register($this);
+
 ?>
 <header class="main-header">
 
     <!-- Logo -->
     <a href="<?= Url::to(['/admin']) ?>" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>O</b>ak</span>
+        <span class="logo-mini"><img src="<?= $asset->baseUrl ?>/images/icon-logo.svg" width="30" height="30"></span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Oak</b>CMS</span>
+        <span class="logo-lg"><img src="<?= $asset->baseUrl ?>/images/icon-logo.svg" width="30" height="30"><b>Oak</b>CMS</span>
     </a>
 
     <!-- Header Navbar: style can be found in header.less -->
@@ -265,7 +267,9 @@ use yii\helpers\Url;
                 </li>
                 <!-- Control Sidebar Toggle Button -->
                 <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    <a href="<?= Url::to(['/']) ?>">
+                        <i class="fa fa-external-link"></i>
+                    </a>
                 </li>
             </ul>
         </div>

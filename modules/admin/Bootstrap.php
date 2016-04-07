@@ -10,29 +10,26 @@
 namespace app\modules\admin;
 
 use Yii;
+use app\components\View;
+use yii\base\Application;
 use yii\base\BootstrapInterface;
-use yii\helpers\VarDumper;
 
 class Bootstrap implements BootstrapInterface
 {
 
     public function bootstrap($app)
     {
-        /** @var Module $module */
-        /** @var \yii\db\ActiveRecord $modelName */
+        /**
+         *
+         * @var Module $adminModule
+         * @var \app\modules\user\Module $userModule
+         *
+         */
 
-
-        /*if (
+        if (
             ($app->hasModule('user') && ($userModule = $app->getModule('user')) instanceof \app\modules\user\Module) &&
             ($app->hasModule('admin') && ($adminModule = $app->getModule('admin')) instanceof Module)
         ) {
-
-            Yii::$container->set('yii\web\User', [
-                'enableAutoLogin' => true,
-                'loginUrl'        => ['/admin/default/login'],
-                'identityClass'   => $userModule->modelMap['User'],
-            ]);
-
             Yii::$container->set('yii\web\User', [
                 'enableAutoLogin' => true,
                 'loginUrl'        => ['/admin/default/login'],
@@ -52,6 +49,6 @@ class Bootstrap implements BootstrapInterface
             $rule = Yii::createObject($configUrlRule);
 
             $app->urlManager->addRules([$rule], false);
-        }*/
+        }
     }
 }

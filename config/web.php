@@ -8,7 +8,8 @@ $config = [
     'defaultRoute' => 'system/default/index',
     'bootstrap' => [
         'log',
-        'app\modules\admin\Bootstrap'
+        'app\modules\system\Bootstrap',
+        'app\modules\admin\Bootstrap',
     ],
     'modules' => [
         'system' => [
@@ -30,19 +31,14 @@ $config = [
     ],
     'components' => [
         'view' => [
-            'theme' => [
-                'basePath' => '@app/templates/frontend/base',
-                'baseUrl' => '@web/templates/frontend/base/web',
-                'pathMap' => [
-                    '@app/views' => '@app/templates/frontend/base/views',
-                    '@app/modules' => '@app/templates/frontend/base/views/modules',
-                    '@app/widgets' => '@app/templates/frontend/base/views/widgets'
-                ],
-            ],
+            'class' => 'app\components\View',
         ],
         'request' => [
             'cookieValidationKey' => getenv('COOKIE_VALIDATION_KEY'),
             'baseUrl'=> '',
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -61,6 +57,11 @@ $config = [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+        ],
+        'assetManager' => [
+            'class' => 'yii\web\AssetManager',
+            'linkAssets' => true,
+            'appendTimestamp' => YII_ENV_DEV
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

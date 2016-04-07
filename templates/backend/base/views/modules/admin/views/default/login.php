@@ -155,7 +155,7 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                     <div class="bs-reset">
                         <div class="col-xs-12 bs-reset">
                             <div class="login-copyright">
-                                <?= Yii::t('backend', '2015 &copy; Hrivinskiy Vladunur. <a href="http://codice.in.ua/" target="_blank">codice.in.ua</a> <a href="http://www.design4web.biz/" target="_blank">design4web.biz</a>. All rights reserved.') ?>
+                                <?= Yii::t('backend', '2015-{year} &copy; Hrivinskiy Vladunur. <a href="http://codice.in.ua/" target="_blank">codice.in.ua</a> <a href="http://www.design4web.biz/" target="_blank">design4web.biz</a>. All rights reserved.', ['year'=>date('Y')]) ?>
                             </div>
                         </div>
                     </div>

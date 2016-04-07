@@ -2,7 +2,12 @@
 
 namespace app\modules\admin;
 
+use app\components\View;
+use Yii;
+use app\modules\admin\rbac\Rbac;
+use yii\base\Application;
 use yii\filters\AccessControl;
+use yii\helpers\VarDumper;
 
 /**
  * admin module definition class
@@ -20,6 +25,7 @@ class Module extends \yii\base\Module
      * @See [[GroupUrlRule::prefix]]
      */
     public $urlPrefix = 'admin';
+
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
@@ -39,33 +45,44 @@ class Module extends \yii\base\Module
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => [Rbac::PERMISSION_ADMIN_PANEL],
                     ],
                 ],
             ],
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function beforeAction($action)
     {
-        parent::init();
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        //VarDumper::dump($action, 10, true);
 
         \Yii::$app->set('view', [
             'class' => 'app\components\AdminView',
             'title' => 'Admin Template',
             'theme' => [
-                'basePath' => '@app/templates/backend/base',
-                'baseUrl' => '@web/templates/backend/base/web',
-                'pathMap' => [
-                    '@app/views' => '@app/templates/backend/base/views',
-                    '@app/modules' => '@app/templates/backend/base/views/modules',
-                    '@app/widgets' => '@app/templates/backend/base/views/widgets'
+                'basePath'  => '@app/templates/backend/base',
+                'baseUrl'   => '@web/templates/backend/base/web',
+                'pathMap'   => [
+                    '@app/views'    => '@app/templates/backend/base/views',
+                    '@app/modules'  => '@app/templates/backend/base/views/modules',
+                    '@app/widgets'  => '@app/templates/backend/base/views/widgets'
                 ],
             ]
         ]);
-        // custom initialization code goes here
+
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+
+    public function init()
+    {
+        parent::init();
     }
 }
