@@ -7,10 +7,10 @@
  * File name: User.php
  */
 
-namespace app\modules\admin\models;
+namespace app\modules\user\models\backend;
 
-use yii\helpers\ArrayHelper;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class User extends \app\modules\user\models\User
 {

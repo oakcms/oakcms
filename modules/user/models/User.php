@@ -31,6 +31,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     const S_ACTIVE = 1;
     const S_BLOCKED = 2;
 
+    const EVENT_AFTER_SIGNUP = 'afterSignup';
+    const EVENT_AFTER_LOGIN = 'afterLogin';
+
+
     public static function findIdentity($id)
     {
         return static::findOne(['id' => $id, 'status' => self::S_ACTIVE]);
@@ -249,5 +253,21 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPublicIdentity()
+    {
+
+        /*if ($this->userProfile && $this->userProfile->getFullname()) {
+            return $this->userProfile->getFullname();
+        }
+        if ($this->username) {
+            return $this->username;
+        }*/
+        return 'Володимир Гривінський';
+        return $this->username;
     }
 }

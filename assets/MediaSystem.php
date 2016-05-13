@@ -16,7 +16,7 @@ class MediaSystem extends AssetBundle
     public $sourcePath = '@app/media/';
     public $basePath = '@app/media/';
     public $css = [
-        'css/oak-admin-bar.css',
+        'css/oak-admin-bar.scss',
     ];
     public $js = [
     ];

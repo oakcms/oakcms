@@ -31,7 +31,7 @@ $bundle = \app\templates\frontend\base\assets\BaseAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
+    /*NavBar::begin([
         'brandLabel' => 'OakCMS',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -55,14 +55,14 @@ $bundle = \app\templates\frontend\base\assets\BaseAsset::register($this);
             )
         ],
     ]);
-    NavBar::end();
+    NavBar::end();*/
     ?>
 
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= \app\widgets\Alert::widget() ?>
+        <?//= \app\widgets\Alert::widget() ?>
 
         <?= $content ?>
     </div>

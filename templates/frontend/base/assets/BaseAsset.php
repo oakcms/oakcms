@@ -19,7 +19,7 @@ class BaseAsset extends AssetBundle
 
     public $css = [
         'https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese',
-        'css/site.css',
+        //'css/site.css',
     ];
     public $js = [
         'js/oak.js',
@@ -27,6 +27,7 @@ class BaseAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        //'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
     ];
 }

@@ -18,15 +18,20 @@ $config = [
         'admin' => [
             'class' => 'app\modules\admin\Module',
             'modules' => [
-                'users' => [
-                    'class' => 'app\modules\user\Module',
-                    'controllerNamespace' => 'app\modules\user\controllers\backend',
-                    'viewPath' => '@app/modules/user/views/backend',
+                'user' => [
+                    'class'                 => 'app\modules\user\Module',
+                    'controllerNamespace'   => 'app\modules\user\controllers\backend',
+                    'viewPath'              => '@app/modules/user/views/backend',
                 ],
-            ]
+            ],
         ],
         'user' => [
-            'class' => 'app\modules\user\Module',
+            'class'                 => 'app\modules\user\Module',
+            'controllerNamespace'   => 'app\modules\user\controllers\frontend',
+            'viewPath'              => '@app/modules/user/views/frontend',
+        ],
+        'content' => [
+            'class' => 'app\modules\content\Module',
         ],
     ],
     'components' => [
@@ -46,7 +51,7 @@ $config = [
         'user' => [
             'identityClass' => 'app\modules\user\models\User',
             'enableAutoLogin' => true,
-            'loginUrl'        => ['/admin/default/login'],
+            'loginUrl'        => ['/admin/user/login'],
         ],
         'errorHandler' => [
             'errorAction' => 'system/default/error',
@@ -61,7 +66,32 @@ $config = [
         'assetManager' => [
             'class' => 'yii\web\AssetManager',
             'linkAssets' => true,
-            'appendTimestamp' => YII_ENV_DEV
+            'appendTimestamp' => YII_ENV_DEV,
+            'converter'=> [
+                'class'=>'nizsheanez\assetConverter\Converter',
+
+                'parsers' => [
+                    'sass' => [
+                        'class' => 'nizsheanez\assetConverter\Sass',
+                        'output' => 'css',
+                        'options' => [
+                            'cachePath' => '@app/runtime/cache/sass-parser'
+                        ],
+                    ],
+                    'scss' => [
+                        'class' => 'nizsheanez\assetConverter\Sass',
+                        'output' => 'css',
+                        'options' => []
+                    ],
+                    'less' => [
+                        'class' => 'nizsheanez\assetConverter\Less',
+                        'output' => 'css',
+                        'options' => [
+                            'auto' => true,
+                        ]
+                    ]
+                ]
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

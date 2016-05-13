@@ -29,12 +29,18 @@ class Module extends \yii\base\Module
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        '<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'default/<action>',
+        '' => 'default/index',
+        'user/<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/user/<action>',
+
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>'                        => '<module>/<controller>/view',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>/<action:[\w\-]+>'       => '<module>/<controller>/<action>',
+        '<module:[\w\-]+>'                                                      => '<module>/default/index',
+        '<module:[\w\-]+>/<controller:[\w\-]+>'                                 => '<module>/<controller>/index',
     ];
 
     public function behaviors()
     {
-       return [
+        return [
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [

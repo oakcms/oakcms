@@ -7,6 +7,7 @@
  * File name: sidebar.php
  */
 
+$userIdentity = Yii::$app->user->identity;
 ?>
 
 <aside class="main-sidebar">
@@ -15,11 +16,20 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <?= \cebe\gravatar\Gravatar::widget([
+                    'email' => $userIdentity->email,
+                    'size' => 64,
+                    'options' => [
+                        'alt' => Yii::t('app', 'Avatar image for {username}', [
+                            'username' => $userIdentity->username
+                        ]),
+                        'class' => 'avatar'
+                    ]
+                ]); ?>
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <p class="fs-13"><?= $userIdentity->publicIdentity ?></p>
+                <span><i class="fa fa-circle text-success"></i> Online</span>
             </div>
         </div>
         <!-- search form -->

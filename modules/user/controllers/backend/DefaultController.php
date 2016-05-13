@@ -1,34 +1,31 @@
 <?php
-
-namespace app\modules\admin\controllers;
+namespace app\modules\user\controllers\backend;
 
 use Yii;
-use app\modules\user\models\User;
-use app\modules\admin\modules\search\UserSearch;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+
+
+use app\modules\user\models\backend\search\UserSearch;
+use app\modules\user\models\backend\User;
 
 /**
- * UserController implements the CRUD actions for User model.
+ * UsersController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class DefaultController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
     public function behaviors()
     {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
     }
-
     /**
      * Lists all User models.
      * @return mixed
@@ -37,13 +34,11 @@ class UserController extends Controller
     {
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
     /**
      * Displays a single User model.
      * @param integer $id
@@ -55,7 +50,6 @@ class UserController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
     /**
      * Creates a new User model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -64,7 +58,8 @@ class UserController extends Controller
     public function actionCreate()
     {
         $model = new User();
-
+        $model->scenario = User::SCENARIO_ADMIN_CREATE;
+        $model->status = User::STATUS_ACTIVE;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -73,7 +68,6 @@ class UserController extends Controller
             ]);
         }
     }
-
     /**
      * Updates an existing User model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -83,7 +77,7 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model->scenario = User::SCENARIO_ADMIN_UPDATE;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -92,7 +86,6 @@ class UserController extends Controller
             ]);
         }
     }
-
     /**
      * Deletes an existing User model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -102,10 +95,8 @@ class UserController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
-
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

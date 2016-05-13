@@ -68,6 +68,6 @@ class Module extends \yii\base\Module
     public function renderToolbar()
     {
         $view = Yii::$app->getView();
-        echo $view->render('@app/modules/system/views/layouts/admin_bar.php');
+        echo $view->render('@app/modules/system/views/layouts/blocks/admin_bar.php');
     }
 }
