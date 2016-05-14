@@ -7,8 +7,10 @@
  * File name: admin_bar.php
  *
  * @var $userIdentity \app\modules\user\models\User;
+ * @var $this \app\components\View;
  */
 
+use yii\web\View;
 use yii\helpers\Url;
 use yii\bootstrap\Html;
 use app\assets\MediaSystem;
@@ -16,7 +18,20 @@ use app\assets\jQuerySimpleSwitch;
 
 jQuerySimpleSwitch::register($this);
 $asset = MediaSystem::register($this);
+
+$js = "jQuery(document).ready(function() {
+    var icb = $('#oak_admin_bar .simple-switch');
+    icb.simpleSwitch();
+    $('#oak_admin_bar').on('change', '.simple-switch', function(){
+        var cb = $(this);
+        cb.prop('disabled', true);
+        location.href = cb.attr('data-url') + '/' + (cb.is(':checked') ? 1 : 0);
+    });
+});";
+
+
 $this->registerCss('body {padding-top: 50px;}');
+$this->registerJS($js, View::POS_END, 'oak_admin_bar');
 
 $userIdentity = Yii::$app->user->identity;
 ?>

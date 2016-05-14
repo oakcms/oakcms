@@ -13,6 +13,7 @@ use Yii;
 use app\components\View;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\helpers\VarDumper;
 
 class Bootstrap implements BootstrapInterface
 {

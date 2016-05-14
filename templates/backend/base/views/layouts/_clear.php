@@ -38,7 +38,9 @@ $bundle = \app\templates\backend\base\assets\BaseAsset::register($this);
 </head>
 <body class=" <?= $this->bodyClass ?>">
 <?php $this->beginBody() ?>
-    <?= $content ?>
+    <div class="wrapper">
+        <?= $content ?>
+    </div>
 <?php $this->endBody() ?>
 </body>
 </html>

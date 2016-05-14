@@ -1,5 +1,7 @@
 <?php
 
+Yii::setAlias('@adminTemplate', realpath(__DIR__.'/../templates/backend/base'));
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
@@ -22,6 +24,9 @@ $config = [
                     'class'                 => 'app\modules\user\Module',
                     'controllerNamespace'   => 'app\modules\user\controllers\backend',
                     'viewPath'              => '@app/modules/user/views/backend',
+                ],
+                'seo' => [
+                    'class' => 'app\modules\seo\Module',
                 ],
             ],
         ],
@@ -69,7 +74,7 @@ $config = [
             'appendTimestamp' => YII_ENV_DEV,
             'converter'=> [
                 'class'=>'nizsheanez\assetConverter\Converter',
-
+                'destinationDir' => 'css',
                 'parsers' => [
                     'sass' => [
                         'class' => 'nizsheanez\assetConverter\Sass',
@@ -79,9 +84,9 @@ $config = [
                         ],
                     ],
                     'scss' => [
-                        'class' => 'nizsheanez\assetConverter\Sass',
+                        'class' => 'nizsheanez\assetConverter\Scss',
                         'output' => 'css',
-                        'options' => []
+                        'options' => [],
                     ],
                     'less' => [
                         'class' => 'nizsheanez\assetConverter\Less',
@@ -136,6 +141,20 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
+    ];
+
+    $config['modules']['gii'] = [
+        'class'=>'yii\gii\Module',
+        'generators' => [
+            'crud' => [
+                'class' => 'yii\gii\generators\crud\Generator',
+                'templates'=>[
+                    'OakCMS' => Yii::getAlias('@adminTemplate/views/_gii/templates')
+                ],
+                'template' => 'OakCMS',
+                'messageCategory' => 'oakcms'
+            ]
+        ]
     ];
 }
 

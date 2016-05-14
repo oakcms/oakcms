@@ -40,9 +40,6 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-
-        define('LIVE_EDIT', !Yii::$app->user->isGuest && Yii::$app->session->get('oak_live_edit'));
-
         \Yii::$app->set('view', [
             'class' => 'app\components\View',
             'title' => 'Frontend Template',
@@ -56,18 +53,5 @@ class Module extends \yii\base\Module
                 ],
             ],
         ]);
-
-        if(!Yii::$app->user->isGuest && strpos(Yii::$app->request->pathInfo, 'admin') === false) {
-            Yii::$app->on(Application::EVENT_BEFORE_REQUEST, function () {
-                Yii::$app->getView()->bodyClass[] = 'oak-admin-bar';
-                Yii::$app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
-            });
-        }
-    }
-
-    public function renderToolbar()
-    {
-        $view = Yii::$app->getView();
-        echo $view->render('@app/modules/system/views/layouts/blocks/admin_bar.php');
     }
 }

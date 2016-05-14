@@ -19,7 +19,7 @@ class BaseAsset extends AssetBundle
 
     public $css = [
         'https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese',
-        'css/style.css',
+        'less/style.less',
     ];
     public $js = [
         'js/script.js',

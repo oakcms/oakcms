@@ -24,7 +24,7 @@ class Module extends \yii\base\Module
      *
      * @See [[GroupUrlRule::prefix]]
      */
-    public $urlPrefix = 'admin';
+    public $urlPrefix = '/admin';
 
 
     /** @var array The rules to be used in URL management. */
@@ -35,6 +35,7 @@ class Module extends \yii\base\Module
         '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>'                        => '<module>/<controller>/view',
         '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>/<action:[\w\-]+>'       => '<module>/<controller>/<action>',
         '<module:[\w\-]+>'                                                      => '<module>/default/index',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>'                 => '<module>/<controller>/<action>',
         '<module:[\w\-]+>/<controller:[\w\-]+>'                                 => '<module>/<controller>/index',
     ];
 
@@ -90,5 +91,22 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+
+        define('LIVE_EDIT', !Yii::$app->user->isGuest && Yii::$app->session->get('oak_live_edit'));
+
+
+        if(!Yii::$app->user->isGuest && strpos(Yii::$app->request->pathInfo, 'admin') === false && strpos(Yii::$app->request->pathInfo, 'gii') === false) {
+            Yii::$app->on(Application::EVENT_BEFORE_REQUEST, function () {
+                Yii::$app->getView()->bodyClass[] = 'oak-admin-bar';
+                Yii::$app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
+            });
+        }
+    }
+
+
+    public function renderToolbar()
+    {
+        $view = Yii::$app->getView();
+        echo $view->render('@app/modules/admin/views/layouts/blocks/admin_bar.php');
     }
 }

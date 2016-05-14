@@ -1,17 +1,17 @@
 <?php
-
 /**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
- * Date: 06.04.2016
+ * Date: 14.05.2016
  * Project: oakcms
- * File name: View.php
+ * File name: AdminController.php
  */
 
 namespace app\components;
 
+use yii\web\Controller;
 
-class AdminView extends \yii\web\View
+class AdminController extends Controller
 {
-    public $bodyClass = "";
+
 }

@@ -7,7 +7,11 @@
  * File name: sidebar.php
  */
 
+use yii\helpers\Url;
+
 $userIdentity = Yii::$app->user->identity;
+
+
 ?>
 
 <aside class="main-sidebar">
@@ -47,6 +51,11 @@ $userIdentity = Yii::$app->user->identity;
         <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
+                <a href="<?= Url::to(['/admin/seo/default/index']) ?>">
+                    <i class="fa fa-star" aria-hidden="true"></i> <span><?= Yii::t('app', 'Seo') ?></span>
+                </a>
+            </li>
+            <!-- <li class="treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -181,6 +190,7 @@ $userIdentity = Yii::$app->user->identity;
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+             -->
         </ul>
     </section>
     <!-- /.sidebar -->

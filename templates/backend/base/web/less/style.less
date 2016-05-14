@@ -1,0 +1,33 @@
+// Core variables and mixins
+@import "../../../../../vendor/bower/admin-lte/build/bootstrap-less/variables";
+@import "../../../../../vendor/bower/admin-lte/build/bootstrap-less/mixins";
+
+@import "../../../../../vendor/bower/admin-lte/build/less/variables";
+@import "../../../../../vendor/bower/admin-lte/build/less/mixins";
+
+// Components
+@import 'global/buttons';
+
+.w55 {
+    width: 55px;
+}
+
+.table-advance {
+    thead {
+        tr {
+            th {
+                background-color: #f1f4f7;
+                font-size: 14px;
+                font-weight: 400;
+                color: #3f444a;
+            }
+        }
+    }
+    .filters {
+        td {
+            .form-control {
+                .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; 13px; @line-height-small; @border-radius-small);
+            }
+        }
+    }
+}
