@@ -17,4 +17,5 @@ class Controller extends \yii\web\Controller
         return $this->redirect(\Yii::$app->request->referrer);
     }
 
+    
 }

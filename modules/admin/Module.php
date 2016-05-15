@@ -31,12 +31,13 @@ class Module extends \yii\base\Module
     public $urlRules = [
         '' => 'default/index',
         'user/<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/user/<action>',
-
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>'                        => '<module>/<controller>/view',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>/<action:[\w\-]+>'       => '<module>/<controller>/<action>',
-        '<module:[\w\-]+>'                                                      => '<module>/default/index',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>'                 => '<module>/<controller>/<action>',
         '<module:[\w\-]+>/<controller:[\w\-]+>'                                 => '<module>/<controller>/index',
+        '<module:[\w\-]+>'                                                      => '<module>/default/index',
+        '<module:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                            => '<module>/default/<action>',
+        '<module:[\w\-]+>/<action:[\w\-]+>'                                     => '<module>/default/<action>',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>'                        => '<module>/<controller>/view',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'       => '<module>/<controller>/<action>',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>'                => '<module>/<controller>/<action>',
     ];
 
     public function behaviors()

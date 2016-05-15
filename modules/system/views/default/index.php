@@ -1,5 +1,6 @@
-
-<? // \yii\helpers\VarDumper::dump($this->theme->getPath('img/logo.gif'), 10, true) ?>
+<?php
+$this->setSeoData('Title', 'desc', 'key', 'canonical');
+?>
 <div class="system-default-index">
     <h1><?= $this->context->action->uniqueId ?></h1>
     <p>

@@ -70,7 +70,7 @@ $this->bodyClass = 'skin-blue sidebar-mini';
                         }
                         foreach($this->params['actions_buttons'] as $item) {
                             if(isset($item['dropdown'])) {
-                                echo \yii\bootstrap\ButtonDropdown::widget($item).' ';
+                                echo \app\modules\admin\widgets\ButtonDropdown::widget($item).' ';
                             } else {
                                 echo Button::widget($item).' ';
                             }

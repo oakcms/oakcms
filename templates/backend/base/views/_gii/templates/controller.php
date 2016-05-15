@@ -138,7 +138,18 @@ class <?= $controllerClass ?> extends AdminController<?= "\n" ?>
         return $this->redirect(['index']);
     }
 
-    /**
+
+    public function actionOn($id)
+    {
+        return $this->changeStatus($id, <?= $modelClass ?>::STATUS_PUBLISHED);
+    }
+
+    public function actionOff($id)
+    {
+        return $this->changeStatus($id, <?= $modelClass ?>::STATUS_DRAFT);
+    }
+
+/**
      * Finds the <?= $modelClass ?> model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * <?= implode("\n     * ", $actionParamComments) . "\n" ?>

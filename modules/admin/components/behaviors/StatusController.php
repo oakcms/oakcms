@@ -1,11 +1,12 @@
 <?php
-namespace backend\components\behaviors;
+namespace app\modules\admin\components\behaviors;
 
 use Yii;
 
 class StatusController extends \yii\base\Behavior
 {
     public $model;
+    public $error;
 
     public function changeStatus($id, $status)
     {

@@ -22,7 +22,11 @@ class ActiveField extends \yii\widgets\ActiveField {
         if(!$position) {
             $position = self::ICON_POSITION_RIGHT;
         }
-        $this->parts['{input}'] = Html::tag('i', '', ['class' => 'fa fa-globe font-blue tooltips', 'data-original-title' => Yii::t('backend', 'Translatable element')]) . "\n" . $this->parts['{input}'];
+        $this->parts['{input}'] = Html::tag('i', '', [
+                'class' => 'fa fa-globe font-blue',
+                'title' => \Yii::t('backend', 'Translatable element'),
+                'data-toggle' => 'tooltip'
+            ]) . "\n" . $this->parts['{input}'];
         $this->parts['{input}'] = Html::tag('div', $this->parts['{input}'], ['class' => 'input-icon ' . $position]);
 
 

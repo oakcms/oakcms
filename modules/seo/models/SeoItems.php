@@ -17,6 +17,9 @@ use Yii;
  */
 class SeoItems extends \yii\db\ActiveRecord
 {
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DRAFT = 0;
+
     /**
      * @inheritdoc
      */
@@ -31,7 +34,6 @@ class SeoItems extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['link', 'title'], 'required'],
             [['keywords', 'description'], 'string'],
             [['status'], 'integer'],
             [['link', 'title', 'canonical'], 'string', 'max' => 255],
@@ -44,13 +46,13 @@ class SeoItems extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'link' => Yii::t('app', 'Link'),
-            'title' => Yii::t('app', 'Title'),
-            'keywords' => Yii::t('app', 'Keywords'),
-            'description' => Yii::t('app', 'Description'),
-            'canonical' => Yii::t('app', 'Canonical'),
-            'status' => Yii::t('app', 'Status'),
+            'id' => Yii::t('seoitems', 'ID'),
+            'link' => Yii::t('seoitems', 'Link'),
+            'title' => Yii::t('seoitems', 'Title'),
+            'keywords' => Yii::t('seoitems', 'Keywords'),
+            'description' => Yii::t('seoitems', 'Description'),
+            'canonical' => Yii::t('seoitems', 'Canonical'),
+            'status' => Yii::t('seoitems', 'Status'),
         ];
     }
 }

@@ -19,9 +19,13 @@ class BaseAsset extends AssetBundle
 
     public $css = [
         'https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese',
+        'css/uniform.default.min.css',
+        'css/switcher.css',
         'less/style.less',
     ];
     public $js = [
+        'js/jquery.uniform.min.js',
+        'js/switcher.js',
         'js/script.js',
     ];
     public $depends = [

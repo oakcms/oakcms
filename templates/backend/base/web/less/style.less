@@ -1,33 +1,117 @@
 // Core variables and mixins
 @import "../../../../../vendor/bower/admin-lte/build/bootstrap-less/variables";
 @import "../../../../../vendor/bower/admin-lte/build/bootstrap-less/mixins";
-
 @import "../../../../../vendor/bower/admin-lte/build/less/variables";
 @import "../../../../../vendor/bower/admin-lte/build/less/mixins";
-
 // Components
 @import 'global/buttons';
+@import 'global/colors';
 
 .w55 {
-    width: 55px;
+  width: 55px;
 }
 
 .table-advance {
-    thead {
-        tr {
-            th {
-                background-color: #f1f4f7;
-                font-size: 14px;
-                font-weight: 400;
-                color: #3f444a;
-            }
-        }
+  thead {
+    tr {
+      th {
+        background-color: #f1f4f7;
+        font-size: 14px;
+        font-weight: 400;
+        color: #3f444a;
+      }
     }
-    .filters {
-        td {
-            .form-control {
-                .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; 13px; @line-height-small; @border-radius-small);
-            }
-        }
+  }
+  .filters {
+    td {
+      .form-control {
+        .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; 13px; @line-height-small; @border-radius-small);
+      }
     }
+  }
 }
+
+.grid-view {
+
+  .switcher {
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    color: #fff;
+    height: 22px;
+    min-width: 40px;
+    font-size: 11px;
+    border-radius: 15px !important;
+    padding: 1px;
+
+    .slider {
+      background: #fff;
+      height: 18px;
+      border-radius: 10px !important;
+      box-shadow: 0 1px 3px #999999;
+      margin: 0;
+    }
+
+    &.default.is-active {
+      background-color: #4cd964;
+    }
+
+    .textNo {
+      color: #fff;
+    }
+
+    .content {
+      min-height: inherit;
+      padding: 0;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+}
+
+.user-panel > .info > p {
+  white-space: normal;
+}
+
+.table-responsive {
+  //overflow-x: visible;
+}
+
+// Input Icon
+.input-icon {
+  position: relative;
+  left: 0;
+
+  > i {
+    color: #ccc;
+    position: absolute;
+    margin: 9px 2px 4px 10px;
+    z-index: 3;
+    width: 16px;
+    font-size: 16px;
+    text-align: center;
+    left: 0;
+  }
+
+  &.right {
+    left: auto;
+    right: 0;
+
+    > i {
+      left: auto;
+      right: 8px;
+      float: right;
+    }
+
+    > .form-control {
+      padding-right: 33px;
+      padding-left: 12px;
+    }
+  }
+}
+// End Input Icon
+
+// Uniform
+div.checker {
+  margin-right: 0;
+}
+// End Uniform

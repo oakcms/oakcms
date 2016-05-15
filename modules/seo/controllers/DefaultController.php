@@ -5,6 +5,7 @@ namespace app\modules\seo\controllers;
 use Yii;
 use app\modules\seo\models\SeoItems;
 use app\modules\seo\models\search\SeoItemsSearch;
+use app\modules\admin\components\behaviors\StatusController;
 use app\components\AdminController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,6 +24,10 @@ class DefaultController extends AdminController
                     'delete' => ['post'],
                 ],
             ],
+            [
+                'class' => StatusController::className(),
+                'model' => SeoItems::className()
+            ]
         ];
     }
 
@@ -90,11 +95,63 @@ class DefaultController extends AdminController
      * @param integer $id
      * @return mixed
      */
+
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Deletes items an existing SeoItems model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @return mixed
+     */
+    public function actionDeleteIds()
+    {
+        $ids = Yii::$app->request->get('id');
+        $id_arr = explode(',', $ids);
+        foreach($id_arr as $id) {
+            $this->findModel($id)->delete();
+        }
+        return $this->back();
+    }
+
+    public function actionPublished()
+    {
+        $ids = Yii::$app->request->get('id');
+        $id_arr = explode(',', $ids);
+        foreach($id_arr as $id) {
+            if (($model = SeoItems::findOne($id)) !== null) {
+                $model->status = SeoItems::STATUS_PUBLISHED;
+                $model->save();
+            }
+        }
+        return $this->back();
+    }
+
+    public function actionUnpublished()
+    {
+        $ids = Yii::$app->request->get('id');
+        $id_arr = explode(',', $ids);
+        foreach($id_arr as $id) {
+            if (($model = SeoItems::findOne($id)) !== null) {
+                $model->status = SeoItems::STATUS_DRAFT;
+                $model->save();
+            }
+        }
+        return $this->back();
+    }
+
+    public function actionOn($id)
+    {
+        return $this->changeStatus($id, SeoItems::STATUS_PUBLISHED);
+    }
+
+    public function actionOff($id)
+    {
+        return $this->changeStatus($id, SeoItems::STATUS_DRAFT);
     }
 
     /**

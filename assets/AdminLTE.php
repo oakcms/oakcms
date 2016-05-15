@@ -19,11 +19,13 @@ class AdminLTE extends AssetBundle
 
     public $js = [
         'plugins/iCheck/icheck.min.js',
-        'dist/js/app.min.js'
+        'plugins/select2/select2.full.min.js',
+        'dist/js/app.min.js',
     ];
 
     public $css = [
         'plugins/iCheck/all.css',
+        'plugins/select2/select2.min.css',
         'dist/css/AdminLTE.min.css',
         'dist/css/skins/_all-skins.min.css'
     ];

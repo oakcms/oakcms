@@ -10,6 +10,7 @@
 /* @var $this \app\components\View */
 /* @var $content string */
 
+use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -22,9 +23,12 @@ $bundle = \app\templates\frontend\base\assets\BaseAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+    <?php
+    echo Html::csrfMetaTags();
+    $this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()], 'canonical');
+    $this->renderMetaTags();
+    $this->head()
+    ?>
 </head>
 <body class="<?= implode(' ', (array)$this->bodyClass) ?>">
 <?php $this->beginBody() ?>

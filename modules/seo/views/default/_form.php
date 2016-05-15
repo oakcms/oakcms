@@ -21,7 +21,7 @@ $this->params['actions_buttons'] = [
         'disabled' => false,
         'block' => false,
         'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-success'
+        'color' => 'green-jungle'
     ],
     [
         'label' => Yii::t('seo', 'Save & Continue Edit'),
@@ -34,7 +34,7 @@ $this->params['actions_buttons'] = [
         'disabled' => false,
         'block' => false,
         'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-success'
+        'color' => 'green-jungle'
     ]
 ]
 ?>
@@ -47,7 +47,7 @@ $this->params['actions_buttons'] = [
         ],
     ]); ?>
 
-    <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'link')->textInput(['maxlength' => true])->translatable() ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'keywords')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>

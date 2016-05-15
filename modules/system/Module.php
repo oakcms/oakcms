@@ -52,6 +52,9 @@ class Module extends \yii\base\Module
                     '@app/widgets' => '@app/templates/frontend/base/views/widgets'
                 ],
             ],
+            'as seo' => [
+                'class' => 'app\modules\system\components\SeoViewBehavior',
+            ]
         ]);
     }
 }
