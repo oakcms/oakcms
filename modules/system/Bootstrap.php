@@ -11,7 +11,6 @@ namespace app\modules\system;
 
 use Yii;
 use yii\base\BootstrapInterface;
-use yii\helpers\VarDumper;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -20,13 +19,10 @@ class Bootstrap implements BootstrapInterface
     {
         /**
          *
-         * @var Module $adminModule
+         * @var Module $systemModule
          * @var \app\modules\user\Module $userModule
          *
          */
-
-        if($app->hasModule('system') && ($systemModule = $app->getModule('system')) instanceof Module) {
-
-        }
+        if($app->hasModule('system') && ($systemModule = $app->getModule('system')) instanceof Module) {}
     }
 }

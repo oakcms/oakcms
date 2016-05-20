@@ -1,5 +1,5 @@
 <?php
-namespace backend\widgets;
+namespace app\modules\admin\widgets;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

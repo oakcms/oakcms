@@ -2,9 +2,11 @@
 
 namespace app\modules\system;
 
+use app\modules\admin\models\ModulesModules;
 use Yii;
 use yii\base\Application;
 use app\components\View;
+use yii\helpers\VarDumper;
 
 /**
  * system module definition class
@@ -12,12 +14,30 @@ use app\components\View;
 class Module extends \yii\base\Module
 {
 
+    const VERSION = '0.0.1';
+
+    public $activeModules;
+
     /**
      * @inheritdoc
      */
     public $controllerNamespace = 'app\modules\system\controllers';
 
+    /**
+     * Функція яка повертає варсію системи:
+     *
+     * @return string
+     **/
+    public function getVersion()
+    {
+        return self::VERSION;
+    }
 
+    /**
+     * Повертає копірайт:
+     *
+     * @return string
+     **/
     public static function powered()
     {
         return \Yii::t('yii', 'Powered by {OakCMS}', [
@@ -56,5 +76,17 @@ class Module extends \yii\base\Module
                 'class' => 'app\modules\system\components\SeoViewBehavior',
             ]
         ]);
+        /**
+         * автоматична загрузка модулів
+         */
+        $this->activeModules = ModulesModules::findAllActive();
+        $modules = [];
+        foreach($this->activeModules as $name => $module) {
+            $modules[$name]['class'] = $module->class;
+            if(is_array($module->settings)){
+                $modules[$name]['settings'] = $module->settings;
+            }
+        }
+        Yii::$app->setModules($modules);
     }
 }

@@ -1,22 +1,22 @@
 <?php
 
-use app\modules\admin\widgets\Button;
-use app\modules\seo\models\SeoItems;
-use yii\grid\GridView;
-use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\helpers\Html;
+use yii\grid\GridView;
+use app\modules\admin\widgets\Button;
+use app\modules\admin\models\ModulesModules;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\seo\models\search\SeoItemsSearch */
+/* @var $searchModel app\modules\admin\models\search\ModulesModulesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('seo', 'Seo Items');
+$this->title = Yii::t('admin', 'Modules Modules');
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['actions_buttons'] = [
     [
         'tagName' => 'a',
-        'label' => Yii::t('seo', 'Create'),
+        'label' => Yii::t('admin', 'Create'),
         'options' => [
             'href' => Url::to(['create'])
         ],
@@ -30,20 +30,19 @@ $this->params['actions_buttons'] = [
     [
         'label' => Yii::t('app', 'Control'),
         'options' => [
-            'class' => 'btn blue btn-outline btn-circle btn-sm',
-            'data-hover' => "dropdown",
-            'data-close-others' => "true",
-        ],
-        'dropdown' => [
-            'options' => ['class' => 'pull-right'],
-            'encodeLabels' => false,
-            'items' => [
+        'class' => 'btn blue btn-outline btn-circle btn-sm',
+        'data-hover' => "dropdown",
+        'data-close-others' => "true",
+    ],
+    'dropdown' => [
+        'options' => ['class' => 'pull-right'],
+        'encodeLabels' => false,
+        'items' => [
                 [
                     'label' => '<span class="font-red"><i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete') . '</span>',
                     'url' => 'javascript:void(0)',
-                    'linkOptions' => [
+                        'linkOptions' => [
                         'onclick' => 'deleteA()',
-                        //'data-method' => 'post'
                     ]
                 ],
                 [
@@ -61,11 +60,13 @@ $this->params['actions_buttons'] = [
     ]
 ];
 ?>
-<div class="seo-items-index">
+<div class="modules-modules-index">
+
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
         <?= GridView::widget([
             'id' => 'grid',
-            'tableOptions' => ['class' => 'table table-striped table-bordered table-advance table-hover'],
+            'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => [
@@ -73,23 +74,33 @@ $this->params['actions_buttons'] = [
                     'class' => 'yii\grid\CheckboxColumn',
                     'options' => ['style' => 'width:36px']
                 ],
-                'id',
-                'link',
-                'title',
-                'keywords:ntext',
-                'description:ntext',
-                // 'canonical',
+                [
+                    'attribute' => 'module_id',
+                    'options' => ['style' => 'width:100px']
+                ],
+                'name',
+                'class',
+                'isFrontend',
+                'controllerNamespace',
+                // 'viewPath',
+                // 'isAdmin',
+                // 'AdminControllerNamespace',
+                // 'AdminViewPath',
+                // 'title',
+                // 'icon',
+                // 'settings:ntext',
+                // 'order',
                 [
                     'class' => \app\modules\admin\components\grid\EnumColumn::className(),
                     'attribute' => 'status',
                     'format' => 'raw',
                     'options' => ['width' => '50px'],
                     'value' => function ($model, $index, $widget) {
-                        return Html::checkbox('', $model->status == SeoItems::STATUS_PUBLISHED, [
+                        return Html::checkbox('', $model->status == ModulesModules::STATUS_PUBLISHED, [
                             'class' => 'switch toggle',
                             'data-id' => $model->primaryKey,
-                            'data-link' => \yii\helpers\Url::to(['/admin/seo/default']),
-                            'data-reload' => '0'
+                            'data-link' => \yii\helpers\Url::to(['/admin/modules']),
+                            'data-reload' => '1'
                         ]);
                     },
                     'enum' => [
@@ -102,18 +113,17 @@ $this->params['actions_buttons'] = [
         ]); ?>
     </div>
 </div>
-
 <script>
     function deleteA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '<?= Url::to(['/admin/seo/default/delete-ids']) ?>' + '?id=' + keys.join();
+        window.location.href = '/admin/modules/delete-ids?id=' + keys.join();
     }
     function publishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '<?= Url::to(['/admin/seo/default/published']) ?>' + '?id=' + keys.join();
+        window.location.href = '/admin/modules/published?id=' + keys.join();
     }
     function unpublishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '<?= Url::to(['/admin/seo/default/unpublished']) ?>' + '?id=' + keys.join();
+        window.location.href = '/admin/modules/unpublished?id=' + keys.join();
     }
 </script>

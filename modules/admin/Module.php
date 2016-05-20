@@ -2,11 +2,12 @@
 
 namespace app\modules\admin;
 
-use app\components\View;
 use Yii;
-use app\modules\admin\rbac\Rbac;
 use yii\base\Application;
 use yii\filters\AccessControl;
+use app\components\View;
+use app\modules\admin\models\ModulesModules;
+use app\modules\admin\rbac\Rbac;
 use yii\helpers\VarDumper;
 
 /**
@@ -14,6 +15,12 @@ use yii\helpers\VarDumper;
  */
 class Module extends \yii\base\Module
 {
+
+    public $activeModules;
+
+    public $menuSidebar = [];
+
+
     /**
      * @inheritdoc
      */
@@ -30,14 +37,19 @@ class Module extends \yii\base\Module
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
         '' => 'default/index',
+
+
         'user/<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/user/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>'                                 => '<module>/<controller>/index',
-        '<module:[\w\-]+>'                                                      => '<module>/default/index',
-        '<module:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                            => '<module>/default/<action>',
-        '<module:[\w\-]+>/<action:[\w\-]+>'                                     => '<module>/default/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>'                        => '<module>/<controller>/view',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'       => '<module>/<controller>/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>'                => '<module>/<controller>/<action>',
+
+        '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                    => '<controller>/<action>',
+        '<controller:[\w\-]+>/<action:[\w\-]+>'                             => '<controller>/<action>',
+        '<controller:[\w\-]+>'                                              => '<controller>/index',
+
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'   => '<module>/<controller>/<action>',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>'            => '<module>/<controller>/<action>',
+        '<module:[\w\-]+>/<controller:[\w\-]+>'                             => '<module>/<controller>/index',
+        '<module:[\w\-]+>'                                                  => '<module>/default/index',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>'                    => '<module>/<controller>/view',
     ];
 
     public function behaviors()
@@ -66,18 +78,16 @@ class Module extends \yii\base\Module
             return false;
         }
 
-        //VarDumper::dump($action, 10, true);
-
         \Yii::$app->set('view', [
             'class' => 'app\components\AdminView',
             'title' => 'Admin Template',
             'theme' => [
-                'basePath'  => '@app/templates/backend/base',
-                'baseUrl'   => '@web/templates/backend/base/web',
-                'pathMap'   => [
-                    '@app/views'    => '@app/templates/backend/base/views',
-                    '@app/modules'  => '@app/templates/backend/base/views/modules',
-                    '@app/widgets'  => '@app/templates/backend/base/views/widgets'
+                'basePath' => '@app/templates/backend/base',
+                'baseUrl' => '@web/templates/backend/base/web',
+                'pathMap' => [
+                    '@app/views' => '@app/templates/backend/base/views',
+                    '@app/modules' => '@app/templates/backend/base/views/modules',
+                    '@app/widgets' => '@app/templates/backend/base/views/widgets'
                 ],
             ]
         ]);
@@ -93,21 +103,31 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        define('LIVE_EDIT', !Yii::$app->user->isGuest && Yii::$app->session->get('oak_live_edit'));
-
-
-        if(!Yii::$app->user->isGuest && strpos(Yii::$app->request->pathInfo, 'admin') === false && strpos(Yii::$app->request->pathInfo, 'gii') === false) {
-            Yii::$app->on(Application::EVENT_BEFORE_REQUEST, function () {
-                Yii::$app->getView()->bodyClass[] = 'oak-admin-bar';
-                Yii::$app->getView()->on(View::EVENT_END_BODY, [$this, 'renderToolbar']);
-            });
+        if(Yii::$app->cache === null) {
+            throw new \yii\web\ServerErrorHttpException('Please configure Cache component.');
         }
-    }
 
+        if (Yii::$app instanceof \yii\web\Application) {
+            if (!defined('LIVE_EDIT')) define('LIVE_EDIT', !Yii::$app->user->isGuest && Yii::$app->session->get('oak_live_edit'));
+        }
 
-    public function renderToolbar()
-    {
-        $view = Yii::$app->getView();
-        echo $view->render('@app/modules/admin/views/layouts/blocks/admin_bar.php');
+        /**
+         * автоматична загрузка модулів
+         */
+        $this->activeModules = ModulesModules::findAllActiveAdmin();
+        $modules = [];
+        foreach ($this->activeModules as $name => $module) {
+            $modules[$name]['class'] = $module->class;
+
+            if(is_callable([$module->class, 'adminMenu'])) {
+                $this->menuSidebar[] = call_user_func([$module->class, 'adminMenu']);
+            }
+
+            if (is_array($module->settings)) {
+                $modules[$name]['settings'] = $module->settings;
+            }
+        }
+
+        $this->setModules($modules);
     }
 }

@@ -49,13 +49,43 @@ $userIdentity = Yii::$app->user->identity;
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
+            <li class="header"><?= Yii::t('app', 'Main navigation') ?></li>
+        </ul>
+        <?php
+            $menu = Yii::$app->getModule('admin')->menuSidebar;
+            $menu[] = [
+                'label' => Yii::t('app', 'System'),
+                'icon' => '<i class="fa fa-cogs" aria-hidden="true"></i>',
+                'items'=>[
+                    ['label'=>Yii::t('app', 'Settings'), 'url'=>['/settings/index'], 'icon'=>'<i class="fa fa-cog"></i>'],
+                    ['label'=>Yii::t('app', 'Modules'), 'url'=>['/admin/modules'], 'icon'=>'<i class="fa fa-puzzle-piece"></i>'],
+                    ['label'=>Yii::t('app', 'File Storage'), 'url'=>['/file-storage/index'], 'icon'=>'<i class="fa fa-hdd-o"></i>'],
+                    ['label'=>Yii::t('app', 'Cache'), 'url'=>['/cache/index'], 'icon'=>'<i class="fa fa-flash"></i>'],
+                    ['label'=>Yii::t('app', 'File Manager'), 'url'=>['/file-manager/index'], 'icon'=>'<i class="fa fa-folder-open"></i>'],
+                ]
+            ];
+            echo app\modules\admin\widgets\Menu::widget([
+            'options'=>[
+                'class'=>'sidebar-menu',
+                'data-keep-expanded'=>'false',
+                'data-auto-scroll'=>'true',
+                'data-slide-speed'=>'200',
+            ],
+            'labelTemplate' => '<a href="javascript:;" class="menu-item">{icon}<span class="title">{label}</span>{right-icon}{badge}</a>',
+            'linkTemplate' => '<a href="{url}" class="menu-item">{icon}<span class="title">{label}</span>{right-icon}{badge}</a>',
+            'submenuTemplate'=>"\n<ul class=\"treeview-menu\">\n{items}\n</ul>\n",
+            'activateParents'=>true,
+            'items' => $menu
+        ]) ?>
+
+        <!-- <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
                 <a href="<?= Url::to(['/admin/seo/default/index']) ?>">
                     <i class="fa fa-star" aria-hidden="true"></i> <span><?= Yii::t('app', 'Seo') ?></span>
                 </a>
             </li>
-            <!-- <li class="treeview">
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
@@ -190,8 +220,8 @@ $userIdentity = Yii::$app->user->identity;
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
             <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
-             -->
-        </ul>
+
+        </ul>-->
     </section>
     <!-- /.sidebar -->
 </aside>

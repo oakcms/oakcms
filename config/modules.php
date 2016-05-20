@@ -8,31 +8,23 @@
  */
 
 return [
-    'system' => [
-        'class' => 'app\modules\system\Module',
-    ],
     'admin' => [
         'class' => 'app\modules\admin\Module',
         'modules' => [
-            'system' => [
-                'class'                     => 'app\modules\system\Module',
-                'controllerNamespace'       => 'app\modules\system\controllers\backend',
-                'viewPath'                  => '@app/modules/system/views/backend',
-            ],
             'user' => [
                 'class'                     => 'app\modules\user\Module',
                 'controllerNamespace'       => 'app\modules\user\controllers\backend',
                 'viewPath'                  => '@app/modules/user/views/backend',
             ],
-            'seo' => [
-                'class'                     => 'app\modules\seo\Module',
-            ]
         ],
     ],
     'user' => [
         'class' => 'app\modules\user\Module',
         'controllerNamespace' => 'app\modules\user\controllers\frontend',
         'viewPath' => '@app/modules/user/views/frontend',
+    ],
+    'system' => [
+        'class' => 'app\modules\system\Module',
     ],
     'content' => [
         'class' => 'app\modules\content\Module',
