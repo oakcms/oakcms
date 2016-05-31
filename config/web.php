@@ -12,8 +12,8 @@ $config = [
     'defaultRoute' => 'system/default/index',
     'bootstrap' => [
         'log',
-        'app\modules\system\Bootstrap',
         'app\modules\admin\Bootstrap',
+        'app\modules\system\Bootstrap',
     ],
     'modules' => require(__DIR__ . '/modules.php'),
     'components' => require(__DIR__ . '/components.php'),
@@ -26,6 +26,7 @@ if (YII_ENV_DEV) {
     $config['modules']['debug'] = [
         'class' => 'yii\debug\Module',
     ];
+    $config['modules']['debug']['allowedIPs'] = ['*'];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [

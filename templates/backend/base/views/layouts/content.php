@@ -33,12 +33,6 @@ $this->bodyClass = 'skin-blue sidebar-mini';
     </section>
     */ ?>
     <section class="content">
-        <?php if(Yii::$app->session->hasFlash('alert')):?>
-            <?= \yii\bootstrap\Alert::widget([
-                'body'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'body'),
-                'options'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'options'),
-            ])?>
-        <?php endif; ?>
         <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -54,7 +48,7 @@ $this->bodyClass = 'skin-blue sidebar-mini';
                 <?php if(isset($this->params['actions_buttons'])): ?>
                     <div class="actions pull-right">
                         <?php
-                        if(Yii::$app->controller->action->id == 'update' OR Yii::$app->controller->action->id == 'create') {
+                        if(in_array(Yii::$app->controller->action->id, ['update', 'create', 'setting'])) {
                             echo Button::widget(
                                     [
                                         'label' => Yii::t('backend', 'Back'),
@@ -87,7 +81,7 @@ $this->bodyClass = 'skin-blue sidebar-mini';
                 <?php if(isset($this->params['actions_buttons'])): ?>
                     <div class="actions pull-right">
                         <?php
-                        if(Yii::$app->controller->action->id == 'update' OR Yii::$app->controller->action->id == 'create') {
+                        if(in_array(Yii::$app->controller->action->id, ['update', 'create', 'setting'])) {
                             echo Button::widget(
                                     [
                                         'label' => Yii::t('backend', 'Back'),

@@ -13,6 +13,7 @@ use Yii;
 use app\components\View;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use app\modules\admin\models\ModulesModules;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -26,18 +27,51 @@ class Bootstrap implements BootstrapInterface
          *
          */
 
-        if (
-            ($app->hasModule('user') && ($userModule = $app->getModule('user')) instanceof \app\modules\user\Module) &&
-            ($app->hasModule('admin') && ($adminModule = $app->getModule('admin')) instanceof Module)
-        ) {
+        if ($app->hasModule('admin') && ($adminModule = $app->getModule('admin')) instanceof Module) {
+
+            /**
+             * автоматична загрузка модулів
+             */
+            $adminModule->activeModules = ModulesModules::findAllActiveAdmin();
+            $modules_backend = [];
+            $modules_frontend = [];
+            foreach ($adminModule->activeModules as $name => $module) {
+                if($module->isAdmin) {
+                    $modules_backend[$name]['class'] = $module->class;
+                    $modules_backend[$name]['controllerNamespace'] = 'app\modules\\'.$module->name.'\controllers\backend';
+                    $modules_backend[$name]['viewPath'] = '@app/modules/'.$module->name.'/views/backend';
+
+                    if(is_callable([$module->class, 'adminMenu'])) {
+                        $adminModule->menuSidebar[] = call_user_func([$module->class, 'adminMenu']);
+                    }
+
+                    if (is_array($module->settings)) {
+                        $modules_backend[$name]['settings'] = $module->settings;
+                    }
+                }
+                if ($module->isFrontend) {
+                    $modules_frontend[$name]['class'] = $module->class;
+                    $modules_frontend[$name]['controllerNamespace'] = 'app\modules\\'.$module->name.'\controllers\frontend';
+                    $modules_frontend[$name]['viewPath'] = '@app/modules/'.$module->name.'/views/frontend';
+
+                    if (is_array($module->settings)) {
+                        $modules_frontend[$name]['settings'] = $module->settings;
+                    }
+                }
+            }
+
+            $adminModule->setModules($modules_backend);
+            Yii::$app->setModules($modules_frontend);
+
+            if($app->hasModule('user') && ($userModule = $app->getModule('user')) instanceof \app\modules\user\Module) {
+                Yii::$container->set('yii\web\User', [
+                    'enableAutoLogin' => true,
+                    'loginUrl'        => ['/admin/user/login'],
+                    'identityClass'   => $userModule->modelMap['User'],
+                ]);
+            }
 
             Yii::setAlias('admin', '@app/modules/admin');
-
-            Yii::$container->set('yii\web\User', [
-                'enableAutoLogin' => true,
-                'loginUrl'        => ['/admin/user/login'],
-                'identityClass'   => $userModule->modelMap['User'],
-            ]);
 
             $configUrlRule = [
                 'prefix' => $adminModule->urlPrefix,

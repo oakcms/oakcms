@@ -4,6 +4,7 @@ namespace app\modules\system\models;
 
 use Yii;
 use yii\bootstrap\Html;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%system_settings}}".
@@ -60,8 +61,9 @@ class SystemSettings extends \yii\db\ActiveRecord
         } elseif($this->type == 'textarea') {
             return Html::textarea($this->param_name, $this->param_value, ['class' => 'form-control']);
         } elseif($this->type == 'checkbox') {
-            $html = Html::hiddenInput($this->param_name, 0) . Html::checkbox($this->param_name, $this->param_value, ['class' => 'form-control']);
-            return $html;
+            return Html::hiddenInput($this->param_name, 0) . Html::checkbox($this->param_name, $this->param_value, ['class' => 'form-control']);
+        } elseif($this->type == 'language') {
+            return Html::dropDownList($this->param_name, $this->param_value, ArrayHelper::map(Language::getLanguages(), 'language_id', 'name'), ['class' => 'form-control']);
         }
     }
 }

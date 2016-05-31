@@ -6,6 +6,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
+use app\modules\user\models\UserProfile;
 
 /**
  * This is the model class for table "{{%user}}".
@@ -19,8 +20,10 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property integer $googleAuthenticator
  * @property integer $status
  */
+
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
     const ROLE_USER = 'user';
@@ -204,6 +207,14 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserProfile()
+    {
+        return $this->hasOne(UserProfile::className(), ['user_id'=>'id']);
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -221,7 +232,10 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
             ['status', 'integer'],
             ['status', 'default', 'value' => self::S_ACTIVE],
-            ['status', 'in', 'range' => array_keys(self::getStatus($this->status))],
+            ['status', 'in', 'range' => array_keys(self::getStatus())],
+
+            ['googleAuthenticator', 'integer'],
+            ['googleAuthenticator', 'default', 'value' => 0],
         ];
     }
 
@@ -241,6 +255,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'password_reset_token' => Yii::t('user', 'Password Reset Token'),
             'email' => Yii::t('user', 'Email'),
             'status' => Yii::t('user', 'Status'),
+            'googleAuthenticator' => Yii::t('user', 'Google Authenticator'),
         ];
     }
 
@@ -261,13 +276,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function getPublicIdentity()
     {
 
-        /*if ($this->userProfile && $this->userProfile->getFullname()) {
+        if ($this->userProfile && $this->userProfile->getFullname()) {
             return $this->userProfile->getFullname();
         }
         if ($this->username) {
             return $this->username;
-        }*/
-        return 'Володимир Гривінський';
-        return $this->username;
+        }
     }
 }

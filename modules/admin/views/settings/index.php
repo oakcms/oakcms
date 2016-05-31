@@ -4,8 +4,12 @@ use yii\bootstrap\Html;
 use app\modules\admin\widgets\ActiveForm;
 use app\modules\admin\widgets\Button;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+ * @var $this yii\web\View
+ * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $model \app\modules\system\models\SystemSettings
+ *
+ */
 
 $this->title = Yii::t('system', 'System Settings');
 $this->params['breadcrumbs'][] = $this->title;

@@ -10,6 +10,7 @@ use yii\helpers\Url;
 
 $asset = \app\assets\MediaSystem::register($this);
 
+$userIdentity = Yii::$app->user->identity;
 ?>
 <header class="main-header">
 
@@ -31,7 +32,7 @@ $asset = \app\assets\MediaSystem::register($this);
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
                 <!-- Messages: style can be found in dropdown.less-->
-                <li class="dropdown messages-menu">
+                <? /*<li class="dropdown messages-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-envelope-o"></i>
                         <span class="label label-success">4</span>
@@ -224,43 +225,54 @@ $asset = \app\assets\MediaSystem::register($this);
                     </ul>
                 </li>
                 <!-- User Account: style can be found in dropdown.less -->
+                */ ?>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                        <span class="hidden-xs">Alexander Pierce</span>
+                        <?if($userIdentity->userProfile->avatar != ''):?>
+                            <img class="user-image" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
+                        <?else:?>
+                            <?= \cebe\gravatar\Gravatar::widget([
+                                'email' => $userIdentity->email,
+                                'size' => 64,
+                                'options' => [
+                                    'alt' => Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]),
+                                    'class' => 'user-image'
+                                ]
+                            ]); ?>
+                        <?endif?>
+                        <span class="hidden-xs"><?= $userIdentity->publicIdentity ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
+                            <?if($userIdentity->userProfile->avatar != ''):?>
+                                <img class="img-circle" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
+                            <?else:?>
+                            <?= \cebe\gravatar\Gravatar::widget([
+                                'email' => $userIdentity->email,
+                                'size' => 160,
+                                'options' => [
+                                    'alt' => Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]),
+                                    'class' => 'img-circle'
+                                ]
+                            ]); ?>
+                            <?endif?>
                             <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                <?= $userIdentity->publicIdentity ?> - <?= $userIdentity->username ?>
+                                <small><?= Yii::t('app', 'Joined in {datetime}', ['datetime' => Yii::$app->formatter->asDatetime($userIdentity->created_at)]) ?></small>
                             </p>
                         </li>
-                        <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="row">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
-                            </div>
-                            <!-- /.row -->
-                        </li>
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                        <li class="user-footer text-center">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="User">
+                                <a href="<?= Url::to(['/admin/user/user/profile']) ?>" class="btn btn-default btn-flat">
+                                    <i class="fa fa-street-view"></i> <?= Yii::t('app', 'Profile') ?>
+                                </a>
+                                <a href="<?= Url::to(['/admin/user/user/account']) ?>" class="btn btn-default btn-flat">
+                                    <i class="fa fa-user"></i> <?= Yii::t('app', 'Account') ?>
+                                </a>
+                                <a href="<?= Url::to(['/user/default/logout']) ?>" data-method="post" class="btn btn-danger btn-flat">
+                                    <i class="glyphicon glyphicon-log-out"></i> <?= Yii::t('app', 'Sign out') ?>
+                                </a>
                             </div>
                         </li>
                     </ul>

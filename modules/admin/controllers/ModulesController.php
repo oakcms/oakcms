@@ -89,6 +89,42 @@ class ModulesController extends AdminController
         }
     }
 
+    public function actionSetting($id)
+    {
+        $model = $this->findModel($id);
+
+        if (Yii::$app->request->post('Settings')) {
+            $model->setSettings(Yii::$app->request->post('Settings'));
+            if($model->save()){
+                $this->flash('alert-success', Yii::t('admin', 'Module settings updated'));
+
+                if (Yii::$app->request->post('submit-type') == 'continue')
+                    return $this->redirect(['settings', 'id' => $model->id]);
+                else
+                    return $this->redirect(['index']);
+            } else {
+                $this->flash('error', Yii::t('easyii', Yii::t('easyii', 'Update error. {0}', $model->formatErrors())));
+                return $this->redirect(['settings', 'id' => $model->id]);
+            }
+        } else {
+            return $this->render('settings', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionRestoreSettings($id)
+    {
+        if(($model = $this->findModel($id))){
+            $model->settings = '';
+            $model->save();
+            $this->flash('success', Yii::t('app', 'Module default settings was restored'));
+        } else {
+            $this->flash('error', Yii::t('app', 'Not found'));
+        }
+        return $this->back();
+    }
+
     /**
      * Deletes an existing ModulesModules model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

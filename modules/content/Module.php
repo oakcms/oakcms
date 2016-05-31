@@ -7,6 +7,10 @@ namespace app\modules\content;
  */
 class Module extends \yii\base\Module
 {
+    public $settings = [
+        'title' => 'OakCMS',
+    ];
+
     /**
      * @inheritdoc
      */

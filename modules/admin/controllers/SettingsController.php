@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\system\controllers\backend;
+namespace app\modules\admin\controllers;
 
 use Yii;
 use app\modules\system\models\SystemSettings;

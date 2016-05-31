@@ -48,7 +48,12 @@
 
         "kartik-v/yii2-tree-manager": "@dev",
 
-        "sonata-project/google-authenticator": "*"
+        "sonata-project/google-authenticator": "*",
+
+        "mongosoft/yii2-upload-behavior": "*",
+
+        "mihaildev/yii2-ckeditor": "*",
+        "mihaildev/yii2-elfinder": "*"
     },
     "config": {
         "process-timeout": 1800

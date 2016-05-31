@@ -6,9 +6,7 @@ use Yii;
 use yii\base\Application;
 use yii\filters\AccessControl;
 use app\components\View;
-use app\modules\admin\models\ModulesModules;
 use app\modules\admin\rbac\Rbac;
-use yii\helpers\VarDumper;
 
 /**
  * admin module definition class
@@ -36,15 +34,10 @@ class Module extends \yii\base\Module
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        '' => 'default/index',
-
-
-        'user/<action:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/user/<action>',
-
+        ''                                                                  => 'default/index',
+        'user/<action:[\w\-]+>'                                             => 'user/user/<action>',
         '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                    => '<controller>/<action>',
         '<controller:[\w\-]+>/<action:[\w\-]+>'                             => '<controller>/<action>',
-        '<controller:[\w\-]+>'                                              => '<controller>/index',
-
         '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'   => '<module>/<controller>/<action>',
         '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>'            => '<module>/<controller>/<action>',
         '<module:[\w\-]+>/<controller:[\w\-]+>'                             => '<module>/<controller>/index',
@@ -110,24 +103,5 @@ class Module extends \yii\base\Module
         if (Yii::$app instanceof \yii\web\Application) {
             if (!defined('LIVE_EDIT')) define('LIVE_EDIT', !Yii::$app->user->isGuest && Yii::$app->session->get('oak_live_edit'));
         }
-
-        /**
-         * автоматична загрузка модулів
-         */
-        $this->activeModules = ModulesModules::findAllActiveAdmin();
-        $modules = [];
-        foreach ($this->activeModules as $name => $module) {
-            $modules[$name]['class'] = $module->class;
-
-            if(is_callable([$module->class, 'adminMenu'])) {
-                $this->menuSidebar[] = call_user_func([$module->class, 'adminMenu']);
-            }
-
-            if (is_array($module->settings)) {
-                $modules[$name]['settings'] = $module->settings;
-            }
-        }
-
-        $this->setModules($modules);
     }
 }

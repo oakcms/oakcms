@@ -7,10 +7,28 @@ namespace app\modules\user;
  */
 class Module extends \yii\base\Module
 {
+    public $settings = [
+        'title' => 'OakCMS'
+    ];
+
     /**
      * @inheritdoc
      */
     public $controllerNamespace = 'app\modules\user\controllers';
+
+    public function adminMenu() {
+        return [
+            'label' => \Yii::t('user', 'User'),
+            'icon' => '<i class="fa fa-user"></i>',
+            'url' => ['/admin/user']
+        ];
+    }
+
+    /**
+     * @var array Extra behaviors to attach to the login form. If the views are overridden in a theme
+     * this can be used to placed extra logic. @see FormModelBehavior
+     */
+    public $loginFormBehaviors;
 
     public $modelMap = [
         'User'                          => 'app\modules\user\models\User',

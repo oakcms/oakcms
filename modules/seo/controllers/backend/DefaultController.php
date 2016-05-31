@@ -1,14 +1,14 @@
 <?php
 
-namespace app\modules\seo\controllers;
+namespace app\modules\seo\controllers\backend;
 
-use Yii;
-use app\modules\seo\models\SeoItems;
-use app\modules\seo\models\search\SeoItemsSearch;
-use app\modules\admin\components\behaviors\StatusController;
 use app\components\AdminController;
-use yii\web\NotFoundHttpException;
+use app\modules\admin\components\behaviors\StatusController;
+use app\modules\seo\models\search\SeoItemsSearch;
+use app\modules\seo\models\SeoItems;
+use Yii;
 use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 
 /**
  * DefaultController implements the CRUD actions for SeoItems model.
@@ -56,7 +56,7 @@ class DefaultController extends AdminController
         $model = new SeoItems();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if(Yii::$app->request->post('submit-type') == 'continue')
+            if (Yii::$app->request->post('submit-type') == 'continue')
                 return $this->redirect(['update', 'id' => $model->id]);
             else
                 return $this->redirect(['index']);
@@ -77,11 +77,19 @@ class DefaultController extends AdminController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            if(Yii::$app->request->post('submit-type') == 'continue')
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+
+                $this->flash('alert-success', Yii::t('admin', 'Module settings updated'));
+
+                if (Yii::$app->request->post('submit-type') == 'continue')
+                    return $this->redirect(['update', 'id' => $model->id]);
+                else
+                    return $this->redirect(['index']);
+            } else {
+                $this->flash('error', Yii::t('easyii', Yii::t('easyii', 'Update error. {0}', $model->formatErrors())));
                 return $this->redirect(['update', 'id' => $model->id]);
-            else
-                return $this->redirect(['index']);
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -112,7 +120,7 @@ class DefaultController extends AdminController
     {
         $ids = Yii::$app->request->get('id');
         $id_arr = explode(',', $ids);
-        foreach($id_arr as $id) {
+        foreach ($id_arr as $id) {
             $this->findModel($id)->delete();
         }
         return $this->back();
@@ -122,7 +130,7 @@ class DefaultController extends AdminController
     {
         $ids = Yii::$app->request->get('id');
         $id_arr = explode(',', $ids);
-        foreach($id_arr as $id) {
+        foreach ($id_arr as $id) {
             if (($model = SeoItems::findOne($id)) !== null) {
                 $model->status = SeoItems::STATUS_PUBLISHED;
                 $model->save();
@@ -135,7 +143,7 @@ class DefaultController extends AdminController
     {
         $ids = Yii::$app->request->get('id');
         $id_arr = explode(',', $ids);
-        foreach($id_arr as $id) {
+        foreach ($id_arr as $id) {
             if (($model = SeoItems::findOne($id)) !== null) {
                 $model->status = SeoItems::STATUS_DRAFT;
                 $model->save();

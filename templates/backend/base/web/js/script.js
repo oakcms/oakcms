@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function () {
-    $("input:checkbox:not(.switch), input:radio:not(.switch)").uniform();
+    $("input:checkbox:not(.switch, .make-switch), input:radio:not(.switch, .make-switch)").uniform();
 
     $(".select-on-check-all").change(function () {
         $.uniform.update()

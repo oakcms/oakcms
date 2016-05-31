@@ -20,16 +20,18 @@ $userIdentity = Yii::$app->user->identity;
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <?= \cebe\gravatar\Gravatar::widget([
-                    'email' => $userIdentity->email,
-                    'size' => 64,
-                    'options' => [
-                        'alt' => Yii::t('app', 'Avatar image for {username}', [
-                            'username' => $userIdentity->username
-                        ]),
-                        'class' => 'avatar'
-                    ]
-                ]); ?>
+                <?if($userIdentity->userProfile->avatar != ''):?>
+                    <img class="avatar" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
+                <?else:?>
+                    <?= \cebe\gravatar\Gravatar::widget([
+                        'email' => $userIdentity->email,
+                        'size' => 64,
+                        'options' => [
+                            'alt' => Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]),
+                            'class' => 'avatar'
+                        ]
+                    ]); ?>
+                <?endif?>
             </div>
             <div class="pull-left info">
                 <p class="fs-13"><?= $userIdentity->publicIdentity ?></p>
@@ -52,29 +54,28 @@ $userIdentity = Yii::$app->user->identity;
             <li class="header"><?= Yii::t('app', 'Main navigation') ?></li>
         </ul>
         <?php
-            $menu = Yii::$app->getModule('admin')->menuSidebar;
-            $menu[] = [
-                'label' => Yii::t('app', 'System'),
-                'icon' => '<i class="fa fa-cogs" aria-hidden="true"></i>',
-                'items'=>[
-                    ['label'=>Yii::t('app', 'Settings'), 'url'=>['/settings/index'], 'icon'=>'<i class="fa fa-cog"></i>'],
-                    ['label'=>Yii::t('app', 'Modules'), 'url'=>['/admin/modules'], 'icon'=>'<i class="fa fa-puzzle-piece"></i>'],
-                    ['label'=>Yii::t('app', 'File Storage'), 'url'=>['/file-storage/index'], 'icon'=>'<i class="fa fa-hdd-o"></i>'],
-                    ['label'=>Yii::t('app', 'Cache'), 'url'=>['/cache/index'], 'icon'=>'<i class="fa fa-flash"></i>'],
-                    ['label'=>Yii::t('app', 'File Manager'), 'url'=>['/file-manager/index'], 'icon'=>'<i class="fa fa-folder-open"></i>'],
-                ]
-            ];
-            echo app\modules\admin\widgets\Menu::widget([
-            'options'=>[
-                'class'=>'sidebar-menu',
-                'data-keep-expanded'=>'false',
-                'data-auto-scroll'=>'true',
-                'data-slide-speed'=>'200',
+        $menu = Yii::$app->getModule('admin')->menuSidebar;
+        $menu[] = [
+            'label' => Yii::t('app', 'System'),
+            'icon' => '<i class="fa fa-cogs" aria-hidden="true"></i>',
+            'items' => [
+                ['label' => Yii::t('app', 'Settings'), 'url' => ['/admin/settings/index'], 'icon' => '<i class="fa fa-cog"></i>'],
+                ['label' => Yii::t('app', 'Modules'), 'url' => ['/admin/modules/index'], 'icon' => '<i class="fa fa-puzzle-piece"></i>'],
+                ['label' => Yii::t('app', 'Cache'), 'url' => ['/admin/cache/index'], 'icon' => '<i class="fa fa-flash"></i>'],
+                ['label' => Yii::t('app', 'File Manager'), 'url' => ['/admin/file-manager/index'], 'icon' => '<i class="fa fa-folder-open"></i>'],
+            ]
+        ];
+        echo app\modules\admin\widgets\Menu::widget([
+            'options' => [
+                'class' => 'sidebar-menu',
+                'data-keep-expanded' => 'false',
+                'data-auto-scroll' => 'true',
+                'data-slide-speed' => '200',
             ],
             'labelTemplate' => '<a href="javascript:;" class="menu-item">{icon}<span class="title">{label}</span>{right-icon}{badge}</a>',
             'linkTemplate' => '<a href="{url}" class="menu-item">{icon}<span class="title">{label}</span>{right-icon}{badge}</a>',
-            'submenuTemplate'=>"\n<ul class=\"treeview-menu\">\n{items}\n</ul>\n",
-            'activateParents'=>true,
+            'submenuTemplate' => "\n<ul class=\"treeview-menu\">\n{items}\n</ul>\n",
+            'activateParents' => true,
             'items' => $menu
         ]) ?>
 

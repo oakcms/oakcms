@@ -79,14 +79,14 @@ $this->params['actions_buttons'] = [
                     'options' => ['style' => 'width:100px']
                 ],
                 'name',
+                'title',
                 'class',
-                'isFrontend',
-                'controllerNamespace',
+                //'isFrontend',
+                //'controllerNamespace',
                 // 'viewPath',
                 // 'isAdmin',
                 // 'AdminControllerNamespace',
                 // 'AdminViewPath',
-                // 'title',
                 // 'icon',
                 // 'settings:ntext',
                 // 'order',
@@ -108,7 +108,22 @@ $this->params['actions_buttons'] = [
                         Yii::t('app', 'On')
                     ]
                 ],
-                ['class' => 'app\modules\admin\components\grid\ActionColumn'],
+                [
+                    'class' => 'app\modules\admin\components\grid\ActionColumn',
+                    'template'=>'<div class="btn-group">{setting} {update} {delete}</div>',
+                    'buttons' => [
+                        'setting' => function($url, $model, $key) {
+                            $options = [
+                                'title' => \Yii::t('app', 'Settings'),
+                                'class'=>'btn blue-hoki btn-xs',
+                                //'style' => 'margin-right:0',
+                                'data-toggle' => 'tooltip',
+                                'data-pjax' => '0',
+                            ];
+                            return Html::a('<i class="fa fa-cog"></i>', $url, $options);
+                        }
+                    ]
+                ],
             ],
         ]); ?>
     </div>

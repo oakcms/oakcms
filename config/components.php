@@ -40,6 +40,14 @@ return [
         'class' => 'yii\web\AssetManager',
         'linkAssets' => true,
         'appendTimestamp' => YII_ENV_DEV,
+        'bundles' => [
+            'zxbodya\yii2\tinymce\TinyMceAsset' => [
+                'js' => [
+                    '//cdn.tinymce.com/4/tinymce.min.js',
+                    '//cdn.tinymce.com/4/jquery.tinymce.min.js'
+                ],
+            ]
+        ],
         'converter' => [
             'class' => 'nizsheanez\assetConverter\Converter',
             'destinationDir' => 'css',

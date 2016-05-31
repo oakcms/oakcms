@@ -10,23 +10,23 @@
 return [
     'admin' => [
         'class' => 'app\modules\admin\Module',
-        'modules' => [
-            'user' => [
-                'class'                     => 'app\modules\user\Module',
-                'controllerNamespace'       => 'app\modules\user\controllers\backend',
-                'viewPath'                  => '@app/modules/user/views/backend',
-            ],
+        'controllerMap' => [
+            'file-manager-elfinder' => [
+                'class' => 'mihaildev\elfinder\Controller',
+                'access' => ['manager'],
+                'disabledCommands' => ['netmount'],
+                'roots' => [
+                    [
+                        'baseUrl' => '@web/uploads',
+                        'basePath' => '@webroot/uploads',
+                        'path'   => '/',
+                        'access' => ['read' => 'manager', 'write' => 'manager']
+                    ]
+                ]
+            ]
         ],
-    ],
-    'user' => [
-        'class' => 'app\modules\user\Module',
-        'controllerNamespace' => 'app\modules\user\controllers\frontend',
-        'viewPath' => '@app/modules/user/views/frontend',
     ],
     'system' => [
         'class' => 'app\modules\system\Module',
-    ],
-    'content' => [
-        'class' => 'app\modules\content\Module',
-    ],
+    ]
 ];

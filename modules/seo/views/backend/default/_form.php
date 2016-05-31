@@ -36,7 +36,7 @@ $this->params['actions_buttons'] = [
         'type' => Button::TYPE_CIRCLE,
         'color' => 'green-jungle'
     ]
-]
+];
 ?>
 
 <div class="seo-items-form">
@@ -51,6 +51,10 @@ $this->params['actions_buttons'] = [
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'keywords')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'description')->widget(\mihaildev\ckeditor\CKEditor::className(),[
+        'editorOptions' => \mihaildev\elfinder\ElFinder::ckeditorOptions('/admin/file-manager-elfinder', ['preset' => 'full', 'skin' => 'office2013']),
+    ]); ?>
+
     <?= $form->field($model, 'canonical')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'status')->textInput() ?>
 

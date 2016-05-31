@@ -5878,6 +5878,12 @@ fieldset[disabled] .btn.purple-soft:not(.btn-outline).focus {
 .w55 {
   width: 55px;
 }
+.alert-success {
+  background-color: #b4eaee !important;
+  border-color: #b4eaee;
+  color: #28acb8 !important;
+  border-radius: 0;
+}
 .table-advance thead tr th {
   background-color: #f1f4f7;
   font-size: 14px;

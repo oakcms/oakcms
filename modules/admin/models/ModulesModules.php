@@ -2,9 +2,9 @@
 
 namespace app\modules\admin\models;
 
-use Yii;
+use app\components\ActiveRecord;
 use app\modules\system\helpers\Data;
-use yii\helpers\VarDumper;
+use Yii;
 
 /**
  * This is the model class for table "{{%modules_modules}}".
@@ -20,12 +20,12 @@ use yii\helpers\VarDumper;
  * @property integer $order
  * @property integer $status
  */
-class ModulesModules extends \yii\db\ActiveRecord
+class ModulesModules extends ActiveRecord
 {
 
-    const CACHE_KEY             = 'modules_cache';
-    const STATUS_PUBLISHED      = 1;
-    const STATUS_DRAFT          = 0;
+    const CACHE_KEY = 'modules_cache';
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DRAFT = 0;
 
 
     /**
@@ -44,7 +44,7 @@ class ModulesModules extends \yii\db\ActiveRecord
         return [
             [['name', 'class', 'isAdmin', 'isFrontend', 'title'], 'required'],
             [['isAdmin', 'isFrontend', 'order', 'status'], 'integer'],
-            [['settings'], 'string'],
+            //[['settings'], 'string'],
             [['name'], 'string', 'max' => 64],
             [['class', 'title'], 'string', 'max' => 128],
             [['icon'], 'string', 'max' => 32],
@@ -84,23 +84,50 @@ class ModulesModules extends \yii\db\ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        $this->settings = $this->settings !== '' ? json_decode($this->settings, true) : [];
+        $this->settings = $this->settings !== '' ? json_decode($this->settings, true) : self::getDefaultSettings($this->name);
+    }
+
+
+    /*public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            $this->settings = json_encode($this->settings);
+            Yii::$app->cache->flush();
+            return true;
+        } else {
+            return false;
+        }
+    }*/
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if(!$this->settings || !is_array($this->settings)){
+                $this->settings = self::getDefaultSettings($this->name);
+            }
+            $this->settings = json_encode($this->settings);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static function findAllActive()
     {
-        return Data::cache(self::CACHE_KEY, 3600, function() {
+        return Data::cache(self::CACHE_KEY, 3600, function () {
             $result = [];
             try {
                 foreach (self::find()->where(['status' => self::STATUS_PUBLISHED, 'isFrontend' => self::STATUS_PUBLISHED])->all() as $module) {
                     $module->trigger(self::EVENT_AFTER_FIND);
                     $result[$module->name] = (object)$module->attributes;
                 }
-            }catch(\yii\db\Exception $e){}
+            } catch (\yii\db\Exception $e) {
+            }
 
             return $result;
         });
     }
+
     public static function findAllActiveAdmin()
     {
         //return Data::cache(self::CACHE_KEY, 3600, function() {
@@ -114,7 +141,8 @@ class ModulesModules extends \yii\db\ActiveRecord
                     $module->trigger(self::EVENT_AFTER_FIND);
                     $result[$module->name] = (object)$module->attributes;
                 }
-            } catch(\yii\db\Exception $e) {}
+            } catch (\yii\db\Exception $e) {
+            }
 
             return $result;
         //});
@@ -124,7 +152,7 @@ class ModulesModules extends \yii\db\ActiveRecord
     public function setSettings($settings)
     {
         $newSettings = [];
-        foreach($this->settings as $key => $value) {
+        foreach ($this->settings as $key => $value) {
             $newSettings[$key] = is_bool($value) ? ($settings[$key] ? true : false) : ($settings[$key] ? $settings[$key] : '');
         }
         $this->settings = $newSettings;
@@ -132,8 +160,18 @@ class ModulesModules extends \yii\db\ActiveRecord
 
     public function checkExists($attribute)
     {
-        if(!class_exists($this->$attribute)){
+        if (!class_exists($this->$attribute)) {
             $this->addError($attribute, Yii::t('app', 'Class does not exist'));
+        }
+    }
+
+    static function getDefaultSettings($moduleName)
+    {
+        $modules = Yii::$app->getModule('admin')->activeModules;
+        if(isset($modules[$moduleName])){
+            return Yii::createObject($modules[$moduleName]->class, [$moduleName])->settings;
+        } else {
+            return [];
         }
     }
 }

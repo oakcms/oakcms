@@ -9,16 +9,11 @@ use Yii;
  */
 class Module extends \yii\base\Module
 {
-    public $settings = [];
-
-    public static $installConfig = [
-        'title' => [
-            'en' => 'Carousel',
-            'ru' => 'Карусель',
-        ],
-        'icon' => 'picture',
-        'order_num' => 40,
+    public $settings = [
+        'title' => 'OakCMS'
     ];
+
+    public static $installConfig = [];
 
     public function adminMenu() {
         return [
@@ -27,11 +22,6 @@ class Module extends \yii\base\Module
             'url' => ['/admin/seo']
         ];
     }
-
-    /**
-     * @inheritdoc
-     */
-    public $controllerNamespace = 'app\modules\seo\controllers';
 
     /**
      * @inheritdoc

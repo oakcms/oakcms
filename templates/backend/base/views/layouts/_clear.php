@@ -42,6 +42,28 @@ $bundle = \app\templates\backend\base\assets\BaseAsset::register($this);
         <?= $content ?>
     </div>
 <?php $this->endBody() ?>
+<?php foreach(Yii::$app->session->getAllFlashes() as $key => $message) : ?>
+    <?if(isset($message)):?>
+        <div id="growl_text_<?= $key ?>" class="hidden"><?= $message ?></div>
+        <script>
+            $(function() {
+                $.bootstrapGrowl($('#growl_text_<?= $key ?>').html(), {
+                    ele: 'body',
+                    type: '<?=str_replace("alert-", "", $key) ?>',
+                    offset: {
+                        from: 'bottom',
+                        amount: 10
+                    },
+                    align: 'right',
+                    width: 'auto',
+                    delay: 5000,
+                    allow_dismiss: true,
+                    stackup_spacing: 10
+                });
+            });
+        </script>
+    <?endif?>
+<?php endforeach; ?>
 </body>
 </html>
 <?php $this->endPage() ?>

@@ -1,8 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-use app\modules\admin\widgets\Button;
 use app\modules\admin\widgets\ActiveForm;
+use app\modules\admin\widgets\Button;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\admin\models\ModulesModules */
@@ -40,10 +39,9 @@ $this->params['actions_buttons'] = [
 ?>
 
 <div class="modules-modules-form">
-
     <?php $form = ActiveForm::begin([
-        'options'=>[
-            'id'=>'modules-modules-id',
+        'options' => [
+            'id' => 'modules-modules-id',
         ],
     ]); ?>
 
@@ -53,7 +51,7 @@ $this->params['actions_buttons'] = [
     <?= $form->field($model, 'isAdmin')->textInput() ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'settings')->textarea(['rows' => 6]) ?>
+    <? //= $form->field($model, 'settings')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'order')->textInput() ?>
     <?= $form->field($model, 'status')->textInput() ?>
 

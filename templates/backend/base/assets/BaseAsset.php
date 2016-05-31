@@ -25,6 +25,7 @@ class BaseAsset extends AssetBundle
     ];
     public $js = [
         'js/jquery.uniform.min.js',
+        'js/jquery.bootstrap-growl.min.js',
         'js/switcher.js',
         'js/script.js',
     ];
