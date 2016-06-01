@@ -61,7 +61,12 @@ class SystemSettings extends \yii\db\ActiveRecord
         } elseif($this->type == 'textarea') {
             return Html::textarea($this->param_name, $this->param_value, ['class' => 'form-control']);
         } elseif($this->type == 'checkbox') {
-            return Html::hiddenInput($this->param_name, 0) . Html::checkbox($this->param_name, $this->param_value, ['class' => 'form-control']);
+            return
+                Html::hiddenInput($this->param_name, 0) .
+                \oakcms\bootstrapswitch\Switcher::widget([
+                    'name' => $this->param_name,
+                    'checked' => $this->param_value
+                ]);
         } elseif($this->type == 'language') {
             return Html::dropDownList($this->param_name, $this->param_value, ArrayHelper::map(Language::getLanguages(), 'language_id', 'name'), ['class' => 'form-control']);
         }

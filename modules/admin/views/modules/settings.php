@@ -42,6 +42,19 @@ $this->params['actions_buttons'] = [
         'block' => false,
         'type' => Button::TYPE_CIRCLE,
         'color' => 'btn-success'
+    ],
+    [
+        'label' => Yii::t('admin', 'Save & Continue Edit'),
+        'options' => [
+            'onclick' => 'sendFormReload("#modules-modules-id")',
+        ],
+        'icon' => 'fa fa-check-circle',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size' => Button::SIZE_SMALL,
+        'disabled' => false,
+        'block' => false,
+        'type' => Button::TYPE_CIRCLE,
+        'color' => 'btn-success'
     ]
 ];
 
@@ -56,10 +69,15 @@ $this->params['actions_buttons'] = [
                 <?= Html::input('text', 'Settings['.$key.']', $value, ['class' => 'form-control']); ?>
             </div>
         <?php else : ?>
-            <div class="checkbox">
-                <label>
-                    <?= Html::checkbox('Settings['.$key.']', $value, ['uncheck' => 0])?> <?= $key ?>
-                </label>
+            <div class="checkbox form-controll row">
+                <label class="col-sm-3"><?= Yii::t('admin', $key); ?></label>
+                <div class="col-sm-9">
+                    <?= Html::hiddenInput('Settings['.$key.']', 0) .
+                            \oakcms\bootstrapswitch\Switcher::widget([
+                            'name' => 'Settings['.$key.']',
+                            'checked' => $value
+                        ]); ?>
+                </div>
             </div>
         <?php endif; ?>
     <?php endforeach; ?>

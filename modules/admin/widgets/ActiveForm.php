@@ -1,4 +1,11 @@
 <?php
+/**
+ * Created by Vladimir Hryvinskyy.
+ * Site: http://codice.in.ua/
+ * Date: 20.11.2015
+ * Project: salon-rukodeliya.loc
+ * File name: ActiveForms.php
+ */
 
 namespace app\modules\admin\widgets;
 

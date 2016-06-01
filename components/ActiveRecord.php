@@ -12,7 +12,14 @@ namespace app\components;
 
 class ActiveRecord extends \yii\db\ActiveRecord
 {
-    
+    const STATUS_PUBLISHED = 1;
+    const STATUS_DRAFT = 0;
+
+    public function published()
+    {
+        $this->andWhere(['status' => self::STATUS_PUBLISHED]);
+    }
+
     public function formatErrors()
     {
         $result = '';

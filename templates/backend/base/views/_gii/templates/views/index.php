@@ -83,6 +83,7 @@ $this->params['actions_buttons'] = [
     <div class="table-responsive">
     <?php if ($generator->indexWidgetType === 'grid'): ?>
     <?= "<?= " ?>GridView::widget([
+            'id' => 'grid',
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
             'dataProvider' => $dataProvider,
             <?= !empty($generator->searchModelClass) ? "'filterModel' => \$searchModel,\n            'columns' => [\n" : "'columns' => [\n"; ?>

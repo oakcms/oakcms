@@ -32,6 +32,8 @@
         "yiisoft/yii2-authclient": "~2.0",
         "yiisoft/yii2-jui": "~2.0",
 
+        "oakcms/yii2-bootstrap-switch": "dev-master",
+
         "dragonjet/yii2-opengraph": "dev-master",
 
         "2amigos/yii2-translateable-behavior" : "*",

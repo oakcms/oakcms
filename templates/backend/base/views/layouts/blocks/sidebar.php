@@ -55,6 +55,7 @@ $userIdentity = Yii::$app->user->identity;
         </ul>
         <?php
         $menu = Yii::$app->getModule('admin')->menuSidebar;
+
         $menu[] = [
             'label' => Yii::t('app', 'System'),
             'icon' => '<i class="fa fa-cogs" aria-hidden="true"></i>',

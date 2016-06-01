@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9a8cd732fb98a2ef2b6ac3c9bdf9deb1",
-    "content-hash": "346dadbd60e3b5ddff1be7c8ca2062df",
+    "hash": "f47da5fb02e65583e576d949355d5d5e",
+    "content-hash": "d39763d8e8b4366f725d6186b8efcc46",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -699,6 +699,49 @@
                 "template",
                 "theme"
             ]
+        },
+        {
+            "name": "bower-asset/bootstrap-switch",
+            "version": "v3.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nostalgiaz/bootstrap-switch.git",
+                "reference": "ec69b5dd914dacb19cf1fa8e1be7eea6bcc7b083"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nostalgiaz/bootstrap-switch/zipball/ec69b5dd914dacb19cf1fa8e1be7eea6bcc7b083",
+                "reference": "ec69b5dd914dacb19cf1fa8e1be7eea6bcc7b083",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap": ">=2.3.2",
+                "bower-asset/jquery": ">=1.9.0"
+            },
+            "require-dev": {
+                "bower-asset/bootstrap": "~3.3",
+                "bower-asset/jquery": "~2.1"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "./dist/js/bootstrap-switch.js",
+                    "./dist/css/bootstrap3/bootstrap-switch.css"
+                ],
+                "bower-asset-ignore": [
+                    "docs",
+                    "test",
+                    "CNAME",
+                    "coffeelint.json",
+                    "composer.json",
+                    "CONTRIBUTING.md",
+                    "gulpfile.coffee",
+                    "gulpfile.js",
+                    "index.html",
+                    "package.json"
+                ]
+            },
+            "description": "Turn checkboxes and radio buttons in toggle switches."
         },
         {
             "name": "bower-asset/fancybox",
@@ -1511,6 +1554,49 @@
             "time": "2015-12-30 03:28:06"
         },
         {
+            "name": "oakcms/yii2-bootstrap-switch",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oakcms/yii2-bootstrap-switch.git",
+                "reference": "e2fb104c8f107619087c73cc02965cc2a63127a7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oakcms/yii2-bootstrap-switch/zipball/e2fb104c8f107619087c73cc02965cc2a63127a7",
+                "reference": "e2fb104c8f107619087c73cc02965cc2a63127a7",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/bootstrap-switch": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "oakcms\\bootstrapswitch\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "scriptua",
+                    "email": "script@email.ua"
+                }
+            ],
+            "description": "Renders a Bootstrap Toggle Switch plugin widget.",
+            "keywords": [
+                " bootstrap-switch",
+                " extension",
+                " oakcms",
+                "yii2"
+            ],
+            "time": "2016-06-01 14:47:10"
+        },
+        {
             "name": "oyejorge/less.php",
             "version": "v1.7.0.10",
             "source": {
@@ -2279,6 +2365,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "oakcms/yii2-bootstrap-switch": 20,
         "dragonjet/yii2-opengraph": 20,
         "kartik-v/yii2-tree-manager": 20
     },

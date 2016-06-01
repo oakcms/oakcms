@@ -47,16 +47,12 @@ $this->params['actions_buttons'] = [
         ],
     ]); ?>
 
-    <?= $form->field($model, 'link')->textInput(['maxlength' => true])->translatable() ?>
+    <?= $form->field($model, 'link')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'keywords')->textarea(['rows' => 6]) ?>
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-    <?= $form->field($model, 'description')->widget(\mihaildev\ckeditor\CKEditor::className(),[
-        'editorOptions' => \mihaildev\elfinder\ElFinder::ckeditorOptions('/admin/file-manager-elfinder', ['preset' => 'full', 'skin' => 'office2013']),
-    ]); ?>
-
+    <?= $form->field($model, 'keywords')->textarea(['rows' => 3, 'style' => 'resize:none']) ?>
+    <?= $form->field($model, 'description')->textarea(['rows' => 3, 'style' => 'resize:none']); //widget(\app\widgets\Editor::className()); ?>
     <?= $form->field($model, 'canonical')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
 
     <?php ActiveForm::end(); ?>
 
