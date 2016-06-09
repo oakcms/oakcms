@@ -99,7 +99,7 @@ return [
                 'sourceMessageTable' => '{{%language_source}}',
                 'messageTable' => '{{%language_translate}}',
                 'cachingDuration' => 86400,
-                'enableCaching' => true,
+                'enableCaching' => false,
             ],
         ],
     ],

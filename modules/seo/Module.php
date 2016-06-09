@@ -10,7 +10,10 @@ use Yii;
 class Module extends \yii\base\Module
 {
     public $settings = [
-        'title' => 'OakCMS'
+        'title' => [
+            'type' => 'textInput',
+            'value' => 'OAKCMS'
+        ]
     ];
 
     public static $installConfig = [];

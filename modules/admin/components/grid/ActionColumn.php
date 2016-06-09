@@ -6,15 +6,32 @@ namespace app\modules\admin\components\grid;
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 22.11.2015
- * Project: salon-rukodeliya.loc
+ * Project: OakCMS
  * File name: ActionColumn.php
  */
 
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 
 class ActionColumn extends \yii\grid\ActionColumn
 {
     public $template = "<div class=\"btn-group w55\">{view} {update} {delete}</div>";
+    public $translatable = false;
+
+    public function createUrl($action, $model, $key, $index)
+    {
+        if (is_callable($this->urlCreator)) {
+            return call_user_func($this->urlCreator, $action, $model, $key, $index);
+        } else {
+            $params = is_array($key) ? $key : ['id' => (string) $key];
+            $params[0] = $this->controller ? $this->controller . '/' . $action : $action;
+
+            if($this->translatable === true) {
+                $params['language'] = \Yii::$app->session->get('_languages')['url'];
+            }
+            return Url::toRoute($params);
+        }
+    }
 
     protected function initDefaultButtons()
     {

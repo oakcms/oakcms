@@ -87,7 +87,7 @@ class Bootstrap implements BootstrapInterface
 
             $app->urlManager->addRules([$rule], false);
 
-            if (!Yii::$app->user->isGuest && strpos(Yii::$app->request->pathInfo, 'admin') === false && strpos(Yii::$app->request->pathInfo, 'gii') === false) {
+            if (!Yii::$app->user->isGuest && strpos(Yii::$app->request->pathInfo, 'admin') === false && strpos(Yii::$app->request->pathInfo, 'gii') === false && strpos(Yii::$app->request->pathInfo, 'treemanager') === false) {
                 $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
                     Yii::$app->getView()->bodyClass[] = 'oak-admin-bar';
                     $app->getView()->on(View::EVENT_BEGIN_BODY, [$this, 'renderToolbar']);

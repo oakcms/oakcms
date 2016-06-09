@@ -3,7 +3,7 @@ namespace app\modules\admin\widgets;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use app\modules\admin\widgets\Html;
 use yii\helpers\Url;
 
 /**

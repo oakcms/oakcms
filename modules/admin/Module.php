@@ -34,15 +34,16 @@ class Module extends \yii\base\Module
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        ''                                                                  => 'default/index',
-        'user/<action:[\w\-]+>'                                             => 'user/user/<action>',
-        '<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'                    => '<controller>/<action>',
-        '<controller:[\w\-]+>/<action:[\w\-]+>'                             => '<controller>/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>/<id:\d+>'   => '<module>/<controller>/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>'            => '<module>/<controller>/<action>',
-        '<module:[\w\-]+>/<controller:[\w\-]+>'                             => '<module>/<controller>/index',
-        '<module:[\w\-]+>'                                                  => '<module>/default/index',
-        '<module:[\w\-]+>/<controller:[\w\-]+>/<id:\d+>'                    => '<module>/<controller>/view',
+        ''                                                                      => 'default/index',
+        'user/<_a:[\w\-]+>'                                                     => 'user/user/<_a>',
+        '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>'                                    => '<_c>/<_a>',
+        '<_c:[\w\-]+>/<_a:[\w\-]+>'                                             => '<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>/<language:\w+>'        => '<_m>/<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>'                       => '<_m>/<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>'                                => '<_m>/<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>'                                             => '<_m>/<_c>/index',
+        '<_m:[\w\-]+>'                                                          => '<_m>/default/index',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'                                    => '<_m>/<_c>/view',
     ];
 
     public function behaviors()

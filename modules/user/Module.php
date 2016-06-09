@@ -8,7 +8,10 @@ namespace app\modules\user;
 class Module extends \yii\base\Module
 {
     public $settings = [
-        'title' => 'OakCMS'
+        'title' => [
+            'type' => 'textInput',
+            'value' => 'OAKCMS'
+        ]
     ];
 
     /**

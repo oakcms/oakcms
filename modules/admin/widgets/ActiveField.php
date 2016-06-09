@@ -4,6 +4,7 @@ namespace app\modules\admin\widgets;
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\VarDumper;
 
 class ActiveField extends \yii\widgets\ActiveField {
 
@@ -24,12 +25,20 @@ class ActiveField extends \yii\widgets\ActiveField {
         }
         $this->parts['{input}'] = Html::tag('i', '', [
                 'class' => 'fa fa-globe font-blue',
-                'title' => \Yii::t('backend', 'Translatable element'),
+                'title' => \Yii::t('admin', 'Translatable element'),
                 'data-toggle' => 'tooltip'
             ]) . "\n" . $this->parts['{input}'];
         $this->parts['{input}'] = Html::tag('div', $this->parts['{input}'], ['class' => 'input-icon ' . $position]);
 
 
+        return $this;
+    }
+
+    public function staticField($value = false) {
+        if(!$value) {
+            $value = $this->model->{$this->attribute};
+        }
+        $this->parts['{input}'] = Html::activeHiddenInput($this->model, $this->attribute) . '<div class="form-control-static">' . $value . '</div>';
         return $this;
     }
 

@@ -130,7 +130,7 @@ class ModulesModules extends ActiveRecord
 
     public static function findAllActiveAdmin()
     {
-        //return Data::cache(self::CACHE_KEY, 3600, function() {
+        return Data::cache(self::CACHE_KEY, 3600, function() {
             $result = [];
             try {
                 foreach (
@@ -141,11 +141,10 @@ class ModulesModules extends ActiveRecord
                     $module->trigger(self::EVENT_AFTER_FIND);
                     $result[$module->name] = (object)$module->attributes;
                 }
-            } catch (\yii\db\Exception $e) {
-            }
+            } catch (\yii\db\Exception $e) {}
 
             return $result;
-        //});
+        });
     }
 
 
@@ -153,7 +152,7 @@ class ModulesModules extends ActiveRecord
     {
         $newSettings = [];
         foreach ($this->settings as $key => $value) {
-            $newSettings[$key] = is_bool($value) ? ($settings[$key] ? true : false) : ($settings[$key] ? $settings[$key] : '');
+            $newSettings[$key] = is_bool() ?$value['value'] ($settings[$key]['value'] ? true : false) : ($settings[$key]['value'] ? $settings[$key]['value'] : '');
         }
         $this->settings = $newSettings;
     }

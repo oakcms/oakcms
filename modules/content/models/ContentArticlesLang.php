@@ -16,6 +16,7 @@ use Yii;
  * @property string $meta_keywords
  * @property string $meta_description
  * @property string $image
+ * @property string $settings
  * @property string $language
  */
 class ContentArticlesLang extends \app\components\ActiveRecord
@@ -37,7 +38,7 @@ class ContentArticlesLang extends \app\components\ActiveRecord
         return [
             [['content_articles_id', 'slug', 'title', 'content', 'language'], 'required'],
             [['content_articles_id'], 'integer'],
-            [['content'], 'string'],
+            [['content', 'settings'], 'string'],
             [['slug'], 'string', 'max' => 150],
             [['title', 'link', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 255],
             [['image'], 'string', 'max' => 300],

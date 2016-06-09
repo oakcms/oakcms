@@ -2,25 +2,66 @@
 
 namespace app\modules\content;
 
+use Yii;
+
 /**
  * content module definition class
  */
 class Module extends \yii\base\Module
 {
     public $settings = [
-        'show_title'            => false,
-        'link_titles'           => false,
-        'show_intro'            => false,
-        'show_category'         => false,
-        'link_category'         => false,
-        'show_parent_category'  => false,
-        'link_parent_category'  => false,
-        'show_author'           => false,
-        'link_author'           => false,
-        'show_create_date'      => false,
-        'show_modify_date'      => false,
-        'show_publish_date'     => false,
-        'show_hits'             => false,
+        'show_title'            => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'link_titles'           => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_intro'            => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_category'         => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'link_category'         => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_parent_category'  => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'link_parent_category'  => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_author'           => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'link_author'           => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_create_date'      => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_modify_date'      => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_publish_date'     => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
+        'show_hits'             => [
+            'type' => 'checkbox',
+            'value' => false,
+        ],
     ];
 
     public function adminMenu() {
@@ -36,12 +77,12 @@ class Module extends \yii\base\Module
                 [
                     'icon' => '<i class="fa fa-file-text-o"></i>',
                     'label' => \Yii::t('content', 'Articles'),
-                    'url' => ['/admin/content'],
+                    'url' => ['/admin/content/article/index'],
                 ],
                 [
                     'icon' => '<i class="fa fa-folder-o"></i>',
                     'label' => \Yii::t('content', 'Categories'),
-                    'url' => ['/admin/category'],
+                    'url' => ['/admin/content/category/index'],
                 ]
             ]
         ];

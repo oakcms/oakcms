@@ -13,8 +13,9 @@ return [
     'enableStrictParsing' => true,
     'rules' => [
         '' => 'system/default/index',
+        '<module:[\w\-]+>/<controller:[\w\-]+>/<action:[\w\-]+>' => '<module>/<controller>/<action>',
 
-        [
+        /*[
             'pattern'   => '<action:error>',
             'route'     => 'main/default/<action>',
             'suffix'    => '',
@@ -48,6 +49,6 @@ return [
             'pattern'   => '<module:[\w\-]+>/<controller:[\w\-]+>',
             'route'     => '<module>/<controller>/index',
             'suffix'    => '',
-        ],
+        ],*/
     ],
 ];

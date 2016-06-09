@@ -28,4 +28,12 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(".nav-tabs-custom .nav a").on('click', function(){
+        sessionStorage.activeTab = $(this).attr('href');
+        sessionStorage.page = window.location.href;
+    });
+    if(window.location.href == sessionStorage.page) {
+        $('.nav-tabs-custom .nav a[href="' + sessionStorage.activeTab + '"]').tab('show');
+    }
 });

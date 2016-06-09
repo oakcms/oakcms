@@ -63,22 +63,24 @@ $this->params['actions_buttons'] = [
 <?php if(sizeof($model->settings) > 0) : ?>
     <?= Html::beginForm('', 'post', ['id' => 'modules-modules-id']); ?>
     <?php foreach($model->settings as $key => $value) : ?>
-        <?php if(!is_bool($value)) : ?>
+        <?php if($value['type'] == 'textInput') : ?>
             <div class="form-group">
                 <label><?= Yii::t('admin', $key); ?></label>
-                <?= Html::input('text', 'Settings['.$key.']', $value, ['class' => 'form-control']); ?>
+                <?= Html::input('text', 'Settings['.$key.']', $value['value'], ['class' => 'form-control']); ?>
             </div>
-        <?php else : ?>
+        <?php elseif($value['type'] == 'checkbox') : ?>
             <div class="checkbox form-controll row">
                 <label class="col-sm-3"><?= Yii::t('admin', $key); ?></label>
                 <div class="col-sm-9">
                     <?= Html::hiddenInput('Settings['.$key.']', 0) .
                             \oakcms\bootstrapswitch\Switcher::widget([
                             'name' => 'Settings['.$key.']',
-                            'checked' => $value
+                            'checked' => $value['value']
                         ]); ?>
                 </div>
             </div>
+        <? else: ?>
+
         <?php endif; ?>
     <?php endforeach; ?>
     <?php Html::endForm(); ?>
