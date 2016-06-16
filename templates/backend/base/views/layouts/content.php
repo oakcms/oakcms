@@ -51,7 +51,7 @@ $this->bodyClass = 'skin-blue sidebar-mini';
                         if(in_array(Yii::$app->controller->action->id, ['update', 'create', 'setting'])) {
                             echo Button::widget(
                                     [
-                                        'label' => Yii::t('backend', 'Back'),
+                                        'label' => Yii::t('admin', 'Back'),
                                         'options' => ['onclick' => 'window.history.back()'],
                                         'icon' => 'fa fa-angle-left',
                                         'iconPosition' => Button::ICON_POSITION_LEFT,

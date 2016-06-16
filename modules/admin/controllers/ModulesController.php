@@ -89,9 +89,9 @@ class ModulesController extends AdminController
         }
     }
 
-    public function actionSetting($id)
+    public function actionSetting($name)
     {
-        $model = $this->findModel($id);
+        $model = ModulesModules::find()->where(['name' => $name])->one();
 
         if (Yii::$app->request->post('Settings')) {
             $model->setSettings(Yii::$app->request->post('Settings'));
@@ -169,11 +169,15 @@ class ModulesController extends AdminController
 
     public function actionOn($id)
     {
+        Yii::$app->cache->flush();
+        $this->flash('success', Yii::t('admin', 'Module enabled'));
         return $this->changeStatus($id, ModulesModules::STATUS_PUBLISHED);
     }
 
     public function actionOff($id)
     {
+        Yii::$app->cache->flush();
+        $this->flash('success', Yii::t('admin', 'Module disabled'));
         return $this->changeStatus($id, ModulesModules::STATUS_DRAFT);
     }
 

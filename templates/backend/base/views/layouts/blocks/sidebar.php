@@ -57,13 +57,13 @@ $userIdentity = Yii::$app->user->identity;
         $menu = Yii::$app->getModule('admin')->menuSidebar;
 
         $menu[] = [
-            'label' => Yii::t('app', 'System'),
+            'label' => Yii::t('admin', 'System'),
             'icon' => '<i class="fa fa-cogs" aria-hidden="true"></i>',
             'items' => [
-                ['label' => Yii::t('app', 'Settings'), 'url' => ['/admin/settings/index'], 'icon' => '<i class="fa fa-cog"></i>'],
-                ['label' => Yii::t('app', 'Modules'), 'url' => ['/admin/modules/index'], 'icon' => '<i class="fa fa-puzzle-piece"></i>'],
-                ['label' => Yii::t('app', 'Cache'), 'url' => ['/admin/cache/index'], 'icon' => '<i class="fa fa-flash"></i>'],
-                ['label' => Yii::t('app', 'File Manager'), 'url' => ['/admin/file-manager/index'], 'icon' => '<i class="fa fa-folder-open"></i>'],
+                ['label' => Yii::t('admin', 'Settings'), 'url' => ['/admin/settings/index'], 'icon' => '<i class="fa fa-cog"></i>'],
+                ['label' => Yii::t('admin', 'Modules'), 'url' => ['/admin/modules/index'], 'icon' => '<i class="fa fa-puzzle-piece"></i>'],
+                ['label' => Yii::t('admin', 'Cache'), 'url' => ['/admin/cache/index'], 'icon' => '<i class="fa fa-flash"></i>'],
+                ['label' => Yii::t('admin', 'File Manager'), 'url' => ['/admin/file-manager/index'], 'icon' => '<i class="fa fa-folder-open"></i>'],
             ]
         ];
         echo app\modules\admin\widgets\Menu::widget([

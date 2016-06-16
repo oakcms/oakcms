@@ -17,6 +17,9 @@ class Editor extends CKEditor
     public function init()
     {
         parent::init();
-        $this->editorOptions = \mihaildev\elfinder\ElFinder::ckeditorOptions('/admin/file-manager-elfinder', ['preset' => 'full', 'skin' => 'office2013']);
+        $this->editorOptions = \mihaildev\elfinder\ElFinder::ckeditorOptions('/admin/file-manager-elfinder', [
+            'preset' => 'full',
+            //'skin' => 'office2013'
+        ]);
     }
 }

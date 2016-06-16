@@ -1,0 +1,16 @@
+@arMargins: 0, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 85, 90, 100, 120; // Margin
+
+.margin-bottom-generator(@index: 1) when (@index <= length(@arMargins)) {
+
+  @item: extract(@arMargins, @index);
+
+  // Конструируем класс на основе полученных данных
+  .mb-@{item} {
+    margin-bottom: unit(@item, px);
+  }
+
+  // Рекурсия
+  .margin-bottom-generator(@index + 1);
+}
+
+.margin-bottom-generator();

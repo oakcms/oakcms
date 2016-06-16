@@ -4,13 +4,13 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\admin\widgets\Button;
-use app\modules\admin\models\ModulesModules;
+use app\modules\language\models\LanguageTranslate;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\search\ModulesModulesSearch */
+/* @var $searchModel app\modules\language\models\search\LanguageTranslateSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('admin', 'Modules Modules');
+$this->title = Yii::t('language', 'Language Translates');
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['actions_buttons'] = [
@@ -28,7 +28,7 @@ $this->params['actions_buttons'] = [
         'type' => Button::TYPE_CIRCLE,
     ],
     [
-        'label' => Yii::t('app', 'Control'),
+        'label' => Yii::t('admin', 'Control'),
         'options' => [
         'class' => 'btn blue btn-outline btn-circle btn-sm',
         'data-hover' => "dropdown",
@@ -60,7 +60,7 @@ $this->params['actions_buttons'] = [
     ]
 ];
 ?>
-<div class="modules-modules-index">
+<div class="language-translate-index">
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
@@ -75,55 +75,12 @@ $this->params['actions_buttons'] = [
                     'options' => ['style' => 'width:36px']
                 ],
                 [
-                    'attribute' => 'module_id',
+                    'attribute' => 'id',
                     'options' => ['style' => 'width:100px']
                 ],
-                'name',
-                'title',
-                'class',
-                //'isFrontend',
-                //'controllerNamespace',
-                // 'viewPath',
-                // 'isAdmin',
-                // 'AdminControllerNamespace',
-                // 'AdminViewPath',
-                // 'icon',
-                // 'settings:ntext',
-                // 'order',
-                [
-                    'class' => \app\modules\admin\components\grid\EnumColumn::className(),
-                    'attribute' => 'status',
-                    'format' => 'raw',
-                    'options' => ['width' => '50px'],
-                    'value' => function ($model, $index, $widget) {
-                        return Html::checkbox('', $model->status == ModulesModules::STATUS_PUBLISHED, [
-                            'class' => 'switch toggle',
-                            'data-id' => $model->primaryKey,
-                            'data-link' => \yii\helpers\Url::to(['/admin/modules']),
-                            'data-reload' => '1'
-                        ]);
-                    },
-                    'enum' => [
-                        Yii::t('app', 'Off'),
-                        Yii::t('app', 'On')
-                    ]
-                ],
-                [
-                    'class' => 'app\modules\admin\components\grid\ActionColumn',
-                    'template'=>'<div class="btn-group">{setting} {update} {delete}</div>',
-                    'buttons' => [
-                        'setting' => function($url, $model) {
-                            $options = [
-                                'title' => \Yii::t('app', 'Settings'),
-                                'class'=>'btn blue-hoki btn-xs',
-                                //'style' => 'margin-right:0',
-                                'data-toggle' => 'tooltip',
-                                'data-pjax' => '0',
-                            ];
-                            return Html::a('<i class="fa fa-cog"></i>', ['setting', 'name' => $model->name], $options);
-                        }
-                    ]
-                ],
+                'language',
+                'translation:ntext',
+                ['class' => 'app\modules\admin\components\grid\ActionColumn'],
             ],
         ]); ?>
     </div>
@@ -131,14 +88,14 @@ $this->params['actions_buttons'] = [
 <script>
     function deleteA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/modules/delete-ids?id=' + keys.join();
+        window.location.href = '/admin/seo/delete-ids?id=' + keys.join();
     }
     function publishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/modules/published?id=' + keys.join();
+        window.location.href = '/admin/seo/published?id=' + keys.join();
     }
     function unpublishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/modules/unpublished?id=' + keys.join();
+        window.location.href = '/admin/seo/unpublished?id=' + keys.join();
     }
 </script>

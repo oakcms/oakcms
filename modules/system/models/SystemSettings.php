@@ -2,6 +2,7 @@
 
 namespace app\modules\system\models;
 
+use app\modules\language\models\Language;
 use Yii;
 use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;

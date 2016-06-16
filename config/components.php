@@ -38,16 +38,9 @@ return [
     ],
     'assetManager' => [
         'class' => 'yii\web\AssetManager',
-        'linkAssets' => true,
+        'linkAssets' => false,
         'appendTimestamp' => YII_ENV_DEV,
-        'bundles' => [
-            'zxbodya\yii2\tinymce\TinyMceAsset' => [
-                'js' => [
-                    '//cdn.tinymce.com/4/tinymce.min.js',
-                    '//cdn.tinymce.com/4/jquery.tinymce.min.js'
-                ],
-            ]
-        ],
+        'bundles' => require(__DIR__ . '/assets/' . (YII_ENV_PROD ? 'assets-prod.php' : 'assets-dev.php')),
         'converter' => [
             'class' => 'nizsheanez\assetConverter\Converter',
             'destinationDir' => 'css',

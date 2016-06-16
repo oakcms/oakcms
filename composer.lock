@@ -845,19 +845,44 @@
         },
         {
             "name": "bower-asset/jquery-slimscroll",
-            "version": "v1.3.7",
+            "version": "v1.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rochal/jQuery-slimScroll.git",
-                "reference": "00d27e3541d9cb4ada6f41b06cd67bef62d9d2b3"
+                "reference": "cf39d364e777ef95574c30c42d3b85cb2bf325d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rochal/jQuery-slimScroll/zipball/00d27e3541d9cb4ada6f41b06cd67bef62d9d2b3",
-                "reference": "00d27e3541d9cb4ada6f41b06cd67bef62d9d2b3",
+                "url": "https://api.github.com/repos/rochal/jQuery-slimScroll/zipball/cf39d364e777ef95574c30c42d3b85cb2bf325d3",
+                "reference": "cf39d364e777ef95574c30c42d3b85cb2bf325d3",
                 "shasum": ""
             },
-            "type": "bower-asset-library"
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "jquery.slimscroll.js",
+                    "jquery.slimscroll.min.js"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "tests"
+                ]
+            },
+            "description": "slimScroll is a small jQuery plugin that transforms any div into a scrollable area. slimScroll doesn't occupy any visual space as it only appears on a user initiated mouse-over.",
+            "keywords": [
+                "ecosystem:jquery",
+                "jquery-plugin",
+                "scroll",
+                "scrollable",
+                "scrollbar",
+                "scroller",
+                "scrolling",
+                "slimscroll",
+                "ui"
+            ]
         },
         {
             "name": "bower-asset/jquery-ui",
