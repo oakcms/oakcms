@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="preview-iframe" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="30px" height="30px" viewBox="0 0 30 30" enable-background="new 0 0 30 30" xml:space="preserve">
+<rect fill="#575655" width="30" height="30"/>
+<path fill="#FFFFFF" d="M7,9v13h16V9H7z M12,10h1v1h-1V10z M10,10h1v1h-1V10z M8,10h1v1H8V10z M22,21H8v-9h14V21z"/>
+<path fill="#FFFFFF" d="M18,16.501c0,0.114-0.055,0.215-0.146,0.27l-4.442,2.692c-0.042,0.025-0.089,0.037-0.134,0.037
+	c-0.05,0-0.097-0.012-0.141-0.039C13.053,19.404,13,19.305,13,19.193v-5.386c0-0.109,0.053-0.208,0.137-0.264
+	c0.083-0.055,0.188-0.059,0.273-0.006l4.443,2.696C17.945,16.288,18,16.392,18,16.501z"/>
+</svg>

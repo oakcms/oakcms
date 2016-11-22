@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-grid-stack" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<rect x="22" y="6" fill="#575656" width="13" height="2"/>
+<rect x="22" y="10" fill="#575656" width="16" height="2"/>
+<rect x="22" y="14" fill="#575656" width="13" height="2"/>
+<rect x="1" y="25" fill="#575656" width="13" height="2"/>
+<rect x="1" y="29" fill="#575656" width="16" height="2"/>
+<rect x="1" y="33" fill="#575656" width="13" height="2"/>
+<path fill="#575656" d="M1,3v16h18V3H1z M17,17H3V5h14V17z"/>
+<path fill="#575656" d="M21,23v14h18V23H21z M37,35H23V25h14V35z"/>
+</svg>

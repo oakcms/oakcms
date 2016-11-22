@@ -1,0 +1,32 @@
+.pistol88-gallery {
+    list-style-type:none; 
+    margin-left: -45px;
+}
+
+.pistol88-gallery-item{
+    list-style: none;
+    float: left;
+    overflow: hidden;
+    padding: 3px;
+    margin: 3px;
+    border: 2px solid #333;
+    position: relative;
+}
+
+.pistol88-gallery .main {
+    border: 2px solid red;
+}
+
+.pistol88-gallery-item a.delete {
+    position: absolute;
+    right: 1px;
+    top: 0px;
+    color: red;
+}
+
+.pistol88-gallery-item a.write {
+    position: absolute;
+    top: 0px;
+    color: green;
+    text-shadow: 1px 1px 4px black ;
+}

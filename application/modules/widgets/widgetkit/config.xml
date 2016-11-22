@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <fieldset
+            name="googlemaps"
+            label="Google Maps API Key"
+            description="Custom Google Maps API Key. Visit https://console.developers.google.com/apis to generate your API key.">
+
+        <field
+                name="googlemapseapikey"
+                label="Google Maps API Key"
+                description="Insert your Google Maps API Key"
+                type="text"
+                component="com_widgetkit" />
+
+    </fieldset>
+
+    <fieldset
+            name="editor"
+            label="Editor"
+            description="Enable the System Editor for Widgetkit content fields.">
+
+        <field
+                name="system_editor"
+                label="Use System Editor"
+                description="Currently tinyMCE based editors are supported"
+                type="checkbox"
+                component="com_widgetkit" />
+
+    </fieldset>
+
+    <fieldset
+            name="cache"
+            label="Cache"
+            description="Clear the Widgetkit Cache Folder"
+            addfieldpath="/administrator/components/com_widgetkit/models/fields">
+
+
+        <field
+                name="clear_cache"
+                label="Clear Cache"
+                type="Cache"
+                component="com_widgetkit" />
+
+    </fieldset>
+
+    <fieldset
+            name="permissions"
+            label="JCONFIG_PERMISSIONS_LABEL"
+            description="JCONFIG_PERMISSIONS_DESC"
+            >
+
+        <field
+                name="rules"
+                type="rules"
+                label="JCONFIG_PERMISSIONS_LABEL"
+                validate="rules"
+                filter="rules"
+                component="com_widgetkit"
+                section="component" />
+    </fieldset>
+</config>

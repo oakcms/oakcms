@@ -1,0 +1,7 @@
+{
+  "name": "yootheme-widgetkit",
+  "dependencies": {
+    "uikit": "master"
+  },
+  "private": true
+}

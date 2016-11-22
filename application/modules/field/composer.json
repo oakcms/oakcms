@@ -1,0 +1,41 @@
+{
+    "name": "pistol88/yii2-field",
+    "description": "yii2-field add fields to your model",
+    "keywords": ["yii2", "yii2", "application", "fields", "module", "pistol88"],
+    "homepage": "https://github.com/pistol88/yii2-field",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/pistol88/yii2-field"
+    },
+    "authors": [
+        {
+            "name": "Ilya Pistol",
+            "email": "pistol88@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-bootstrap": "*",
+        "2amigos/yii2-grid-view-library": "*",
+        "kartik-v/yii2-widget-select2": "*",
+        "kartik-v/yii2-grid": "*"
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "*",
+        "yiisoft/yii2-gii": "*"
+    },
+    "config": {
+        "process-timeout": 1800
+    },
+    "autoload": {
+        "psr-4": {
+            "app\modules\\field\\": ""
+        }
+    },
+    "extra": {
+        "bootstrap": "app\modules\\field\\Bootstrap"
+    }
+}

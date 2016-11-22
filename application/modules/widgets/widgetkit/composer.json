@@ -1,0 +1,30 @@
+{
+    "name": "yootheme/widgetkit",
+    "version": "2.0.5",
+    "title": "Widgetkit",
+    "description": "A widget toolkit by YOOtheme.",
+    "copyright": "Copyright (C) YOOtheme GmbH",
+    "license": "GNU General Public License v2 or later",
+    "authors": [
+        {
+            "name": "YOOtheme",
+            "email": "info@yootheme.com",
+            "homepage": "http://yootheme.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:yootheme/framework.git"
+        }
+    ],
+    "require": {
+        "yootheme/framework": "1.0.*",
+        "abeautifulsite/simpleimage": "2.5.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "YOOtheme\\Widgetkit\\": "src"
+        }
+    }
+}

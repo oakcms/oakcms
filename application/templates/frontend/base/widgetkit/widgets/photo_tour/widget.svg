@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-slideshow" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<circle fill="#575656" cx="14" cy="37" r="2"/>
+<circle fill="#575656" cx="20" cy="37" r="2"/>
+<circle fill="#575656" cx="26" cy="37" r="2"/>
+<path fill="#575656" d="M31.5,14c-1.93,0-3.5-1.57-3.5-3.5S29.57,7,31.5,7S35,8.57,35,10.5S33.43,14,31.5,14z M31.5,9
+	C30.673,9,30,9.673,30,10.5s0.673,1.5,1.5,1.5s1.5-0.673,1.5-1.5S32.327,9,31.5,9z"/>
+<path fill="#575656" d="M1,3v30h38V3H1z M3,5h34v22.74L25.29,16.029l-3.25,3.25l-6.86-6.859L3,24.6V5z M37,31H3v-3.57l12.18-12.18
+	l11.06,11.061l1.41-1.41l-4.2-4.211l1.84-1.83L37,30.57V31z"/>
+</svg>

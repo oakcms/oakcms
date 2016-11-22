@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-grid" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<path fill="#575656" d="M1,3v16h18V3H1z M17,17H3V5h14V17z"/>
+<path fill="#575656" d="M21,3v16h18V3H21z M37,17H23V5h14V17z"/>
+<path fill="#575656" d="M1,21v16h18V21H1z M17,35H3V23h14V35z"/>
+<path fill="#575656" d="M21,21v16h18V21H21z M37,35H23V23h14V35z"/>
+</svg>

@@ -1,0 +1,34 @@
+{
+    "name": "pistol88/yii2-cart",
+    "description": "yii2-cart it's a simple cart module to collect application models, that implement cart interface + widgets",
+    "keywords": ["yii2", "yii 2", "application", "cart", "shop", "module", "pistol88"],
+    "homepage": "https://github.com/pistol88/",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "support": {
+        "source": "https://github.com/pistol88/yii2-cart"
+    },
+    "authors": [
+        {
+            "name": "Ilya Pistol",
+            "email": "pistol88@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "*",
+        "yiisoft/yii2-bootstrap": "*"
+    },
+    "config": {
+        "process-timeout": 1800
+    },
+    "autoload": {
+        "psr-4": {
+            "app\modules\\cart\\": ""
+        }
+    },
+    "extra": {
+        "bootstrap": "app\modules\\cart\\Bootstrap"
+    }
+}

@@ -1,0 +1,266 @@
+@import "admin/uikit.less";
+
+/* ========================================================================
+   Admin
+ ========================================================================== */
+
+@icon-font-path: "../../vendor/yootheme/framework/assets/uikit/fonts";
+
+
+/* New Base
+ ========================================================================== */
+
+html { font-size: 13px; }
+
+a { cursor: pointer; }
+
+img {
+    max-width: 100%;
+    height: auto;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 0;
+    vertical-align: middle;
+}
+
+.uk-img-preserve,
+.uk-img-preserve img { max-width: none; }
+
+.uk-h1, .uk-h2, .uk-h3, .uk-h4, .uk-h5, .uk-h6 {
+    margin: 0 0 @global-margin 0;
+    color: @global-color;
+    font-weight: 300;
+}
+
+* + .uk-h1,
+* + .uk-h2,
+* + .uk-h3,
+* + .uk-h4,
+* + .uk-h5,
+* + .uk-h6 { margin-top: @global-margin-large; }
+
+.uk-h1 {
+    font-size: @base-h1-font-size;
+    line-height: @base-h1-line-height;
+}
+
+.uk-h2 {
+    font-size: @base-h2-font-size;
+    line-height: @base-h2-line-height;
+}
+
+.uk-h3 {
+    font-size: @base-h3-font-size;
+    line-height: @base-h3-line-height;
+}
+
+.uk-h4 {
+    font-size: @base-h4-font-size;
+    line-height: @base-h4-line-height;
+}
+
+.uk-h5 {
+    font-size: @base-h5-font-size;
+    line-height: @base-h5-line-height;
+}
+
+.uk-h6 {
+    font-size: @base-h6-font-size;
+    line-height: @base-h6-line-height;
+}
+
+* + p { margin-top: @global-margin; }
+
+
+/* `wk-modal`
+ ========================================================================== */
+
+.wk-modal-header-blank { background: transparent; }
+
+
+/* `wk-heading`
+ ========================================================================== */
+
+.wk-heading {
+    margin: 0 0 @global-margin 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid @global-border;
+    font-size: @base-h3-font-size;
+    line-height: @base-h3-line-height;
+    color: @global-color;
+    font-weight: 300;
+}
+
+* + .wk-heading { margin-top: @global-margin; }
+
+
+/* `wk-panel-marginless`
+ ========================================================================== */
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .wk-panel-marginless { margin-right: -@grid-gutter-horizontal; }
+
+}
+
+
+/* Utils
+ ========================================================================== */
+
+.wk-panel-small { padding: 10px; }
+
+.wk-margin-small-top { margin-top: 8px; }
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-xlarge) {
+
+    /* Halves */
+    .wk-width-xlarge-1-2 { width: 50%; }
+
+    /* Quarters */
+    .wk-width-xlarge-1-4 { width: 25%; }
+    .wk-width-xlarge-3-4 { width: 75%; }
+
+    /* Tenths */
+    .wk-grid-width-xlarge-1-8 > * { width: 12.5%; }
+
+}
+
+
+/* Forms
+ ========================================================================== */
+
+.wk-form-heading {
+    margin: 0 0 @global-margin 0;
+    padding-bottom: 5px;
+    border-bottom: 1px solid @global-border;
+    font-size: @base-h4-font-size;
+    line-height: @base-h4-line-height;
+    color: @global-color;
+    font-weight: 300;
+}
+
+* + .wk-form-heading { margin-top: @global-margin; }
+
+.wk-form-blank {
+    margin-top: -5px !important;
+    margin-bottom: -5px !important;
+    font-size: @base-h2-font-size !important;
+    line-height: @base-h2-line-height !important;
+    font-weight: 300 !important;
+}
+
+
+/* Modifier `wk-subnav-icon`
+========================================================================== */
+
+.wk-subnav-icon > li > a {
+    color: @global-contrast-color;
+    /* Needed if no `href` */
+    cursor: pointer;
+}
+
+.wk-subnav-icon > li > a:hover { color: @global-contrast-color; }
+
+/*
+ * Align subnavs if used in navs or nestables
+ */
+
+.wk-subnav-right {
+    margin: 10px 15px 0 0;
+    float: right;
+}
+
+/* Modifier `wk-subnav`
+========================================================================== */
+
+.wk-subnav {
+    margin-left: -20px;
+    margin-top: -20px;
+    margin-bottom: 0;
+    font: 300 16px/22px "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; 
+}
+
+.wk-subnav > * {
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+.wk-subnav > * > * { color: @global-muted-color; }
+.wk-subnav > * > *:hover,
+.wk-subnav > * > *:focus,
+.wk-subnav > .uk-active > * { color: @global-color; }
+
+.wk-subnav [class*='uk-icon-']:before {
+  font-size: 130%;
+  vertical-align: -15%;
+}
+
+/*
+ * Modifier `wk-subnav-divider`
+ */
+
+.wk-subnav-divider:before {
+    content: "";
+    display: inline-block;
+    height: 20px;
+    margin-right: 20px;
+    border-left: 1px solid #ddd;
+    vertical-align: middle;
+}
+
+
+/* Modifier `wk-preview-thumb`
+========================================================================== */
+
+.wk-preview-thumb {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+
+/* `wk-sortable`
+ ========================================================================== */
+
+.wk-sortable > * {
+    display: block;
+    padding: @nav-padding-vertical @nav-padding-horizontal;
+    background: @global-primary-background;
+    color: @global-contrast-color;
+}
+
+
+/* `wk-image`
+ ========================================================================== */
+
+.wk-image { height: 150px; }
+
+/* fix google maps controls */
+[id^="wk-location-"] img { max-width: none; }
+
+
+/* Table
+========================================================================== */
+
+.wk-table td:first-child { padding: 0 !important; }
+
+.wk-table td:first-child > a {
+    display: block;
+    padding: @table-padding-vertical @table-padding-horizontal;
+}
+
+/*
+ * Make cell as small as possible
+ */
+
+.wk-table-width-minimum { width: 1px; }
+
+
+/* Fixed map search results because of z-index
+========================================================================== */
+
+.pac-container { z-index: (@global-z-index + 11);}

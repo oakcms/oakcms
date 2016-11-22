@@ -1,0 +1,65 @@
+/*-------------------------------
+	POPUP.CSS
+-------------------------------*/
+
+.grom-popup {
+    position: fixed;
+    top: 0;
+    left: -10000px;
+    width: 100%;
+    height: 100%;
+    z-index: 1100;
+    overflow: auto;
+}
+.grom-popup_backdrop {
+    background-color: rgba(34, 34, 34, 0.7);
+}
+
+.grom-popup__content {
+    visibility: hidden;
+    position: relative;
+    margin: 100px auto;
+    min-height: 100px;
+    background: #ffffff;
+    padding: 0;
+    z-index: 1102;
+    max-width: 100%;
+}
+.grom-popup_visible {
+    left: 0;
+}
+.grom-popup__content_visible {
+    visibility: visible;
+}
+
+.grom-popup__close {
+    position: absolute;
+    cursor: pointer;
+    font-size: 50px;
+    line-height: 0;
+    right: -6px;
+    top: -35px;
+    color: #ffffff;
+}
+
+.grom-popup__close:hover {
+    opacity: .85;
+}
+
+.grom-popup-open {
+    overflow-y: hidden;
+}
+
+@media (max-width: 762px) {
+    .grom-popup {
+        padding: 0 10px;
+    }
+
+    .grom-popup__content {
+        margin-top: 80px;
+    }
+
+    /*.grom-popup__close {
+        top: -30px;
+    }*/
+}

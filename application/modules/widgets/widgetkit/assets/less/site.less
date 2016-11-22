@@ -1,0 +1,76 @@
+/*
+ * New Base
+ * Make component more robust against 3rd party CSS
+ ========================================================================== */
+
+/*
+ * Fix anchors
+ */
+
+a[class*='uk-'] {
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+a[class*='uk-']:hover { text-decoration: none !important; }
+
+/*
+ * Fix lists
+ * !important needed for Wordpress `Twenty X` in general
+ * `margin-left` reset needed for Bootstrap
+ * Note: Removed margin from `uk-list`
+ */
+
+.uk-list,
+.uk-nav,
+.uk-nav ul,
+.uk-subnav,
+.uk-tab,
+.uk-dotnav,
+.uk-switcher,
+.uk-slideshow {
+    margin-left: 0;
+    padding: 0 !important;
+    list-style: none !important;
+}
+
+/* No margins */
+.uk-list,
+.uk-nav,
+.uk-nav ul,
+.uk-tab,
+.uk-switcher,
+.uk-slideshow { margin-bottom: 0 !important; }
+
+/* Default margins */
+.uk-subnav,
+.uk-dotnav { margin-bottom: @global-margin !important; }
+
+* + .uk-subnav,
+* + .uk-dotnav { margin-top: @global-margin !important; }
+
+
+/*
+ * Make component more robust against 3rd party CSS
+ ========================================================================== */
+
+/*
+ * Fix border for `Twenty Fifteen`
+ */
+
+.uk-list > li > a,
+.uk-nav > li > a,
+.uk-nav ul > li > a,
+.uk-subnav > li > a,
+.uk-dotnav > li > a,
+.uk-overlay,
+.uk-icon-button,
+.uk-slidenav { border: none !important; }
+
+
+/* Load UIkit
+ ========================================================================== */
+
+@import "site/uikit.less";
+
+@icon-font-path: "../../vendor/assets/uikit/fonts";

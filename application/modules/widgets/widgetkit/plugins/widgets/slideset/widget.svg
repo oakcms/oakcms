@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-slidset" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<path fill="#575656" d="M1,5v24h12V5H1z M3,27V7h8v20H3z"/>
+<path fill="#575656" d="M14,5v24h12V5H14z M16,27V7h8v20H16z"/>
+<path fill="#575656" d="M27,5v24h12V5H27z M29,27V7h8v20H29z"/>
+<circle fill="#575656" cx="14" cy="36" r="2"/>
+<circle fill="#575656" cx="20" cy="36" r="2"/>
+<circle fill="#575656" cx="26" cy="36" r="2"/>
+</svg>

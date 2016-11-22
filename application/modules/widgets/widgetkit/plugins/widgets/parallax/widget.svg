@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-parallax" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<rect x="9" y="9" fill="#575656" width="4" height="2"/>
+<rect x="15" y="9" fill="#575656" width="4" height="2"/>
+<rect x="21" y="9" fill="#575656" width="4" height="2"/>
+<rect x="27" y="9" fill="#575656" width="4" height="2"/>
+<rect x="9" y="35" fill="#575656" width="4" height="2"/>
+<rect x="15" y="35" fill="#575656" width="4" height="2"/>
+<rect x="21" y="35" fill="#575656" width="4" height="2"/>
+<rect x="27" y="35" fill="#575656" width="4" height="2"/>
+<path fill="#575656" d="M1,3v34h6v-2H3v-4h34v4h-4v2h6V3H1z M37,9h-4v2h4v18H3V11h4V9H3V5h34V9z"/>
+<polygon fill="#575656" points="24,21 24,22 23,22 23,23 22,23 22,24 21,24 21,25 19,25 19,24 18,24 18,23 17,23 17,22 16,22 16,21 
+	19,21 19,15 21,15 21,21 "/>
+</svg>

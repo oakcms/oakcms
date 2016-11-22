@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="content-instagram" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="800px" height="600px" viewBox="0 0 800 600" enable-background="new 0 0 800 600" xml:space="preserve">
+<rect fill="#FF9A00" width="800" height="600"/>
+<rect display="none" fill="#E37102" width="800" height="600"/>
+<g>
+	<g>
+		<circle fill="#FFFFFF" cx="330.525" cy="369.472" r="24.525"/>
+		<path fill="#FFFFFF" d="M306.011,271.393v32.689c49.574,0,89.91,40.336,89.91,89.912h32.695
+			C428.616,326.391,373.601,271.393,306.011,271.393z"/>
+		<path fill="#FFFFFF" d="M306.011,206.003v32.694c85.63,0,155.292,69.664,155.292,155.3H494
+			C493.997,290.338,409.67,206.003,306.011,206.003z"/>
+	</g>
+</g>
+</svg>

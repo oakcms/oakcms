@@ -1,0 +1,21 @@
+.categories-tree li {
+    opacity: 0.9;
+    list-style: none;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
+}
+
+.categories-tree li:hover {
+    opacity: 1;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+}
+
+.categories-tree .btn {
+    margin: 2px;
+    padding: 3px;
+}
+
+.pistol88-tree-right-col {
+    text-align: right;
+}

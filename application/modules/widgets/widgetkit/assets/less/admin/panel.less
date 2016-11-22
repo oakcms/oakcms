@@ -1,0 +1,141 @@
+//
+// Component: Panel
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@panel-title-margin-bottom:                     @global-margin;
+@panel-title-font-size:                         round((@global-font-size * 0.85)); // 12px / 14px
+@panel-title-line-height:                       round((@panel-title-font-size *  1.46)); // 18px / 20px
+@panel-title-color:                             @global-color;
+@panel-title-text-transform:                    uppercase;
+
+@panel-box-padding:                             @global-margin;
+@panel-box-background:                          @global-background;
+@panel-box-color:                               @global-color;
+@panel-box-title-color:                         @global-color;
+@panel-box-teaser-margin:                       -(@panel-box-padding + 1);
+
+@panel-box-primary-background:                  @global-default-hover-background;
+@panel-box-primary-color:                       @global-color;
+@panel-box-primary-title-color:                 @global-color;
+
+@panel-box-secondary-background:                @global-default-background;
+
+@panel-hover-padding:                           @global-margin;
+@panel-hover-color:                             @global-color;
+@panel-hover-hover-color:                       @global-color;
+@panel-hover-hover-background:                  @global-background;
+@panel-hover-teaser-margin:                     -(@panel-hover-padding + 1);
+
+@panel-header-title-border:                     @global-border;
+@panel-header-title-color:                      @global-color;
+
+@panel-divider-gutter:                          20px;
+@panel-divider-gutter-large:                    20px;
+@panel-divider-border:                          @global-border;
+
+//
+// New
+//
+
+@panel-box-border:                              @global-border;
+
+@panel-hover-border:                            @global-border;
+
+
+// Sub-object: `uk-panel-title`
+// ========================================================================
+
+.hook-panel-title() {}
+
+
+// Sub-object: `uk-panel-badge`
+// ========================================================================
+
+.hook-panel-badge() {}
+
+
+// Modifier: `uk-panel-box`
+// ========================================================================
+
+.hook-panel-box() {
+    border: 1px solid @panel-box-border;
+    border-radius: @global-border-radius;
+}
+
+.hook-panel-box-hover() {
+    background: @global-primary-background;
+    color: #fff;
+    cursor: pointer;
+}
+
+.hook-panel-box-primary() {}
+
+.hook-panel-box-primary-hover() {}
+
+.hook-panel-box-secondary() {}
+
+.hook-panel-box-secondary-hover() {}
+
+
+// Modifier: `uk-panel-hover`
+// ========================================================================
+
+.hook-panel-hover() {
+    border: 1px solid transparent;
+    border-radius: @global-border-radius;
+}
+
+.hook-panel-hover-hover() { border-color: @panel-hover-border; }
+
+
+// Modifier: `uk-panel-header`
+// ========================================================================
+
+.hook-panel-header() {}
+
+
+// Miscellaneous
+// ========================================================================
+
+.hook-panel-misc() {
+
+    /*
+     * Modifier: `uk-panel-box`
+     */
+
+    .uk-active > .uk-panel-box-hover {
+        background: @global-primary-background;
+        color: #fff;
+    }
+
+    .uk-panel-box-hover:hover *,
+    .uk-active > .uk-panel-box-hover * { color: #fff; }
+
+    .uk-panel-box-hover:hover a,
+    .uk-active > .uk-panel-box-hover a { color: rgba(255,255,255,0.8); }
+    .uk-panel-box-hover:hover a:hover,
+    .uk-active > .uk-panel-box-hover a:hover { color: #fff; }
+
+    .uk-panel-box .uk-panel-teaser {
+        background-color: #fff;
+        border-top-left-radius: @global-border-radius;
+        border-top-right-radius: @global-border-radius;
+        border: 1px solid @panel-box-border;
+        border-bottom: none;
+    }
+
+    /*
+     * Modifier: `uk-panel-hover`
+     */
+
+    .uk-active .uk-panel-hover {
+        background: @global-default-hover-background;
+        border-color: @panel-hover-border;
+    }
+
+}

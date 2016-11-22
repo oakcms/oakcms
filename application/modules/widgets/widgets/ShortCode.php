@@ -1,0 +1,29 @@
+<?php
+
+namespace app\modules\widgets\widgets;
+
+/**
+ * Created by Vladimir Hryvinskyy.
+ * Site: http://codice.in.ua/
+ * Date: 08.09.2016
+ * Project: osnovasite
+ * File name: ShortCode.php
+ */
+class ShortCode extends \app\components\ShortCode
+{
+    public static function shortCode($event)
+    {
+        //$this->
+        if(isset($event->output)){
+            if (!$app = @include(__DIR__.'/../widgetkit/widgetkit.php')) {
+                return;
+            }
+
+            $event->output = $app['shortcode']->parse('widgetkit', $event->output, function($attrs) use ($app) {
+                $app->trigger('init.site', array($app));
+                return $app->renderWidget($attrs);
+            });
+        }
+        return true;
+    }
+}

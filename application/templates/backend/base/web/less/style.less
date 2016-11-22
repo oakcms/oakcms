@@ -1,0 +1,194 @@
+// Core variables and mixins
+@import "../../../vendor/bower/admin-lte/build/bootstrap-less/variables";
+@import "../../../vendor/bower/admin-lte/build/bootstrap-less/mixins";
+@import "../../../vendor/bower/admin-lte/build/less/variables";
+@import "../../../vendor/bower/admin-lte/build/less/mixins";
+// Components
+@import 'global/buttons';
+@import 'global/colors';
+@import 'global/fonts';
+@import 'global/margin';
+
+.w55 {
+  width: 55px;
+}
+
+.alert-success {
+  background-color: #b4eaee !important;
+  border-color: #b4eaee;
+  color: #28acb8 !important;
+  border-radius: 0;
+}
+
+.table-advance {
+  thead {
+    tr {
+      th {
+        background-color: #f1f4f7;
+        font-size: 14px;
+        font-weight: 400;
+        color: #3f444a;
+      }
+    }
+  }
+  .filters {
+    td {
+      .form-control {
+        .input-size(@input-height-small; @padding-small-vertical; @padding-small-horizontal; 13px; @line-height-small; @border-radius-small);
+      }
+    }
+  }
+}
+
+.grid-view {
+
+  .switcher {
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    color: #fff;
+    height: 22px;
+    min-width: 40px;
+    font-size: 11px;
+    border-radius: 15px !important;
+    padding: 1px;
+
+    .slider {
+      background: #fff;
+      height: 18px;
+      border-radius: 10px !important;
+      box-shadow: 0 1px 3px #999999;
+      margin: 0;
+    }
+
+    &.default.is-active {
+      background-color: #4cd964;
+    }
+
+    .textNo {
+      color: #fff;
+    }
+
+    .content {
+      min-height: inherit;
+      padding: 0;
+      margin-right: auto;
+      margin-left: auto;
+    }
+  }
+}
+
+.user-panel > .info > p {
+  white-space: normal;
+}
+
+.table-responsive {
+  //overflow-x: visible;
+}
+
+// Input Icon
+.input-icon {
+  position: relative;
+  left: 0;
+
+  > i {
+    color: #ccc;
+    position: absolute;
+    margin: 9px 2px 4px 10px;
+    z-index: 3;
+    width: 16px;
+    font-size: 16px;
+    text-align: center;
+    left: 0;
+  }
+
+  &.right {
+    left: auto;
+    right: 0;
+
+    > i {
+      left: auto;
+      right: 8px;
+      float: right;
+    }
+
+    > .form-control {
+      padding-right: 33px;
+      padding-left: 12px;
+    }
+  }
+}
+
+// End Input Icon
+
+// header
+.skin-green-light {
+
+  .main-header {
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…IgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+
+    background: -webkit-linear-gradient(-65deg, #008fe2 0, #00b29c 100%);
+    background: -moz-linear-gradient(-65deg, #008fe2 0, #00b29c 100%);
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%, #008fe2), color-stop(100%, #00b29c));
+    background: -o-linear-gradient(-65deg, #008fe2 0, #00b29c 100%);
+    background: -ms-linear-gradient(-65deg, #008fe2 0, #00b29c 100%);
+    background: linear-gradient(154deg, #008fe2 0, #00b29c 100%);
+
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#008fe2', endColorstr='#00b29c', GradientType=1);
+
+    .navbar {
+      background: transparent;
+    }
+
+    .logo {
+      background: rgba(255, 255, 255, .1);
+
+      &:hover {
+        background: rgba(255, 255, 255, .15);
+      }
+    }
+  }
+}
+
+// end header
+
+// Uniform
+div.checker {
+  margin-right: 0;
+}
+
+// End Uniform
+
+// Actions
+.actions {
+  li i {
+    margin-right: 8px;
+  }
+
+  .glyphicon-menu-hamburger {
+    cursor: pointer;
+    font-size: 15px;
+    color: #777;
+
+    &:hover {
+      color: #337ab7;
+    }
+  }
+}
+
+// End Actions
+
+.sidebar-menu {
+
+  .treeview-menu {
+
+    > li {
+
+      > a {
+
+        > [class*="icon-"] {
+          margin-right: 6px;
+        }
+      }
+    }
+  }
+}

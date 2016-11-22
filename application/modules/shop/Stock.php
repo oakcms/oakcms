@@ -1,0 +1,52 @@
+<?php
+/**
+ * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ */
+
+namespace app\modules\shop;
+
+use app\modules\shop\models\Stock as StockModel;
+use app\modules\shop\models\Outcoming;
+use yii\base\Component;
+use yii\db\Query;
+use yii;
+
+class Stock extends Component
+{
+    public function getAvailable($userId = null)
+    {
+        return StockModel::getAvailable($userId);
+    }
+
+    public function getStock($id)
+    {
+        return StockModel::findOne($id);
+    }
+
+	public function outcoming($stockId, $productId, $count, $orderId = null)
+	{
+        $return = false;
+
+		if($stock = $this->getStock($stockId)) {
+
+            $outcoming = new Outcoming;
+            $outcoming->user_id = yii::$app->user->id;
+            $outcoming->date = time();
+            $outcoming->count = $count;
+            $outcoming->stock_id = $stockId;
+            $outcoming->product_id = $productId;
+            $outcoming->order_id = $orderId;
+
+            if($outcoming->save()) {
+                $return = $stock->minusAmount($productId, $count);
+            }
+        }
+
+        return $return;
+	}
+
+    public function getOutcomingsByOrder($orderId, $productId)
+    {
+        return Outcoming::find()->where(['order_id' => $orderId, 'product_id' => $productId])->all();
+    }
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-accordion" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<path fill="#575656" d="M1,3v11h38V3H1z M37,12H3V5h34V12z"/>
+<path fill="#575656" d="M1,15v11h38V15H1z M37,24H3v-7h34V24z"/>
+<path fill="#575656" d="M1,27v11h38V27H1z M37,36H3v-7h34V36z"/>
+<polygon fill="#575656" points="10,8 10,9 8,9 8,11 7,11 7,9 5,9 5,8 7,8 7,6 8,6 8,8 "/>
+<polygon fill="#575656" points="10,20 10,21 8,21 8,23 7,23 7,21 5,21 5,20 7,20 7,18 8,18 8,20 "/>
+<polygon fill="#575656" points="10,32 10,33 8,33 8,35 7,35 7,33 5,33 5,32 7,32 7,30 8,30 8,32 "/>
+</svg>

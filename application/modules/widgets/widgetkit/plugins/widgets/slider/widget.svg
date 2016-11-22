@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-slider" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<path fill="#575656" d="M1,3.08v2h7v28H1v2h9v-32H1z"/>
+<path fill="#575656" d="M11,3v32h18V3H11z M13,33V5h14v28H13z"/>
+<path fill="#575656" d="M39,5V3h-9v32h9v-2h-7V5H39z"/>
+<polygon fill="#575656" points="39,19 39,20 38,20 38,21 37,21 37,22 35,22 35,21 36,21 36,20 37,20 37,19 36,19 36,18 35,18 35,17 
+	37,17 37,18 38,18 38,19 "/>
+<polygon fill="#575656" points="3,19 3,20 4,20 4,21 5,21 5,22 3,22 3,21 2,21 2,20 1,20 1,19 2,19 2,18 3,18 3,17 5,17 5,18 4,18 
+	4,19 "/>
+</svg>

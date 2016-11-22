@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="icon-slideshow-panel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+<rect x="8" y="25" fill="#575656" width="23" height="2"/>
+<rect x="8" y="29" fill="#575656" width="19" height="2"/>
+<path fill="#575656" d="M1,3v34h38V3H1z M37,5v14H3V5H37z M3,35V21h34v14H3z"/>
+<polygon fill="#575656" points="10,11 10,12 11,12 11,13 12,13 12,14 10,14 10,13 9,13 9,12 8,12 8,11 9,11 9,10 10,10 10,9 12,9
+	12,10 11,10 11,11 "/>
+<polygon fill="#575656" points="30,12 30,11 29,11 29,10 28,10 28,9 30,9 30,10 31,10 31,11 32,11 32,12 31,12 31,13 30,13 30,14
+	28,14 28,13 29,13 29,12 "/>
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="202px" height="62px" viewBox="0 0 202 62" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.1 (33804) - http://www.bohemiancoding.com/sketch -->
+    <title>logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="82.9765625%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#00C564" offset="0%"></stop>
+            <stop stop-color="#00C564" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="header" transform="translate(0.000000, -28.000000)">
+            <g id="logo">
+                <g transform="translate(0.000000, 28.000000)">
+                    <path d="M12.1428571,37 L5,37 L17.7241379,19 L12,19 L25.5,0 L39,19 L33.2758621,19 L46,37 L37.8571429,37 L50,54 L28,54 L28,62 L22,62 L22,54 L0,54 L12.1428571,37 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+                    <text id="Коцюбинский" font-family="Merriweather-Regular, Merriweather" font-size="20" font-weight="normal" fill="#171626">
+                        <tspan x="50" y="31">Коцюбинский</tspan>
+                    </text>
+                    <text id="ЖИЛОЙ-КОМПЛЕКС" font-family="OpenSans, Open Sans" font-size="8" font-weight="normal" letter-spacing="5.05999994" fill="#171626">
+                        <tspan x="59" y="45">ЖИЛОЙ КОМПЛЕК</tspan>
+                        <tspan x="196.666718" y="45">С</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
