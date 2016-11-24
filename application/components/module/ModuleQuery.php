@@ -7,7 +7,7 @@ namespace app\components\module;
 
 
 use Yii;
-use yii\base\Module;
+use app\components\module\Module;
 use yii\caching\Cache;
 
 /**

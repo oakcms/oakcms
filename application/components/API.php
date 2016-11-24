@@ -1,6 +1,7 @@
 <?php
 namespace app\components;
 
+use app\components\module\Module;
 use Yii;
 
 /**

@@ -12,14 +12,14 @@ namespace app\modules\admin\controllers;
 use app\modules\content\models\ContentArticlesMedias;
 use Imagine\Image\ManipulatorInterface;
 use Yii;
-use app\components\AdminController;
+use app\components\BackendController;
 use app\modules\admin\models\Medias;
 use yii\helpers\VarDumper;
 use yii\imagine\Image;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
-class MediaController extends AdminController
+class MediaController extends BackendController
 {
     public function actionDelete($id, $type)
     {

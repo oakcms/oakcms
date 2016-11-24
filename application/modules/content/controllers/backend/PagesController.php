@@ -5,14 +5,14 @@ namespace app\modules\content\controllers\backend;
 use Yii;
 use app\modules\content\models\ContentPages;
 use app\modules\content\models\search\ContentPagesSearch;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * PagesController implements the CRUD actions for ContentPages model.
  */
-class PagesController extends AdminController
+class PagesController extends BackendController
 {
     public function behaviors()
     {

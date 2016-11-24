@@ -26,12 +26,7 @@ $this->beginContent('@app/templates/frontend/base/views/layouts/content.php'); ?
 <?= Text::get('position_top_5'); ?>
 
 <?= $content ?>
-<?php
-$widgetkit = include Yii::getAlias('@app/modules/widgets/widgetkit/widgetkit.php');
-$widgetkit->trigger('init.site', array($widgetkit));
-$output = $widgetkit->renderWidget(['id' => 2]);
-echo $output;
-?>
+
 <?= Text::get('position_bottom_1'); ?>
 <?= Text::get('position_bottom_2'); ?>
 <?= Text::get('position_bottom_3'); ?>

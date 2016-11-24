@@ -17,8 +17,8 @@ $config = [
     'vendorPath' => $webRoot . '/vendor',
     'bootstrap' => [
         'log',
-        'app\modules\admin\Bootstrap',
         'app\modules\system\Bootstrap',
+        'app\modules\admin\Bootstrap',
         'app\modules\user\Bootstrap',
     ],
     'modules' => require(__DIR__ . '/modules.php'),

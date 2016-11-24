@@ -10,7 +10,7 @@ use app\modules\language\models\LanguageSource;
 use Yii;
 use app\modules\language\models\LanguageTranslate;
 use app\modules\language\models\search\LanguageTranslateSearch;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
@@ -19,7 +19,7 @@ use yii\filters\VerbFilter;
 /**
  * TranslateController implements the CRUD actions for LanguageTranslate model.
  */
-class TranslateController extends AdminController
+class TranslateController extends BackendController
 {
     public function behaviors()
     {

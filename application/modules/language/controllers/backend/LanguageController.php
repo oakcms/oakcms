@@ -6,14 +6,14 @@ use app\modules\admin\components\behaviors\StatusController;
 use Yii;
 use app\modules\language\models\Language;
 use yii\data\ActiveDataProvider;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * LanguageController implements the CRUD actions for Language model.
  */
-class LanguageController extends AdminController
+class LanguageController extends BackendController
 {
     public function behaviors()
     {

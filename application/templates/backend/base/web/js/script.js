@@ -2,6 +2,8 @@
  * Created by Володимир on 06.04.2016.
  */
 
+
+
 $(document).ready(function () {
     $("input:checkbox:not(.switch, .make-switch), input:radio:not(.switch, .make-switch)").uniform();
 

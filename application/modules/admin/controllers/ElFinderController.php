@@ -10,10 +10,10 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\components\AdminController;
+use app\components\BackendController;
 use zxbodya\yii2\elfinder\ConnectorAction;
 
-class ElFinderController extends AdminController
+class ElFinderController extends BackendController
 {
     public function beforeAction($action)
     {

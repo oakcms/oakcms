@@ -14,7 +14,7 @@ use Yii;
 use yii\helpers\Url;
 use yii\web\Controller;
 
-class AdminController extends CoreController
+class BackendController extends CoreController
 {
 
     public $error = null;
@@ -46,6 +46,17 @@ class AdminController extends CoreController
     public function flash($type, $message)
     {
         Yii::$app->getSession()->setFlash($type == 'error' ? 'danger' : $type, $message);
+    }
+
+    public function goBack($defaultUrl = null)
+    {
+        $backUrl = Yii::$app->getUser()->getReturnUrl($defaultUrl);
+
+        if($backUrl == Url::to(['/admin/user/lock-screen'])) {
+            return Yii::$app->getResponse()->redirect($defaultUrl);
+        } else {
+            return Yii::$app->getResponse()->redirect($backUrl);
+        }
     }
 
     public function back()

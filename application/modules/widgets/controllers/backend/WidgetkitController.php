@@ -10,10 +10,10 @@
 namespace app\modules\widgets\controllers\backend;
 
 
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\filters\VerbFilter;
 
-class WidgetkitController extends AdminController
+class WidgetkitController extends BackendController
 {
     public function beforeAction($action)
     {
@@ -25,7 +25,7 @@ class WidgetkitController extends AdminController
     }
 
     public function actionIndex() {
-        $app = require __DIR__.'/../../widgetkit/widgetkit.php';
+        $app = require __DIR__.'/../../widgetkit/widgetkit_yii2.php';
         $app->handle();
     }
 }

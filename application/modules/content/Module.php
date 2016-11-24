@@ -79,6 +79,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     /** @var array The rules to be used in Frontend Url management. */
     public static $urlRulesFrontend = [
         'content/<slug:[\w\-]+>'                        => 'content/category/view',
+        'content/<slug:[\w\-]+>'                        => 'content/category/view',
         'content/<catslug:[\w\-]+>/<slug:[\w\-]+>'      => 'content/article/view',
         'page/<slug:[\w\-]+>'                           => 'content/page/view',
     ];

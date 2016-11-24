@@ -14,6 +14,8 @@ use yii\base\Application;
 use yii\base\BootstrapInterface;
 use app\modules\admin\models\ModulesModules;
 use app\components\FrontendView;
+use yii\helpers\Url;
+use yii\helpers\VarDumper;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -44,11 +46,22 @@ class Bootstrap implements BootstrapInterface
                 if(class_exists($module->class)) {
                     if($module->isAdmin) {
 
-                        $modules_backend[$name]['class'] = $module->class;
-                        $modules_backend[$name]['controllerNamespace'] = 'app\modules\\'.$module->name.'\controllers\backend';
-                        $modules_backend[$name]['viewPath'] = '@app/modules/'.$module->name.'/views/backend';
-
                         $class = new \ReflectionClass($module->class);
+
+                        $modules_backend[$name]['class'] = $module->class;
+
+                        if($class->hasProperty('controllerNamespace') && $class->getStaticPropertyValue('controllerNamespace', '') != '') {
+                            $modules_backend[$name]['controllerNamespace'] = $class->getStaticPropertyValue('controllerNamespace');
+                        } else {
+                            $modules_backend[$name]['controllerNamespace'] = 'app\modules\\'.$module->name.'\controllers\backend';
+                        }
+
+                        if($class->hasProperty('viewPath') && $class->getStaticPropertyValue('viewPath', '') != '') {
+                            $modules_backend[$name]['viewPath'] = $class->getStaticPropertyValue('viewPath');
+                        } else {
+                            $modules_backend[$name]['viewPath'] = '@app/modules/'.$module->name.'/views/backend';
+                        }
+
                         if($class->hasProperty('urlRulesBackend')) {
                             foreach ($class->getStaticPropertyValue('urlRulesBackend') as $k => $item) {
                                 $this->backendUrlRules[$k] = $item;
@@ -101,28 +114,30 @@ class Bootstrap implements BootstrapInterface
 
             $configUrlRule['class'] = 'yii\web\GroupUrlRule';
             $rule = Yii::createObject($configUrlRule);
-            $app->urlManager->addRules([$rule], false);
+            $app->getUrlManager()->addRules([$rule], false);
 
 
             if(isset($this->backendUrlRules)) {
-                $app->urlManager->addRules($this->backendUrlRules, false);
+                $app->getUrlManager()->addRules($this->backendUrlRules, false);
             }
 
             if(isset($this->frontendUrlRules)) {
-                $app->urlManager->addRules($this->frontendUrlRules, false);
+                $app->getUrlManager()->addRules($this->frontendUrlRules, false);
             }
 
-            $rHostInfo = Yii::$app->request->hostInfo.DIRECTORY_SEPARATOR;
+            $rHostInfo = Url::home(true);
+
             if (
                 !Yii::$app->user->isGuest &&
+                strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') === false &&
+                strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'gii') === false &&
+                strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'debug') === false &&
                 !Yii::$app->request->isAjax &&
-                strpos(Yii::$app->request->pathInfo, $rHostInfo.'admin') === false &&
-                strpos(Yii::$app->request->pathInfo, $rHostInfo.'gii') === false &&
-                strpos(Yii::$app->request->pathInfo, $rHostInfo.'debug') === false
+                Yii::$app->getView()->adminPanel
             ) {
                 $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
                     Yii::$app->getView()->bodyClass[] = 'oak-admin-bar';
-                    $app->getView()->on(FrontendView::EVENT_BEGIN_BODY, [$this, 'renderToolbar']);
+                    $app->getView()->on(\yii\web\View::EVENT_BEGIN_BODY, [$this, 'renderToolbar']);
                 });
             }
         }

@@ -19,7 +19,7 @@ class ModulesModulesSearch extends ModulesModules
     {
         return [
             [['module_id', 'isFrontend', 'isAdmin', 'order', 'status'], 'integer'],
-            [['name', 'class', 'controllerNamespace', 'viewPath', 'AdminControllerNamespace', 'AdminViewPath', 'title', 'icon', 'settings'], 'safe'],
+            [['name', 'class', 'controllerNamespace', 'viewPath', 'BackendControllerNamespace', 'AdminViewPath', 'title', 'icon', 'settings'], 'safe'],
         ];
     }
 

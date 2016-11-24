@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1
+ */
 
 namespace YOOtheme\Framework\Yii;
 
@@ -206,20 +212,14 @@ class YiiPlugin extends ApplicationAware implements PluginInterface
             if ($source = $style->getSource()) {
                 $id = sprintf('%s-css', $style->getName());
 
-                if($this['admin']) {
+                /*if($this['admin']) {
                     $view->registerCssFile(htmlentities($this['url']->to($source, array(), true)), [], $id);
                 } else {
-
-                    if($this['config']->get('disable_frontend_style')) {
-                        if($id != 'wk-styles-css') {
-                            $view->registerCssFile(htmlentities($this['url']->to($source, array(), true)), [], $id);
-                        }
-                    } else {
+                    if(!$this['config']->get('disable_frontend_style') && $id != 'wk-styles-css') {
                         $view->registerCssFile(htmlentities($this['url']->to($source, array(), true)), [], $id);
                     }
-
-                }
-
+                }*/
+                $view->registerCssFile(htmlentities($this['url']->to($source, array(), true)), [], $id);
             } elseif ($content = $style->getContent()) {
                 $view->registerCss($content);
             }

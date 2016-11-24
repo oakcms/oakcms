@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\modules\admin\widgets\Button;
 use app\modules\admin\models\ModulesModules;
+use yii\jui\JuiAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\ModulesModulesSearch */
@@ -30,14 +31,14 @@ $this->params['actions_buttons'] = [
     [
         'label' => Yii::t('app', 'Control'),
         'options' => [
-        'class' => 'btn blue btn-outline btn-circle btn-sm',
-        'data-hover' => "dropdown",
-        'data-close-others' => "true",
-    ],
-    'dropdown' => [
-        'options' => ['class' => 'pull-right'],
-        'encodeLabels' => false,
-        'items' => [
+            'class' => 'btn blue btn-outline btn-circle btn-sm',
+            'data-hover' => "dropdown",
+            'data-close-others' => "true",
+        ],
+        'dropdown' => [
+            'options' => ['class' => 'pull-right'],
+            'encodeLabels' => false,
+            'items' => [
                 [
                     'label' => '<span class="font-red"><i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete') . '</span>',
                     'url' => 'javascript:void(0)',
@@ -85,7 +86,7 @@ $this->params['actions_buttons'] = [
                 //'controllerNamespace',
                 // 'viewPath',
                 // 'isAdmin',
-                // 'AdminControllerNamespace',
+                // 'BackendControllerNamespace',
                 // 'AdminViewPath',
                 // 'icon',
                 // 'settings:ntext',

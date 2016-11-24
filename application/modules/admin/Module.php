@@ -2,6 +2,7 @@
 
 namespace app\modules\admin;
 
+use yii\helpers\Url;
 use Yii;
 use yii\filters\AccessControl;
 use app\modules\admin\rbac\Rbac;
@@ -9,7 +10,7 @@ use app\modules\admin\rbac\Rbac;
 /**
  * admin module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \app\components\module\Module
 {
 
     public $activeModules;
@@ -21,6 +22,11 @@ class Module extends \yii\base\Module
      * @inheritdoc
      */
     public $controllerNamespace = 'app\modules\admin\controllers';
+
+    /**
+     * @inheritdoc
+     */
+    public $viewPath = '@app/modules/admin/views/backend';
 
     /**
      * @var string The prefix for user module URL.
@@ -69,53 +75,6 @@ class Module extends \yii\base\Module
         if (!parent::beforeAction($action)) {
             return false;
         }
-        \Yii::$app->set('view', [
-            'class' => 'app\components\BackendView',
-            'title' => 'Admin Template',
-            'theme' => [
-                'basePath' => '@app/templates/backend/base',
-                'baseUrl' => '@web/templates/backend/base/web',
-                'pathMap' => [
-                    '@app/views' => '@app/templates/backend/base/views',
-                    '@app/modules' => '@app/templates/backend/base/views/modules',
-                    '@app/widgets' => '@app/templates/backend/base/views/widgets'
-                ],
-            ]
-        ]);
-
-        $assetManager = [
-            'class' => 'yii\web\AssetManager',
-            'linkAssets' => false,
-            'appendTimestamp' => YII_ENV_DEV,
-            'forceCopy' => false,
-            'converter' => [
-                'class' => 'nizsheanez\assetConverter\Converter',
-                'destinationDir' => 'css',
-                'parsers' => [
-                    'sass' => [
-                        'class' => 'nizsheanez\assetConverter\Sass',
-                        'output' => 'css',
-                        'options' => [
-                            'cachePath' => '@app/runtime/cache/sass-parser'
-                        ],
-                    ],
-                    'scss' => [
-                        'class' => 'nizsheanez\assetConverter\Scss',
-                        'output' => 'css',
-                        'options' => [],
-                    ],
-                    'less' => [
-                        'class' => 'nizsheanez\assetConverter\Less',
-                        'output' => 'css',
-                        'options' => [
-                            'auto' => true,
-                        ]
-                    ]
-                ]
-            ],
-        ];
-
-        \Yii::$app->set('assetManager', $assetManager);
         return true;
     }
 
@@ -133,6 +92,17 @@ class Module extends \yii\base\Module
 
         if (Yii::$app instanceof \yii\web\Application) {
             if (!defined('LIVE_EDIT')) define('LIVE_EDIT', !Yii::$app->user->isGuest && Yii::$app->session->get('oak_live_edit'));
+        }
+
+        $rHostInfo = Url::home(true);
+        if (!Yii::$app->user->isGuest && strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
+            \Yii::$app->view->theme->basePath = '@app/templates/backend/base';
+            \Yii::$app->view->theme->baseUrl = '@web/templates/backend/base/web';
+            \Yii::$app->view->theme->pathMap = [
+                '@app/views' => '@app/templates/backend/base/views',
+                '@app/modules' => '@app/templates/backend/base/views/modules',
+                '@app/widgets' => '@app/templates/backend/base/views/widgets'
+            ];
         }
     }
 

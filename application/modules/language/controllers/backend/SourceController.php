@@ -8,14 +8,14 @@ namespace app\modules\language\controllers\backend;
 use Yii;
 use app\modules\language\models\LanguageSource;
 use app\modules\language\models\search\LanguageSourceSearch;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * SourceController implements the CRUD actions for LanguageSource model.
  */
-class SourceController extends AdminController
+class SourceController extends BackendController
 {
     public function behaviors()
     {

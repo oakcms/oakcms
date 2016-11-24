@@ -61,7 +61,10 @@ class ProductController extends Controller
 
     public function actionCreate()
     {
+        $lang = $this->getDefaultLanguage();
         $model = $this->module->getService('product');
+        $model->language = $lang->language_id;
+
         $priceModel = $this->module->getService('price');
 
         $priceTypes = PriceType::find()->orderBy('sort DESC')->all();

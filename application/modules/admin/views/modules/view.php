@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'controllerNamespace',
             'viewPath',
             'isAdmin',
-            'AdminControllerNamespace',
+            'BackendControllerNamespace',
             'AdminViewPath',
             'title',
             'icon',

@@ -2,7 +2,7 @@
 
 namespace app\modules\seo\controllers\backend;
 
-use app\components\AdminController;
+use app\components\BackendController;
 use app\modules\admin\components\behaviors\StatusController;
 use app\modules\seo\models\search\SeoItemsSearch;
 use app\modules\seo\models\SeoItems;
@@ -13,7 +13,7 @@ use yii\web\NotFoundHttpException;
 /**
  * DefaultController implements the CRUD actions for SeoItems model.
  */
-class DefaultController extends AdminController
+class DefaultController extends BackendController
 {
     public function behaviors()
     {

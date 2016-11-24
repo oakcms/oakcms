@@ -1,3 +1,10 @@
+/*
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1
+ */
+
 !function (t, n) {
     angular.module("widgetkit").run(["$rootScope", "$rootElement", "$timeout", "$filter", function (e, o, a, i) {
         function s() {
@@ -6,21 +13,42 @@
 
         n.parent.document.updateUploader = n.parent.document.updateUploader || function () {};
         var c = t("body.com_widgetkit"),
-            l = c.find(".header .container-title").append('<h1 class="page-title"><span class="icon-widgetkit"></span>Widgetkit: <span></span></h1>').find(".page-title span").eq(1), r = c.find(".subhead .btn-toolbar"), p = '<div class="btn-wrapper" id="toolbar-create"><button class="btn btn-small btn-success"></span>' + i("trans")("New") + "</button></div>", d = '<div class="btn-wrapper" id="toolbar-apply"><button class="btn btn-small btn-success"><span class="icon-apply icon-white"></span> ' + i("trans")("Save") + '</button></div>                           <div class="btn-wrapper" id="toolbar-save"><button class="btn btn-small"><span class="icon-save"></span> ' + i("trans")("Save & Close") + '</button></div>                           <div class="btn-wrapper" id="toolbar-cancel"><button class="btn btn-small"><span class="icon-cancel"></span> ' + i("trans")("Close") + "</button></div>", u = '<div class="btn-wrapper" id="toolbar-options"><button class="btn btn-small"><span class="icon-options"></span> ' + i("trans")("Options") + "</button></div>";
+            l = c.find(".content-wrapper .content .box .box-title")
+                .html('Widgetkit:')
+                .find(".page-title span").eq(1),
+
+            r = c.find(".content .box .actions"),
+            p = '<span id="toolbar-create">' +
+                '<button class="btn btn-circle btn-sm btn-success"></span>' + i("trans")("New") + "</button> " +
+                "</span>",
+
+            d = ' <span id="toolbar-apply">' +
+                '<button class="btn btn-circle btn-success btn-sm"><span class="fa fa-check"></span> ' + i("trans")("Save") + '</button>' +
+                '</span>' +
+                ' <span id="toolbar-save">' +
+                '<button class="btn btn-circle btn-success btn-sm"><span class="fa fa-floppy-o"></span> ' + i("trans")("Save & Close") + '</button>' +
+                '</span>' +
+                ' <span id="toolbar-cancel">' +
+                '<button class="btn btn-circle btn-default btn-sm"><span class="fa fa-ban"></span> ' + i("trans")("Close") + "</button>" +
+                "</span>",
+
+            u = ' <span id="toolbar-options"><button class="btn btn-circle btn-default btn-sm"><span class="fa fa-cogs"></span></button></span>';
+
         r.on("click", "#toolbar-create button", function () {
             o.scope().vm.createContent()
         }).on("click", "#toolbar-apply", function () {
             o.scope().vm.saveContent()
         }).on("click", "#toolbar-save", function () {
             var t = o.scope();
-            t.vm.d().$promise.then(function () {
+            console.log(t.vm);
+            t.vm.saveContent().$promise.then(function () {
                 t.vm.setView("content")
             })
         }).on("click", "#toolbar-cancel", function () {
             var t = o.scope();
             t.vm.setView("content"), t.$apply()
         }).on("click", "#toolbar-options", function () {
-            location.href = "index.php?option=com_config&view=component&component=com_widgetkit"
+            location.href = "/admin/modules/setting?name=widgets"
         }), c.on("keyup", '[ng-model="content.name"]', s), e.$on("wk.change.view", function (t, n) {
             a(function () {
                 l.text(o.find("h2.js-header").text()), r.empty().html("content" == n ? p : "contentEdit" == n ? d : "").append(u), s()
@@ -49,12 +77,5 @@
                 o.val(JSON.stringify(t)), a.update()
             })
         }), a.update()
-    }), t(function () {
-        if (n.MooTools) {
-            var e = Element.prototype.hide;
-            Element.prototype.hide = function () {
-                return t(this).is('[class*="uk-"]') ? this : e.apply(this, [])
-            }
-        }
-    })
+    });
 }(jQuery, window);

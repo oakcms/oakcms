@@ -14,9 +14,9 @@
 namespace app\modules\admin\controllers;
 
 use Yii;
-use app\components\AdminController;
+use app\components\BackendController;
 
-class CacheController extends AdminController
+class CacheController extends BackendController
 {
 
     public function actionIndex() {

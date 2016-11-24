@@ -2,10 +2,14 @@
 
 namespace app\modules\widgets;
 
+use app\components\module\ModuleEventsInterface;
+use app\modules\admin\widgets\events\MenuItemsEvent;
+use app\modules\admin\widgets\Menu;
+
 /**
  * widgets module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \yii\base\Module implements ModuleEventsInterface
 {
     public $widgetkit;
 
@@ -20,11 +24,25 @@ class Module extends \yii\base\Module
         ]
     ];
 
-    public static function adminMenu() {
-        return [
+    /**
+     * @param $event MenuItemsEvent
+     */
+    public function addAdminMenuItem($event)
+    {
+        $event->items['widgets'] = [
             'label' => \Yii::t('widgets', 'Widgets'),
             'icon' => '<i class="fa fa-th"></i>',
-            'url' => ['/admin/widgets'],
+            'url' => ['/admin/widgets']
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function events()
+    {
+        return [
+            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem'
         ];
     }
 

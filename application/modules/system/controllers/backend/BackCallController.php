@@ -5,14 +5,14 @@ namespace app\modules\system\controllers\backend;
 use Yii;
 use app\modules\system\models\SystemBackCall;
 use yii\data\ActiveDataProvider;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * BackCallController implements the CRUD actions for SystemBackCall model.
  */
-class BackCallController extends AdminController
+class BackCallController extends BackendController
 {
     public function behaviors()
     {

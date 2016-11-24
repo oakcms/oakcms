@@ -14,11 +14,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="shop-menu">
         <?=$this->render('../parts/menu');?>
     </div>
-
     <?= $this->render('_form', [
         'model' => $model,
         'priceTypes' => $priceTypes,
         'priceModel' => $priceModel,
+        'lang' => $lang,
     ]) ?>
 
 </div>

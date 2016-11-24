@@ -6,7 +6,7 @@ use app\modules\admin\components\behaviors\StatusController;
 use Yii;
 use app\modules\content\models\ContentArticles;
 use app\modules\content\models\search\ContentArticlesSearch;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -14,7 +14,7 @@ use yii\filters\VerbFilter;
 /**
  * DefaultController implements the CRUD actions for ContentArticles model.
  */
-class ArticleController extends AdminController
+class ArticleController extends BackendController
 {
     public function behaviors()
     {

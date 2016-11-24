@@ -2,6 +2,10 @@
 /**
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
+/* @var $this yii\web\View */
+/* @var $model app\modules\content\models\ContentArticles */
+/* @var $form ActiveForm */
+/* @var $lang Language */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -11,9 +15,88 @@ use app\modules\shop\models\Category;
 use app\modules\shop\models\Producer;
 use app\modules\gallery\widgets\Gallery;
 use kartik\select2\Select2;
-use app\modules\seo\widgets\SeoForm;
+use app\modules\admin\widgets\Button;
+use app\modules\language\models\Language;
 
+$asset = \app\templates\backend\base\assets\BaseAsset::register($this);
 \app\modules\shop\assets\BackendAsset::register($this);
+
+// Language
+if($model->isNewRecord) {
+    $langueBtn = [
+        'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.Yii::t('backend', 'Language'),
+        'options' => [
+            'form' => 'portfolio-id',
+            'type' => 'submit',
+        ],
+        'encodeLabel' => false,
+        'icon' => false,
+        'size' => Button::SIZE_SMALL,
+        'disabled' => false,
+        'block' => false,
+        'type' => Button::TYPE_CIRCLE,
+        'color' => 'btn-default'
+    ];
+} else {
+    $allLang = Language::getLanguages();
+    $langueBtnItems = [];
+    foreach($allLang as $item) {
+        if($lang->language_id != $item->language_id) {
+            $langueBtnItems[] = [
+                'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$item->url.'.png" alt="'.$item->url.'"/> '.$item->name,
+                'url' => ['update', 'id' => $model->id, 'language' => $item->url]
+            ];
+        }
+    }
+
+
+    $langueBtn = [
+        'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.$lang->name,
+        'options' => [
+            'class' => 'btn blue btn-outline btn-circle btn-sm',
+            'data-hover'=>"dropdown",
+            'data-close-others'=>"true",
+        ],
+        'encodeLabel' => false,
+        'dropdown' => [
+            'encodeLabels' => false,
+            'options' => ['class' => 'pull-right'],
+            'items' => $langueBtnItems,
+        ],
+    ];
+}
+
+$this->params['actions_buttons'] = [
+    $langueBtn,
+    [
+        'label' => $model->isNewRecord ? Yii::t('admin', 'Create') : Yii::t('admin', 'Update'),
+        'options' => [
+            'form' => 'content-articles-id',
+            'type' => 'submit'
+        ],
+        'icon' => 'fa fa-save',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size' => Button::SIZE_SMALL,
+        'disabled' => false,
+        'block' => false,
+        'type' => Button::TYPE_CIRCLE,
+        'color' => 'btn-success'
+    ],
+    [
+        'label' => Yii::t('admin', 'Save & Continue Edit'),
+        'options' => [
+            'onclick' => 'sendFormReload("#content-articles-id")',
+        ],
+        'icon' => 'fa fa-check-circle',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size' => Button::SIZE_SMALL,
+        'disabled' => false,
+        'block' => false,
+        'type' => Button::TYPE_CIRCLE,
+        'color' => 'btn-success'
+    ]
+]
+
 ?>
 
 <div class="product-form">

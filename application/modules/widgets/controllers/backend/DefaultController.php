@@ -15,7 +15,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $app = require __DIR__.'/../../widgetkit/widgetkit.php';
+        $app = require __DIR__.'/../../widgetkit/widgetkit_yii2.php';
         return $this->render('content', ['app' => $app]);
     }
 }

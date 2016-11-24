@@ -2,7 +2,7 @@
 
 namespace app\modules\user\controllers\backend;
 
-use app\components\AdminController;
+use app\components\BackendController;
 use app\modules\user\forms\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -10,7 +10,7 @@ use yii\filters\VerbFilter;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 
-class UserController extends AdminController
+class UserController extends BackendController
 {
     /**
      * @var \app\modules\user\Module

@@ -8,14 +8,14 @@ use Yii;
 use app\modules\admin\models\ModulesModules;
 use app\modules\admin\models\search\ModulesModulesSearch;
 use app\modules\admin\components\behaviors\StatusController;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * ModulesController implements the CRUD actions for ModulesModules model.
  */
-class ModulesController extends AdminController
+class ModulesController extends BackendController
 {
     public function actions()
     {

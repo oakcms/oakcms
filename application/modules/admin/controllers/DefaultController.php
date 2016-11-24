@@ -6,12 +6,12 @@ use Yii;
 use app\modules\user\models\LoginForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use app\components\AdminController;
+use app\components\BackendController;
 
 /**
  * Default controller for the `admin` module
  */
-class DefaultController extends AdminController
+class DefaultController extends BackendController
 {
     public function actionIndex()
     {

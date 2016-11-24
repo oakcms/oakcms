@@ -9,14 +9,14 @@ use himiklab\sortablegrid\SortableGridAction;
 use Yii;
 use app\modules\text\models\Text;
 use app\modules\text\models\search\TextSearch;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * DefaultController implements the CRUD actions for Text model.
  */
-class DefaultController extends AdminController
+class DefaultController extends BackendController
 {
     public function actions()
     {

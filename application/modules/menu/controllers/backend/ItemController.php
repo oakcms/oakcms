@@ -10,7 +10,7 @@
 namespace app\modules\menu\controllers\backend;
 
 
-use app\components\AdminController;
+use app\components\BackendController;
 use app\modules\system\models\DbState;
 use app\modules\menu\models\MenuItem;
 use app\modules\menu\models\MenuItemSearch;
@@ -30,7 +30,7 @@ use yii\web\Response;
  * @author Gayazov Roman <gromver5@gmail.com>
  */
 
-class ItemController extends AdminController
+class ItemController extends BackendController
 {
     public function behaviors()
     {

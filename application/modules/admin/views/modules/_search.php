@@ -29,7 +29,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'isAdmin') ?>
 
-    <?php // echo $form->field($model, 'AdminControllerNamespace') ?>
+    <?php // echo $form->field($model, 'BackendControllerNamespace') ?>
 
     <?php // echo $form->field($model, 'AdminViewPath') ?>
 

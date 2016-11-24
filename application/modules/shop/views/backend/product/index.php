@@ -3,14 +3,13 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
+use app\modules\shop\models\Category;
+use app\modules\shop\models\Price;
+use app\modules\shop\models\Producer;
+use app\modules\shop\models\ProductOption;
+use kartik\export\ExportMenu;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Url;
-use app\modules\shop\models\ProductOption;
-use app\modules\shop\models\Category;
-use app\modules\shop\models\Producer;
-use app\modules\shop\models\Price;
-use kartik\export\ExportMenu;
 
 $this->title = 'Товары';
 $this->params['breadcrumbs'][] = $this->title;
@@ -46,12 +45,16 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?php /* if($amount = $dataProvider->query->sum('amount')) { ?>
-        <div class="summary">
-            Всего остатков:
-            <?=$amount;?>
+    <?php if ($amount = $dataProvider->query->sum('amount')) { ?>
+    <div class="summary">
+            Всего остатков: Всего товаров:
+            <?= $amount; ?>
         </div>
-    <?php } */ ?>
+        на сумму
+        <?= Price::find()->joinWith('product')->sum("shop_price.price*shop_product.amount"); ?>
+        руб.
+    </div>
+    <?php } ?>
 
     <br style="clear: both;"></div>
     <?php
@@ -63,6 +66,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['attribute' => 'id', 'filter' => false, 'options' => ['style' => 'width: 55px;']],
             'name',
             'code',
+            [
+                'label' => 'Остаток',
+                'content' => function ($model) {
+                    return "<p>{$model->amount} (" . ($model->amount * $model->price) . ")</p>";
+                }
+            ],
             [
                 'attribute' => 'images',
                 'format' => 'images',
@@ -109,7 +118,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'producer.name'
             ],
 
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}',  'buttonOptions' => ['class' => 'btn btn-default'], 'options' => ['style' => 'width: 125px;']],
+            [
+                'class' => 'app\modules\admin\components\grid\ActionColumn',
+                'translatable' => true
+            ],
         ],
     ]); ?>
 

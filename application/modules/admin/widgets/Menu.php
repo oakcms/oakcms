@@ -70,11 +70,13 @@ class Menu extends \yii\widgets\Menu
             /** @var Cache $cache */
             $this->cache = Instance::ensure($this->cache, Cache::className());
             $cacheKey = [__CLASS__, $this->items];
+
             if (($this->items = $this->cache->get($cacheKey)) === false) {
 
                 $this->items = ModuleEvent::trigger(self::EVENT_FETCH_ITEMS, new MenuItemsEvent([
                     'items' => $this->items
                 ]), 'items');
+
                 $this->cache->set($cacheKey, $this->items, $this->cacheDuration, $this->cacheDependency);
             }
         } else {

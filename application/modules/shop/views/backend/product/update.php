@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = 'Обновить';
         <div class="tab-pane active" id="product-product">
             <?= $this->render('_form', [
                 'model' => $model,
+                'lang' => $lang,
             ]) ?>
         </div>
 

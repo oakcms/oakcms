@@ -11,7 +11,8 @@
 namespace app\components;
 
 
-class BackendView extends \yii\web\View
+class BackendView extends CoreView
 {
     public $bodyClass = "";
+    public $adminPanel = false;
 }

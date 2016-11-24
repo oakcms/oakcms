@@ -4,13 +4,13 @@ namespace app\modules\admin\controllers;
 
 use Yii;
 use app\modules\system\models\SystemSettings;
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\helpers\VarDumper;
 
 /**
  * SettingsController implements the CRUD actions for SystemSettings model.
  */
-class SettingsController extends AdminController
+class SettingsController extends BackendController
 {
     public function behaviors()
     {
