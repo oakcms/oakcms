@@ -8,6 +8,9 @@ Oak is a free, open-source CMS platform based on the Yii2 PHP Framework.
 [![Latest Unstable Version](https://poser.pugx.org/oakcms/oakcms/v/unstable)](https://packagist.org/packages/oakcms/oakcms)
 [![License](https://poser.pugx.org/oakcms/oakcms/license)](https://packagist.org/packages/oakcms/oakcms)
 
+Installation
+------------
+Import dump "oakcms.sql" for your db end configure .env config file
 
 REQUIREMENTS
 ------------
