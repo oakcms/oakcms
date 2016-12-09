@@ -13,15 +13,17 @@ use app\components\BackendController;
  */
 class DefaultController extends BackendController
 {
+
     public function actionIndex()
     {
         return $this->render('index');
     }
 
-    public function actionFlushcache()
+    public function actionError()
     {
-        Yii::$app->cache->flush();
-        $this->flash('success', Yii::t('easyii', 'Cache flushed'));
-        return $this->back();
+        $exception = \Yii::$app->errorHandler->exception;
+        if ($exception !== null) {
+            return $this->render('error', ['exception' => $exception]);
+        }
     }
 }

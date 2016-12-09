@@ -29,10 +29,10 @@ use yii\widgets\ActiveForm;
                 <?php } ?>
             </div>
         <?php } else { ?>
-            <p>Значения задаются в <?=Html::a('фильтрах', ['/filter/filter/index'], ['target' => '_blank']);?>. В настоящий момент к категории продукта не привязано ни одного фильтра.</p>
+            <p>Значения задаются в <?=Html::a('фильтрах', ['/admin/filter/filter/index'], ['target' => '_blank']);?>. В настоящий момент к категории продукта не привязано ни одного фильтра.</p>
         <?php } ?>
     </fieldset>
-        
+
     <fieldset>
         <legend>2. Задайте параметры модификации</legend>
         <?= $form->field($model, 'product_id')->textInput(['type' => 'hidden'])->label(false) ?>
@@ -60,7 +60,7 @@ use yii\widgets\ActiveForm;
             </div>
         </div>
     </fieldset>
-    
+
     <div class="form-group" style="text-align: right;">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Редактировать', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

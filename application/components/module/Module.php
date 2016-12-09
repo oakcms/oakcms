@@ -21,11 +21,6 @@ use app\modules\admin\models\ModulesModules;
 class Module extends \yii\base\Module
 {
 
-    /**
-     * @var string the root directory that contains view files for this module
-     */
-    public $viewPath;
-
     /** @var array  */
     public $settings = [];
 

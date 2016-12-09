@@ -5,6 +5,8 @@ namespace app\modules\content;
 use app\components\module\ModuleEventsInterface;
 use app\modules\admin\widgets\events\MenuItemsEvent;
 use app\modules\admin\widgets\Menu;
+use app\modules\menu\widgets\events\MenuItemRoutesEvent;
+use app\modules\menu\widgets\MenuItemRoutes;
 use Yii;
 
 /**
@@ -72,9 +74,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     ];
 
     /** @var array The rules to be used in Backend Url management. */
-    public static $urlRulesBackend = [
-        //'content/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:[\w\-]+>' => 'content/<_c>/<_a>',
-    ];
+    public static $urlRulesBackend = [];
 
     /** @var array The rules to be used in Frontend Url management. */
     public static $urlRulesFrontend = [
@@ -113,12 +113,31 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     }
 
     /**
+     * @param $event MenuItemRoutesEvent
+     */
+    public function addMenuItemRoutes($event)
+    {
+        $event->items[] = [
+            'label' => Yii::t('content', 'Content'),
+            'items' => [
+                [
+                    'label' => Yii::t('content', 'Page View'),
+                    'url' => [
+                        '/admin/content/pages/select'
+                    ]
+                ]
+            ]
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function events()
     {
         return [
-            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem'
+            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem',
+            MenuItemRoutes::EVENT_FETCH_ITEMS => 'addMenuItemRoutes',
         ];
     }
 

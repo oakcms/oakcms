@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "87729146a5f7b1fbc8c5724826947526",
-    "content-hash": "c92795f6424063f691f6bc5be0f492bb",
+    "hash": "ed51d8a78c2583a5cfa14ef138a916a7",
+    "content-hash": "ec451cc0e174dfd67c271f7da6a02e3e",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -342,16 +342,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.3",
+            "version": "v5.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "4cc92842069c2bbc1f28daaaf1d2576ec4dfe153"
+                "reference": "545ce9136690cea74f98f86fbb9c92dd9ab1a756"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/4cc92842069c2bbc1f28daaaf1d2576ec4dfe153",
-                "reference": "4cc92842069c2bbc1f28daaaf1d2576ec4dfe153",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/545ce9136690cea74f98f86fbb9c92dd9ab1a756",
+                "reference": "545ce9136690cea74f98f86fbb9c92dd9ab1a756",
                 "shasum": ""
             },
             "require": {
@@ -391,7 +391,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2016-07-08 11:51:25"
+            "time": "2016-11-24 01:01:23"
         },
         {
             "name": "yiisoft/yii2",
@@ -944,17 +944,66 @@
             "time": "2014-08-22 09:10:21"
         },
         {
-            "name": "bower-asset/ace-builds",
-            "version": "v1.2.5",
+            "name": "abeautifulsite/simpleimage",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ajaxorg/ace-builds.git",
-                "reference": "21f7fa46ece12f8c425a5563784b3bf3fe84117d"
+                "url": "https://github.com/claviska/SimpleImage.git",
+                "reference": "a8fb6f68d12f32e3394a2784c3a8c500bc24cdec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ajaxorg/ace-builds/zipball/21f7fa46ece12f8c425a5563784b3bf3fe84117d",
-                "reference": "21f7fa46ece12f8c425a5563784b3bf3fe84117d",
+                "url": "https://api.github.com/repos/claviska/SimpleImage/zipball/a8fb6f68d12f32e3394a2784c3a8c500bc24cdec",
+                "reference": "a8fb6f68d12f32e3394a2784c3a8c500bc24cdec",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "abeautifulsite": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nazar Mokrynskyi",
+                    "email": "nazar@mokrynskyi.com",
+                    "homepage": "http://cleverstyle.org/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Cory LaViska",
+                    "homepage": "http://www.abeautifulsite.net/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP class that simplifies working with images",
+            "time": "2015-10-22 19:13:41"
+        },
+        {
+            "name": "bower-asset/ace-builds",
+            "version": "v1.2.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ajaxorg/ace-builds.git",
+                "reference": "2268d21c5893320330c9daf10b70b1973ca45eba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ajaxorg/ace-builds/zipball/2268d21c5893320330c9daf10b70b1973ca45eba",
+                "reference": "2268d21c5893320330c9daf10b70b1973ca45eba",
                 "shasum": ""
             },
             "type": "bower-asset-library",
@@ -1404,16 +1453,16 @@
         },
         {
             "name": "bower-asset/moment",
-            "version": "2.16.0",
+            "version": "2.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/moment/moment.git",
-                "reference": "73f3c91174406b24fe66f19600958a6f43f2acd8"
+                "reference": "b8a297c1f99b3918f44dd9e3d7bd59379a876ba6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/moment/moment/zipball/73f3c91174406b24fe66f19600958a6f43f2acd8",
-                "reference": "73f3c91174406b24fe66f19600958a6f43f2acd8",
+                "url": "https://api.github.com/repos/moment/moment/zipball/b8a297c1f99b3918f44dd9e3d7bd59379a876ba6",
+                "reference": "b8a297c1f99b3918f44dd9e3d7bd59379a876ba6",
                 "shasum": ""
             },
             "type": "bower-asset-library",
@@ -2287,12 +2336,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "ff39cb3340510b5634f27108727f82c6ce9fb242"
+                "reference": "02adeb436aef45b946d7c65bb874f634f5db2ff7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/ff39cb3340510b5634f27108727f82c6ce9fb242",
-                "reference": "ff39cb3340510b5634f27108727f82c6ce9fb242",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/02adeb436aef45b946d7c65bb874f634f5db2ff7",
+                "reference": "02adeb436aef45b946d7c65bb874f634f5db2ff7",
                 "shasum": ""
             },
             "require": {
@@ -2329,7 +2378,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2016-11-05 15:33:03"
+            "time": "2016-11-25 18:54:15"
         },
         {
             "name": "kartik-v/yii2-krajee-base",
@@ -4148,20 +4197,20 @@
         },
         {
             "name": "pigochu/yii2-jquery-locationpicker",
-            "version": "0.2.0",
+            "version": "0.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pigochu/yii2-jquery-locationpicker.git",
-                "reference": "2cec76584f4f967855b2bcd86a817be5f56eb9e0"
+                "reference": "d5c00122b6e8b8dee41a11f73d27be1c6796080d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pigochu/yii2-jquery-locationpicker/zipball/2cec76584f4f967855b2bcd86a817be5f56eb9e0",
-                "reference": "2cec76584f4f967855b2bcd86a817be5f56eb9e0",
+                "url": "https://api.github.com/repos/pigochu/yii2-jquery-locationpicker/zipball/d5c00122b6e8b8dee41a11f73d27be1c6796080d",
+                "reference": "d5c00122b6e8b8dee41a11f73d27be1c6796080d",
                 "shasum": ""
             },
             "require": {
-                "bower-asset/jquery-locationpicker-plugin": ">=0.1.12"
+                "bower-asset/jquery-locationpicker-plugin": ">=0.1.15"
             },
             "type": "yii2-extension",
             "autoload": {
@@ -4186,7 +4235,7 @@
                 "locationpicker",
                 "yii2"
             ],
-            "time": "2015-12-28 11:37:16"
+            "time": "2016-12-03 02:08:37"
         },
         {
             "name": "richthegeek/phpsass",
@@ -4385,16 +4434,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.16",
+            "version": "2.1.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "2b0d0db00079a652bcfb8ee4ad82720c5f6c33dc"
+                "reference": "4f8b5564d9dfaaa4b3693a5d09b20129c147a791"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/2b0d0db00079a652bcfb8ee4ad82720c5f6c33dc",
-                "reference": "2b0d0db00079a652bcfb8ee4ad82720c5f6c33dc",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/4f8b5564d9dfaaa4b3693a5d09b20129c147a791",
+                "reference": "4f8b5564d9dfaaa4b3693a5d09b20129c147a791",
                 "shasum": ""
             },
             "require": {
@@ -4439,20 +4488,20 @@
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2016-10-11 04:44:07"
+            "time": "2016-11-21 12:44:59"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.1.6",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "28b0832b2553ffb80cabef6a7a812ff1e670c0bc"
+                "reference": "e8f47a327c2f0fd5aa04fa60af2b693006ed7283"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/28b0832b2553ffb80cabef6a7a812ff1e670c0bc",
-                "reference": "28b0832b2553ffb80cabef6a7a812ff1e670c0bc",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/e8f47a327c2f0fd5aa04fa60af2b693006ed7283",
+                "reference": "e8f47a327c2f0fd5aa04fa60af2b693006ed7283",
                 "shasum": ""
             },
             "require": {
@@ -4472,7 +4521,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -4499,20 +4548,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-10-13 06:28:43"
+            "time": "2016-10-13 06:29:04"
         },
         {
             "name": "trntv/yii2-aceeditor",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/trntv/yii2-aceeditor.git",
-                "reference": "5649f63a5fcac680d3507e0aba3865f55c999e42"
+                "reference": "9adcbffa9aeadab5d77096b9681b9a89557eedfe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/trntv/yii2-aceeditor/zipball/5649f63a5fcac680d3507e0aba3865f55c999e42",
-                "reference": "5649f63a5fcac680d3507e0aba3865f55c999e42",
+                "url": "https://api.github.com/repos/trntv/yii2-aceeditor/zipball/9adcbffa9aeadab5d77096b9681b9a89557eedfe",
+                "reference": "9adcbffa9aeadab5d77096b9681b9a89557eedfe",
                 "shasum": ""
             },
             "require": {
@@ -4522,7 +4571,7 @@
             "type": "yii2-extension",
             "autoload": {
                 "psr-4": {
-                    "trntv\\aceeditor\\": ""
+                    "trntv\\aceeditor\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4541,7 +4590,7 @@
                 "code editor",
                 "yii"
             ],
-            "time": "2016-09-26 11:03:32"
+            "time": "2016-11-22 19:35:26"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4774,21 +4823,21 @@
         },
         {
             "name": "yiisoft/yii2-debug",
-            "version": "2.0.6",
+            "version": "2.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "55ed2e853ed8050a34415f63a4da84f88a56f895"
+                "reference": "a74a2433ad1dfda30a253a92f6db52c131807432"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/55ed2e853ed8050a34415f63a4da84f88a56f895",
-                "reference": "55ed2e853ed8050a34415f63a4da84f88a56f895",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/a74a2433ad1dfda30a253a92f6db52c131807432",
+                "reference": "a74a2433ad1dfda30a253a92f6db52c131807432",
                 "shasum": ""
             },
             "require": {
-                "yiisoft/yii2": ">=2.0.4",
-                "yiisoft/yii2-bootstrap": "*"
+                "yiisoft/yii2": "~2.0.4",
+                "yiisoft/yii2-bootstrap": "~2.0.0"
             },
             "type": "yii2-extension",
             "extra": {
@@ -4817,7 +4866,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2016-03-17 03:50:19"
+            "time": "2016-11-24 09:42:29"
         },
         {
             "name": "yiisoft/yii2-faker",

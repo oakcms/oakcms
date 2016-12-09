@@ -12,8 +12,7 @@ $this->title = 'Добавить модификацию';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'productModel' => $productModel,
-        'module' => $module,
+        'productModel' => $productModel
     ]) ?>
 
 </div>

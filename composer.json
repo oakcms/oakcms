@@ -40,6 +40,8 @@
         "oakcms/yii2-datetimepicker": "*",
         "oakcms/yii2-carousel": "dev-master",
 
+        "abeautifulsite/simpleimage": "*",
+
         "dragonjet/yii2-opengraph": "dev-master",
 
         "2amigos/yii2-translateable-behavior" : "*",

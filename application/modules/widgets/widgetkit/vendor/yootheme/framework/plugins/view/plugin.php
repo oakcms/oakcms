@@ -26,7 +26,7 @@ return array(
             );
 
             $view = new View($app['view.loader']);
-            $view->set('app', $app);
+            $view->set('admin', $app);
             $view->set('view', $view);
             $view->addHelpers($helpers);
 

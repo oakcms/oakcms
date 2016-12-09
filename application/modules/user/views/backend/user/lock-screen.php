@@ -9,7 +9,7 @@
 use app\modules\admin\widgets\ActiveForm;
 use app\modules\admin\widgets\Html;
 
-$this->bodyClass = 'hold-transition login-page';
+$this->bodyClass = ['hold-transition login-page'];
 
 $file = file_get_contents("http://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=10&mkt=en-US");
 $images = simplexml_load_string($file);
@@ -35,6 +35,10 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
         background-color:#000;
     }
 
+    .skin-blue .wrapper {
+        background-color: transparent;
+    }
+
     .user-login {
         min-height: 100vh;
     }
@@ -45,12 +49,6 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
         background-repeat: no-repeat;
         min-height: 100vh;
     }
-
-    /*.login-logo {
-        position: absolute;
-        top: 0.5em;
-        left: 0.5em;
-    }*/
 
     .login-box-body,
     .register-box-body {
@@ -119,13 +117,13 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                     <!-- lockscreen image -->
                     <div class="lockscreen-image">
                         <?if($user->userProfile->avatar != ''):?>
-                            <img class="img-circle" src="<?= $user->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('app', 'Avatar image for {username}', ['username' => $user->username]) ?>">
+                            <img class="img-circle" src="<?= $user->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('admin', 'Avatar image for {username}', ['username' => $user->username]) ?>">
                         <?else:?>
                             <?= \cebe\gravatar\Gravatar::widget([
                                 'email' => $user->email,
                                 'size' => 160,
                                 'options' => [
-                                    'alt' => Yii::t('app', 'Avatar image for {username}', ['username' => $user->username]),
+                                    'alt' => Yii::t('admin', 'Avatar image for {username}', ['username' => $user->username]),
                                     'class' => 'img-circle'
                                 ]
                             ]); ?>

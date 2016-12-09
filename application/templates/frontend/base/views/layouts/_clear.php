@@ -15,6 +15,9 @@ use yii\helpers\Url;
 
 $bundle = \app\templates\frontend\base\assets\BaseAsset::register($this);
 
+$this->bodyClass[] = 'mod_'.Yii::$app->controller->module->id;
+$this->bodyClass[] = Yii::$app->controller->id.'_'.Yii::$app->controller->action->id;
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

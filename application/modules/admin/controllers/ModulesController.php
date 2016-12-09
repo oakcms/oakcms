@@ -140,9 +140,9 @@ class ModulesController extends BackendController
         if(($model = $this->findModel($id))){
             $model->settings = '';
             $model->save();
-            $this->flash('success', Yii::t('app', 'Module default settings was restored'));
+            $this->flash('success', Yii::t('admin', 'Module default settings was restored'));
         } else {
-            $this->flash('error', Yii::t('app', 'Not found'));
+            $this->flash('error', Yii::t('admin', 'Not found'));
         }
         return $this->back();
     }

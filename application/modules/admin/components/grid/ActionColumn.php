@@ -38,7 +38,7 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title' => \Yii::t('app', 'Edit'),
+                    'title' => \Yii::t('admin', 'Edit'),
                     'class' => 'btn btn-xs green',
                     'style' => 'margin-right:0',
                     'data-toggle' => 'tooltip',
@@ -50,7 +50,7 @@ class ActionColumn extends \yii\grid\ActionColumn
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url, $model, $key) {
                 $options = array_merge([
-                    'title' => \Yii::t('app', 'Delete'),
+                    'title' => \Yii::t('admin', 'Delete'),
                     'class'=>'btn red btn-xs',
                     'data-toggle' => 'tooltip',
                     'data-confirm' => \Yii::t('yii', 'Are you sure you want to delete this item?'),

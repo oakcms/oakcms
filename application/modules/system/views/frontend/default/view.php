@@ -262,7 +262,7 @@ $this->bodyClass[] = 'catalog-'.$model->id;
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
-                <h4 class="modal-title" id="ModalFeedBackLabel"><?= Yii::t('app', 'Đăng kí'); // ĐĂNG KÝ ĐẶT MUA ?></h4>
+                <h4 class="modal-title" id="ModalFeedBackLabel"><?= Yii::t('admin', 'Đăng kí'); // ĐĂNG KÝ ĐẶT MUA ?></h4>
             </div>
             <div class="modal-body">
                 <?php

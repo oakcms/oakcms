@@ -11,7 +11,7 @@ $config = require __DIR__.'/config.php';
 
 $app = new YOOtheme\Widgetkit\Application($config);
 $app['autoloader'] = $loader;
-//$app['path'] = Yii::getAlias('@webroot');
+
 $app['templates'] = function() {
     return file_exists($dir = Yii::getAlias('@app').'/templates/frontend/' . Yii::$app->keyStorage->get('themeFrontend').'/widgetkit') ? array($dir) : array();
 };

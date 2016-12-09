@@ -145,6 +145,6 @@ class Bootstrap implements BootstrapInterface
     public function renderToolbar()
     {
         $view = Yii::$app->getView();
-        echo $view->render('@app/modules/admin/views/layouts/blocks/admin_bar.php');
+        echo $view->render('@app/templates/backend/base/modules/admin/views/layouts/blocks/admin_bar.php');
     }
 }

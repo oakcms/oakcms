@@ -3,7 +3,7 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
-namespace app\modules\shop\controllers;
+namespace app\modules\shop\controllers\backend;
 
 use Yii;
 use yii\helpers\Url;
@@ -44,7 +44,7 @@ class ModificationController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             yii::$app->session->setFlash('modification-success-added', 'Модификация успешно добавлена', false);
-            return '<script>parent.document.location = "'.Url::to(['/shop/product/update', 'id' => $model->product_id]).'";</script>';
+            return '<script>parent.document.location = "'.Url::to(['/admin/shop/product/update', 'id' => $model->product_id]).'";</script>';
         }
 
         $model->product_id = (int)$productId;
@@ -59,7 +59,6 @@ class ModificationController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'module' => $module,
             'productModel' => $productModel
         ]);
     }

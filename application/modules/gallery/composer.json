@@ -1,17 +1,17 @@
 {
-    "name": "pistol88/yii2-gallery",
+    "name": "oak/yii2-gallery",
     "description": "Модуль позволяет загружать виджетом картинки",
-    "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "pistol88"],
-    "homepage": "https://github.com/pistol88/yii2-gallery",
+    "keywords": ["yii2", "yii2", "application", "images", "yii2-images", "oak"],
+    "homepage": "https://github.com/oak/yii2-gallery",
     "type": "yii2-extension",
     "license": "BSD-3-Clause",
     "support": {
-        "source": "https://github.com/pistol88/yii2-gallery"
+        "source": "https://github.com/oak/yii2-gallery"
     },
     "authors": [
         {
             "name": "Ilya Pistol",
-            "email": "pistol88@gmail.com"
+            "email": "oak@gmail.com"
         }
     ],
     "minimum-stability": "dev",
@@ -20,7 +20,7 @@
         "yiisoft/yii2": "*",
         "yiisoft/yii2-bootstrap": "*",
         "kartik-v/yii2-widget-fileinput": "*",
-        "abeautifulsite/simpleimage": "*"
+
     },
     "config": {
         "process-timeout": 1800

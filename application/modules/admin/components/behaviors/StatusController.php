@@ -17,7 +17,7 @@ class StatusController extends \yii\base\Behavior
             $model->update();
         }
         else{
-            $this->error = Yii::t('app', 'Not found');
+            $this->error = Yii::t('admin', 'Not found');
         }
 
         return $this->owner->formatResponse();

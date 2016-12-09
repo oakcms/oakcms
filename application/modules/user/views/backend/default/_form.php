@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'role')->dropDownList(ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'description')) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('user', 'BUTTON_CREATE') : Yii::t('user', 'BUTTON_SAVE'), [
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('user', 'Create') : Yii::t('user', 'Save'), [
             'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
             'name' => 'submit-button',
         ]) ?>

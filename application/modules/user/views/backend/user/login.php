@@ -15,10 +15,10 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \app\modules\user\models\LoginForm */
 
-$this->title = 'Login';
+$this->title = Yii::t('user', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->bodyClass = 'hold-transition login-page';
+$this->bodyClass[] = 'hold-transition login-page';
 
 $file = file_get_contents("http://www.bing.com/HPImageArchive.aspx?format=xml&idx=0&n=10&mkt=en-US");
 $images = simplexml_load_string($file);
@@ -121,19 +121,19 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                             <img src="<?= $bundle->baseUrl ?>/images/logo.svg" width="100" height="100">
                             <b>Oak</b>CMS
                         </div>
-                        <p class="login-box-msg"><?= Yii::t('app', '') ?></p>
+                        <p class="login-box-msg"><?= Yii::t('admin', '') ?></p>
 
                         <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
                         <?= $form->field($model, 'username', [
                             'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n{hint}\n{error}</div>",
                             'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
-                        ])->textInput(['placeholder'=>Yii::t('app', 'Username')])->label(false) ?>
+                        ])->textInput(['placeholder'=>Yii::t('admin', 'Username')])->label(false) ?>
 
                         <?= $form->field($model, 'password', [
                             'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n{hint}\n{error}</div>",
                             'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
-                        ])->passwordInput(['placeholder'=>Yii::t('app', 'Password')])->label(false) ?>
+                        ])->passwordInput(['placeholder'=>Yii::t('admin', 'Password')])->label(false) ?>
 
                         <div class="row">
                             <div class="col-xs-8">

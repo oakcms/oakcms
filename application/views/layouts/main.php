@@ -43,7 +43,7 @@ AppAsset::register($this);
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (
                 [
-                    'label' => Yii::t('app', 'Logout'),
+                    'label' => Yii::t('admin', 'Logout'),
                     'url' => ['/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ]

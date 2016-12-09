@@ -40,6 +40,10 @@
     font-family: 'Glyphicons Halflings';
   }
 
+  .fa {
+    font: normal normal normal 14px/1 FontAwesome;
+  }
+
   .live-edit {
     margin-left: 30px;
     margin-top: 0;
@@ -99,6 +103,17 @@
 
   a {
     text-decoration: none;
+  }
+
+  .menus-icon {
+    list-style: none;
+    margin: 0 0 0 30px;
+    padding: 0;
+    float: left;
+
+    li {
+      display: inline-block;
+    }
   }
 
   .user-menu {

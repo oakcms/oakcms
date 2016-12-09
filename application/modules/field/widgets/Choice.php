@@ -45,7 +45,7 @@ class Choice extends \yii\base\Widget
 
         $row = [];
 
-        $row[] = Html::tag('div', Html::tag('strong', Html::a($field->name, ['/field/field/update', 'id' => $field->id])), ['class' => 'panel-heading']);
+        $row[] = Html::tag('div', Html::tag('strong', Html::a($field->name, ['/admin/field/field/update', 'id' => $field->id])), ['class' => 'panel-heading']);
 
         $variants = [];
 
@@ -53,9 +53,9 @@ class Choice extends \yii\base\Widget
             'class' => 'form-group option-variants field-data-container',
             'data-item-id' => $model->id,
             'data-id' => $field->id,
-            'data-delete-action' => Url::toRoute(['/field/field-value/delete']),
-            'data-create-action' => Url::toRoute(['/field/field-value/create']),
-            'data-update-action' => Url::toRoute(['/field/field-value/update']),
+            'data-delete-action' => Url::toRoute(['/admin/field/field-value/delete']),
+            'data-create-action' => Url::toRoute(['/admin/field/field-value/create']),
+            'data-update-action' => Url::toRoute(['/admin/field/field-value/update']),
         ];
 
         switch($field->type) {

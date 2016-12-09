@@ -7,14 +7,10 @@ use kartik\grid\GridView;
 /* @var $searchModel app\modules\menu\models\MenuItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('gromver.platform', 'Menu Items');
+$this->title = Yii::t('menu', 'Menu Items');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-index">
-
-    <div class="page-header">
-        <h1><?= Html::encode($this->title) ?></h1>
-    </div>
 
     <?= GridView::widget([
         'id' => 'table-grid',

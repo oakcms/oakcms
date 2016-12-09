@@ -20,6 +20,7 @@ class BaseAsset extends AssetBundle
 
     public $css = [
         'https://fonts.googleapis.com/css?family=Roboto:700,400&amp;subset=cyrillic,latin,greek,vietnamese',
+        '//cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css',
         'css/uniform.default.min.css',
         'css/switcher.css',
         'less/style.less',

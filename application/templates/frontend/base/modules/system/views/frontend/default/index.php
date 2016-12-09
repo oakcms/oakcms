@@ -10,6 +10,4 @@
  */
 
 $bundle = \app\templates\frontend\base\assets\BaseAsset::register($this);
-
 ?>
-

@@ -27,7 +27,6 @@ class Editor extends CKEditor
             'baseHref' => \Yii::$app->homeUrl,
             'contentsCss' => [
                 $bundle->baseUrl.'/css/bootstrap.css',
-                '/main.css'
             ]
             //'skin' => 'office2013'
         ]);

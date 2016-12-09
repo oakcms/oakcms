@@ -7,6 +7,8 @@
  * File name: header.php
  */
 use yii\helpers\Url;
+use yii\helpers\Html;
+use app\modules\admin\models\SystemLog;
 
 $asset = \app\assets\MediaSystem::register($this);
 
@@ -226,16 +228,53 @@ $userIdentity = Yii::$app->user->identity;
                 </li>
                 <!-- User Account: style can be found in dropdown.less -->
                 */ ?>
+                <li id="log-dropdown" class="dropdown notifications-menu">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-warning"></i>
+                        <span class="label bg-yellow-gold">
+                                <?= SystemLog::find()->count() ?>
+                            </span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="header"><?php echo Yii::t('admin', 'You have {num} log items', ['num'=>SystemLog::find()->count()]) ?></li>
+                        <li>
+                            <!-- inner menu: contains the actual data -->
+                            <ul class="menu">
+                                <?php foreach(SystemLog::find()->orderBy(['log_time'=>SORT_DESC])->limit(5)->all() as $logEntry): ?>
+                                    <li>
+                                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl(['/admin/system-log/view', 'id'=>$logEntry->id]) ?>">
+                                            <i class="fa fa-warning <?php echo $logEntry->level == \yii\log\Logger::LEVEL_ERROR ? 'text-red' : 'text-yellow' ?>"></i>
+                                            <?php echo $logEntry->category ?>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </li>
+                        <li class="footer">
+                            <?php echo Html::a(Yii::t('admin', 'View all'), ['/admin/system-log/index']) ?>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="<?= Url::to(['/admin/cache/flush-cache']) ?>" class="js-oak-flush-cache" data-toggle="tooltip" title="<?= Yii::t('admin', 'Flush cache') ?>">
+                        <i class="glyphicon glyphicon-flash"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= Url::to(['/admin/cache/clear-assets']) ?>" class="js-oak-clear-assets" data-toggle="tooltip" title="<?= Yii::t('admin', 'Clear assets') ?>">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <?if($userIdentity->userProfile->avatar != ''):?>
-                            <img class="user-image" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
+                            <img class="user-image" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
                         <?else:?>
                             <?= \cebe\gravatar\Gravatar::widget([
                                 'email' => $userIdentity->email,
                                 'size' => 64,
                                 'options' => [
-                                    'alt' => Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]),
+                                    'alt' => Yii::t('admin', 'Avatar image for {username}', ['username' => $userIdentity->username]),
                                     'class' => 'user-image'
                                 ]
                             ]); ?>
@@ -246,32 +285,32 @@ $userIdentity = Yii::$app->user->identity;
                         <!-- User image -->
                         <li class="user-header">
                             <?if($userIdentity->userProfile->avatar != ''):?>
-                                <img class="img-circle" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
+                                <img class="img-circle" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
                             <?else:?>
                             <?= \cebe\gravatar\Gravatar::widget([
                                 'email' => $userIdentity->email,
                                 'size' => 160,
                                 'options' => [
-                                    'alt' => Yii::t('app', 'Avatar image for {username}', ['username' => $userIdentity->username]),
+                                    'alt' => Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]),
                                     'class' => 'img-circle'
                                 ]
                             ]); ?>
                             <?endif?>
                             <p>
                                 <?= $userIdentity->publicIdentity ?> - <?= $userIdentity->username ?>
-                                <small><?= Yii::t('app', 'Joined in {datetime}', ['datetime' => Yii::$app->formatter->asDatetime($userIdentity->created_at)]) ?></small>
+                                <small><?= Yii::t('user', 'Joined in {datetime}', ['datetime' => Yii::$app->formatter->asDatetime($userIdentity->created_at)]) ?></small>
                             </p>
                         </li>
                         <li class="user-footer text-center">
                             <div class="btn-group btn-group-sm" role="group" aria-label="User">
-                                <a href="<?= Url::to(['/admin/user/user/profile']) ?>" class="btn btn-default btn-flat">
-                                    <i class="fa fa-street-view"></i> <?= Yii::t('app', 'Profile') ?>
+                                <a href="<?= Url::to(['/admin/user/profile/index']) ?>" class="btn btn-default btn-flat">
+                                    <i class="fa fa-street-view"></i> <?= Yii::t('user', 'Profile') ?>
                                 </a>
-                                <a href="<?= Url::to(['/admin/user/user/account']) ?>" class="btn btn-default btn-flat">
-                                    <i class="fa fa-user"></i> <?= Yii::t('app', 'Account') ?>
+                                <a href="<?= Url::to(['/admin/user/user/account/index']) ?>" class="btn btn-default btn-flat">
+                                    <i class="fa fa-user"></i> <?= Yii::t('user', 'Account') ?>
                                 </a>
                                 <a href="<?= Url::to(['/user/default/logout']) ?>" data-method="post" class="btn btn-danger btn-flat">
-                                    <i class="glyphicon glyphicon-log-out"></i> <?= Yii::t('app', 'Sign out') ?>
+                                    <i class="glyphicon glyphicon-log-out"></i> <?= Yii::t('user', 'Sign out') ?>
                                 </a>
                                 <a href="<?= Url::to(['/admin/user/user/lock-screen']) ?>" class="hidden" id="userLockScreen"></a>
                             </div>

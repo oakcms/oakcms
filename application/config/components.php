@@ -31,6 +31,8 @@ return [
     ],
     'errorHandler' => [
         'errorAction' => 'system/default/error',
+        'exceptionView' => '@app/templates/frontend/base/views/layouts/exception.php',
+        'callStackItemView' => '@app/templates/frontend/base/views/layouts/callStackItem.php',
     ],
     'mailer' => [
         'class' => 'yii\swiftmailer\Mailer',

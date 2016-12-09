@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['actions_buttons'] = [
     [
-        'label' => Yii::t('app', 'Update'),
+        'label' => Yii::t('admin', 'Update'),
         'options' => [
             'form' => 'settings',
             'type' => 'submit'

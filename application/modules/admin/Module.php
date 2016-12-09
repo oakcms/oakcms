@@ -100,9 +100,11 @@ class Module extends \app\components\module\Module
             \Yii::$app->view->theme->baseUrl = '@web/templates/backend/base/web';
             \Yii::$app->view->theme->pathMap = [
                 '@app/views' => '@app/templates/backend/base/views',
-                '@app/modules' => '@app/templates/backend/base/views/modules',
-                '@app/widgets' => '@app/templates/backend/base/views/widgets'
+                '@app/modules' => '@app/templates/backend/base/modules',
+                '@app/widgets' => '@app/templates/backend/base/widgets'
             ];
+
+            Yii::$app->getErrorHandler()->errorAction = '/admin/default/error';
         }
     }
 

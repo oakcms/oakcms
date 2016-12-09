@@ -249,6 +249,7 @@ class ModuleQuery extends \yii\base\Object
         foreach ($parentModule->getModules() as $name => $config) {
             $module = $parentModule->getModule($name);
             $matched = true;
+
             if (isset($this->_implement) && !is_a($module, $this->_implement)) {
                 $matched = false;
             } elseif (isset($this->_event) && (!$module instanceof ModuleEventsInterface || !array_key_exists($this->_event, $module->events()))) {

@@ -93,8 +93,8 @@ $this->params['actions_buttons'] = [
                         ]);
                     },
                     'enum' => [
-                        Yii::t('app', 'Off'),
-                        Yii::t('app', 'On')
+                        Yii::t('admin', 'Off'),
+                        Yii::t('admin', 'On')
                     ]
                 ],
                 ['class' => 'app\modules\admin\components\grid\ActionColumn'],

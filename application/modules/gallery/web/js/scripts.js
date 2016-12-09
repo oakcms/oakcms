@@ -1,17 +1,17 @@
-if (typeof pistol88 == "undefined" || !pistol88) {
-    var pistol88 = {};
+if (typeof oak == "undefined" || !oak) {
+    var oak = {};
 }
 
-pistol88.gallery = {
+oak.gallery = {
     init: function () {
-        $('.pistol88-gallery-item a.delete').on('click', this.deleteProductImage);
-        $('.pistol88-gallery-item a.write').on('click', this.callModal);
-        $('.pistol88-gallery img').on('click', this.setMainProductImage);
+        $('.oak-gallery-item a.delete').on('click', this.deleteProductImage);
+        $('.oak-gallery-item a.write').on('click', this.callModal);
+        $('.oak-gallery img').on('click', this.setMainProductImage);
         $('.noctua-gallery-form').on('submit', this.writeProductImage);
     },
     setMainProductImage: function () {
-        pistol88.gallery._sendData($(this).data('action'), $(this).parents('li').data());
-        $('.pistol88-gallery > li').removeClass('main');
+        oak.gallery._sendData($(this).data('action'), $(this).parents('li').data());
+        $('.oak-gallery > li').removeClass('main');
         $(this).parents('li').addClass('main');
         return false;
     },
@@ -43,7 +43,7 @@ pistol88.gallery = {
         var modalContainer = $('#noctua-gallery-modal');
         var url = $(this).data('action');
         modalContainer.modal({show:true});
-        data = $(this).parents('.pistol88-gallery-item').data();
+        data = $(this).parents('.oak-gallery-item').data();
         $.ajax({
             url: url,
             type: "POST",
@@ -55,8 +55,8 @@ pistol88.gallery = {
     },
     deleteProductImage: function () {
         if (confirm('realy?')) {
-            pistol88.gallery._sendData($(this).data('action'), $(this).parents('.pistol88-gallery-item').data());
-            $(this).parents('.pistol88-gallery-item').hide('slow');
+            oak.gallery._sendData($(this).data('action'), $(this).parents('.oak-gallery-item').data());
+            $(this).parents('.oak-gallery-item').hide('slow');
         }
         return false;
     },
@@ -77,4 +77,4 @@ pistol88.gallery = {
     }
 };
 
-pistol88.gallery.init();
+oak.gallery.init();

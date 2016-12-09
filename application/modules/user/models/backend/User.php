@@ -39,8 +39,8 @@ class User extends \app\modules\user\models\User
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'newPassword' => \Yii::t('user', 'USER_NEW_PASSWORD'),
-            'newPasswordRepeat' => \Yii::t('user', 'USER_REPEAT_PASSWORD'),
+            'newPassword' => \Yii::t('user', 'User new password'),
+            'newPasswordRepeat' => \Yii::t('user', 'User repeat password'),
         ]);
     }
 
@@ -53,6 +53,11 @@ class User extends \app\modules\user\models\User
             if (!empty($this->newPassword)) {
                 $this->setPassword($this->newPassword);
             }
+
+            $auth = \Yii::$app->authManager;
+            $auth->revokeAll($this->id);
+            $auth->assign($auth->getRole($this->role), $this->id);
+
             return true;
         }
         return false;

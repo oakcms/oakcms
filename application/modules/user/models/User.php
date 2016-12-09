@@ -79,12 +79,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'id' => 'ID',
-            'created_at' => \Yii::t('user', 'USER_CREATED'),
-            'updated_at' => \Yii::t('user', 'USER_UPDATED'),
-            'username' => \Yii::t('user', 'USER_USERNAME'),
-            'email' => \Yii::t('user', 'USER_EMAIL'),
-            'status' => \Yii::t('user', 'USER_STATUS'),
-            'role' => \Yii::t('user', 'USER_ROLE'),
+            'created_at' => \Yii::t('user', 'Created'),
+            'updated_at' => \Yii::t('user', 'Updated'),
+            'username' => \Yii::t('user', 'Username'),
+            'email' => \Yii::t('user', 'Email'),
+            'status' => \Yii::t('user', 'Status'),
+            'role' => \Yii::t('user', 'Role'),
         ];
     }
 
@@ -106,9 +106,9 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getStatusesArray()
     {
         return [
-            self::STATUS_BLOCKED => \Yii::t('user', 'USER_STATUS_BLOCKED'),
-            self::STATUS_ACTIVE => \Yii::t('user', 'USER_STATUS_ACTIVE'),
-            self::STATUS_WAIT => \Yii::t('user', 'USER_STATUS_WAIT'),
+            self::STATUS_BLOCKED => \Yii::t('user', 'Status blocked'),
+            self::STATUS_ACTIVE => \Yii::t('user', 'Status active'),
+            self::STATUS_WAIT => \Yii::t('user', 'Status wait'),
         ];
     }
 

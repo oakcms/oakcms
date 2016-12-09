@@ -39,19 +39,19 @@ $this->params['actions_buttons'] = [
         'encodeLabels' => false,
         'items' => [
                 [
-                    'label' => '<span class="font-red"><i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete') . '</span>',
+                    'label' => '<span class="font-red"><i class="fa fa-trash-o"></i> ' . Yii::t('admin', 'Delete') . '</span>',
                     'url' => 'javascript:void(0)',
                         'linkOptions' => [
                         'onclick' => 'deleteA()',
                     ]
                 ],
                 [
-                    'label' => '<span class="font-green-turquoise"><i class="fa fa-toggle-on"></i> ' . Yii::t('app', 'Published') . '</span>',
+                    'label' => '<span class="font-green-turquoise"><i class="fa fa-toggle-on"></i> ' . Yii::t('admin', 'Published') . '</span>',
                     'url' => 'javascript:void(0)',
                     'linkOptions' => ['onclick' => 'publishedA()']
                 ],
                 [
-                    'label' => '<span class="font-blue-chambray"><i class="fa fa-toggle-off"></i> ' . Yii::t('app', 'Unpublished') . '</span>',
+                    'label' => '<span class="font-blue-chambray"><i class="fa fa-toggle-off"></i> ' . Yii::t('admin', 'Unpublished') . '</span>',
                     'url' => 'javascript:void(0)',
                     'linkOptions' => ['onclick' => 'unpublishedA()']
                 ],

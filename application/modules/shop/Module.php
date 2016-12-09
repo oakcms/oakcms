@@ -69,13 +69,20 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
         ];
     }
 
+    public function addFieldRelationModel($event) {
+        $event->items['app\modules\shop\models\Product'] = 'Продукты';
+        $event->items['app\modules\shop\models\Category'] = 'Категории';
+        $event->items['app\modules\shop\models\Producer'] = 'Производители';
+    }
+
     /**
      * @inheritdoc
      */
     public function events()
     {
         return [
-            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem'
+            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem',
+            \app\modules\field\Module::EVENT_RELATION_MODELS => 'addFieldRelationModel'
         ];
     }
 

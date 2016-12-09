@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\gallery\controllers;
+namespace app\modules\gallery\controllers\backend;
 
 use yii;
 use yii\web\Controller;

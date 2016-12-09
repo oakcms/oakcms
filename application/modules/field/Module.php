@@ -8,16 +8,74 @@
 
 namespace app\modules\field;
 
-use yii;
+use app\components\module\ModuleEvent;
+use app\components\module\ModuleEventsInterface;
+use app\modules\admin\rbac\Rbac;
+use app\modules\admin\widgets\events\MenuItemsEvent;
+use app\modules\admin\widgets\Menu;
+use app\modules\field\events\RelationModelsModuleEvent;
 
-class Module extends \yii\base\Module
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
-    public $types = ['select' => 'Селект', 'radio' => 'Радиобатон', 'checkbox' => 'Чекбокс', 'date' => 'Дата', 'numeric' => 'Число', 'text' => 'Текст', 'textarea' => 'Текстарея', 'image' => 'Картинка'];
-    public $relationModels = [];
-    public $adminRoles = ['superadmin', 'admin'];
+    const EVENT_RELATION_MODELS = 'fieldRelationModels';
+    public $types = [
+        'select' => 'Селект',
+        'radio' => 'Радиобатон',
+        'checkbox' => 'Чекбокс',
+        'date' => 'Дата',
+        'numeric' => 'Число',
+        'text' => 'Текст',
+        'textarea' => 'Текстарея',
+        'image' => 'Картинка'
+    ];
 
-    public function init()
+    public $_relationModels = [];
+
+    public $adminRoles = [Rbac::PERMISSION_ADMIN_PANEL];
+
+    public function getRelationModels()
     {
-        parent::init();
+        return ModuleEvent::trigger(self::EVENT_RELATION_MODELS, new RelationModelsModuleEvent(['items' => $this->_relationModels]), 'items');
+    }
+
+    /**
+     * @param array $items
+     */
+    public function setRelationModels($items)
+    {
+        $this->_relationModels = $items;
+    }
+
+    /**
+     * @param $event MenuItemsEvent
+     */
+    public function addAdminMenuItem($event)
+    {
+        $event->items['field'] = [
+            'label' => \Yii::t('field', 'Fields'),
+            'icon' => '<i class="fa fa-plus-square"></i>',
+            'items' => [
+                [
+                    'label' => \Yii::t('field', 'Categories'),
+                    'url' => ['/admin/field/category/index'],
+                    'icon' => '<i class="fa fa-file-text-o"></i>'
+                ],
+                [
+                    'label' => \Yii::t('field', 'Items'),
+                    'url' => ['/admin/field/field/index'],
+                    'icon' => '<i class="fa fa-folder-o"></i>'
+                ],
+            ]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function events()
+    {
+        return [
+            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem'
+        ];
     }
 }

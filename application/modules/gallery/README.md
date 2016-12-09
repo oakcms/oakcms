@@ -7,13 +7,13 @@ Yii2-gallery
 Выполнить команду
 
 ```
-php composer require pistol88/yii2-gallery "*"
+php composer require oak/yii2-gallery "*"
 ```
 
 Или добавить в composer.json
 
 ```
-"pistol88/yii2-gallery": "*",
+"oak/yii2-gallery": "*",
 ```
 
 И выполнить
@@ -25,7 +25,7 @@ php composer update
 Миграция
 
 ```
-php yii migrate/up --migrationPath=@vendor/pistol88/yii2-gallery/migrations
+php yii migrate/up --migrationPath=@vendor/oak/yii2-gallery/migrations
 ```
 
 Подключение и настройка

@@ -6,6 +6,7 @@ use Yii;
 use app\modules\content\models\ContentPages;
 use app\modules\content\models\search\ContentPagesSearch;
 use app\components\BackendController;
+use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -99,6 +100,24 @@ class PagesController extends BackendController
     }
 
     /**
+     * @param string $route
+     * @return string
+     */
+    public function actionSelect($route = 'grom/page/frontend/default/view') {
+        $searchModel = new ContentPagesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        Yii::$app->layout = '//modal';
+
+        return $this->render('select', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'route' => $route
+        ]);
+    }
+
+
+    /**
      * Deletes items an existing SeoItems model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @return mixed
@@ -173,7 +192,7 @@ class PagesController extends BackendController
         return $this->changeStatus($id, ContentPages::STATUS_DRAFT);
     }
 
-/**
+    /**
      * Finds the ContentPages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

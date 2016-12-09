@@ -13,5 +13,5 @@ namespace app\components;
 
 class AdminView extends \yii\web\View
 {
-    public $bodyClass = "";
+    public $bodyClass = [];
 }

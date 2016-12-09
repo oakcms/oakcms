@@ -31,25 +31,28 @@ $(document).ready(function () {
         });
     });
 
-    $(".nav-tabs-custom .nav a").on('click', function(){
+    // Зберігаєм активну вкладку
+    $(".nav-tabs-custom .nav a").on('click', function () {
         sessionStorage.activeTab = $(this).attr('href');
         sessionStorage.page = window.location.href;
     });
-    if(window.location.href == sessionStorage.page) {
+
+    if (window.location.href == sessionStorage.page) {
         $('.nav-tabs-custom .nav a[href="' + sessionStorage.activeTab + '"]').tab('show');
     }
+
 });
 
-var OakCMS = function() {
+var OakCMS = function () {
 
-    var handleBootstrapSwitch = function() {
+    var handleBootstrapSwitch = function () {
         if (!$().bootstrapSwitch) {
             return;
         }
         $('.make-switch').bootstrapSwitch();
     };
 
-    var handleFancybox = function() {
+    var handleFancybox = function () {
         if (!jQuery.fancybox) {
             return;
         }
@@ -69,19 +72,59 @@ var OakCMS = function() {
         }
     };
 
+    /**
+     * Системні кнопки кешу
+     */
+    var handleSystemCacheButtons = function () {
+        $('.js-oak-flush-cache, .js-oak-clear-assets').on('click', function (e) {
+            e.preventDefault();
+            var $t = $(this),
+                icon = $t.html();
+            $.ajax({
+                url: $t.attr('href'),
+                dataType: 'json',
+                beforeSend: function () {
+                    $t.html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success: function (data) {
+                    $.bootstrapGrowl(data.success, {
+                        ele: 'body',
+                        type: 'success',
+                        offset: {
+                            from: 'bottom',
+                            amount: 10
+                        },
+                        align: 'right',
+                        width: 'auto',
+                        delay: 5000,
+                        allow_dismiss: true,
+                        stackup_spacing: 10
+                    });
+                },
+                complete: function () {
+                    $t.html(icon);
+                }
+            });
+        });
+    };
 
     return {
         init: function () {
             handleFancybox();
             handleBootstrapSwitch();
+            handleSystemCacheButtons();
         },
 
-        initFancybox: function() {
+        initFancybox: function () {
             handleFancybox();
         },
 
         initBootstrapSwitch: function () {
             handleBootstrapSwitch();
+        },
+
+        initSystemCacheButtons: function () {
+            handleSystemCacheButtons();
         },
 
         initAjax: function () {
@@ -91,6 +134,6 @@ var OakCMS = function() {
     }
 }();
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     OakCMS.init();
 });

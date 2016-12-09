@@ -1,9 +1,9 @@
-.pistol88-gallery {
-    list-style-type:none; 
+.oak-gallery {
+    list-style-type:none;
     margin-left: -45px;
 }
 
-.pistol88-gallery-item{
+.oak-gallery-item{
     list-style: none;
     float: left;
     overflow: hidden;
@@ -13,18 +13,18 @@
     position: relative;
 }
 
-.pistol88-gallery .main {
+.oak-gallery .main {
     border: 2px solid red;
 }
 
-.pistol88-gallery-item a.delete {
+.oak-gallery-item a.delete {
     position: absolute;
     right: 1px;
     top: 0px;
     color: red;
 }
 
-.pistol88-gallery-item a.write {
+.oak-gallery-item a.write {
     position: absolute;
     top: 0px;
     color: green;

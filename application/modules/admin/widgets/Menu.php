@@ -75,7 +75,9 @@ class Menu extends \yii\widgets\Menu
 
                 $this->items = ModuleEvent::trigger(self::EVENT_FETCH_ITEMS, new MenuItemsEvent([
                     'items' => $this->items
-                ]), 'items');
+                ]),
+                    'items'
+                );
 
                 $this->cache->set($cacheKey, $this->items, $this->cacheDuration, $this->cacheDependency);
             }

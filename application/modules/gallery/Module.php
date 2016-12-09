@@ -15,8 +15,8 @@ use app\modules\gallery\models\Image;
 
 class Module extends \yii\base\Module
 {
-    public $imagesStorePath = '@app/uploads/store';
-    public $imagesCachePath = '@app/uploads/imgCache';
+    public $imagesStorePath = '@webroot/uploads/store';
+    public $imagesCachePath = '@webroot/uploads/imgCache';
     public $graphicsLibrary = 'GD';
     public $placeHolderPath;
     public $waterMark = false;

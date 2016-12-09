@@ -10,10 +10,10 @@
 namespace app\modules\menu\widgets;
 
 
-use gromver\modulequery\ModuleEvent;
+use app\components\module\ModuleEvent;
 use app\modules\menu\models\MenuItem;
 use app\modules\menu\widgets\events\MenuItemRoutesEvent;
-use gromver\widgets\ModalIFrame;
+use app\widgets\ModalIFrame;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

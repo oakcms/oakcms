@@ -29,7 +29,7 @@ $this->params['actions_buttons'] = [
         'type' => Button::TYPE_CIRCLE,
     ],
     [
-        'label' => Yii::t('app', 'Control'),
+        'label' => Yii::t('admin', 'Control'),
         'options' => [
             'class' => 'btn blue btn-outline btn-circle btn-sm',
             'data-hover' => "dropdown",
@@ -40,19 +40,19 @@ $this->params['actions_buttons'] = [
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label' => '<span class="font-red"><i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete') . '</span>',
+                    'label' => '<span class="font-red"><i class="fa fa-trash-o"></i> ' . Yii::t('admin', 'Delete') . '</span>',
                     'url' => 'javascript:void(0)',
                         'linkOptions' => [
                         'onclick' => 'deleteA()',
                     ]
                 ],
                 [
-                    'label' => '<span class="font-green-turquoise"><i class="fa fa-toggle-on"></i> ' . Yii::t('app', 'Published') . '</span>',
+                    'label' => '<span class="font-green-turquoise"><i class="fa fa-toggle-on"></i> ' . Yii::t('admin', 'Published') . '</span>',
                     'url' => 'javascript:void(0)',
                     'linkOptions' => ['onclick' => 'publishedA()']
                 ],
                 [
-                    'label' => '<span class="font-blue-chambray"><i class="fa fa-toggle-off"></i> ' . Yii::t('app', 'Unpublished') . '</span>',
+                    'label' => '<span class="font-blue-chambray"><i class="fa fa-toggle-off"></i> ' . Yii::t('admin', 'Unpublished') . '</span>',
                     'url' => 'javascript:void(0)',
                     'linkOptions' => ['onclick' => 'unpublishedA()']
                 ],
@@ -105,8 +105,8 @@ $this->params['actions_buttons'] = [
                         ]);
                     },
                     'enum' => [
-                        Yii::t('app', 'Off'),
-                        Yii::t('app', 'On')
+                        Yii::t('admin', 'Off'),
+                        Yii::t('admin', 'On')
                     ]
                 ],
                 [
@@ -115,7 +115,7 @@ $this->params['actions_buttons'] = [
                     'buttons' => [
                         'setting' => function($url, $model) {
                             $options = [
-                                'title' => \Yii::t('app', 'Settings'),
+                                'title' => \Yii::t('admin', 'Settings'),
                                 'class'=>'btn blue-hoki btn-xs',
                                 //'style' => 'margin-right:0',
                                 'data-toggle' => 'tooltip',

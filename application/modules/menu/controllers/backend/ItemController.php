@@ -108,8 +108,7 @@ class ItemController extends BackendController
      */
     public function actionRouters()
     {
-        Yii::$app->grom->applyModalLayout();
-
+        Yii::$app->layout = '//modal';
         return $this->render('routers');
     }
 

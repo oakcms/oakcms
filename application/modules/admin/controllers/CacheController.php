@@ -26,8 +26,13 @@ class CacheController extends BackendController
     public function actionFlushCache()
     {
         Yii::$app->cache->flush();
-        $this->flash('success', Yii::t('admin', 'Cache flushed'));
-        return $this->back();
+
+        if(Yii::$app->request->isAjax) {
+            return $this->formatResponse(['success' => Yii::t('admin', 'Cache flushed')]);
+        } else {
+            $this->flash('success', Yii::t('admin', 'Cache flushed'));
+            return $this->back();
+        }
     }
 
     public function actionClearAssets()
@@ -41,8 +46,12 @@ class CacheController extends BackendController
                 unlink($asset);
             }
         }
-        $this->flash('success', Yii::t('admin', 'Assets cleared'));
-        return $this->back();
+        if(Yii::$app->request->isAjax) {
+            return $this->formatResponse(['success' => Yii::t('admin', 'Assets cleared')]);
+        } else {
+            $this->flash('success', Yii::t('admin', 'Assets cleared'));
+            return $this->back();
+        }
     }
 
     private function deleteDir($directory)

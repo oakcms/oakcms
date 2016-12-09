@@ -35,7 +35,7 @@ $bundle = \app\templates\backend\base\assets\BaseAsset::register($this);
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="skin-blue sidebar-mini fixed <?= implode(' ', (array)$this->bodyClass) ?>">
+<?= Html::beginTag('body', ['class' => 'skin-blue sidebar-mini fixed '.implode(' ', (array)$this->bodyClass)]) ?>
 <?php $this->beginBody() ?>
     <div class="wrapper">
         <?= $content ?>
@@ -63,6 +63,6 @@ $bundle = \app\templates\backend\base\assets\BaseAsset::register($this);
         </script>
     <?endif?>
 <?php endforeach; ?>
-</body>
+<?= Html::endTag('body') ?>
 </html>
 <?php $this->endPage() ?>

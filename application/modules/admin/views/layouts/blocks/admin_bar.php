@@ -48,32 +48,47 @@ $userIdentity = Yii::$app->user->identity;
         <span><?= Yii::t('admin', 'Live edit') ?></span>
     </div>
 
-    <div class="user-menu">
-        <a href="#"><?= $userIdentity->username ?></a>
-        <div class="sub-wrapper">
-            <ul class="submenu">
-                <li>
-                    <a href="#">
-                        <?= \cebe\gravatar\Gravatar::widget([
-                            'email' => $userIdentity->email,
-                            'size' => 64,
-                            'options' => [
-                                'alt' => Yii::t('admin', 'Avatar image for {username}', [
-                                    'username' => $userIdentity->username
-                                ]),
-                                'class' => 'avatar'
-                            ]
-                        ]); ?>
-                        <span class="full-name">
+    <div class="oak-pull-right">
+        <ul class="menus oak-pull-left">
+            <li>
+                <a href="<?= Url::to(['/admin/cache/flush-cache']) ?>" class="js-oak-flush-cache" data-toggle="tooltip" title="<?= Yii::t('admin', 'Flush cache') ?>">
+                    <i class="glyphicon glyphicon-flash"></i>
+                </a>
+            </li>
+            <li>
+                <a href="<?= Url::to(['/admin/cache/clear-assets']) ?>" class="js-oak-clear-assets" data-toggle="tooltip" title="<?= Yii::t('admin', 'Clear assets') ?>">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </li>
+        </ul>
+
+        <div class="user-menu oak-pull-right">
+            <a href="#"><?= $userIdentity->username ?></a>
+            <div class="sub-wrapper">
+                <ul class="submenu">
+                    <li>
+                        <a href="#">
+                            <?= \cebe\gravatar\Gravatar::widget([
+                                'email' => $userIdentity->email,
+                                'size' => 64,
+                                'options' => [
+                                    'alt' => Yii::t('admin', 'Avatar image for {username}', [
+                                        'username' => $userIdentity->username
+                                    ]),
+                                    'class' => 'avatar'
+                                ]
+                            ]); ?>
+                            <span class="full-name">
                             <?= $userIdentity->publicIdentity ?>
-                            (<small class="username"><?= $userIdentity->username ?></small>)
+                                (<small class="username"><?= $userIdentity->username ?></small>)
                         </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?= Url::to(['/user/default/logout']) ?>" data-method="post"><?= Yii::t('admin', 'Logout') ?></a>
-                </li>
-            </ul>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="<?= Url::to(['/user/default/logout']) ?>" data-method="post"><?= Yii::t('admin', 'Logout') ?></a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
