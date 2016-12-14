@@ -684,6 +684,8 @@ CREATE TABLE `menu_item` (
   `lock` bigint(20) UNSIGNED DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+INSERT INTO `menu_item` (menu_type_id, parent_id, translation_id, status, language, title, alias, path, note, link, link_type, link_weight, link_params, layout_path, access_rule, metakey, metadesc, robots, secure, created_at, updated_at, created_by, updated_by, lft, rgt, level, ordering, hits, `lock`) VALUES (0, null, null, 1, '', 'Root', null, null, null, null, null, 0, null, null, null, null, null, null, null, 1476552518, null, 1, 1, 1, 22, 1, 1, null, 1);
+
 -- --------------------------------------------------------
 
 --
