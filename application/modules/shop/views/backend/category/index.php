@@ -14,30 +14,12 @@ $this->params['breadcrumbs'][] = $this->title;
 \app\modules\shop\assets\BackendAsset::register($this);
 ?>
 <div class="category-index">
-    <div class="shop-menu">
-        <?=$this->render('../parts/menu');?>
-    </div>
 
     <div class="row">
         <div class="col-md-2">
             <?= Html::a('Создать категорию', ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-        <div class="col-md-4">
-            <?php
-            $gridColumns = [
-                'id',
-                'name',
-            ];
-
-            echo ExportMenu::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => $gridColumns
-            ]);
-            ?>
-        </div>
     </div>
-
-    <br style="clear: both;"></div>
 
     <ul class="nav nav-pills">
         <li role="presentation" <?php if(yii::$app->request->get('view') == 'tree' | yii::$app->request->get('view') == '') echo ' class="active"'; ?>><a href="<?=Url::toRoute(['category/index', 'view' => 'tree']);?>">Деревом</a></li>

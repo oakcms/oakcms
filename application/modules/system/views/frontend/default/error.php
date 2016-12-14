@@ -9,6 +9,7 @@ use yii\helpers\Html;
 
 $this->title = $name;
 $this->bodyClass = ['error'];
+
 ?>
 <div class="text-center">
     <div class="mb-100"></div>

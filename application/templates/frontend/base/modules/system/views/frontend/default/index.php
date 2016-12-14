@@ -5,7 +5,7 @@
  * Date: 11.10.2016
  * Project: kotsyubynsk
  * File name: index.php
- * @var $this \app\components\FrontendView;
+ * @var $this \app\components\CoreView;
  *
  */
 

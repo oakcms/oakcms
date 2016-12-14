@@ -8,24 +8,25 @@ namespace app\components\menu;
 
 use app\components\module\ModuleEvent;
 use app\modules\menu\models\MenuItem;
+use Yii;
 use yii\base\Event;
 use yii\base\InvalidConfigException;
 use yii\base\Object;
+use yii\caching\Cache;
 use yii\di\Instance;
 use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 use yii\web\UrlRuleInterface;
-use yii\caching\Cache;
-use Yii;
 use yii\web\View;
 
 /**
  * Class MenuUrlRule
  * Маршрутизация меню
  * для маршрутизации используется объекты MenuRouter с правилами маршрутизации,
- * MenuRouter* объект для приложения может расшарить любой модуль, через \app\components\menu\interfaces\module\MenuRouterInterface
+ * MenuRouter* объект для приложения может расшарить любой модуль, через
+ * \app\components\menu\interfaces\module\MenuRouterInterface
  * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
+ * @author  Gayazov Roman <gromver5@gmail.com>
  */
 class MenuUrlRule extends Object implements UrlRuleInterface
 {
@@ -37,7 +38,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
     /**
      * @var MenuManager
      */
-    public  $menuManager;
+    public $menuManager;
 
     private $_routers = [];
     /**
@@ -48,6 +49,10 @@ class MenuUrlRule extends Object implements UrlRuleInterface
      * @var MenuRouterUrlRuleParse[]
      */
     private $_parseUrlRules = [];
+    /**
+     * @var array
+     */
+    private $_metaData;
 
     /**
      * @inheritdoc
@@ -78,10 +83,11 @@ class MenuUrlRule extends Object implements UrlRuleInterface
      */
     protected function buildRules()
     {
+
         //нам нужно собрать все роутеры от модулей и вытащить из них инструкции по маршрутизации
         $routers = ModuleEvent::trigger(self::EVENT_FETCH_MODULE_ROUTERS, new \app\components\events\FetchRoutersEvent([
             'routers' => [],
-            'sender' => $this,
+            'sender'  => $this,
         ]), 'routers');
 
         // вытаскиваем инструкции из всех роутеров
@@ -104,6 +110,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
 
     /**
      * @param $router string|array|MenuRouter
+     *
      * @return MenuRouter
      * @throws InvalidConfigException
      */
@@ -124,11 +131,12 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         return $this->_routers[$router->className()] = $router;
     }
 
-
     /**
      * Parses the given request and returns the corresponding route and parameters.
+     *
      * @param \yii\web\UrlManager $manager the URL manager
-     * @param Request $request the request component
+     * @param Request             $request the request component
+     *
      * @return array|bool the parsing result. The route and the parameters are returned as an array.
      * @throws ForbiddenHttpException
      */
@@ -183,11 +191,11 @@ class MenuUrlRule extends Object implements UrlRuleInterface
             $requestRoute = substr($pathInfo, mb_strlen($menu->path) + 1);
             list($menuRoute, $menuParams) = $menu->parseUrl();
             $requestInfo = new MenuRequestInfo([
-                'menuMap' => $menuMap,
-                'menuRoute' => $menuRoute,
-                'menuParams' => $menuParams,
-                'requestRoute' => $requestRoute,
-                'requestParams' => $request->getQueryParams()
+                'menuMap'       => $menuMap,
+                'menuRoute'     => $menuRoute,
+                'menuParams'    => $menuParams,
+                'requestRoute'  => $requestRoute,
+                'requestParams' => $request->getQueryParams(),
             ]);
 
             foreach ($this->_parseUrlRules as $rule) {
@@ -198,38 +206,6 @@ class MenuUrlRule extends Object implements UrlRuleInterface
 
             return false;
         }
-    }
-
-    /**
-     * Creates a URL according to the given route and parameters.
-     * @param UrlManager $manager the URL manager
-     * @param string $route the route. It should not have slashes at the beginning or the end.
-     * @param array $params the parameters
-     * @return string|boolean the created URL, or false if this rule cannot be used for creating this URL.
-     */
-    public function createUrl($manager, $route, $params)
-    {
-        $language = \Yii::$app->language;
-
-        $menuMap = $this->menuManager->getMenuMap($language);
-
-        if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute($route, $params))) {
-            return $path;
-        }
-
-        $requestInfo = new MenuRequestInfo([
-            'menuMap' => $menuMap,
-            'requestRoute' => $route,
-            'requestParams' => $params,
-        ]);
-
-        foreach ($this->_createUrlRules as $rule) {
-            if ($result = $rule->process($requestInfo, $this)) {
-                return $result;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -249,21 +225,6 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         }
     }
 
-    /**
-     * Установка шаблона пункта меню (учитываются предки и главное меню)
-     */
-    public function applyLayout()
-    {
-        $metaData = $this->activeMenuMetaData();
-        if (!empty($metaData['layout'])) {
-            Yii::$app->controller->layout = $metaData['layout'];
-        }
-    }
-
-    /**
-     * @var array
-     */
-    private $_metaData;
     /**
      * @return array
      */
@@ -290,7 +251,9 @@ class MenuUrlRule extends Object implements UrlRuleInterface
      * - Пункт меню, помеченный как главная страница (если есть)
      * - Все предки пункта меню
      * - Пункт меню
+     *
      * @param $menu MenuItem
+     *
      * @return array
      */
     protected function buildMenuMetaData($menu)
@@ -323,5 +286,50 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         }, $chain);
 
         return count($metaDataChain) > 1 ? call_user_func_array('yii\helpers\ArrayHelper::merge', $metaDataChain) : $metaDataChain[0];
+    }
+
+    /**
+     * Creates a URL according to the given route and parameters.
+     *
+     * @param UrlManager $manager the URL manager
+     * @param string     $route   the route. It should not have slashes at the beginning or the end.
+     * @param array      $params  the parameters
+     *
+     * @return string|boolean the created URL, or false if this rule cannot be used for creating this URL.
+     */
+    public function createUrl($manager, $route, $params)
+    {
+        $language = \Yii::$app->language;
+
+        $menuMap = $this->menuManager->getMenuMap($language);
+
+        if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute($route, $params))) {
+            return $path;
+        }
+
+        $requestInfo = new MenuRequestInfo([
+            'menuMap'       => $menuMap,
+            'requestRoute'  => $route,
+            'requestParams' => $params,
+        ]);
+
+        foreach ($this->_createUrlRules as $rule) {
+            if ($result = $rule->process($requestInfo, $this)) {
+                return $result;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Установка шаблона пункта меню (учитываются предки и главное меню)
+     */
+    public function applyLayout()
+    {
+        $metaData = $this->activeMenuMetaData();
+        if (!empty($metaData['layout'])) {
+            Yii::$app->controller->layout = $metaData['layout'];
+        }
     }
 }

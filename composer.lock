@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ed51d8a78c2583a5cfa14ef138a916a7",
-    "content-hash": "ec451cc0e174dfd67c271f7da6a02e3e",
+    "hash": "7b88e29d6a7dfc86535234ab65474773",
+    "content-hash": "4af243ea004820ca569f8857c946d864",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -132,6 +132,22 @@
                 "mask",
                 "plugins"
             ]
+        },
+        {
+            "name": "bower-asset/jquery.terminal",
+            "version": "0.8.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jcubic/jquery.terminal.git",
+                "reference": "8f5407975498807076a76b83424d295091cf9600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jcubic/jquery.terminal/zipball/8f5407975498807076a76b83424d295091cf9600",
+                "reference": "8f5407975498807076a76b83424d295091cf9600",
+                "shasum": ""
+            },
+            "type": "bower-asset-library"
         },
         {
             "name": "bower-asset/punycode",
@@ -339,6 +355,50 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
+        },
+        {
+            "name": "samdark/yii2-webshell",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/samdark/yii2-webshell.git",
+                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/samdark/yii2-webshell/zipball/b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
+                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery.terminal": "~0.8.8",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "samdark\\webshell\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru"
+                }
+            ],
+            "description": "A web shell that allows to run yii console commands and create your own commands.",
+            "keywords": [
+                "console",
+                "extension",
+                "shell",
+                "webshell",
+                "yii2"
+            ],
+            "time": "2015-08-26 09:27:42"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -944,6 +1004,49 @@
             "time": "2014-08-22 09:10:21"
         },
         {
+            "name": "2amigos/yii2-transliterator-helper",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-transliterator-helper.git",
+                "reference": "b859f5205bcb14409a75687241a94331a0ff0f2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-transliterator-helper/zipball/b859f5205bcb14409a75687241a94331a0ff0f2b",
+                "reference": "b859f5205bcb14409a75687241a94331a0ff0f2b",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\transliterator\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Antonio Ramirez",
+                    "email": "ramirez.cobos@gmail.com",
+                    "homepage": "http://www.ramirezcobos.com"
+                }
+            ],
+            "description": "Transliterator Helper for Yii2.",
+            "keywords": [
+                "extension",
+                "helper",
+                "transliterator",
+                "yii"
+            ],
+            "time": "2014-01-17 15:55:42"
+        },
+        {
             "name": "abeautifulsite/simpleimage",
             "version": "2.6.0",
             "source": {
@@ -1257,6 +1360,48 @@
                 "CC-BY-3.0"
             ],
             "description": "Font Awesome"
+        },
+        {
+            "name": "bower-asset/ionrangeslider",
+            "version": "2.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IonDen/ion.rangeSlider.git",
+                "reference": "c5dc23408acc0d3db998592594c34f4473440c45"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IonDen/ion.rangeSlider/zipball/c5dc23408acc0d3db998592594c34f4473440c45",
+                "reference": "c5dc23408acc0d3db998592594c34f4473440c45",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.8"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "js/ion.rangeSlider.js",
+                    "css/ion.rangeSlider.css",
+                    "css/ion.rangeSlider.skinFlat.css",
+                    "img/sprite-skin-flat.png"
+                ],
+                "bower-asset-ignore": [
+                    "PSD",
+                    "ion-rangeSlider.jquery.json"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "Powerful range slider with skin support",
+            "keywords": [
+                "diapason",
+                "ion",
+                "jquery-plugin",
+                "range",
+                "slider"
+            ]
         },
         {
             "name": "bower-asset/jquery-locationpicker-plugin",
@@ -3716,16 +3861,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v6.1.2",
+            "version": "v6.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "da078bc2669d3f98553ac41f920ead4c17c951ad"
+                "reference": "7f138bf7508eac895ac2c13d2509b056ac7e7e97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/da078bc2669d3f98553ac41f920ead4c17c951ad",
-                "reference": "da078bc2669d3f98553ac41f920ead4c17c951ad",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/7f138bf7508eac895ac2c13d2509b056ac7e7e97",
+                "reference": "7f138bf7508eac895ac2c13d2509b056ac7e7e97",
                 "shasum": ""
             },
             "require": {
@@ -3763,7 +3908,7 @@
                 "php",
                 "utf-8"
             ],
-            "time": "2016-07-20 12:31:58"
+            "time": "2016-12-12 10:42:18"
         },
         {
             "name": "mrclay/minify",
@@ -4434,16 +4579,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.18",
+            "version": "2.1.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "4f8b5564d9dfaaa4b3693a5d09b20129c147a791"
+                "reference": "8f89bea1611b5bb003490c4c686288f72855d052"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/4f8b5564d9dfaaa4b3693a5d09b20129c147a791",
-                "reference": "4f8b5564d9dfaaa4b3693a5d09b20129c147a791",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/8f89bea1611b5bb003490c4c686288f72855d052",
+                "reference": "8f89bea1611b5bb003490c4c686288f72855d052",
                 "shasum": ""
             },
             "require": {
@@ -4488,11 +4633,11 @@
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2016-11-21 12:44:59"
+            "time": "2016-12-10 01:13:42"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -4726,6 +4871,54 @@
                 "scrolling"
             ],
             "time": "2016-08-26 10:37:37"
+        },
+        {
+            "name": "yii2mod/yii2-ion-slider",
+            "version": "1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yii2mod/yii2-ion-slider.git",
+                "reference": "28446d705e8f46d12d910691f4675762071b31ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yii2mod/yii2-ion-slider/zipball/28446d705e8f46d12d910691f4675762071b31ba",
+                "reference": "28446d705e8f46d12d910691f4675762071b31ba",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/ionrangeslider": "*",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "asset-installer-paths": {
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii2mod\\slider\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Igor Chepurnoy",
+                    "email": "igorzfort@gmail.com"
+                }
+            ],
+            "description": "Ion.RangeSlider Widget for Yii 2",
+            "keywords": [
+                "yii2",
+                "yii2 ion slider",
+                "yii2 range slider",
+                "yii2 slider"
+            ],
+            "time": "2016-07-27 10:54:09"
         },
         {
             "name": "yiisoft/yii2-authclient",

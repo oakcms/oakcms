@@ -3,11 +3,24 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
+
 namespace app\modules\shop\models;
 
 use Yii;
 use app\modules\shop\models\category\CategoryQuery;
 use yii\helpers\Url;
+
+/**
+ * This is the model class for table "{{%shop_category}}".
+ *
+ * @property integer $id
+ * @property integer $parent_id
+ * @property integer $sort
+ * @property string $text
+ * @property string $code
+ * @property string $name
+ * @property string $slug
+ */
 
 class Category extends \yii\db\ActiveRecord
 {
@@ -60,6 +73,15 @@ class Category extends \yii\db\ActiveRecord
             'description' => 'Описание',
         ];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFrontendViewLink()
+    {
+        return ['/shop/category/view', 'id' => $this->id, 'alias' => $this->slug];
+    }
+
 
     public static function buldTree($parent_id = null)
     {

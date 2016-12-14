@@ -16,8 +16,8 @@ class Controller extends CoreController
 
     public function beforeAction($action)
     {
-        Yii::$app->view->on(FrontendView::EVENT_AFTER_RENDER, ['app\modules\widgets\widgets\ShortCode', 'shortCode']);
-        Yii::$app->view->on(FrontendView::EVENT_AFTER_RENDER, ['app\modules\text\widgets\ShortCode', 'shortCode']);
+        Yii::$app->view->on(CoreView::EVENT_AFTER_RENDER, ['app\modules\widgets\widgets\ShortCode', 'shortCode']);
+        Yii::$app->view->on(CoreView::EVENT_AFTER_RENDER, ['app\modules\text\widgets\ShortCode', 'shortCode']);
 
         return parent::beforeAction($action);
     }

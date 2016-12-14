@@ -8,6 +8,9 @@ if (in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
         'password' => '',
         'charset' => getenv('DB_CHARSET'),
         'tablePrefix' => getenv('DB_TABLE_PREFIX'),
+        'enableSchemaCache' => !YII_DEBUG,
+        'schemaCacheDuration' => 3600,
+        'schemaCache' => 'cache',
     ];
 } else {
     return [
@@ -17,5 +20,8 @@ if (in_array(@$_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1'])) {
         'password' => getenv('DB_PASSWORD'),
         'charset' => getenv('DB_CHARSET'),
         'tablePrefix' => getenv('DB_TABLE_PREFIX'),
+        'enableSchemaCache' => !YII_DEBUG,
+        'schemaCacheDuration' => 3600,
+        'schemaCache' => 'cache',
     ];
 }

@@ -64,7 +64,7 @@ class Tree extends \yii\base\Widget
             $return .= '<li>';
             $return .= $this->render('parts/tree_inlist.php', ['widget' => $this, 'category' => $item]);
             if(!empty($item['childs'])) {
-                $return .= '<ul class="child">';
+                $return .= '<ul>';
                 $return .= $this->treeBuild($item['childs']);
                 $return .= '</ul>';
             }

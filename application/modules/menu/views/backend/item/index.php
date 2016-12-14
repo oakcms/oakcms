@@ -1,7 +1,9 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use app\modules\admin\widgets\Button;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\menu\models\MenuItemSearch */
@@ -9,117 +11,104 @@ use kartik\grid\GridView;
 
 $this->title = Yii::t('menu', 'Menu Items');
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['actions_buttons'] = [
+    [
+        'tagName' => 'a',
+        'label' => Yii::t('admin', 'Create'),
+        'options' => [
+            'href' => Url::to(['create'])
+        ],
+        'icon' => 'fa fa-plus',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size' => Button::SIZE_SMALL,
+        'disabled' => false,
+        'block' => false,
+        'type' => Button::TYPE_CIRCLE,
+    ]
+];
 ?>
 <div class="menu-index">
 
     <?= GridView::widget([
-        'id' => 'table-grid',
+        'id'           => 'table-grid',
+        'tableOptions' => ['class' => 'table table-striped table-bordered table-advance table-hover'],
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'pjax' => true,
-        'pjaxSettings' => [
-            'neverTimeout' => true,
-        ],
-        'columns' => [
-            ['class' => '\kartik\grid\CheckboxColumn'],
+        'filterModel'  => $searchModel,
+        'columns'      => [
             [
                 'attribute' => 'id',
-                'hAlign' => GridView::ALIGN_CENTER,
-                'vAlign' => GridView::ALIGN_MIDDLE,
-                'width' => '60px'
+                'options'   => ['style' => 'width:36px'],
             ],
-            [
-                'attribute' => 'language',
-                'hAlign' => GridView::ALIGN_CENTER,
-                'vAlign' => GridView::ALIGN_MIDDLE,
-                'width' => '80px',
-                'value' => function ($model) {
-                    /** @var $model \app\modules\menu\models\MenuItem */
-                    //return \app\modules\main\widgets\TranslationsBackend::widget(['model' => $model]);
-                },
-                'format' => 'raw',
-                //'filter' => Yii::$app->getAcceptedLanguagesList()
-            ],
+//            [
+//                'attribute' => 'language',
+//                'width'     => '80px',
+//                'value'     => function ($model) {
+//                    /** @var $model \app\modules\menu\models\MenuItem */
+//                    //return \app\modules\main\widgets\TranslationsBackend::widget(['model' => $model]);
+//                },
+//                'format'    => 'raw',
+//                //'filter' => Yii::$app->getAcceptedLanguagesList()
+//            ],
             [
                 'attribute' => 'menu_type_id',
-                'vAlign' => GridView::ALIGN_MIDDLE,
-                'width' => '100px',
-                'value' => function ($model) {
+                'options'   => ['style' => '100px'],
+                'value'     => function ($model) {
                     /** @var $model \app\modules\menu\models\MenuItem */
                     return $model->menuType->title;
                 },
-                'filter' => \yii\helpers\ArrayHelper::map(\app\modules\menu\models\MenuType::find()->all(), 'id', 'title')
+                'filter'    => \yii\helpers\ArrayHelper::map(\app\modules\menu\models\MenuType::find()->all(), 'id', 'title'),
             ],
-            /*[
+            [
                 'attribute' => 'parent_id',
-                'width' => '100px',
-                'value' => function ($model) {
-                    /** @var $model \app\modules\menu\models\MenuItem * /
+                'options'   => ['style' => '100px'],
+                'value'     => function ($model) {
+                    /** @var $model \app\modules\menu\models\MenuItem */
                     return $model->level > 2 ? $model->parent->title : '';
                 },
-                'filter' => \yii\helpers\ArrayHelper::map(\app\modules\menu\models\MenuItem::find()->excludeRoots()->orderBy('lft')->all(), 'id', function($model){
-                    /** @var $model \app\modules\menu\models\MenuItem * /
-                    return str_repeat(" • ", max($model->level-2, 0)) . $model->title;
-                })
-            ],*/
+                'filter'    => \yii\helpers\ArrayHelper::map(\app\modules\menu\models\MenuItem::find()->excludeRoots()->orderBy('lft')->all(), 'id', function (
+                    $model
+                ) {
+                    /** @var $model \app\modules\menu\models\MenuItem */
+                    return str_repeat("- ", max($model->level - 2, 0)) . $model->title;
+                }),
+            ],
             [
                 'attribute' => 'title',
-                'vAlign' => GridView::ALIGN_MIDDLE,
-                'value' => function ($model) {
+                'value'     => function ($model) {
                     /** @var $model \app\modules\menu\models\MenuItem */
-                    return str_repeat(" • ", max($model->level-2, 0)) . $model->title . '<br/>'.Html::tag('small', $model->path);
+                    return str_repeat("&ndash;&nbsp; ", max($model->level - 2, 0)) . $model->title . '<br/>' . Html::tag('small', $model->path);
                 },
-                'format' => 'html'
+                'format'    => 'raw',
             ],
-            [
-                'attribute' => 'link',
-                'vAlign' => GridView::ALIGN_MIDDLE,
-            ],
+            ['attribute' => 'link',],
             [
                 'attribute' => 'status',
-                'hAlign' => GridView::ALIGN_CENTER,
-                'vAlign' => GridView::ALIGN_MIDDLE,
-                'value' => function ($model){
+                'value'     => function ($model) {
                     /** @var $model \app\modules\menu\models\MenuItem */
                     return Html::beginTag('div', ['class' => 'btn-group']) .
-                    Html::a('<i class="glyphicon glyphicon-star"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_MAIN_PAGE]), ['class' => 'btn btn-xs' . ($model::STATUS_MAIN_PAGE == $model->status ? ' btn-success active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post']) .
-                    Html::a('<i class="glyphicon glyphicon-ok-circle"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_PUBLISHED]), ['class' => 'btn btn-xs' . ($model::STATUS_PUBLISHED == $model->status ? ' btn-primary active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post']) .
-                    Html::a('<i class="glyphicon glyphicon-remove-circle"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_UNPUBLISHED]), ['class' => 'btn btn-xs' . ($model::STATUS_UNPUBLISHED == $model->status ? ' btn-default active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post']) .
-                    Html::endTag('div');
+                        Html::a('<i class="glyphicon glyphicon-star"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_MAIN_PAGE]), ['class' => 'btn btn-xs' . ($model::STATUS_MAIN_PAGE == $model->status ? ' btn-success active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post', 'data-toggle' => 'tooltip', 'title' => Yii::t('menu', 'Main page')]) .
+                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_PUBLISHED]), ['class' => 'btn btn-xs' . ($model::STATUS_PUBLISHED == $model->status ? ' btn-primary active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post', 'data-toggle' => 'tooltip', 'title' => Yii::t('menu', 'Status Published')]) .
+                        Html::a('<i class="glyphicon glyphicon-remove-circle"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_UNPUBLISHED]), ['class' => 'btn btn-xs' . ($model::STATUS_UNPUBLISHED == $model->status ? ' btn-default active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post', 'data-toggle' => 'tooltip', 'title' => Yii::t('menu', 'Status Unpublished')]) .
+                        Html::endTag('div');
                 },
-                'filter' => \app\modules\menu\models\MenuItem::statusLabels(),
-                'width' => '100px',
-                'format' => 'raw'
+                'filter'    => \app\modules\menu\models\MenuItem::statusLabels(),
+                'options'   => ['style' => '100px'],
+                'format'    => 'raw',
             ],
+//            [
+//                'attribute' => 'ordering',
+//                'value'     => function ($model) {
+//                    /** @var $model \app\modules\menu\models\MenuItem */
+//                    return Html::input('text', 'order', $model->ordering, ['class' => 'form-control']);
+//                },
+//                'format'    => 'raw',
+//                'options'   => ['style' => '50px'],
+//            ],
             [
-                'attribute' => 'ordering',
-                'vAlign' => GridView::ALIGN_MIDDLE,
-                'value' => function ($model) {
-                    /** @var $model \app\modules\menu\models\MenuItem */
-                    return Html::input('text', 'order', $model->ordering, ['class' => 'form-control']);
-                },
-                'format' => 'raw',
-                'width' => '50px'
+                'class' => 'app\modules\admin\components\grid\ActionColumn',
+                'translatable' => true
             ],
-            [
-                'class' => 'kartik\grid\ActionColumn',
-                'deleteOptions' => ['data-method' => 'delete']
-            ],
-        ],
-        'responsive' => true,
-        'hover' => true,
-        'condensed' => true,
-        'floatHeader' => true,
-        'bordered' => false,
-        'panel' => [
-            'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-th-list"></i> ' . Html::encode($this->title) . ' </h3>',
-            'type' => 'info',
-            'before' => Html::a('<i class="glyphicon glyphicon-plus"></i> ' . Yii::t('gromver.platform', 'Add'), ['create', 'menuTypeId' => $searchModel->menu_type_id], ['class' => 'btn btn-success', 'data-pjax' => '0']),
-            'after' =>
-                Html::a('<i class="glyphicon glyphicon-sort-by-attributes"></i> ' . Yii::t('gromver.platform', 'Ordering'), ['ordering'], ['class' => 'btn btn-default', 'data-pjax' => '0', 'onclick' => 'processOrdering(this); return false']).' '.
-                Html::a('<i class="glyphicon glyphicon-trash"></i> ' . Yii::t('gromver.platform', 'Delete'), ['bulk-delete'], ['class' => 'btn btn-danger', 'data-pjax' => '0', 'onclick' => 'processAction(this); return false']) . ' ' .
-                Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . Yii::t('gromver.platform', 'Reset List'), ['index'], ['class' => 'btn btn-info']),
-            'showFooter' => false
         ],
     ]); ?>
 
@@ -131,15 +120,15 @@ $this->params['breadcrumbs'][] = $this->title;
             $grid = $('#table-grid'),
             selection = $grid.yiiGridView('getSelectedRows'),
             data = {}
-        if(!selection.length) {
+        if (!selection.length) {
             alert(<?= json_encode(Yii::t('gromver.platform', 'Select items.')) ?>)
             return
         }
-        $.each(selection, function(index, value){
-            data[value] = $grid.find('tr[data-key="'+value+'"] input[name="order"]').val()
+        $.each(selection, function (index, value) {
+            data[value] = $grid.find('tr[data-key="' + value + '"] input[name="order"]').val()
         })
 
-        $.post($el.attr('href'), {data:data}, function(response){
+        $.post($el.attr('href'), {data: data}, function (response) {
             $grid.yiiGridView('applyFilter')
         })
     }
@@ -147,12 +136,12 @@ $this->params['breadcrumbs'][] = $this->title;
         var $el = $(el),
             $grid = $('#table-grid'),
             selection = $grid.yiiGridView('getSelectedRows')
-        if(!selection.length) {
+        if (!selection.length) {
             alert(<?= json_encode(Yii::t('gromver.platform', 'Select items.')) ?>)
             return
         }
 
-        $.post($el.attr('href'), {data:selection}, function(response){
+        $.post($el.attr('href'), {data: selection}, function (response) {
             $grid.yiiGridView('applyFilter')
         })
     }

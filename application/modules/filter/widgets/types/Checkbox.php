@@ -37,7 +37,7 @@ class Checkbox extends \yii\base\Widget
         $variants = Html::ul($variantsList, $this->options);
 
         $new = [];
-        $new[] = Html::input('text', 'variant_value', '', ['placeholder' => 'Новый вариант', 'data-filter-id' => $this->filter->id, 'data-create-action' => Url::toRoute(['/filter/filter-variant/create']), 'class' => ' form-control']);
+        $new[] = Html::input('text', 'variant_value', '', ['placeholder' => 'Новый вариант', 'data-filter-id' => $this->filter->id, 'data-create-action' => Url::toRoute(['/admin/filter/filter-variant/create']), 'class' => ' form-control']);
         $new[] = Html::button(Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['class' => 'btn btn-success']);
 
         $variants .= Html::tag('div', implode('', $new), ['class' => 'new-variant']);

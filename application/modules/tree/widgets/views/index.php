@@ -4,8 +4,8 @@ use yii\helpers\Html;
 use yii\web\View;
 
 ?>
-<div class="tree-index">
-    <div class="categories-tree">
+<div class="">
+    <div class="oak-tree">
         <ul>
             <?=$categoriesTree; ?>
         </ul>

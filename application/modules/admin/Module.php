@@ -2,10 +2,12 @@
 
 namespace app\modules\admin;
 
+use app\components\BackendTheme;
 use yii\helpers\Url;
 use Yii;
 use yii\filters\AccessControl;
 use app\modules\admin\rbac\Rbac;
+use yii\helpers\VarDumper;
 
 /**
  * admin module definition class
@@ -95,14 +97,13 @@ class Module extends \app\components\module\Module
         }
 
         $rHostInfo = Url::home(true);
-        if (!Yii::$app->user->isGuest && strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
-            \Yii::$app->view->theme->basePath = '@app/templates/backend/base';
-            \Yii::$app->view->theme->baseUrl = '@web/templates/backend/base/web';
-            \Yii::$app->view->theme->pathMap = [
-                '@app/views' => '@app/templates/backend/base/views',
-                '@app/modules' => '@app/templates/backend/base/modules',
-                '@app/widgets' => '@app/templates/backend/base/widgets'
-            ];
+        if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
+
+            $themeBackend = Yii::$app->keyStorage->get('themeBackend');
+
+            $themeClass = '\app\templates\backend\\'.$themeBackend.'\Theme';
+
+            \Yii::$app->getView()->theme = new $themeClass;
 
             Yii::$app->getErrorHandler()->errorAction = '/admin/default/error';
         }

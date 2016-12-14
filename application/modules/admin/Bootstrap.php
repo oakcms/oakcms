@@ -9,13 +9,12 @@
 
 namespace app\modules\admin;
 
+use app\components\menu\MenuManager;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 use app\modules\admin\models\ModulesModules;
-use app\components\FrontendView;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -141,6 +140,9 @@ class Bootstrap implements BootstrapInterface
                 });
             }
         }
+
+        $app->set('menuManager', \Yii::createObject(MenuManager::className()));
+
     }
     public function renderToolbar()
     {

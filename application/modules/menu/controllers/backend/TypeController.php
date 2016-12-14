@@ -36,31 +36,6 @@ class TypeController extends \app\components\BackendController
                     'delete' => ['post', 'delete'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['index', 'view', 'select'],
-                        'roles' => ['readMenuType'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['create'],
-                        'roles' => ['createMenuType'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['update'],
-                        'roles' => ['updateMenuType'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['delete'],
-                        'roles' => ['deleteMenuType'],
-                    ],
-                ]
-            ]
         ];
     }
 

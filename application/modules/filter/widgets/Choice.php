@@ -31,7 +31,7 @@ class Choice extends \yii\base\Widget
 
         foreach($model->filters as $filter) {
             $row = $this->renderFilter($filter);
-            $return[] = Html::tag('div', implode('', $row), ['class' => ' panel panel-default']);
+            $return[] = Html::tag('div', implode('', $row), ['class' => ' box box-primary']);
         }
 
         if(empty($return)) {
@@ -47,7 +47,7 @@ class Choice extends \yii\base\Widget
 
         $row = [];
 
-        $row[] = Html::tag('div', Html::tag('strong', "$filter->name ($filter->slug)"), ['class' => 'panel-heading']);
+        $row[] = Html::tag('div', Html::tag('strong', "$filter->name ($filter->slug)"), ['class' => 'box-header with-border']);
 
         $variants = [];
 
@@ -55,9 +55,9 @@ class Choice extends \yii\base\Widget
             'class' => 'form-group option-variants filter-data-container',
             'data-item-id' => $model->id,
             'data-id' => $filter->id,
-            'data-delete-action' => Url::toRoute(['/filter/filter-value/delete']),
-            'data-create-action' => Url::toRoute(['/filter/filter-value/create']),
-            'data-update-action' => Url::toRoute(['/filter/filter-value/update']),
+            'data-delete-action' => Url::toRoute(['/admin/filter/filter-value/delete']),
+            'data-create-action' => Url::toRoute(['/admin/filter/filter-value/create']),
+            'data-update-action' => Url::toRoute(['/admin/filter/filter-value/update']),
         ];
 
         if($filter->type == 'radio') {
@@ -66,7 +66,7 @@ class Choice extends \yii\base\Widget
             $variants[] = types\Checkbox::widget(['filter' => $filter, 'model' => $this->model, 'options' => $options]);
         }
 
-        $row[] = Html::tag('div', implode('', $variants), ['class' => 'panel-body']);
+        $row[] = Html::tag('div', implode('', $variants), ['class' => 'box-body']);
 
         return $row;
     }

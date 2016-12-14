@@ -10,7 +10,8 @@ Oak is a free, open-source CMS platform based on the Yii2 PHP Framework.
 
 Installation
 ------------
-Import dump "oakcms.sql" for your db end configure .env config file
+1. Import dump "oakcms.sql" for your db end configure .env config file
+2. Either run `composer update`
 
 REQUIREMENTS
 ------------

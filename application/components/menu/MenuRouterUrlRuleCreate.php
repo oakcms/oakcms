@@ -5,7 +5,6 @@
 
 namespace app\components\menu;
 
-
 /**
  * Class MenuRouterUrlRuleCreate
  * @package yii2-platform-basic
@@ -27,10 +26,10 @@ class MenuRouterUrlRuleCreate extends MenuRouterUrlRule
      */
     public function process($requestInfo, $menuUrlRule)
     {
+
         if ($this->requestRoute && $this->requestRoute != $requestInfo->requestRoute) {
             return false;
         }
-
         if (isset($this->requestParams)) {
             foreach ($this->requestParams as $param) {
                 if (!isset($requestInfo->requestParams[$param])) {
@@ -38,6 +37,7 @@ class MenuRouterUrlRuleCreate extends MenuRouterUrlRule
                 }
             }
         }
+
 
         return $menuUrlRule->getRouter($this->router)->{$this->handler}($requestInfo);
     }

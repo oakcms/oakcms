@@ -2,11 +2,8 @@
 
 namespace app\modules\system;
 
-use app\modules\admin\models\ModulesModules;
-use Yii;
-use yii\base\Application;
-use app\components\FrontendView;
 use yii\helpers\VarDumper;
+
 
 /**
  * system module definition class
@@ -49,11 +46,11 @@ class Module extends \yii\base\Module
         ],
     ];
 
-    public static $urlRulesFrontend = [
+    /*public static $urlRulesFrontend = [
         '<action:(?!admin|user)(.*)+>/<id:\d+>'        => 'system/default/<action>',
         '<action:(?!admin|user)(.*)+>/page-<page:\d+>' => 'system/default/<action>',
         '<action:(?!admin|user)(.*)+>'                 => 'system/default/<action>',
-    ];
+    ];*/
 
     public static $installConfig = [];
 

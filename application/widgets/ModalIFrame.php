@@ -213,8 +213,8 @@ JS
     private static function postMessageFunction()
     {
         return Html::script(
-<<<JS
-    function postIframeMessage(name, message, target) {
+            <<<JS
+                function postIframeMessage(name, message, target) {
         var data = {
             name: name,
             message: message

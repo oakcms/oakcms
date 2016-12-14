@@ -21,7 +21,7 @@ class CategoryController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'delete', 'update', 'create'],
+                        'actions' => ['index', 'delete', 'update', 'create', 'select'],
                         'allow' => true,
                         'roles' => $this->module->adminRoles,
                     ],
@@ -86,6 +86,25 @@ class CategoryController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+
+    /**
+     * @param string $route
+     * @return string
+     */
+    public function actionSelect($route = '/shop/category/view')
+    {
+        $searchModel = new CategorySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        Yii::$app->getView()->applyModalLayout();
+
+        return $this->render('select', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'route' => $route
+        ]);
     }
 
     public function actionDelete($id)

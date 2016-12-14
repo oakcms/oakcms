@@ -1,6 +1,11 @@
 <?php
 
-$this->bodyClass = 'com_widgetkit';
+/**
+ * @var $this \app\components\FrontendView;
+ */
+
+$this->bodyClass[] = 'com_widgetkit';
+
 $this->params['actions_buttons'] = [
     [
         'label' => Yii::t('admin', 'Create'),

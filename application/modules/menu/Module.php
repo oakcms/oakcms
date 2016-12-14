@@ -47,7 +47,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
                 ],
                 [
                     'label' => \Yii::t('menu', 'Menus Items'),
-                    'icon' => '<i class="icon-list"></i>',
+                    'icon' => '<i class="icon-list" style="width: 20px;display: inline-block;"></i>',
                     'url' => ['/admin/menu/item']
                 ]
             ]

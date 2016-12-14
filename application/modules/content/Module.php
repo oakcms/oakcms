@@ -117,7 +117,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
      */
     public function addMenuItemRoutes($event)
     {
-        $event->items[] = [
+        $event->items['content'] = [
             'label' => Yii::t('content', 'Content'),
             'items' => [
                 [

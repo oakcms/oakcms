@@ -24,7 +24,7 @@ use app\modules\seo\widgets\SeoForm;
 
     <?php echo $form->field($model, 'text')->widget(\app\widgets\Editor::className()) ?>
 
-    <?= $form->field($model, 'parent_id')->dropDownList(Category::buildTextTree(null, 1, [$model->id])); ?>
+    <?= $form->field($model, 'parent_id')->dropDownList(Category::buildTextTree(null, 1, [$model->id]), ['prompt' => Yii::t('shop', 'Select category')]); ?>
 
     <?//= Gallery::widget(['model' => $model]);?>
 

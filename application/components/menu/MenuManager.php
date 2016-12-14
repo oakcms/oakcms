@@ -8,6 +8,7 @@ namespace app\components\menu;
 
 use app\modules\menu\models\MenuItem;
 use Yii;
+use yii\helpers\VarDumper;
 
 /**
  * Class MenuManager
@@ -35,6 +36,7 @@ class MenuManager extends \yii\base\Object
             'class' => MenuUrlRule::className(),
             'menuManager' => $this
         ])], false); //вставляем в начало списка
+
     }
 
     /**

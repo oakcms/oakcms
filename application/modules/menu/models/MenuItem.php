@@ -12,6 +12,7 @@ namespace app\modules\menu\models;
 
 use app\behaviors\NestedSetsBehavior;
 use app\components\UrlManager;
+use dosamigos\transliterator\TransliteratorHelper;
 use app\interfaces\model\TranslatableInterface;
 use app\interfaces\model\ViewableInterface;
 use Yii;
@@ -61,7 +62,7 @@ use yii\helpers\Json;
  * @property array $linkParams
  * @property integer $context
  * @property MenuType $menuType
- * @property MenuItem $parent
+ * @property MenuItem   $parent
  * @property MenuItem[] $translations
  * @property array $layoutLabels
  */
@@ -121,7 +122,13 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
                 }
             }],
             [['alias'], 'filter', 'filter' => 'trim'],
-
+            [['alias'], 'filter', 'filter' => function($value) {
+                if (empty($value)) {
+                    return Inflector::slug(TransliteratorHelper::process($this->title));
+                } else {
+                    return Inflector::slug($value);
+                }
+            }],
             [['alias'], 'unique', 'filter' => function($query) {
                     /** @var $query \yii\db\ActiveQuery */
                     if ($parent = self::findOne($this->parent_id)){
@@ -191,7 +198,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         return [
             TimestampBehavior::className(),
             BlameableBehavior::className(),
-            NestedSetsBehavior::className()
+            NestedSetsBehavior::className(),
         ];
     }
 
@@ -280,7 +287,6 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         if (array_key_exists('parent_id', $changedAttributes) || array_key_exists('alias', $changedAttributes)) {
             $this->refresh();
             $this->normalizePath();
-            $this->normalizeWidgets($oldPath);
         }
 
         // ранжируем элементы если нужно
@@ -370,7 +376,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public static function statusLabels()
     {
         return array_map(function($label) {
-            return Yii::t('gromver.platform', $label);
+            return Yii::t('menu', $label);
         }, self::$_statuses);
     }
 
@@ -381,9 +387,9 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public function getStatusLabel($status = null)
     {
         if ($status === null) {
-            return Yii::t('gromver.platform', self::$_statuses[$this->status]);
+            return Yii::t('menu', self::$_statuses[$this->status]);
         }
-        return Yii::t('gromver.platform', self::$_statuses[$status]);
+        return Yii::t('v', self::$_statuses[$status]);
     }
 
     private static $_linkTypes = [
@@ -398,7 +404,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public static function linkTypeLabels()
     {
         return array_map(function($label) {
-                return Yii::t('gromver.platform', $label);
+                return Yii::t('menu', $label);
             }, self::$_linkTypes);
     }
 
@@ -410,9 +416,9 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public function getLinkTypeLabel($type = null)
     {
         if ($type === null) {
-            return Yii::t('gromver.platform', self::$_linkTypes[$this->link_type]);
+            return Yii::t('menu', self::$_linkTypes[$this->link_type]);
         }
-        return Yii::t('gromver.platform', self::$_linkTypes[$type]);
+        return Yii::t('menu', self::$_linkTypes[$type]);
     }
 
     /**
@@ -488,7 +494,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public function getFrontendViewLink()
     {
         if ($this->link_type == self::LINK_ROUTE) {
-            return ['/' . $this->path, UrlManager::LANGUAGE_PARAM => $this->language];
+            return ['/' . $this->path];
         } else {
             return $this->link;
         }
@@ -500,7 +506,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public static function frontendViewLink($model)
     {
         if ($model['link_type'] == self::LINK_ROUTE) {
-            return ['/' . $model['path'], UrlManager::LANGUAGE_PARAM => $model['language']];
+            return ['/' . $model['path']];
         } else {
             return $model['link'];
         }
@@ -511,7 +517,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
      */
     public function getBackendViewLink()
     {
-        return ['/grom/menu/backend/item/view', 'id' => $this->id];
+        return ['/admin/menu/item/view', 'id' => $this->id];
     }
 
     /**
@@ -519,7 +525,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
      */
     public static function backendViewLink($model)
     {
-        return ['/grom/menu/backend/item/view', 'id' => $model['id']];
+        return ['/admin/menu/item/view', 'id' => $model['id']];
     }
 
     public function getBreadcrumbs($includeSelf = false)

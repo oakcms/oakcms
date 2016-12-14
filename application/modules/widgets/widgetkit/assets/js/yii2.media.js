@@ -8,7 +8,7 @@
                     select: function (n) {
                         var a = t.defer();
                         mihaildev.elFinder.openManager({
-                            "url":"/admin/file-manager-elfinder/manager?callback=contentarticles-title&lang=ru",
+                            "url":"admin/file-manager-elfinder/manager?callback=contentarticles-title&lang=ru",
                             "width":"auto",
                             "height":"auto",
                             "id":"contentarticles-title"

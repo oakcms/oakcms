@@ -9,4 +9,7 @@
  * @var $assets \app\templates\frontend\base\assets\BaseAsset;
  */
 
-echo \app\modules\text\api\Text::get('header');
+//echo \app\modules\text\api\Text::get('header');
+
+?>
+

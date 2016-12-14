@@ -9,12 +9,13 @@
 namespace app\components;
 
 use app\modules\language\models\Language;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
-class UrlManager extends \yii\web\UrlManager
-
-{
+class UrlManager extends \yii\web\UrlManager {
+    const LANGUAGE_PARAM = 'language';
     public $languages;
+    private $_language;
 
     public function init()
     {
@@ -23,16 +24,24 @@ class UrlManager extends \yii\web\UrlManager
         parent::init();
     }
 
-    public function createUrl($params)
+    /**
+     * @param array|string $params
+     * @param null|string $language языковой контекст обработки урла, позволяет определить для какого сайта(рускоязычного или допустим англоязычного)
+     * нужно сделать урл, используется в MenuManager для определения соответсвующей карты меню
+     * @return string
+     */
+    public function createUrl($params, $language = null)
     {
         if(isset($params['q'])) {
             unset($params['q']);
         }
+
+        $this->_language = isset($language) ? $language : ArrayHelper::getValue($params, static::LANGUAGE_PARAM, \Yii::$app->language);
+
+        if(is_array($params)) {
+            //unset($params[static::LANGUAGE_PARAM]);
+        }
+
         return parent::createUrl($params);
     }
-
-    /*protected function processLocaleUrl($request) {
-        \Yii::$app->cache->flush();
-        parent::processLocaleUrl($request);
-    }*/
 }

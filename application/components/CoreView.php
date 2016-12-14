@@ -15,6 +15,10 @@ use yii\helpers\VarDumper;
 
 class CoreView extends \rmrevin\yii\minify\View
 {
+    public $bodyClass = [];
+    public $adminPanel = true;
+    public $modalLayout = '@app/modules/admin/views/layouts/_modal';
+
     public function isAdmin() {
         $rHostInfo = Url::home(true);
         if (!\Yii::$app->user->isGuest && strpos(\Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
@@ -22,5 +26,10 @@ class CoreView extends \rmrevin\yii\minify\View
         } else {
             return false;
         }
+    }
+
+    public function applyModalLayout()
+    {
+        \Yii::$app->layout = $this->modalLayout;
     }
 }

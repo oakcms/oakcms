@@ -48,7 +48,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     public function addAdminMenuItem($event)
     {
         $event->items['user'] = [
-            'label' => \Yii::t('user', 'User'),
+            'label' => \Yii::t('user', 'Users'),
             'icon' => '<i class="fa fa-user"></i>',
             'url' => ['/admin/user']
         ];

@@ -1,48 +1,46 @@
 <?php
 /**
- * @link https://github.com/gromver/yii2-platform-basic.git#readme
+ * @link      https://github.com/gromver/yii2-platform-basic.git#readme
  * @copyright Copyright (c) Gayazov Roman, 2014
- * @license https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
- * @package yii2-platform-basic
- * @version 1.0.0
+ * @license   https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
+ * @package   yii2-platform-basic
+ * @version   1.0.0
  */
 
 namespace app\modules\menu\controllers\backend;
 
 
 use app\components\BackendController;
-use app\modules\system\models\DbState;
 use app\modules\menu\models\MenuItem;
 use app\modules\menu\models\MenuItemSearch;
 use app\modules\menu\models\MenuLinkParams;
+use app\modules\system\models\DbState;
 use kartik\widgets\Alert;
-use yii\filters\AccessControl;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use Yii;
 use yii\web\Response;
 
 /**
  * Class ItemController implements the CRUD actions for Menu model.
  * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
+ * @author  Gayazov Roman <gromver5@gmail.com>
  */
-
 class ItemController extends BackendController
 {
     public function behaviors()
     {
         return [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class'   => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post', 'delete'],
+                    'delete'      => ['post', 'delete'],
                     'bulk-delete' => ['post'],
-                    'publish' => ['post'],
-                    'unpublish' => ['post'],
-                    'status' => ['post'],
+                    'publish'     => ['post'],
+                    'unpublish'   => ['post'],
+                    'status'      => ['post'],
                     //'type-items' => ['post'],
                 ],
             ],
@@ -59,7 +57,7 @@ class ItemController extends BackendController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -77,19 +75,22 @@ class ItemController extends BackendController
 
         return $this->render('select', [
             'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+            'searchModel'  => $searchModel,
         ]);
     }
 
     /**
      * Отдает список пунктов меню для Select2 виджета
-     * @param string|null $q
-     * @param string|null $language
+     *
+     * @param string|null  $q
+     * @param string|null  $language
      * @param integer|null $exclude
      * @param integer|null $menu_type_id
+     *
      * @return array
      */
-    public function actionItemList($q = null, $language = null, $exclude = null, $menu_type_id = null) {
+    public function actionItemList($q = null, $language = null, $exclude = null, $menu_type_id = null)
+    {
         \Yii::$app->response->format = Response::FORMAT_JSON;
         $query = MenuItem::find()->excludeRoots();
         if ($exclude && $item = MenuItem::findOne($exclude)) {
@@ -108,15 +109,18 @@ class ItemController extends BackendController
      */
     public function actionRouters()
     {
-        Yii::$app->layout = '//modal';
+        Yii::$app->getView()->applyModalLayout();
+
         return $this->render('routers');
     }
 
     /**
      * Используется CkEditor для выбора типа ссылки.
+     *
      * @param string $CKEditor
      * @param string $CKEditorFuncNum
      * @param string $langCode
+     *
      * @return mixed
      */
     public function actionCkeditorSelect($CKEditor, $CKEditorFuncNum, $langCode)
@@ -124,16 +128,19 @@ class ItemController extends BackendController
         Yii::$app->grom->applyModalLayout();
 
         return $this->render('ckeditor-select', [
-            'CKEditor' => $CKEditor,
+            'CKEditor'        => $CKEditor,
             'CKEditorFuncNum' => $CKEditorFuncNum,
-            'langCode' => $langCode
+            'langCode'        => $langCode,
         ]);
     }
+
     /**
      * Используется CkEditor для выбора ссылки на компонент.
+     *
      * @param string $CKEditor
      * @param string $CKEditorFuncNum
      * @param string $langCode
+     *
      * @return mixed
      */
     public function actionCkeditorSelectComponent($CKEditor, $CKEditorFuncNum, $langCode)
@@ -141,16 +148,19 @@ class ItemController extends BackendController
         Yii::$app->grom->applyModalLayout();
 
         return $this->render('ckeditor-select-component', [
-            'CKEditor' => $CKEditor,
+            'CKEditor'        => $CKEditor,
             'CKEditorFuncNum' => $CKEditorFuncNum,
-            'langCode' => $langCode
+            'langCode'        => $langCode,
         ]);
     }
+
     /**
      * Используется CkEditor для выбора ссылки пункт меню.
+     *
      * @param string $CKEditor
      * @param string $CKEditorFuncNum
      * @param string $langCode
+     *
      * @return mixed
      */
     public function actionCkeditorSelectMenu($CKEditor, $CKEditorFuncNum, $langCode)
@@ -158,15 +168,17 @@ class ItemController extends BackendController
         Yii::$app->grom->applyModalLayout();
 
         return $this->render('ckeditor-select-menu', [
-            'CKEditor' => $CKEditor,
+            'CKEditor'        => $CKEditor,
             'CKEditorFuncNum' => $CKEditorFuncNum,
-            'langCode' => $langCode
+            'langCode'        => $langCode,
         ]);
     }
 
     /**
      * Displays a single MenuItem model.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionView($id)
@@ -177,25 +189,49 @@ class ItemController extends BackendController
     }
 
     /**
+     * Finds the MenuItem model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     *
+     * @param integer $id
+     *
+     * @return MenuItem the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = MenuItem::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException(Yii::t('gromver.platform', 'The requested page does not exist.'));
+        }
+    }
+
+    /**
      * Creates a new MenuItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @param null $menuTypeId
-     * @param null $sourceId
-     * @param null $parentId
-     * @param null $language
+     *
+     * @param null        $menuTypeId
+     * @param null        $sourceId
+     * @param null        $parentId
+     * @param null        $language
      * @param string|null $backUrl
+     *
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionCreate($menuTypeId = null, $sourceId = null, $parentId = null, $language = null, $backUrl = null)
-    {
+    public function actionCreate(
+        $menuTypeId = null, $sourceId = null, $parentId = null, $language = null, $backUrl = null
+    ) {
+
+        $lang = $this->getDefaultLanguage();
         $model = new MenuItem();
         $model->loadDefaultValues();
         $model->status = MenuItem::STATUS_PUBLISHED;
         $model->language = $language ? $language : Yii::$app->language;
+
         // по дефолту выставляем ендпоинт на "временную старницу"
         $model->link_type = MenuItem::LINK_ROUTE;
-        $model->link = 'grom/frontend/default/dummy-page';
+        $model->link = '';
 
         if (isset($menuTypeId)) $model->menu_type_id = $menuTypeId;
 
@@ -234,31 +270,42 @@ class ItemController extends BackendController
         $linkParamsModel = new MenuLinkParams();
         $linkParamsModel->setAttributes($model->getLinkParams());
 
+        $createParam = [
+            'model'           => $model,
+            'linkParamsModel' => $linkParamsModel,
+            'sourceModel'     => $sourceModel,
+            'lang'            => $lang
+        ];
+
         if ($model->load(Yii::$app->request->post()) && $linkParamsModel->load(Yii::$app->request->post()) && $model->validate() && $linkParamsModel->validate()) {
             $model->setLinkParams($linkParamsModel->toArray());
             $model->saveNode(false);
 
-            return $this->redirect($backUrl ? $backUrl : ['view', 'id' => $model->id]);
+            if (Yii::$app->request->post('submit-type') == 'continue')
+                return $this->redirect(['update', 'id' => $model->id]);
+            elseif(Yii::$app->request->post('submit-type') == 'createNew')
+                return $this->redirect(['create']);
+            else
+                return $this->redirect(['index']);
         } else {
-            return $this->render('create', [
-                    'model' => $model,
-                    'linkParamsModel' => $linkParamsModel,
-                    'sourceModel' => $sourceModel
-                ]);
+            return $this->render('create', $createParam);
         }
     }
 
     /**
      * Updates an existing MenuItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     *
+     * @param integer     $id
      * @param string|null $backUrl
+     *
      * @return mixed
      */
-    public function actionUpdate($id, $backUrl = null)
+    public function actionUpdate($id, $language, $backUrl = null)
     {
+        $lang = $this->getDefaultLanguage($language);
         $model = $this->findModel($id);
-
+        $model->language = $lang->language_id;
         $linkParamsModel = new MenuLinkParams();
         $linkParamsModel->setAttributes($model->getLinkParams());
 
@@ -266,19 +313,28 @@ class ItemController extends BackendController
             $model->setLinkParams($linkParamsModel->toArray());
             $model->saveNode(false);
 
-            return $this->redirect($backUrl ? $backUrl : ['view', 'id' => $model->id]);
+            if (Yii::$app->request->post('submit-type') == 'continue')
+                return $this->redirect(['update', 'id' => $model->id]);
+            elseif(Yii::$app->request->post('submit-type') == 'createNew')
+                return $this->redirect(['create']);
+            else
+                return $this->redirect(['index']);
+
         } else {
             return $this->render('update', [
-                    'model' => $model,
-                    'linkParamsModel' => $linkParamsModel,
-                ]);
+                'model'           => $model,
+                'linkParamsModel' => $linkParamsModel,
+                'lang'            => $lang
+            ]);
         }
     }
 
     /**
      * Deletes an existing MenuItem model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
+     *
      * @return mixed
      */
     public function actionDelete($id)
@@ -287,7 +343,7 @@ class ItemController extends BackendController
 
         if ($model->children()->count()) {
             Yii::$app->session->setFlash(Alert::TYPE_DANGER, Yii::t('gromver.platform', "It's impossible to remove menu item ID:{id} so far it contains descendants.", ['id' => $model->id]));
-         } else {
+        } else {
             $model->delete();
         }
 
@@ -341,6 +397,7 @@ class ItemController extends BackendController
 
     /**
      * @param integer $id
+     *
      * @return Response
      * @throws NotFoundHttpException
      */
@@ -356,6 +413,7 @@ class ItemController extends BackendController
 
     /**
      * @param integer $id
+     *
      * @return Response
      * @throws NotFoundHttpException
      */
@@ -371,7 +429,8 @@ class ItemController extends BackendController
 
     /**
      * @param integer $id
-     * @param $status
+     * @param         $status
+     *
      * @return Response
      * @throws NotFoundHttpException
      */
@@ -389,7 +448,8 @@ class ItemController extends BackendController
 
     /**
      * todo remove
-     * @param null $update_item_id
+     *
+     * @param null   $update_item_id
      * @param string $selected
      */
     public function actionTypeItems($update_item_id = null, $selected = '')
@@ -408,39 +468,24 @@ class ItemController extends BackendController
                     $excludeIds = [];
                 }
 
-                $out = array_map(function($value) {
+                $out = array_map(function ($value) {
                     return [
-                        'id' => $value['id'],
-                        'name' => str_repeat(" • ", $value['level'] - 1) . $value['title']
+                        'id'   => $value['id'],
+                        'name' => str_repeat(" • ", $value['level'] - 1) . $value['title'],
                     ];
                 }, MenuItem::find()->excludeRoots()->type($typeId)->language($language)->orderBy('lft')->andWhere(['not in', 'id', $excludeIds])->asArray()->all());
                 /** @var MenuItem $root */
                 $root = MenuItem::find()->roots()->one();
                 array_unshift($out, [
-                    'id' => $root->id,
-                    'name' => Yii::t('gromver.platform', 'Root')
+                    'id'   => $root->id,
+                    'name' => Yii::t('gromver.platform', 'Root'),
                 ]);
 
                 echo Json::encode(['output' => $out, 'selected' => $selected ? $selected : $root->id]);
+
                 return;
             }
         }
         echo Json::encode(['output' => '', 'selected' => $selected]);
-    }
-
-    /**
-     * Finds the MenuItem model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return MenuItem the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = MenuItem::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException(Yii::t('gromver.platform', 'The requested page does not exist.'));
-        }
     }
 }

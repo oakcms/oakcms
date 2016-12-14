@@ -79,7 +79,7 @@ class MenuItemRoutes extends \yii\bootstrap\Widget
 
     public $itemTemplate = '{header}{routers}';
 
-    public $headerTemplate = '<h4 class="text-muted">{icon}{label}</h4>';
+    public $headerTemplate = '<h5 class="text-muted">{icon}{label}</h5>';
     /**
      * @var string шаблон роутера, включает в себя {icon} и {link} - ссылка на компонент маршрутизатора либо непосредственно роут
      */

@@ -9,9 +9,7 @@
 
 namespace app\modules\widgets\controllers\backend;
 
-
 use app\components\BackendController;
-use yii\filters\VerbFilter;
 
 class WidgetkitController extends BackendController
 {

@@ -3,7 +3,7 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
-namespace app\modules\shop\controllers;
+namespace app\modules\shop\controllers\backend;
 
 use Yii;
 use yii\web\Controller;
