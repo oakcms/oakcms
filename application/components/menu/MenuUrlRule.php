@@ -93,8 +93,8 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         // вытаскиваем инструкции из всех роутеров
         foreach ($routers as $routerClass) {
             $router = $this->getRouter($routerClass);
-
             foreach ($router->createUrlRules() as $rule) {
+                var_dump($router->createUrlRules());
                 @$rule['class'] or $rule['class'] = MenuRouterUrlRuleCreate::className();
                 $rule['router'] = $router->className();
                 $this->_createUrlRules[] = Yii::createObject($rule);
@@ -302,8 +302,12 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         $language = \Yii::$app->language;
 
         $menuMap = $this->menuManager->getMenuMap($language);
+        $route = MenuItem::toRoute($route, $params);
 
-        if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute($route, $params))) {
+        if ($path = $menuMap->getMenuPathByRoute($route)) {
+            if(($menu = $menuMap->getMenuByRoute($route)) && $menu->status == 2) {
+                return '';
+            }
             return $path;
         }
 

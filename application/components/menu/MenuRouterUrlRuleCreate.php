@@ -26,8 +26,7 @@ class MenuRouterUrlRuleCreate extends MenuRouterUrlRule
      */
     public function process($requestInfo, $menuUrlRule)
     {
-
-        if ($this->requestRoute && $this->requestRoute != $requestInfo->requestRoute) {
+        if ($this->requestRoute && $this->requestRoute != strtok($requestInfo->requestRoute, '?')) {
             return false;
         }
         if (isset($this->requestParams)) {
@@ -37,7 +36,6 @@ class MenuRouterUrlRuleCreate extends MenuRouterUrlRule
                 }
             }
         }
-
 
         return $menuUrlRule->getRouter($this->router)->{$this->handler}($requestInfo);
     }

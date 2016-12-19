@@ -10,9 +10,10 @@
 return [
     'class'                             => 'app\components\UrlManager',
     'enablePrettyUrl'                   => true,
-    //'enableDefaultLanguageUrlCode'      => false,
+    'cache'                             => false,
     'showScriptName'                    => false,
     'enableStrictParsing'               => true,
+    //'enableDefaultLanguageUrlCode'      => false,
     'normalizer' => [
         'class' => 'yii\web\UrlNormalizer',
     ],

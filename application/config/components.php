@@ -12,6 +12,7 @@ return [
         'class' => 'app\components\KeyStorage',
     ],
     'request'      => [
+        'class'               => 'app\components\Request',
         'cookieValidationKey' => getenv('COOKIE_VALIDATION_KEY'),
         'baseUrl'             => getenv('BASE_URL'),
         'parsers'             => [
@@ -52,9 +53,9 @@ return [
         'excludeBundles'   => [
             #\dev\hellowrld\AssetBundle::class, // exclude this bundle from minification
         ],
-        'as seo' => [
+        'as seo'           => [
             'class' => 'app\modules\system\components\SeoViewBehavior',
-        ]
+        ],
     ],
     'mailer'       => [
         'class'            => 'yii\swiftmailer\Mailer',

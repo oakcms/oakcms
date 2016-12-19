@@ -85,6 +85,7 @@
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-export": "*",
+		"kartik-v/yii2-builder": "*",
 
         "kop/yii2-scroll-pager": "dev-master",
 

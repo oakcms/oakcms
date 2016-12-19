@@ -9,23 +9,12 @@
 
 namespace app\modules\system;
 
-use app\components\menu\MenuManager;
-use app\components\module\ModuleQuery;
-use app\modules\menu\models\MenuItem;
-use app\modules\system\models\DbState;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\caching\ExpressionDependency;
-use yii\helpers\VarDumper;
 
 class Bootstrap implements BootstrapInterface
 {
-    /**
-     * @var null|\yii\caching\Dependency
-     */
-    private $_moduleConfigDependency;
-
-
     public function bootstrap($app)
     {
         /**
@@ -35,11 +24,8 @@ class Bootstrap implements BootstrapInterface
          *
          */
 
-        $this->_moduleConfigDependency = new ExpressionDependency(['expression' => '\Yii::$app->getModulesHash()']);
-
         // Установка теми з настроек сайту
         $themeFrontend = Yii::$app->keyStorage->get('themeFrontend');
-
 
         \Yii::$app->getView()->title = Yii::$app->keyStorage->get('siteName');
 
@@ -89,18 +75,6 @@ class Bootstrap implements BootstrapInterface
         $themeClass = '\app\templates\frontend\\' . $themeFrontend . '\Theme';
 
         \Yii::$app->getView()->theme = new $themeClass;
-
-        Yii::$container->set('app\components\MenuMap', [
-            'cache'           => $app->cache,
-            'cacheDependency' => DbState::dependency(MenuItem::tableName()),
-        ]);
-
-        Yii::$container->set('app\components\MenuUrlRule', [
-            'cache'           => $app->cache,
-            'cacheDependency' => $this->_moduleConfigDependency,
-        ]);
-
-
 
         \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
 

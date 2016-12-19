@@ -21,6 +21,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "menu_item".
@@ -494,6 +495,10 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public function getFrontendViewLink()
     {
         if ($this->link_type == self::LINK_ROUTE) {
+            if($this->status == self::STATUS_MAIN_PAGE) {
+                return Url::home();
+            }
+
             return ['/' . $this->path];
         } else {
             return $this->link;

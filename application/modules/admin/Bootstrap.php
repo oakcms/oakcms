@@ -10,14 +10,24 @@
 namespace app\modules\admin;
 
 use app\components\menu\MenuManager;
+use app\modules\admin\models\ModulesModules;
+use app\modules\menu\models\MenuItem;
+use app\modules\system\models\DbState;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
-use app\modules\admin\models\ModulesModules;
+use yii\caching\ExpressionDependency;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
 class Bootstrap implements BootstrapInterface
 {
+
+    /**
+     * @var null|\yii\caching\Dependency
+     */
+    private $_modulesConfigDependency;
+    private $_modulesHash;
 
     public $backendUrlRules = [];
     public $frontendUrlRules = [];
@@ -27,7 +37,7 @@ class Bootstrap implements BootstrapInterface
     {
         /**
          *
-         * @var Module $adminModule
+         * @var Module                   $adminModule
          * @var \app\modules\user\Module $userModule
          *
          */
@@ -42,38 +52,38 @@ class Bootstrap implements BootstrapInterface
             $modules_backend = [];
             $modules_frontend = [];
             foreach ($adminModule->activeModules as $name => $module) {
-                if(class_exists($module->class)) {
-                    if($module->isAdmin) {
+                if (class_exists($module->class)) {
+                    if ($module->isAdmin) {
 
                         $class = new \ReflectionClass($module->class);
 
                         $modules_backend[$name]['class'] = $module->class;
 
-                        if($class->hasProperty('controllerNamespace') && $class->getStaticPropertyValue('controllerNamespace', '') != '') {
+                        if ($class->hasProperty('controllerNamespace') && $class->getStaticPropertyValue('controllerNamespace', '') != '') {
                             $modules_backend[$name]['controllerNamespace'] = $class->getStaticPropertyValue('controllerNamespace');
                         } else {
-                            $modules_backend[$name]['controllerNamespace'] = 'app\modules\\'.$module->name.'\controllers\backend';
+                            $modules_backend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\backend';
                         }
 
-                        if($class->hasProperty('viewPath') && $class->getStaticPropertyValue('viewPath', '') != '') {
+                        if ($class->hasProperty('viewPath') && $class->getStaticPropertyValue('viewPath', '') != '') {
                             $modules_backend[$name]['viewPath'] = $class->getStaticPropertyValue('viewPath');
                         } else {
-                            $modules_backend[$name]['viewPath'] = '@app/modules/'.$module->name.'/views/backend';
+                            $modules_backend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/backend';
                         }
 
-                        if($class->hasProperty('urlRulesBackend')) {
+                        if ($class->hasProperty('urlRulesBackend')) {
                             foreach ($class->getStaticPropertyValue('urlRulesBackend') as $k => $item) {
                                 $this->backendUrlRules[$k] = $item;
                             }
                         }
 
-                        if($class->hasProperty('urlRulesFrontend')) {
+                        if ($class->hasProperty('urlRulesFrontend')) {
                             foreach ($class->getStaticPropertyValue('urlRulesFrontend') as $k => $item) {
                                 $this->frontendUrlRules[$k] = $item;
                             }
                         }
 
-                        if($class->hasProperty('setAppComponents')) {
+                        if ($class->hasProperty('setAppComponents')) {
                             foreach ($class->getStaticPropertyValue('setAppComponents') as $k => $item) {
                                 $this->setAppComponents[$k] = $item;
                             }
@@ -85,8 +95,8 @@ class Bootstrap implements BootstrapInterface
                     }
                     if ($module->isFrontend) {
                         $modules_frontend[$name]['class'] = $module->class;
-                        $modules_frontend[$name]['controllerNamespace'] = 'app\modules\\'.$module->name.'\controllers\frontend';
-                        $modules_frontend[$name]['viewPath'] = '@app/modules/'.$module->name.'/views/frontend';
+                        $modules_frontend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\frontend';
+                        $modules_frontend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/frontend';
 
                         if (isset($module->settings) AND is_array($module->settings)) {
                             $modules_frontend[$name]['settings'] = $module->settings;
@@ -98,6 +108,8 @@ class Bootstrap implements BootstrapInterface
             Yii::$app->setComponents($this->setAppComponents);
             Yii::$app->setModules($modules_frontend);
             $adminModule->setModules($modules_backend);
+
+            $this->_modulesHash = md5(json_encode([$modules_frontend, $modules_backend]));
 
             Yii::setAlias('admin', '@app/modules/admin');
 
@@ -116,11 +128,11 @@ class Bootstrap implements BootstrapInterface
             $app->getUrlManager()->addRules([$rule], false);
 
 
-            if(isset($this->backendUrlRules)) {
+            if (isset($this->backendUrlRules)) {
                 $app->getUrlManager()->addRules($this->backendUrlRules, false);
             }
 
-            if(isset($this->frontendUrlRules)) {
+            if (isset($this->frontendUrlRules)) {
                 $app->getUrlManager()->addRules($this->frontendUrlRules, false);
             }
 
@@ -128,9 +140,9 @@ class Bootstrap implements BootstrapInterface
 
             if (
                 !Yii::$app->user->isGuest &&
-                strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') === false &&
-                strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'gii') === false &&
-                strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'debug') === false &&
+                strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'admin') === false &&
+                strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'gii') === false &&
+                strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'debug') === false &&
                 !Yii::$app->request->isAjax &&
                 Yii::$app->getView()->adminPanel
             ) {
@@ -141,12 +153,37 @@ class Bootstrap implements BootstrapInterface
             }
         }
 
+        Yii::$container->set('app\components\module\ModuleQuery', [
+            'cache' => $app->cache,
+            'cacheDependency' => $this->_modulesConfigDependency
+        ]);
+
+        Yii::$container->set('app\components\menu\MenuMap', [
+            'cache'           => $app->cache,
+            'cacheDependency' => DbState::dependency(MenuItem::tableName()),
+        ]);
+
+        Yii::$container->set('app\components\menu\MenuUrlRule', [
+            'cache'           => $app->cache,
+            'cacheDependency' => $this->_modulesConfigDependency,
+        ]);
+
+
         $app->set('menuManager', \Yii::createObject(MenuManager::className()));
 
     }
+
     public function renderToolbar()
     {
         $view = Yii::$app->getView();
         echo $view->render('@app/templates/backend/base/modules/admin/views/layouts/blocks/admin_bar.php');
     }
+
+    /**
+     * @return string
+     */
+    public function getModulesHash() {
+        return $this->_modulesHash;
+    }
+
 }

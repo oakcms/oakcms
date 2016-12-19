@@ -15,13 +15,10 @@ use app\components\menu\MenuRequestInfo;
 use app\components\menu\MenuRouter;
 use app\modules\menu\models\MenuItem;
 use app\modules\shop\models\Category;
-use app\modules\shop\models\Price;
-use yii\helpers\Url;
 
 /**
- * Class MenuRouterPage
- * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
+ * Class MenuRouterShop
+ * @package oakcms
  */
 class MenuRouterShop extends MenuRouter
 {
@@ -60,13 +57,7 @@ class MenuRouterShop extends MenuRouter
     {
         /** @var Category $menuCategory */
         if ($menuCategory = Category::findOne(['slug' => $requestInfo->menuParams['slug']])) {
-            /** @var Category $category */
-            if ($category = Category::findOne([
-                'path' => $menuCategory->path . '/' . $requestInfo->requestRoute,
-                'language' => $menuCategory->language
-            ])) {
-                return ['/shop/category/view', ['slug' => $category->slug]];
-            }
+            return ['shop/category/view', ['slug' => $menuCategory->slug]];
         }
     }
 
@@ -76,20 +67,12 @@ class MenuRouterShop extends MenuRouter
      */
     public function createCategoryView($requestInfo)
     {
-        $path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('/shop/category/view', ['slug' => $requestInfo->requestParams['slug']]));
-
-        //Пробуємо знайти пункт меню ссилайщийся на дану категорію
-        if ($path) {
+        if ($path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('shop/category/view', ['slug' => $requestInfo->requestParams['slug']]))) {
             unset($requestInfo->requestParams['id'], $requestInfo->requestParams['slug']);
-
-            if($path != ltrim(Url::to(), '/')) {
-                \Yii::$app->getResponse()->redirect([MenuItem::toRoute($path, $requestInfo->requestParams)], 301);
-            }
-
             return MenuItem::toRoute($path, $requestInfo->requestParams);
+        } else {
+            return "shop/category/".$requestInfo->requestParams['slug'];
         }
-
-        return $this->createCategoryGuide($requestInfo);
     }
 
     /**

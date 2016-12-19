@@ -29,7 +29,7 @@ class DbState extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%grom_db_state}}';
+        return '{{%db_state}}';
     }
 
     /**

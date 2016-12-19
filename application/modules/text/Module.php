@@ -3,18 +3,19 @@ namespace app\modules\text;
 
 use app\components\module\ModuleEventsInterface;
 use app\components\UrlManager;
-use app\modules\admin\widgets\Menu;
 use app\modules\admin\widgets\events\MenuItemsEvent;
+use app\modules\admin\widgets\Menu;
 
 class Module extends \yii\base\Module implements ModuleEventsInterface
 {
 
     /** @var UrlManager The rules to be used in Backend Url management. */
     public static $urlRulesBackend = [
-        'text/default/get-settings/<file:[\w\-]+>'      => 'text/default/get-settings',
-        'text/default/<_a:[\w\-]+>/<id:\d+>/<file:[\w\-]+>'     => 'text/default/<_a>',
-        'text/default/<_a:[\w\-]+>/<file:[\w\-]+>'              => 'text/default/<_a>',
+        'text/default/get-settings/<file:[\w\-]+>'          => 'text/default/get-settings',
+        'text/default/<_a:[\w\-]+>/<id:\d+>/<file:[\w\-]+>' => 'text/default/<_a>',
+        'text/default/<_a:[\w\-]+>/<file:[\w\-]+>'          => 'text/default/<_a>',
     ];
+    public $settings = [];
 
     /**
      * @param $event MenuItemsEvent
@@ -23,8 +24,8 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     {
         $event->items['text'] = [
             'label' => \Yii::t('text', 'Text'),
-            'icon' => '<i class="fa fa-font"></i>',
-            'url' => ['/admin/text'],
+            'icon'  => '<i class="fa fa-font"></i>',
+            'url'   => ['/admin/text'],
         ];
     }
 
@@ -34,9 +35,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     public function events()
     {
         return [
-            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem'
+            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem',
         ];
     }
-
-    public $settings = [];
 }

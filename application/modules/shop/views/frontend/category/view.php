@@ -9,10 +9,12 @@
  * @var $model \app\modules\shop\models\Category;
  */
 
-use app\modules\admin\widgets\Html;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 echo Html::tag('h1', $model->name);
 
-$activeMenu = Yii::$app->menuManager->activeMenu;
-var_dump($activeMenu);
-//\yii\helpers\VarDumper::dump(Yii::$app->getUrlManager()->rules, 10, true);
+echo \yii\bootstrap\Html::a('link 1', ['/shop/category/view', 'slug' => 'kategoria-1']);echo " | ";
+echo \yii\bootstrap\Html::a('link 2', ['/shop/category/view', 'slug' => 'komp-uternie-stoly']);echo " | ";
+echo \yii\bootstrap\Html::a('link 3', ['/shop/category/view', 'slug' => '12']); echo " | ";
+echo \yii\bootstrap\Html::a('link 4', ['/shop/category/view', 'slug' => 'kategoria-2']);echo " | ";
