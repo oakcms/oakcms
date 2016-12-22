@@ -24,13 +24,14 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     /** @var array The rules to be used in Frontend Url management. */
     public static $urlRulesFrontend = [
         '/shop/category/<slug:[\w\-]+>' => '/shop/category/view',
+        '/shop/product/<slug:[\w\-]+>' => '/shop/product/view',
     ];
     public $adminRoles = [Rbac::PERMISSION_ADMIN_PANEL];
     public $modelMap = [];
     public $defaultTypeId = null;
     public $priceType = null; //callable, возвращающая type_id цены
-    public $categoryUrlPrefix = '/admin/shop/category/view';
-    public $productUrlPrefix = '/admin/shop/product/view';
+    public $categoryUrlPrefix = '/shop/category/view';
+    public $productUrlPrefix = '/shop/product/view';
     public $oneC = null;
     public $userModel = null;
     public $users = [];

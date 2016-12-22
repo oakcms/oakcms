@@ -7,7 +7,7 @@
  * File name: Theme.php
  */
 
-namespace app\components;
+namespace app\templates\frontend\base;
 
 use Yii;
 

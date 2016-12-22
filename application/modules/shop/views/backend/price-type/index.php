@@ -13,9 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 \app\modules\shop\assets\BackendAsset::register($this);
 ?>
 <div class="price-type-index">
-    <div class="shop-menu">
-        <?=$this->render('../parts/menu');?>
-    </div>
 
     <div class="row">
         <div class="col-md-2">
@@ -23,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <?= \kartik\grid\GridView::widget([
+    <?= \yii\grid\GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

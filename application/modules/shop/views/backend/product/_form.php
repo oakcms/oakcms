@@ -163,7 +163,6 @@ if (!$model->isNewRecord) {
             <?= \app\modules\relations\widgets\Constructor::widget(['model' => $model]); ?>
         </div>
     </div>
-
     <?php if (isset($priceTypes)) { ?>
         <?php if ($priceTypes) { ?>
             <h3>Цены</h3>

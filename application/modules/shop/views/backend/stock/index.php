@@ -13,10 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="producer-index">
 
-    <div class="shop-menu">
-        <?=$this->render('../parts/menu');?>
-    </div>
-
     <div class="row">
         <div class="col-md-2">
             <?= Html::a('Добавить склад', ['create'], ['class' => 'btn btn-success']) ?>
@@ -27,18 +23,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'name',
             ];
-
-            echo ExportMenu::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => $gridColumns
-            ]);
             ?>
         </div>
     </div>
 
     <br style="clear: both;"></div>
 
-    <?= \kartik\grid\GridView::widget([
+    <?= \yii\grid\GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [

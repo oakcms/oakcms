@@ -6,6 +6,7 @@
 namespace app\modules\shop\models\product;
 
 use app\modules\shop\models\Category;
+use app\modules\shop\models\Product;
 use yii\db\ActiveQuery;
 
 class ProductQuery extends ActiveQuery
@@ -21,7 +22,7 @@ class ProductQuery extends ActiveQuery
 
     public function available()
     {
-         return $this->andwhere("`available` = 'yes'");
+         return $this->andWhere(['available' => Product::AVAILABLE_YES]);
     }
 
     public function category($childCategoriesIds)

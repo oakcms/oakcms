@@ -20,15 +20,10 @@ class Editor extends CKEditor
         $bundle = \yii\bootstrap\BootstrapAsset::register(\Yii::$app->view);
 
         $this->editorOptions = \mihaildev\elfinder\ElFinder::ckeditorOptions('/admin/file-manager-elfinder', [
-            'preset' => 'full',
-            'extraPlugins' => 'codemirror',
-            'entities' => false,
+            'preset'         => 'full',
+            'entities'       => false,
             'allowedContent' => true,
-            'baseHref' => \Yii::$app->homeUrl,
-            'contentsCss' => [
-                $bundle->baseUrl.'/css/bootstrap.css',
-            ]
-            //'skin' => 'office2013'
+            'baseHref'       => \Yii::$app->homeUrl,
         ]);
     }
 }

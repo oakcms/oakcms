@@ -15,6 +15,7 @@ use app\modules\gallery\models\Image;
 
 class Module extends \yii\base\Module
 {
+    public $imagesStoreUrl = '@web/uploads/store';
     public $imagesStorePath = '@webroot/uploads/store';
     public $imagesCachePath = '@webroot/uploads/imgCache';
     public $graphicsLibrary = 'GD';
@@ -50,6 +51,11 @@ class Module extends \yii\base\Module
     public function getStorePath()
     {
         return Yii::getAlias($this->imagesStorePath);
+    }
+
+    public function getStoreUrl()
+    {
+        return Yii::getAlias($this->imagesStoreUrl);
     }
 
 

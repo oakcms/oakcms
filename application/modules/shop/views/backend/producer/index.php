@@ -13,36 +13,21 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="producer-index">
 
-    <div class="shop-menu">
-        <?=$this->render('../parts/menu');?>
-    </div>
-
     <div class="row">
         <div class="col-md-2">
             <?= Html::a('Создать производителя', ['create'], ['class' => 'btn btn-success']) ?>
         </div>
-        <div class="col-md-4">
-            <?php
-            $gridColumns = [
-                'id',
-                'name',
-            ];
-
-            echo ExportMenu::widget([
-                'dataProvider' => $dataProvider,
-                'columns' => $gridColumns
-            ]);
-            ?>
-        </div>
     </div>
 
-    <br style="clear: both;"></div>
-
-    <?= \kartik\grid\GridView::widget([
+    <?= \yii\grid\GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['attribute' => 'id', 'filter' => false, 'options' => ['style' => 'width: 55px;']],
+            [
+                'attribute' => 'id',
+                'filter' => false,
+                'options' => ['style' => 'width: 55px;']
+            ],
 
             'name',
             [
@@ -56,7 +41,12 @@ $this->params['breadcrumbs'][] = $this->title;
 				}
 			],
 
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{update} {delete}',  'buttonOptions' => ['class' => 'btn btn-default'], 'options' => ['style' => 'width: 125px;']],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update} {delete}',
+                'buttonOptions' => ['class' => 'btn btn-default'],
+                'options' => ['style' => 'width: 125px;']
+            ],
         ],
     ]); ?>
 

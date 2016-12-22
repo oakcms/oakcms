@@ -94,7 +94,6 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         foreach ($routers as $routerClass) {
             $router = $this->getRouter($routerClass);
             foreach ($router->createUrlRules() as $rule) {
-                var_dump($router->createUrlRules());
                 @$rule['class'] or $rule['class'] = MenuRouterUrlRuleCreate::className();
                 $rule['router'] = $router->className();
                 $this->_createUrlRules[] = Yii::createObject($rule);
@@ -190,6 +189,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
              */
             $requestRoute = substr($pathInfo, mb_strlen($menu->path) + 1);
             list($menuRoute, $menuParams) = $menu->parseUrl();
+
             $requestInfo = new MenuRequestInfo([
                 'menuMap'       => $menuMap,
                 'menuRoute'     => $menuRoute,

@@ -76,7 +76,7 @@ $this->params['actions_buttons'] = [
 </div>
 <?php } ?>
 <?php
-echo \kartik\grid\GridView::widget([
+echo \yii\grid\GridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
     'tableOptions' => ['class' => 'table table-striped table-bordered table-advance table-hover'],
@@ -91,7 +91,7 @@ echo \kartik\grid\GridView::widget([
             'format'    => 'images',
             'filter'    => false,
             'content'   => function ($image) {
-                if ($image = $image->getImage()->getUrl('50x50')) {
+                if ($image = $image->getImage()->getUrl('50x50', true)) {
                     return "<img src=\"{$image}\" class=\"thumb\" />";
                 }
             },

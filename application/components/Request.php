@@ -29,6 +29,17 @@ class Request extends \yii\web\Request
             $menu           = $menuManager->menuMap->getMenuByRoute($menuRoute);
             $menuStatus     = $menu ? $menu->status : 0;
 
+            list ($routeURL, $paramsURL) = Yii::$app->urlManager->parseRequest($this);
+            $currentURL = [$routeURL];
+            foreach ($paramsURL as $k=>$item) {
+                $currentURL[$k] = $item;
+            }
+            $url = Yii::$app->getUrlManager()->createUrl($currentURL);
+
+            if($url !== Url::to()) {
+                Yii::$app->getResponse()->redirect($url, 301);
+            }
+
             if($menuPath) {
                 if($menuPath != ltrim(Url::to(), '/') && $menuStatus != 2) {
                     Yii::$app->getResponse()->redirect(Url::home().$menuPath, 301);

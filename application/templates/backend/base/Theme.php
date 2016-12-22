@@ -20,8 +20,9 @@ class Theme extends \yii\base\Theme {
     {
         parent::init();
 
-        Yii::$app->getAssetManager()->bundles['yii\bootstrap\BootstrapAsset'] = [];
-        Yii::$app->getAssetManager()->bundles['yii\bootstrap\BootstrapPluginAsset'] = [];
+        Yii::$app->getAssetManager()->bundles['mihaildev\ckeditor\Assets'] = [
+            'sourcePath' => '@bower/ckeditor'
+        ];
 
         $theme = Yii::$app->keyStorage->get('themeBackend');
 

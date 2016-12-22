@@ -6,15 +6,31 @@
  * Project: oakcms
  * File name: view.php
  *
+ * @var $this \app\components\CoreView;
  * @var $model \app\modules\shop\models\Category;
  */
 
-use yii\helpers\Url;
 use yii\helpers\Html;
 
-echo Html::tag('h1', $model->name);
+?>
 
-echo \yii\bootstrap\Html::a('link 1', ['/shop/category/view', 'slug' => 'kategoria-1']);echo " | ";
-echo \yii\bootstrap\Html::a('link 2', ['/shop/category/view', 'slug' => 'komp-uternie-stoly']);echo " | ";
-echo \yii\bootstrap\Html::a('link 3', ['/shop/category/view', 'slug' => '12']); echo " | ";
-echo \yii\bootstrap\Html::a('link 4', ['/shop/category/view', 'slug' => 'kategoria-2']);echo " | ";
+<div class="actions">
+    <?= Html::tag('h3', Yii::t('shop', 'Акции')) ?>
+    <hr class="border">
+    <div class="row">
+        <?php
+        /** @var \app\modules\shop\models\Product $action */
+        foreach($this->context->module->getService('product')->getActionProducts() as $action):?>
+        <div class="col-md-3 col-sm-6">
+            <div class="one_product">
+                <?= Html::a(Html::img($action->getImage()->getUrl()), ['/shop/product/view', 'slug' => $action->slug]) ?>
+                <span class="title"><?= $action->name ?></span><br>
+
+                <span class="price"><?= $action->getPrice() ?> P</span>
+                <button class="btn btn_by">купить</button>
+            </div>
+        </div>
+        <?endforeach;?>
+    </div>
+    <hr class="border">
+</div>
