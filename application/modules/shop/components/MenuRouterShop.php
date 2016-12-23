@@ -179,9 +179,8 @@ class MenuRouterShop extends MenuRouter
         if (!isset($this->_productPaths[$menuMap->language][$productSlug])) {
             if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute('shop/product/view', ['slug' => $productSlug]))) {
                 $this->_productPaths[$menuMap->language][$productSlug] = $path;
-            } elseif (($category = $product->category) && ($path = $this->findCategoryMenuPath($category->slug, $menuMap))) {
+            } elseif (isset($product->category) && ($path = $this->findCategoryMenuPath($product->category->slug, $menuMap))) {
                 $this->_productPaths[$menuMap->language][$productSlug] = $path . '/' . $product->slug;
-
             } else {
                 $this->_productPaths[$menuMap->language][$productSlug] = false;
             }

@@ -23,6 +23,13 @@ class Theme extends \yii\base\Theme {
         Yii::$app->getAssetManager()->bundles['mihaildev\ckeditor\Assets'] = [
             'sourcePath' => '@bower/ckeditor'
         ];
+        Yii::$app->getAssetManager()->bundles['yii\jui\JuiAsset'] = [
+            'sourcePath' => '@app/media',
+            'js'         => [
+                'js/jquery-ui.min.js',
+            ],
+            'css'        => [],
+        ];
 
         $theme = Yii::$app->keyStorage->get('themeBackend');
 

@@ -6,6 +6,7 @@
 namespace app\modules\shop\models;
 
 use app\modules\shop\models\product\ProductQuery;
+use app\modules\field\behaviors\AttachFields;
 use yii\helpers\Url;
 
 /**
@@ -18,7 +19,10 @@ use yii\helpers\Url;
  * @property string $slug;
  * @property string $code;
  * @property string $text;
+ *
+ * @method getField($code) Get Attach Fields see [[app\modules\field\behaviors\AttachFields]] behavior for more info;
  */
+
 class Product extends \yii\db\ActiveRecord implements \app\modules\relations\interfaces\Torelate, \app\modules\cart\interfaces\CartElement
 {
     const IS_PROMO_YES = 'yes';
@@ -67,7 +71,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                 'class' => 'app\modules\filter\behaviors\AttachFilterValues',
             ],
             'field'      => [
-                'class' => 'app\modules\field\behaviors\AttachFields',
+                'class' => AttachFields::className(),
             ],
         ];
     }

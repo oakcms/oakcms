@@ -35,15 +35,22 @@ class Request extends \yii\web\Request
                 $currentURL[$k] = $item;
             }
             $url = Yii::$app->getUrlManager()->createUrl($currentURL);
+            $queryParams = $this->getQueryParams();
+            if(isset($queryParams['q'])) {
+                unset($queryParams['q']);
+            }
+            if(count($queryParams)) {
+                $url = $url.'?'.http_build_query($queryParams);
+            }
 
-            if($url !== Url::to()) {
+            if($url !== urldecode(Url::to())) {
                 Yii::$app->getResponse()->redirect($url, 301);
             }
 
             if($menuPath) {
-                if($menuPath != ltrim(Url::to(), '/') && $menuStatus != 2) {
+                if($menuPath != ltrim(urldecode(Url::to()), '/') && $menuStatus != 2) {
                     Yii::$app->getResponse()->redirect(Url::home().$menuPath, 301);
-                } elseif(Url::to() != Url::home() && $menuStatus == 2) {
+                } elseif(urldecode(Url::to()) != urldecode(Url::home()) && $menuStatus == 2) {
                     Yii::$app->getResponse()->redirect(Url::home(), 301);
                 }
             }

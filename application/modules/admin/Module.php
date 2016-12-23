@@ -95,18 +95,6 @@ class Module extends \app\components\module\Module
         if (Yii::$app instanceof \yii\web\Application) {
             if (!defined('LIVE_EDIT')) define('LIVE_EDIT', !Yii::$app->user->isGuest && Yii::$app->session->get('oak_live_edit'));
         }
-
-        $rHostInfo = Url::home(true);
-        if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
-
-            $themeBackend = Yii::$app->keyStorage->get('themeBackend');
-
-            $themeClass = '\app\templates\backend\\'.$themeBackend.'\Theme';
-
-            \Yii::$app->getView()->theme = new $themeClass;
-
-            Yii::$app->getErrorHandler()->errorAction = '/admin/default/error';
-        }
     }
 
     public function getSettings($module) {

@@ -11,7 +11,7 @@ namespace app\modules\system;
 
 use Yii;
 use yii\base\BootstrapInterface;
-use yii\caching\ExpressionDependency;
+use yii\helpers\Url;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -36,7 +36,7 @@ class Bootstrap implements BootstrapInterface
             'appendTimestamp' => YII_ENV_DEV,
             'converter'       => [
                 'class'          => 'nizsheanez\assetConverter\Converter',
-                'destinationDir' => 'css/../',
+                'destinationDir' => 'compiled',
                 'parsers'        => [
                     'sass' => [
                         'class'   => 'nizsheanez\assetConverter\Sass',
@@ -61,22 +61,19 @@ class Bootstrap implements BootstrapInterface
             ],
         ];
 
-        $assetManager['bundles'] = [
-            'yii\jui\JuiAsset' => [
-                'sourcePath' => '@app/media/',
-                'js'         => [
-                    'js/jquery-ui.min.js',
-                ],
-                'css'        => [],
-            ],
-        ];
-
         $app->set('assetManager', $assetManager);
-        $themeClass = '\app\templates\frontend\\' . $themeFrontend . '\Theme';
 
-        \Yii::$app->getView()->theme = new $themeClass;
-
-        \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
+        $rHostInfo = Url::home(true);
+        if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
+            $themeBackend = Yii::$app->keyStorage->get('themeBackend');
+            $themeClass = '\app\templates\backend\\'.$themeBackend.'\Theme';
+            \Yii::$app->getView()->theme = new $themeClass;
+            Yii::$app->getErrorHandler()->errorAction = '/admin/default/error';
+        } else {
+            $themeClass = '\app\templates\frontend\\' . $themeFrontend . '\Theme';
+            \Yii::$app->getView()->theme = new $themeClass;
+            \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
+        }
 
         // Індексація сайту
         if (!Yii::$app->keyStorage->get('indexing')) {

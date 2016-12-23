@@ -38,16 +38,30 @@ class ShowPrice extends \yii\base\Widget
                 ];
             }
 
-            $js = 'app\modules.modificationconstruct.modifications = '.json_encode($json).';';
+            $js = 'oakcms.modificationconstruct.modifications = '.json_encode($json).';';
 
             $this->getView()->registerJs($js);
         }
 
-
-        return Html::tag(
-                $this->htmlTag,
-                $this->model->getPrice(),
-                ['class' => "app\modules-shop-price app\modules-shop-price-{$this->model->id} {$this->cssClass}"]
-            );
+        if($this->model->getPrice(2)) {
+            return
+                Html::tag(
+                    $this->htmlTag,
+                    'Старая цена: <span>'.$this->model->getPrice(1).'</span>',
+                    ['class' => "old_prise {$this->cssClass}"]
+                ) .
+                Html::tag(
+                    $this->htmlTag,
+                    'Цена: <span>'.$this->model->getPrice(2).'</span>',
+                    ['class' => "total_cost oakcms-shop-price oakcms-shop-price-{$this->model->id} {$this->cssClass}"]
+                );
+        } elseif ($this->model->getPrice(1)) {
+            return
+                Html::tag(
+                    $this->htmlTag,
+                    'Цена: <span>'.$this->model->getPrice(1).'</span>',
+                    ['class' => "total_cost oakcms-shop-price oakcms-shop-price-{$this->model->id} {$this->cssClass}"]
+                );
+        }
     }
 }

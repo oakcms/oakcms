@@ -42,7 +42,8 @@ class Bootstrap implements BootstrapInterface
             \Yii::$app->getView()->registerJsFile(\Yii::getAlias('@web/application/media/js/jquery.cookie.js'), ['depends' => 'yii\web\JqueryAsset'], 'jquery.cookie.js');
 
             unset($_COOKIE["LockScreenSession"]);
-            setcookie("LockScreenSession", $time, $time + 60 * 15, '/');
+            //setcookie("LockScreenSession", $time, $time + 60 * 15, '/');
+            setcookie("LockScreenSession", $time, $time + 60000 * 15, '/');
         }
     }
 }

@@ -21,7 +21,7 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
             [['name', 'product_id'], 'required'],
             [['name', 'available', 'code'], 'string', 'max' => 100],
             [['price'], 'number'],
-            [['product_id', 'amount'], 'integer'],
+            [['product_id', 'amount', 'type_id'], 'integer'],
         ];
     }
 
@@ -35,6 +35,7 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
             'code' => 'Артикул',
             'available' => 'Наличие',
             'amount' => 'Остаток',
+            'type_id' => 'Тип цены',
             'sort' => 'Приоритет',
         ];
     }

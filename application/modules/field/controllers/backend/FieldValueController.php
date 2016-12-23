@@ -65,12 +65,12 @@ class FieldValueController extends Controller
         $model = FieldValue::findOne(['item_id' => $post['item_id'], 'field_id' => $post['field_id']]);
 
         if(!$model) {
-            $model = new fieldValue;
+            $model = new FieldValue;
         } else {
-            $field = field::findOne($model->field_id);
+            $field = Field::findOne($model->field_id);
             if($field->type == 'radio') {
                 FieldValue::deleteAll(['item_id' => $post['item_id'], 'field_id' => $post['field_id']]);
-                $model = new fieldValue;
+                $model = new FieldValue;
             }
         }
 

@@ -44,6 +44,11 @@ class AttachFields extends Behavior
         return true;
     }
 
+    /**
+     * @param string $code
+     *
+     * @return mixed
+     */
     public function getField($code)
     {
         if($this->fieldVariants === null) {
@@ -53,13 +58,19 @@ class AttachFields extends Behavior
         return $this->getFieldValue($code);
     }
 
+
+    /**
+     * @param $code
+     *
+     * @return mixed
+     */
     public function getFieldValue($code)
     {
         if(isset($this->fieldVariants[$code])) {
             return $this->fieldVariants[$code];
         }
 
-        return false;
+        return null;
     }
 
     public function getFieldValues($code)
