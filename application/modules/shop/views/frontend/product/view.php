@@ -20,6 +20,10 @@ $this->params['breadcrumbs'][] = [
     'label' => $model->category->name
 ];
 $this->params['breadcrumbs'][] = $model->name;
+
+$this->registerJsFile('//yastatic.net/es5-shims/0.0.2/es5-shims.min.js');
+$this->registerJsFile('//yastatic.net/share2/share.js');
+
 ?>
 
 <div class="title text-center">
@@ -69,46 +73,14 @@ $this->params['breadcrumbs'][] = $model->name;
     </div>
 </div>
 
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6 no_padding_left">
-            <div class="item_content">
-                <div class="img_big">
-                    <img src="img/big_img.png" alt="">
-                </div>
-
-                <div class="col-md-12 mobile_padding no_padding_left">
-                    <div class="soc_lis_item ">
-                    <span>
-                        Поделится c друзями:
-                    </span>
-                        <ul class="list-inline list-unstyled">
-                            <li><a href="href=#"><img src="img/f_vk.png" alt="vk"></a></li>
-                            <li><a href="href=#"><img src="img/f_ok.png" alt="ok"></a></li>
-                            <li><a href="href=#"><img src="img/f_fb.png" alt="fb"></a></li>
-                            <li><a href="href=#"><img src="img/f_tw.png" alt="fb"></a></li>
-                            <li><a href="href=#"><img src="img/f_gl.png" alt="google"></a></li>
-                            <li><a href="href=#"><img src="img/f_sm.png" alt="sm"></a></li>
-                        </ul>
-                    </div>
-
-                </div>
-                <div class="img_desk hidden-xs hidden-sm ">
-                    <div class="col-md-3 no_padding_left ">
-                        <img src="img/big_img.png" alt="">
-                    </div>
-                    <div class="col-md-3  no_padding_left">
-                        <img src="img/big_img.png" alt="">
-                    </div>
-                    <div class="col-md-3 no_padding_left">
-                        <img src="img/big_img.png" alt="">
-                    </div>
-                    <div class="col-md-3 no_padding ">
-                        <img src="img/big_img.png" alt="">
-                    </div>
-                </div>
-
-            </div>
+            <?= \app\modules\shop\widgets\ShowMainGallery::widget([
+                'model' => $model,
+                'content' => "<div class=\"soc_lis_item\"><span>Поделится c друзями:</span><div class=\"ya-share2\" data-services=\"vkontakte,facebook,odnoklassniki,moimir,gplus,twitter\" data-counter=\"\"></div></div>",
+            ]) ?>
         </div>
         <div class="col-md-3">
             <ul class="product-params subject hidden-xs hidden-sm">
@@ -132,51 +104,34 @@ $this->params['breadcrumbs'][] = $model->name;
 
             <span class="text-right variants hidden-xs hidden-sm ">Варианты цветовго исполнения:</span>
 
-            <div class="colors row hidden-xs hidden-sm">
-                <div class="col-md-4  ">
-                    <img src="img/colors.png" alt="">
-                </div>
-                <div class="col-md-4  ">
-                    <img src="img/colors.png" alt="">
-                </div>
-                <div class="col-md-4  ">
-                    <img src="img/colors.png" alt="">
-                </div>
 
+            <?= \app\modules\cart\widgets\ChangeOptions::widget([
+                'model' => $model,
+                'cssClass' => 'colors row',
+                'type' => 'radio'
+            ]); ?>
 
-            </div>
             <?= \app\modules\shop\widgets\ShowPrice::widget(['model' => $model, 'htmlTag' => 'p', 'cssClass' => 'no_padding col-xs-12 mob_center']) ?>
 
-            <div class="quantity total  col-xs-12 mob_center">
-                <button class="minus" style="font-size: 37px;">
-                    -
-                </button>
-
-                <input id="count" type="text" value="1">
-
-                <button class="plus">
-                    +
-                </button>
-
-            </div>
+            <?= \app\modules\cart\widgets\ChangeCount::widget([
+                'model' => $model,
+                'cssClass' => 'quantity total col-xs-12 mob_center',
+                'downArr' => '-',
+                'upArr' => '+',
+            ]); ?>
 
 
             <div class="buy_block mob_center">
-                <button class="buy_button">
-                    купить
-                </button>
-
-
-
+                <?=\app\modules\cart\widgets\BuyButton::widget([
+                    'model' => $model,
+                    'cssClass' => 'buy_button',
+                    'text' => 'купить',
+                    'htmlTag' => 'button'
+                ]); ?>
                 <img class="margin_left hidden-xs hidden-sm" src="img/icon-like.png" alt="">
                 <img class="hidden-xs hidden-sm" src="img/icon-home.png" alt="">
-
                 <a class="mob_center" style="display:block;" href="#">Купить в 1 клик</a>
-
             </div>
-
-
-
         </div>
         <div class="col-md-3 no_padding_right hidden-xs hidden-sm">
             <div class="right_side_bar">
@@ -214,7 +169,27 @@ $this->params['breadcrumbs'][] = $model->name;
     </div>
 </div>
 <div class="row">
+    <div class="block row">
+        <div class="col-md-6">
+            <h3>ElementsList</h3>
+            <?=\app\modules\cart\widgets\ElementsList::widget(['type' => 'full']);?>
+        </div>
+        <div class="col-md-3">
+            <h3>TruncateButton</h3>
+            <?=\app\modules\cart\widgets\TruncateButton::widget();?>
+        </div>
+        <div class="col-md-3">
+            <h3>CartInformer</h3>
+            <?=\app\modules\cart\widgets\CartInformer::widget();?>
+        </div>
 
+    </div>
 </div>
 
 <?= $model->text ?>
+
+<?php
+
+?>
+
+

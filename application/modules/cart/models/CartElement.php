@@ -1,11 +1,4 @@
 <?php
-/**
- * @package    oakcms
- * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
- */
-
 namespace app\modules\cart\models;
 
 use app\modules\cart\models\Cart;
@@ -92,7 +85,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
         if($withTriggers) {
             $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
-            $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
+            $cart->trigger($cart::EVENT_ELEMENT_PRICE, $elementEvent);
             $price = $elementEvent->cost;
         }
 
@@ -134,6 +127,12 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     public function getCost($withTriggers = true)
     {
         $cost = $this->getPrice($withTriggers)*$this->count;
+        $cart = \Yii::$app->cart;
+        if($withTriggers) {
+            $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $cost]);
+            $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
+            $cost = $elementEvent->cost;
+        }
 
         return $cost;
     }

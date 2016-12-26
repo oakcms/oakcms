@@ -1,11 +1,11 @@
-if (typeof pistol88 == "undefined" || !pistol88) {
-    var pistol88 = {};
+if (typeof oakcms == "undefined" || !oakcms) {
+    var oakcms = {};
 }
 
-pistol88.shop = {
+oakcms.shop = {
     init: function() {
-        
+
     },
 };
 
-pistol88.shop.init();
+oakcms.shop.init();

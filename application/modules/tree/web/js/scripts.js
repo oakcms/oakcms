@@ -1,17 +1,17 @@
-if (typeof pistol88 == "undefined" || !pistol88) {
-    var pistol88 = {};
+if (typeof oakcms == "undefined" || !oakcms) {
+    var oakcms = {};
 }
 
-pistol88.tree = {
+oakcms.tree = {
     init: function() {
-        $('.pistol88-tree-toggle').on('click', this.toggle)
+        $('.oakcms-tree-toggle').on('click', this.toggle)
         return true;
     },
-    
+
     toggle: function() {
         $(this).parent("div").parent("div").parent("li").find("ul").toggle("slow");
         return false;
     }
 };
 
-pistol88.tree.init();
+oakcms.tree.init();

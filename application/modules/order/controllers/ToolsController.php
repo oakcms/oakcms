@@ -7,8 +7,8 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\web\NotFoundHttpException;
 use yii\filters\AccessControl;
-use pistol88\cart\widgets\ElementsList;
-use pistol88\cart\widgets\CartInformer;
+use app\modules\cart\widgets\ElementsList;
+use app\modules\cart\widgets\CartInformer;
 use app\modules\order\models\ShippingType;
 use app\modules\order\events\OrderEvent;
 

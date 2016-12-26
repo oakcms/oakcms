@@ -41,17 +41,17 @@ class Image extends \yii\db\ActiveRecord
         return $ext;
     }
 
-    public function getUrl($size = false, $admin = false)
+    public function getUrl($size = false, $main = false)
     {
-        if($admin) {
+        if($main && (!$size || $size == '')) {
+            $url = $this->getModule()->getStoreUrl().'/' . $this->filePath;
+        } else {
             $urlSize = ($size) ? '_' . $size : '';
             $url = Url::toRoute([
-                '/admin/' . $this->getModule()->id . '/images/image-by-item-and-alias',
+                '/'.$this->getModule()->id . '/images/image-by-item-and-alias',
                 'item'       => $this->modelName . $this->itemId,
                 'dirtyAlias' => $this->urlAlias . $urlSize . '.' . $this->getExtension(),
             ]);
-        } else {
-            $url = $this->getModule()->getStoreUrl().'/' . $this->filePath;
         }
 
         return $url;

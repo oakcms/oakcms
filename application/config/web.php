@@ -2,6 +2,7 @@
 
 Yii::setAlias('@adminTemplate', realpath(__DIR__ . '/../templates/backend/base'));
 Yii::setAlias('@adminTemplate', realpath(__DIR__ . '/../templates/backend/base'));
+Yii::setAlias('@media', realpath(__DIR__ . '/../media'));
 $basePath =  dirname(__DIR__);
 $webRoot = dirname($basePath);
 

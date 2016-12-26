@@ -1,9 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\grid\GridView;
-use pistol88\cart\widgets\BuyButton;
-use pistol88\cart\widgets\ChangeCount;
-use pistol88\cart\widgets\ChangeOptions;
+use app\modules\cart\widgets\BuyButton;
+use app\modules\cart\widgets\ChangeCount;
+use app\modules\cart\widgets\ChangeOptions;
 $this->registerJs("$(document).on('renderCart', function() {
         window.parent.oak.createorder.updateCart();
     });");

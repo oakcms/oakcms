@@ -17,7 +17,7 @@ class ChangeCount extends \yii\base\Widget
     public $lineSelector = 'li'; //Селектор материнского элемента, где выводится элемент
     public $downArr = '⟨';
     public $upArr = '⟩';
-    public $cssClass = 'pistol88-change-count';
+    public $cssClass = 'oakcms-change-count';
     public $defaultValue = 1;
     public $showArrows = true;
 
@@ -33,28 +33,28 @@ class ChangeCount extends \yii\base\Widget
     public function run()
     {
         if($this->showArrows) {
-            $downArr = Html::a($this->downArr, '#', ['class' => 'pistol88-arr pistol88-downArr']);
-            $upArr = Html::a($this->upArr, '#', ['class' => 'pistol88-arr pistol88-upArr']);
+            $downArr = Html::tag('span', Html::a($this->downArr, '#', ['class' => 'oakcms-arr oakcms-downArr btn btn-default']), ['class' => 'input-group-btn']);
+            $upArr = Html::tag('span', Html::a($this->upArr, '#', ['class' => 'oakcms-arr oakcms-upArr btn btn-default']), ['class' => 'input-group-btn']);
         } else {
             $downArr = $upArr = '';
         }
 
         if(!$this->model instanceof \app\modules\cart\interfaces\CartElement) {
             $input = Html::activeTextInput($this->model, 'count', [
-                'type' => 'number',
-                'class' => 'pistol88-cart-element-count',
+                'type' => 'text',
+                'class' => 'oakcms-cart-element-count',
                 'data-line-selector' => $this->lineSelector,
                 'data-id' => $this->model->getId(),
                 'data-href' => Url::toRoute("/cart/element/update"),
             ]);
         } else {
-            $input = Html::input('number', 'count', $this->defaultValue, [
-                'class' => 'pistol88-cart-element-before-count',
+            $input = Html::input('text', 'count', $this->defaultValue, [
+                'class' => 'oakcms-cart-element-before-count form-control',
                 'data-line-selector' => $this->lineSelector,
                 'data-id' => $this->model->getCartId(),
             ]);
         }
 
-        return Html::tag('div', $downArr.$input.$upArr, ['class' => $this->cssClass]);
+        return Html::tag('div', Html::tag('div', $downArr.$input.$upArr, ['class' => 'input-group']), ['class' => 'oakcms-change-count '.$this->cssClass]);
     }
 }

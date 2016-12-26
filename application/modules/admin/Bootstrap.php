@@ -51,6 +51,7 @@ class Bootstrap implements BootstrapInterface
 
             $modules_backend = [];
             $modules_frontend = [];
+
             foreach ($adminModule->activeModules as $name => $module) {
                 if (class_exists($module->class)) {
                     if ($module->isAdmin) {
@@ -103,10 +104,23 @@ class Bootstrap implements BootstrapInterface
                         }
                     }
                 }
+
+                // Bootstrap
+                if (class_exists($module->bootstrapClass)) {
+                    $component = Yii::createObject($module->bootstrapClass);
+
+                    if ($component instanceof BootstrapInterface) {
+                        Yii::trace('Bootstrap with ' . get_class($component) . '::bootstrap()', __METHOD__);
+                        $component->bootstrap($app);
+                    } else {
+                        Yii::trace('Bootstrap with ' . get_class($component), __METHOD__);
+                    }
+                }
             }
 
             Yii::$app->setComponents($this->setAppComponents);
             Yii::$app->setModules($modules_frontend);
+
             $adminModule->setModules($modules_backend);
 
             $this->_modulesHash = md5(json_encode([$modules_frontend, $modules_backend]));

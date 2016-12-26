@@ -1,15 +1,15 @@
-if (typeof pistol88 == "undefined" || !pistol88) {
-    var pistol88 = {};
+if (typeof oakcms == "undefined" || !oakcms) {
+    var oakcms = {};
 }
 
-pistol88.fieldvariant = {
+oakcms.fieldvariant = {
     csrf_param: '_csrf',
     csrf_token: '',
     init: function() {
-        $(document).on('change', '.pistol88-field input[type=radio], input[type=checkbox], .pistol88-field select', this.choiceVariant);
+        $(document).on('change', '.oakcms-field input[type=radio], input[type=checkbox], .oakcms-field select', this.choiceVariant);
 
-        pistol88.fieldvariant.csrf_param = $('meta[name="csrf-param"]').attr('content');
-        pistol88.fieldvariant.csrf_token = $('meta[name="csrf-token"]').attr('content');
+        oakcms.fieldvariant.csrf_param = $('meta[name="csrf-param"]').attr('content');
+        oakcms.fieldvariant.csrf_token = $('meta[name="csrf-token"]').attr('content');
     },
     choiceVariant: function() {
         var li = $(this).parent();
@@ -40,7 +40,7 @@ pistol88.fieldvariant = {
                 data.FieldValue.variant_id = variant_id;
                 data.FieldValue.field_id = field_id;
                 data.FieldValue.item_id = item_id;
-                data[pistol88.fieldvariant.csrf_param] = pistol88.fieldvariant.csrf_token;
+                data[oakcms.fieldvariant.csrf_param] = oakcms.fieldvariant.csrf_token;
 
                 $.post(update_action, data,
                     function(json) {
@@ -55,7 +55,7 @@ pistol88.fieldvariant = {
             data.FieldValue.variant_id = variant_id;
             data.FieldValue.field_id = field_id;
             data.FieldValue.item_id = item_id;
-            data[pistol88.fieldvariant.csrf_param] = pistol88.fieldvariant.csrf_token;
+            data[oakcms.fieldvariant.csrf_param] = oakcms.fieldvariant.csrf_token;
 
             $.post(create_action, data,
                 function(json) {
@@ -77,4 +77,4 @@ pistol88.fieldvariant = {
     },
 };
 
-pistol88.fieldvariant.init();
+oakcms.fieldvariant.init();

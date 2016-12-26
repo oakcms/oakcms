@@ -26,11 +26,6 @@ return [
                 ],
             ],
         ],
-        'modules'       => [
-            'debug' => [
-                'class' => 'yii\debug\Module',
-            ],
-        ],
     ],
     'system'   => [
         'class' => 'app\modules\system\Module',

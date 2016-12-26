@@ -29,7 +29,6 @@
         "bower-asset/wow": "^1.1.2",
         "bower-asset/fancybox": "^2.1.5",
         "bower-asset/lightslider": "1.*",
-        "bower-asset/ckeditor": "*",
 
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",

@@ -39,13 +39,13 @@ class ChangeOptions extends \yii\base\Widget
     {
         if ($this->model instanceof \app\modules\cart\interfaces\CartElement) {
             $optionsList = $this->model->getCartOptions();
-            $changerCssClass = 'pistol88-option-values-before';
+            $changerCssClass = 'oakcms-option-values-before';
             $id = $this->model->getCartId();
         } else {
             $optionsList = $this->model->getModel()->getCartOptions();
             $this->defaultValues = $this->model->getOptions();
             $id = $this->model->getId();
-            $changerCssClass = 'pistol88-option-values';
+            $changerCssClass = 'oakcms-option-values';
         }
 
         if (!empty($optionsList)) {
@@ -55,7 +55,7 @@ class ChangeOptions extends \yii\base\Widget
                     $optionData = [];
                 }
 
-                $cssClass = "{$changerCssClass} pistol88-cart-option{$id} ";
+                $cssClass = "{$changerCssClass} oakcms-cart-option{$id} ";
 
                 $optionsArray = ['' => $optionData['name']];
                 foreach ($optionData['variants'] as $variantId => $value) {
@@ -70,7 +70,7 @@ class ChangeOptions extends \yii\base\Widget
                         ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-filter-id' => $optionId, 'data-name' => Html::encode($optionData['name']), 'data-id' => $id, 'class' => "form-control $cssClass"]
                     );
                 } else {
-                    $list = Html::tag('div', Html::tag('strong', $optionData['name']), ['class' => 'pistol88-option-heading']);
+                    $list = Html::tag('div', Html::tag('strong', $optionData['name']), ['class' => 'oakcms-option-heading']);
                     $list .= Html::radioList('cart_options' . $id . '-' . $i,
                         $this->_defaultValue($optionId),
                         $optionsArray,
@@ -78,14 +78,14 @@ class ChangeOptions extends \yii\base\Widget
                     );
                 }
 
-                $options[] = Html::tag('div', $list, ['class' => "pistol88-option"]);
+                $options[] = Html::tag('div', $list, ['class' => "oakcms-option"]);
                 $i++;
             }
         } else {
             return null;
         }
 
-        return Html::tag('div', implode('', $options), ['class' => 'pistol88-change-options ' . $this->cssClass]);
+        return Html::tag('div', implode('', $options), ['class' => 'oakcms-change-options ' . $this->cssClass]);
     }
 
     private function _defaultValue($option)

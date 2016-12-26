@@ -5,8 +5,8 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use app\modules\order\models\PaymentType;
 use app\modules\order\models\ShippingType;
-use pistol88\cart\widgets\ElementsList;
-use pistol88\cart\widgets\CartInformer;
+use app\modules\cart\widgets\ElementsList;
+use app\modules\cart\widgets\CartInformer;
 use app\modules\order\models\FieldValue;
 
 $paymentTypes = ArrayHelper::map(PaymentType::find()->orderBy('order DESC')->all(), 'id', 'name');

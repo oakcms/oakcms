@@ -10,7 +10,7 @@ class m160521_112618_Mass extends Migration {
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
-        
+
         $connection = Yii::$app->db;
         try {
             $this->createTable('{{%shop_product}}', [
@@ -29,7 +29,7 @@ class m160521_112618_Mass extends Migration {
                 'sort' => Schema::TYPE_INTEGER . "(11)",
                 'slug' => Schema::TYPE_STRING . "(255)",
                 'related_ids' => Schema::TYPE_TEXT . "",
-                ], $tableOptions);
+            ], $tableOptions);
 
             $this->createIndex('category_id', '{{%shop_product}}', 'category_id', 0);
             $this->createIndex('producer_id', '{{%shop_product}}', 'producer_id', 0);
@@ -51,12 +51,12 @@ class m160521_112618_Mass extends Migration {
                 'sort' => Schema::TYPE_INTEGER . "(11)",
                 'condition' => Schema::TYPE_TEXT . "",
                 ], $tableOptions);
-            
+
             $this->insert('{{%shop_price_type}}', [
                 'id' => '1',
                 'name' => 'Основная цена',
             ]);
-            
+
             $this->createIndex('id', '{{%shop_category}}', 'id,parent_id', 0);
             $this->createTable('{{%shop_price}}', [
                 'id' => Schema::TYPE_PK . "",
@@ -84,7 +84,7 @@ class m160521_112618_Mass extends Migration {
                 'update_time' => Schema::TYPE_DATETIME,
                 'filter_values' => Schema::TYPE_TEXT,
                 ], $tableOptions);
-            
+
             $this->createIndex('product_id', '{{%shop_price}}', 'product_id', 0);
             $this->createTable('{{%shop_producer}}', [
                 'id' => Schema::TYPE_PK . "",
@@ -116,7 +116,7 @@ class m160521_112618_Mass extends Migration {
                 'order_id' => Schema::TYPE_INTEGER . "(11)",
                 'count' => Schema::TYPE_INTEGER . "(11) NOT NULL",
             ], $tableOptions);
-            
+
             $this->createTable( '{{%shop_stock}}',[
                 'id' => Schema::TYPE_PK . "",
                 'name' => Schema::TYPE_STRING . "(255) NOT NULL",
@@ -136,43 +136,43 @@ class m160521_112618_Mass extends Migration {
                 'user_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'stock_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 ], $tableOptions);
-				
+
             $this->addForeignKey(
                 'fk_category', '{{%shop_product}}', 'category_id', '{{%shop_category}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_producer', '{{%shop_product}}', 'producer_id', '{{%shop_producer}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_product', '{{%shop_price}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_type', '{{%shop_price}}', 'type_id', '{{%shop_price_type}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_category', '{{%shop_product_to_category}}', 'category_id', '{{%shop_category}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_product', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_product', '{{%shop_product_to_category}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_stock', '{{%shop_stock_to_user}}', 'stock_id', '{{%shop_stock}}', 'id', 'CASCADE', 'CASCADE'
             );
-			
+
             $this->addForeignKey(
                 'fk_product', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
         } catch (Exception $e) {
             echo 'Catch Exception ' . $e->getMessage() . ' ';
         }

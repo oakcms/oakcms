@@ -60,7 +60,7 @@ class ElementsList extends \yii\base\Widget
             }
         }
 
-        $this->getView()->registerJs("pistol88.cart.elementsListWidgetParams = ".json_encode($paramsArr));
+        $this->getView()->registerJs("oakcms.cart.elementsListWidgetParams = ".json_encode($paramsArr));
 
         if ($this->type == NULL) {
             $this->type = self::TYPE_FULL;
@@ -75,7 +75,7 @@ class ElementsList extends \yii\base\Widget
         }
 
         if ($this->textButton == NULL) {
-            $this->textButton = yii::t('cart', 'Cart (<span class="pistol88-cart-price">{p}</span>)', ['c' => $this->cart->getCount(), 'p' => $this->cart->getCostFormatted()]);
+            $this->textButton = yii::t('cart', 'Cart (<span class="oakcms-cart-price">{p}</span>)', ['c' => $this->cart->getCount(), 'p' => $this->cart->getCostFormatted()]);
         }
 
         if ($this->currency == NULL) {
@@ -96,40 +96,40 @@ class ElementsList extends \yii\base\Widget
         $elements = $this->cart->elements;
 
         if (empty($elements)) {
-            $cart = Html::tag('div', yii::t('cart', 'Your cart empty'), ['class' => 'pistol88-cart pistol88-empty-cart']);
+            $cart = Html::tag('div', yii::t('cart', 'Your cart empty'), ['class' => 'oakcms-cart oakcms-empty-cart']);
         } else {
         	$cart = Html::ul($elements, ['item' => function($item, $index) {
                 return $this->_row($item);
-            }, 'class' => 'pistol88-cart-list']);
+            }, 'class' => 'oakcms-cart-list']);
 		}
 
         if (!empty($elements)) {
             $bottomPanel = '';
 
             if ($this->showTotal) {
-                $bottomPanel .= Html::tag('div', Yii::t('cart', 'Total') . ': ' . yii::$app->cart->cost . ' '.yii::$app->cart->currency, ['class' => 'pistol88-cart-total-row']);
+                $bottomPanel .= Html::tag('div', Yii::t('cart', 'Total') . ': ' . yii::$app->cart->cost . ' '.yii::$app->cart->currency, ['class' => 'oakcms-cart-total-row']);
             }
 
             if($this->offerUrl && $this->showOffer) {
-                $bottomPanel .= Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'pistol88-cart-offer-button btn btn-success']);
+                $bottomPanel .= Html::a(yii::t('cart', 'Offer'), $this->offerUrl, ['class' => 'oakcms-cart-offer-button btn btn-success']);
             }
 
             if($this->showTruncate) {
                 $bottomPanel .= TruncateButton::widget();
             }
 
-            $cart .= Html::tag('div', $bottomPanel, ['class' => 'pistol88-cart-bottom-panel']);
+            $cart .= Html::tag('div', $bottomPanel, ['class' => 'oakcms-cart-bottom-panel']);
         }
 
-        $cart = Html::tag('div', $cart, ['class' => 'pistol88-cart']);
+        $cart = Html::tag('div', $cart, ['class' => 'oakcms-cart']);
 
         if ($this->type == self::TYPE_DROPDOWN) {
-            $button = Html::button($this->textButton.Html::tag('span', '', ["class" => "caret"]), ['class' => 'btn dropdown-toggle', 'id' => 'pistol88-cart-drop', 'type' => "button", 'data-toggle' => "dropdown", 'aria-haspopup' => 'true', 'aria-expanded' => "false"]);
-            $list = Html::tag('div', $cart, ['class' => 'dropdown-menu', 'aria-labelledby' => 'pistol88-cart-drop']);
-            $cart = Html::tag('div', $button.$list, ['class' => 'pistol88-cart-dropdown dropdown']);
+            $button = Html::button($this->textButton.Html::tag('span', '', ["class" => "caret"]), ['class' => 'btn dropdown-toggle', 'id' => 'oakcms-cart-drop', 'type' => "button", 'data-toggle' => "dropdown", 'aria-haspopup' => 'true', 'aria-expanded' => "false"]);
+            $list = Html::tag('div', $cart, ['class' => 'dropdown-menu', 'aria-labelledby' => 'oakcms-cart-drop']);
+            $cart = Html::tag('div', $button.$list, ['class' => 'oakcms-cart-dropdown dropdown']);
         }
 
-        return Html::tag('div', $cart, ['class' => 'pistol88-cart-block']);
+        return Html::tag('div', $cart, ['class' => 'oakcms-cart-block']);
     }
 
     private function _row($item)
@@ -158,7 +158,7 @@ class ElementsList extends \yii\base\Widget
                 }
             }
 
-            $cartElName .= Html::tag('div', $options, ['class' => 'pistol88-cart-show-options']);
+            $cartElName .= Html::tag('div', $options, ['class' => 'oakcms-cart-show-options']);
         }
 
         if(!empty($this->otherFields)) {
@@ -176,10 +176,10 @@ class ElementsList extends \yii\base\Widget
             $columns[] = Html::tag('div', $this->_getCostFormatted($item->getCost(false)).ChangeCount::widget(['model' => $item, 'showArrows' => $this->showCountArrows]), ['class' => 'col-lg-3 col-md-3 col-xs-3']);
         }
 
-        $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'lineSelector' => 'pistol88-cart-row ', 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-1 col-md-1 col-xs-1']);
+        $columns[] = Html::tag('div', DeleteButton::widget(['model' => $item, 'lineSelector' => 'oakcms-cart-row ', 'cssClass' => 'delete']), ['class' => 'shop-cart-delete col-lg-1 col-md-1 col-xs-1']);
 
         $return = html::tag('div', implode('', $columns), ['class' => ' row']);
-        return Html::tag('li', $return, ['class' => 'pistol88-cart-row ']);
+        return Html::tag('li', $return, ['class' => 'oakcms-cart-row ']);
     }
 
     private function _getCostFormatted($cost)

@@ -19,12 +19,5 @@ class Bootstrap implements BootstrapInterface
         yii::$container->set('app\modules\cart\interfaces\ElementService', 'app\modules\cart\models\CartElement');
         yii::$container->set('cartElement', 'app\modules\cart\models\CartElement');
 
-        if (!isset($app->i18n->translations['cart']) && !isset($app->i18n->translations['cart*'])) {
-            $app->i18n->translations['cart'] = [
-                'class' => 'yii\i18n\PhpMessageSource',
-                'basePath' => __DIR__.'/messages',
-                'forceTranslation' => true
-            ];
-        }
     }
 }

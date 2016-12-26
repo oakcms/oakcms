@@ -20,7 +20,7 @@ return [
     'Empty' => 'Пусто',
     'Delete' => 'Удалить',
     'Total' => 'Итого',
-    'Cart (<span class="pistol88-cart-price">{p}</span>)' => 'Корзина (<span class="pistol88-cart-price">{p}</span>)',
+    'Cart (<span class="oakcms-cart-price">{p}</span>)' => 'Корзина (<span class="oakcms-cart-price">{p}</span>)',
     'Offer' => 'Оформление',
     'Your cart empty' => 'Ваша корзина пуста',
     'Offer' => 'Оформить',

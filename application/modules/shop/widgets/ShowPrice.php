@@ -5,12 +5,14 @@
 
 namespace app\modules\shop\widgets;
 
+use app\modules\shop\models\Product;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii;
 
 class ShowPrice extends \yii\base\Widget
 {
+    /** @var Product  */
     public $model = NULL;
     public $htmlTag = 'span';
     public $cssClass = '';

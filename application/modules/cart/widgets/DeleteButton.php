@@ -32,6 +32,6 @@ class DeleteButton extends \yii\base\Widget
 
     public function run()
     {
-        return Html::a(Html::encode($this->text), ['/cart/element/delete'], ['data-line-selector' => $this->lineSelector, 'class' => 'pistol88-cart-delete-button '.$this->cssClass, 'data-id' => $this->model->getId()]);
+        return Html::a(Html::encode($this->text), ['/cart/element/delete'], ['data-line-selector' => $this->lineSelector, 'class' => 'oakcms-cart-delete-button '.$this->cssClass, 'data-id' => $this->model->getId()]);
     }
 }

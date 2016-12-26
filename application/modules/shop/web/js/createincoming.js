@@ -1,8 +1,8 @@
-if (typeof pistol88 == "undefined" || !pistol88) {
-    var pistol88 = {};
+if (typeof oakcms == "undefined" || !oakcms) {
+    var oakcms = {};
 }
 
-pistol88.createincoming = {
+oakcms.createincoming = {
     init: function() {
         $('.incoming-create .new-input').focus();
         $(document).on('change', ".incoming-create .new-input", this.findProduct);
@@ -25,13 +25,13 @@ pistol88.createincoming = {
                 function(json) {
                     $(input).css('opacity', '1');
                     if(json.status == 'success') {
-                        pistol88.createincoming.renderRow(json.id, json.name, json.code);
+                        oakcms.createincoming.renderRow(json.id, json.name, json.code);
                     }
                     else {
                         alert(json.message);
                     }
                     $('.incoming-create .new-input').select();
-                    
+
                 }, "json");
         }
     },
@@ -50,4 +50,4 @@ pistol88.createincoming = {
     }
 }
 
-pistol88.createincoming.init();
+oakcms.createincoming.init();

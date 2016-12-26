@@ -7,6 +7,7 @@ namespace app\modules\shop\models;
 
 use app\modules\shop\models\product\ProductQuery;
 use app\modules\field\behaviors\AttachFields;
+use app\modules\gallery\behaviors\AttachImages;
 use yii\helpers\Url;
 
 /**
@@ -21,6 +22,7 @@ use yii\helpers\Url;
  * @property string $text;
  *
  * @method getField($code) Get Attach Fields see [[app\modules\field\behaviors\AttachFields]] behavior for more info;
+ * @method getImages() Get Images Gallery see [[app\modules\gallery\behaviors\AttachImages]] behavior for more info;
  */
 
 class Product extends \yii\db\ActiveRecord implements \app\modules\relations\interfaces\Torelate, \app\modules\cart\interfaces\CartElement
@@ -46,7 +48,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     {
         return [
             'images'     => [
-                'class' => \app\modules\gallery\behaviors\AttachImages::className(),
+                'class' => AttachImages::className(),
                 'mode'  => 'gallery',
             ],
             'slug'       => [
@@ -135,13 +137,15 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
 
             return $priceModel->save(false);
         } else {
-            $priceModel = new Price;
-            $priceModel->product_id = $this->id;
-            $priceModel->price = $price;
-            $priceModel->type_id = $type;
-            $priceModel->name = 'Основная цена';
+            if($typeModel = PriceType::findOne($type)) {
+                $priceModel = new Price;
+                $priceModel->product_id = $this->id;
+                $priceModel->price = $price;
+                $priceModel->type_id = $type;
+                $priceModel->name = $typeModel->name;
 
-            return $priceModel->save();
+                return $priceModel->save();
+            }
         }
 
         return false;

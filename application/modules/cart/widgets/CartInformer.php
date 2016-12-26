@@ -44,19 +44,19 @@ class CartInformer extends \yii\base\Widget
 
         if($this->showOldPrice == false | $cart->cost == $cart->getCost(false)) {
             $this->text = str_replace(['{c}', '{p}'],
-                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price">'.$cart->getCostFormatted().'</strong>'],
+                ['<span class="oakcms-cart-count">'.$cart->getCount().'</span>', '<strong class="oakcms-cart-price">'.$cart->getCostFormatted().'</strong>'],
                 $this->text
             );
         } else {
             $this->text = str_replace(['{c}', '{p}'],
-                ['<span class="pistol88-cart-count">'.$cart->getCount().'</span>', '<strong class="pistol88-cart-price"><s>'.round($cart->getCost(false)).'</s>'.$cart->getCostFormatted().'</strong>'],
+                ['<span class="oakcms-cart-count">'.$cart->getCount().'</span>', '<strong class="oakcms-cart-price"><s>'.round($cart->getCost(false)).'</s>'.$cart->getCostFormatted().'</strong>'],
                 $this->text
             );
         }
 
         return Html::tag($this->htmlTag, $this->text, [
                 'href' => $this->offerUrl,
-                'class' => "pistol88-cart-informer {$this->cssClass}",
+                'class' => "oakcms-cart-informer {$this->cssClass}",
         ]);
     }
 }

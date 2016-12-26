@@ -8,7 +8,7 @@
 
 namespace app\modules\cart;
 
-class Module extends \yii\base\Module
+class Module extends \app\components\module\Module
 {
     public $settings = [];
 

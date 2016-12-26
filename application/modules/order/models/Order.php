@@ -192,7 +192,7 @@ class Order extends \yii\db\ActiveRecord
         return $returnModels;
     }
 
-    public function getElementByModel(\pistol88\cart\models\tools\CartElementInterface $model)
+    public function getElementByModel(\app\modules\cart\models\tools\CartElementInterface $model)
     {
         return $this->hasMany(Element::className(), ['order_id' => 'id'])->andWhere(['model' => get_class($model), 'item_id' => $model->id])->one();
     }

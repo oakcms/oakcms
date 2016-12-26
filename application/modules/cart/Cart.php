@@ -1,17 +1,11 @@
 <?php
-/**
- * @package    oakcms
- * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
- */
-
 namespace app\modules\cart;
 
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
 use app\modules\cart\events\Cart as CartEvent;
 use app\modules\cart\events\CartElement as CartElementEvent;
+use app\modules\cart\events\CartGroupModels;
 use yii;
 
 class Cart extends Component
@@ -21,8 +15,10 @@ class Cart extends Component
     const EVENT_CART_COST = 'cart_cost';
     const EVENT_CART_COUNT = 'cart_count';
     const EVENT_CART_PUT = 'cart_put';
-
+    const EVENT_CART_ROUNDING = 'cart_rounding';
+    const EVENT_MODELS_ROUNDING = 'cart_models_rounding';
     const EVENT_ELEMENT_COST = 'element_cost';
+    const EVENT_ELEMENT_PRICE = 'element_price';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
 
     private $cost = 0;
@@ -55,6 +51,9 @@ class Cart extends Component
         if (!$elementModel = $this->cart->getElement($model, $options)) {
             $elementModel = new $this->element;
             $elementModel->setCount((int)$count);
+            var_dump($model->getCartPrice());
+            var_dump($model->getCartId());
+            exit;
             $elementModel->setPrice($model->getCartPrice());
             $elementModel->setItemId($model->getCartId());
             $elementModel->setModel(get_class($model));
@@ -131,18 +130,34 @@ class Cart extends Component
     {
         $elements = $this->cart->elements;
 
-        $cost = 0;
+        $pricesByModels = [];
 
         foreach($elements as $element) {
             $price = $element->getCost($withTriggers);
-            $cost += $price;
+
+            if (!isset($pricesByModels[$element->model])) {
+                $pricesByModels[$element->model] = 0;
+            }
+
+            $pricesByModels[$element->model] += $price;
         }
 
-        if($withTriggers) {
-            $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
-            $this->trigger(self::EVENT_CART_COST, $cartEvent);
-            $cost = $cartEvent->cost;
+        $cost = 0;
+
+        foreach($pricesByModels as $model => $price) {
+            $cartGroupModels = new CartGroupModels(['cart' => $this->cart, 'cost' => $price, 'model' => $model]);
+            $this->trigger(self::EVENT_MODELS_ROUNDING, $cartGroupModels);
+            $cost += $cartGroupModels->cost;
         }
+
+        $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
+
+        if($withTriggers) {
+            $this->trigger(self::EVENT_CART_COST, $cartEvent);
+            $this->trigger(self::EVENT_CART_ROUNDING, $cartEvent);
+        }
+
+        $cost = $cartEvent->cost;
 
         $this->cost = $cost;
 

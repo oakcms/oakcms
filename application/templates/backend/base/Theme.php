@@ -11,7 +11,8 @@ namespace app\templates\backend\base;
 
 use Yii;
 
-class Theme extends \yii\base\Theme {
+class Theme extends \yii\base\Theme
+{
 
     /**
      * @inheritdoc
@@ -21,8 +22,13 @@ class Theme extends \yii\base\Theme {
         parent::init();
 
         Yii::$app->getAssetManager()->bundles['mihaildev\ckeditor\Assets'] = [
-            'sourcePath' => '@bower/ckeditor'
+            'sourcePath' => '@media/vendor/ckeditor',
+            'js'         => [
+                'ckeditor.js',
+                'js.js',
+            ],
         ];
+
         Yii::$app->getAssetManager()->bundles['yii\jui\JuiAsset'] = [
             'sourcePath' => '@app/media',
             'js'         => [
@@ -34,7 +40,7 @@ class Theme extends \yii\base\Theme {
         $theme = Yii::$app->keyStorage->get('themeBackend');
 
         $this->basePath = '@app/templates/backend/' . (!$theme ? 'base' : $theme);
-        $this->baseUrl = '@web/templates/backend/' . (!$theme ? 'base' : $theme). '/web';
+        $this->baseUrl = '@web/templates/backend/' . (!$theme ? 'base' : $theme) . '/web';
 
         $this->pathMap = [
             '@app/views'   => '@app/templates/backend/' . (!$theme ? 'base' : $theme) . '/views',

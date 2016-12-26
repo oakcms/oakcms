@@ -36,7 +36,7 @@ class Choice extends \yii\base\Widget
             return null;
         }
 
-        return Html::tag('div', implode('', $return), ['class' => 'pistol88-field']);
+        return Html::tag('div', implode('', $return), ['class' => 'oakcms-field']);
     }
 
     private function renderField($field)

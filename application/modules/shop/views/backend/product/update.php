@@ -126,8 +126,11 @@ $this->params['breadcrumbs'][] = 'Обновить';
                         'dataProvider' => $dataProvider,
                         'filterModel'  => $searchModel,
                         'columns'      => [
-                            //['class' => 'yii\grid\SerialColumn', 'options' => ['style' => 'width: 20px;']],
-                            ['attribute' => 'id', 'filter' => false, 'options' => ['style' => 'width: 25px;']],
+                            [
+                                'attribute' => 'id',
+                                'filter' => false,
+                                'options' => ['style' => 'width: 25px;']
+                            ],
                             [
                                 'class'           => EditableColumn::className(),
                                 'attribute'       => 'name',
