@@ -10,7 +10,7 @@ use yii\web\UploadedFile;
  * Category controller component
  * @package yii\easyii\components
  */
-class CategoryController extends AdminController
+class CategoryController extends BackendController
 {
     /** @var string */
     public $categoryClass;

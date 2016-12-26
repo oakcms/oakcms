@@ -36,14 +36,14 @@ use <?= ltrim($generator->searchModelClass, '\\') . (isset($searchModelAlias) ? 
 <?php else: ?>
 use yii\data\ActiveDataProvider;
 <?php endif; ?>
-use app\components\AdminController;
+use app\components\BackendController;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * <?= $controllerClass ?> implements the CRUD actions for <?= $modelClass ?> model.
  */
-class <?= $controllerClass ?> extends AdminController<?= "\n" ?>
+class <?= $controllerClass ?> extends BackendController<?= "\n" ?>
 {
     public function behaviors()
     {
