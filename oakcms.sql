@@ -773,6 +773,7 @@ CREATE TABLE `modules_modules` (
   `module_id` int(11) NOT NULL,
   `name` varchar(64) NOT NULL,
   `class` varchar(128) NOT NULL,
+  `bootstrapClass` varchar(128) NOT NULL,
   `isFrontend` tinyint(1) NOT NULL,
   `controllerNamespace` varchar(500) NOT NULL,
   `viewPath` varchar(500) NOT NULL,
@@ -1082,9 +1083,9 @@ CREATE TABLE `system_settings` (
 INSERT INTO `system_settings` (`id`, `param_name`, `param_value`, `type`) VALUES
 (1, 'indexing', '1', 'checkbox'),
 (2, 'siteName', 'OakCMS', 'textInput'),
-(3, 'googleAuthenticator', '0', 'checkbox'),
-(4, 'language', 'be-BY', 'language'),
-(5, 'themeFrontend', 'base', 'getTheme');
+(4, 'language', 'ru-RU', 'language'),
+(5, 'themeFrontend', 'base', 'getTheme'),
+(6, 'themeBackend', 'base', 'getTheme');
 
 -- --------------------------------------------------------
 
