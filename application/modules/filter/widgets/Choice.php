@@ -38,7 +38,7 @@ class Choice extends \yii\base\Widget
             return null;
         }
 
-        return Html::tag('div', implode('', $return), ['class' => 'pistol88-filter']);
+        return Html::tag('div', implode('', $return), ['class' => 'oakcms-filter']);
     }
 
     private function renderFilter($filter)

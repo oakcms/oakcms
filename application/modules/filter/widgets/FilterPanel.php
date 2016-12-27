@@ -156,7 +156,7 @@ class FilterPanel extends \yii\base\Widget
         if($return) {
             $return[] = Html::input('submit', '', $this->submitButtonValue, ['class' => 'btn btn-submit']);
 
-            return Html::tag('form', implode('', $return), ['data-resulthtmlselector' => $this->resultHtmlSelector, 'name' => 'pistol88-filter', 'action' => '', 'class' => 'pistol88-filter']);
+            return Html::tag('form', implode('', $return), ['data-resulthtmlselector' => $this->resultHtmlSelector, 'name' => 'oakcms-filter', 'action' => '', 'class' => 'oakcms-filter']);
         }
 
         return null;

@@ -39,7 +39,16 @@ class Cart extends \yii\db\ActiveRecord implements CartService
 
     public function getElement(\app\modules\cart\interfaces\CartElement $model, $options = [])
     {
-        return $this->getElements()->where(['hash' => $this->_generateHash(get_class($model), $model->getCartPrice(), $options), 'item_id' => $model->getCartId()])->one();
+        if (count($options)) {
+            $price = $model->getPriceByOption($options);
+        } else {
+            $price = $model->getCartPrice();
+        }
+
+        return $this->getElements()->where([
+            'hash' => $this->_generateHash(get_class($model), $price, $options),
+            'item_id' => $model->getCartId()
+        ])->one();
     }
 
     public function getElementsByModel(\app\modules\cart\interfaces\CartElement $model)

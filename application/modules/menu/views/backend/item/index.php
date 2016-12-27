@@ -1,8 +1,9 @@
 <?php
 
+use app\modules\admin\widgets\Button;
+use app\modules\menu\models\MenuItem;
 use yii\grid\GridView;
 use yii\helpers\Html;
-use app\modules\admin\widgets\Button;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -14,18 +15,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['actions_buttons'] = [
     [
-        'tagName' => 'a',
-        'label' => Yii::t('admin', 'Create'),
-        'options' => [
-            'href' => Url::to(['create'])
+        'tagName'      => 'a',
+        'label'        => Yii::t('admin', 'Create'),
+        'options'      => [
+            'href' => Url::to(['create']),
         ],
-        'icon' => 'fa fa-plus',
+        'icon'         => 'fa fa-plus',
         'iconPosition' => Button::ICON_POSITION_LEFT,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
-    ]
+        'size'         => Button::SIZE_SMALL,
+        'disabled'     => false,
+        'block'        => false,
+        'type'         => Button::TYPE_CIRCLE,
+    ],
 ];
 ?>
 <div class="menu-index">
@@ -81,20 +82,37 @@ $this->params['actions_buttons'] = [
                 },
                 'format'    => 'raw',
             ],
-            ['attribute' => 'link',],
+            ['attribute' => 'link'],
             [
                 'attribute' => 'status',
-                'value'     => function ($model) {
-                    /** @var $model \app\modules\menu\models\MenuItem */
-                    return Html::beginTag('div', ['class' => 'btn-group']) .
-                        Html::a('<i class="glyphicon glyphicon-star"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_MAIN_PAGE]), ['class' => 'btn btn-xs' . ($model::STATUS_MAIN_PAGE == $model->status ? ' btn-success active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post', 'data-toggle' => 'tooltip', 'title' => Yii::t('menu', 'Main page')]) .
-                        Html::a('<i class="glyphicon glyphicon-ok-circle"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_PUBLISHED]), ['class' => 'btn btn-xs' . ($model::STATUS_PUBLISHED == $model->status ? ' btn-primary active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post', 'data-toggle' => 'tooltip', 'title' => Yii::t('menu', 'Status Published')]) .
-                        Html::a('<i class="glyphicon glyphicon-remove-circle"></i>', \yii\helpers\Url::to(['status', 'id' => $model->id, 'status' => $model::STATUS_UNPUBLISHED]), ['class' => 'btn btn-xs' . ($model::STATUS_UNPUBLISHED == $model->status ? ' btn-default active' : ' btn-default'), 'data-pjax' => 0, 'data-method' => 'post', 'data-toggle' => 'tooltip', 'title' => Yii::t('menu', 'Status Unpublished')]) .
-                        Html::endTag('div');
-                },
-                'filter'    => \app\modules\menu\models\MenuItem::statusLabels(),
-                'options'   => ['style' => '100px'],
                 'format'    => 'raw',
+                'options'   => ['width' => '50px'],
+                'header'    => Yii::t('menu', 'Home'),
+                'filter'    => Html::activeDropDownList(
+                    $searchModel,
+                    'status',
+                    [1 => Yii::t('menu', 'Yes')],
+                    ['class' => 'form-control', 'prompt' => Yii::t('menu', 'Select')]
+                )
+            ],
+            [
+                'class'     => \app\modules\admin\components\grid\EnumColumn::className(),
+                'attribute' => 'status',
+                'format'    => 'raw',
+                'options'   => ['width' => '50px'],
+                'value'     => function ($model, $index, $widget) {
+                    return Html::checkbox('', $model->status == MenuItem::STATUS_PUBLISHED, [
+                        'class'       => 'switch toggle ',
+                        'data-id'     => $model->primaryKey,
+                        'data-link'   => \yii\helpers\Url::to(['/admin/content/article']),
+                        'data-reload' => '0',
+                        'disabled'    => $model->status == MenuItem::STATUS_MAIN_PAGE,
+                    ]);
+                },
+                'enum'      => [
+                    Yii::t('admin', 'Off'),
+                    Yii::t('admin', 'On'),
+                ],
             ],
 //            [
 //                'attribute' => 'ordering',
@@ -106,8 +124,8 @@ $this->params['actions_buttons'] = [
 //                'options'   => ['style' => '50px'],
 //            ],
             [
-                'class' => 'app\modules\admin\components\grid\ActionColumn',
-                'translatable' => true
+                'class'        => 'app\modules\admin\components\grid\ActionColumn',
+                'translatable' => true,
             ],
         ],
     ]); ?>

@@ -57,7 +57,7 @@ class ChangeOptions extends \yii\base\Widget
 
                 $cssClass = "{$changerCssClass} oakcms-cart-option{$id} ";
 
-                $optionsArray = ['' => $optionData['name']];
+                $optionsArray = [];
                 foreach ($optionData['variants'] as $variantId => $value) {
                     $optionsArray[$variantId] = $value;
                 }

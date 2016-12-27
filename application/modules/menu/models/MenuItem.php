@@ -1,20 +1,18 @@
 <?php
 /**
- * @link https://github.com/gromver/yii2-platform-basic.git#readme
+ * @link      https://github.com/gromver/yii2-platform-basic.git#readme
  * @copyright Copyright (c) Gayazov Roman, 2014
- * @license https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
- * @package yii2-platform-basic
- * @version 1.0.0
+ * @license   https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
+ * @package   yii2-platform-basic
+ * @version   1.0.0
  */
 
 namespace app\modules\menu\models;
 
 
 use app\behaviors\NestedSetsBehavior;
-use app\components\UrlManager;
-use dosamigos\transliterator\TransliteratorHelper;
-use app\interfaces\model\TranslatableInterface;
 use app\interfaces\model\ViewableInterface;
+use dosamigos\transliterator\TransliteratorHelper;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -26,46 +24,46 @@ use yii\helpers\Url;
 /**
  * This is the model class for table "menu_item".
  * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
+ * @author  Gayazov Roman <gromver5@gmail.com>
  *
- * @property integer $id
- * @property integer $menu_type_id
- * @property integer $parent_id
- * @property integer $translation_id
- * @property integer $status
- * @property string $language
- * @property string $title
- * @property string $alias
- * @property string $path
- * @property string $note
- * @property string $link
- * @property integer $link_weight
- * @property integer $link_type
- * @property string $link_params
- * @property string $layout_path
- * @property string $access_rule
- * @property string $metakey
- * @property string $metadesc
- * @property string $robots
- * @property integer $secure
- * @property integer $created_at
- * @property integer $updated_at
- * @property integer $created_by
- * @property integer $updated_by
- * @property integer $lft
- * @property integer $rgt
- * @property integer $level
- * @property string $ordering
- * @property string $hits
- * @property string $lock
+ * @property integer    $id
+ * @property integer    $menu_type_id
+ * @property integer    $parent_id
+ * @property integer    $translation_id
+ * @property integer    $status
+ * @property string     $language
+ * @property string     $title
+ * @property string     $alias
+ * @property string     $path
+ * @property string     $note
+ * @property string     $link
+ * @property integer    $link_weight
+ * @property integer    $link_type
+ * @property string     $link_params
+ * @property string     $layout_path
+ * @property string     $access_rule
+ * @property string     $metakey
+ * @property string     $metadesc
+ * @property string     $robots
+ * @property integer    $secure
+ * @property integer    $created_at
+ * @property integer    $updated_at
+ * @property integer    $created_by
+ * @property integer    $updated_by
+ * @property integer    $lft
+ * @property integer    $rgt
+ * @property integer    $level
+ * @property string     $ordering
+ * @property string     $hits
+ * @property string     $lock
  *
- * @property string $linkTitle
- * @property array $linkParams
- * @property integer $context
- * @property MenuType $menuType
+ * @property string     $linkTitle
+ * @property array      $linkParams
+ * @property integer    $context
+ * @property MenuType   $menuType
  * @property MenuItem   $parent
  * @property MenuItem[] $translations
- * @property array $layoutLabels
+ * @property array      $layoutLabels
  */
 class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
 {
@@ -78,6 +76,22 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
 
     const CONTEXT_PROPER = 1;
     const CONTEXT_APPLICABLE = 2;
+    /**
+     * @var array
+     */
+    private static $_statuses = [
+        self::STATUS_PUBLISHED   => 'Published',
+        self::STATUS_UNPUBLISHED => 'Unpublished',
+        self::STATUS_MAIN_PAGE   => 'Main Page',
+    ];
+    private static $_linkTypes = [
+        self::LINK_ROUTE => 'Component route',
+        self::LINK_HREF  => 'Link as is',
+    ];
+    /**
+     * @var integer
+     */
+    private $_context;
 
     /**
      * @inheritdoc
@@ -85,6 +99,64 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public static function tableName()
     {
         return '{{%menu_item}}';
+    }
+
+    /**
+     * @return array
+     */
+    public static function statusLabels()
+    {
+        return array_map(function ($label) {
+            return Yii::t('menu', $label);
+        }, self::$_statuses);
+    }
+
+    /**
+     * Список типов ссылки
+     * @return array
+     */
+    public static function linkTypeLabels()
+    {
+        return array_map(function ($label) {
+            return Yii::t('menu', $label);
+        }, self::$_linkTypes);
+    }
+
+    /**
+     * @param string|array $route
+     * @param null         $params
+     *
+     * @return mixed|null|string
+     */
+    public static function toRoute($route, $params = null)
+    {
+        if (is_array($route)) {
+            $_route = $route;
+            $route = ArrayHelper::remove($_route, 0);
+            $params = array_merge($_route, (array)$params);
+        }
+
+        return !empty($params) ? $route . '?' . http_build_query($params) : $route;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function frontendViewLink($model)
+    {
+        if ($model['link_type'] == self::LINK_ROUTE) {
+            return ['/' . $model['path']];
+        } else {
+            return $model['link'];
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function backendViewLink($model)
+    {
+        return ['/admin/menu/item/view', 'id' => $model['id']];
     }
 
     /**
@@ -98,12 +170,12 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
             [['menu_type_id'], 'exist', 'targetAttribute' => 'id', 'targetClass' => MenuType::className()],
             [['language'], 'required'],
             [['language'], 'string', 'max' => 7],
-            [['language'], function($attribute) {
+            [['language'], function ($attribute) {
                 if (($parent = self::findOne($this->parent_id)) && !$parent->isRoot() && $parent->language != $this->language) {
                     $this->addError($attribute, Yii::t('gromver.platform', 'Language has to match with the parental.'));
                 }
             }],
-            [['layout_path'], 'filter', 'filter' => function($value) {
+            [['layout_path'], 'filter', 'filter' => function ($value) {
                 // если во вьюхе используется select2, отфильтровываем значение из массива [0 => 'значение'] -> 'значение'
                 return is_array($value) ? reset($value) : $value;
             }],
@@ -112,42 +184,42 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
             [['metadesc'], 'string', 'max' => 2048],
             [['access_rule', 'robots'], 'string', 'max' => 50],
 
-            [['parent_id'], function($attribute) {
+            [['parent_id'], function ($attribute) {
                 if (($parent = self::findOne($this->parent_id)) && !$parent->isRoot() && $parent->menu_type_id != $this->menu_type_id) {
                     $this->addError($attribute, Yii::t('gromver.platform', 'Parental point of the menu doesn\'t correspond to the chosen menu type.'));
                 }
             }],
-            [['status'], function($attribute) {
+            [['status'], function ($attribute) {
                 if ($this->status == self::STATUS_MAIN_PAGE && $this->link_type == self::LINK_HREF) {
                     $this->addError($attribute, Yii::t('gromver.platform', 'Alias of the menu item can\'t be a main page.'));
                 }
             }],
             [['alias'], 'filter', 'filter' => 'trim'],
-            [['alias'], 'filter', 'filter' => function($value) {
+            [['alias'], 'filter', 'filter' => function ($value) {
                 if (empty($value)) {
                     return Inflector::slug(TransliteratorHelper::process($this->title));
                 } else {
                     return Inflector::slug($value);
                 }
             }],
-            [['alias'], 'unique', 'filter' => function($query) {
-                    /** @var $query \yii\db\ActiveQuery */
-                    if ($parent = self::findOne($this->parent_id)){
-                        $query->andWhere('lft>=:lft AND rgt<=:rgt AND level=:level AND language=:language', [
-                                'lft' => $parent->lft,
-                                'rgt' => $parent->rgt,
-                                'level' => $parent->level + 1,
-                                'language' => $this->language
-                            ]);
-                    }
-                }],
+            [['alias'], 'unique', 'filter' => function ($query) {
+                /** @var $query \yii\db\ActiveQuery */
+                if ($parent = self::findOne($this->parent_id)) {
+                    $query->andWhere('lft>=:lft AND rgt<=:rgt AND level=:level AND language=:language', [
+                        'lft'      => $parent->lft,
+                        'rgt'      => $parent->rgt,
+                        'level'    => $parent->level + 1,
+                        'language' => $this->language,
+                    ]);
+                }
+            }],
             [['alias'], 'string', 'max' => 255],
             [['alias'], 'required', 'enableClientValidation' => false],
-            [['translation_id'], 'unique', 'filter' => function($query) {
+            [['translation_id'], 'unique', 'filter' => function ($query) {
                 /** @var $query \yii\db\ActiveQuery */
                 $query->andWhere(['language' => $this->language]);
-            }, 'message' => Yii::t('gromver.platform', 'Localization ({language}) for item (ID: {id}) already exists.', ['language' => $this->language, 'id' => $this->translation_id])],
-            [['title',  'link', 'status'], 'required'],
+            }, 'message'                            => Yii::t('gromver.platform', 'Localization ({language}) for item (ID: {id}) already exists.', ['language' => $this->language, 'id' => $this->translation_id])],
+            [['title', 'link', 'status'], 'required'],
             [['ordering'], 'filter', 'filter' => 'intVal'], //for proper $changedAttributes
         ];
     }
@@ -158,36 +230,36 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('gromver.platform', 'ID'),
-            'menu_type_id' => Yii::t('gromver.platform', 'Menu Type ID'),
-            'parent_id' => Yii::t('gromver.platform', 'Parent ID'),
+            'id'             => Yii::t('gromver.platform', 'ID'),
+            'menu_type_id'   => Yii::t('gromver.platform', 'Menu Type ID'),
+            'parent_id'      => Yii::t('gromver.platform', 'Parent ID'),
             'translation_id' => Yii::t('gromver.platform', 'Translation ID'),
-            'status' => Yii::t('gromver.platform', 'Status'),
-            'language' => Yii::t('gromver.platform', 'Language'),
-            'title' => Yii::t('gromver.platform', 'Title'),
-            'alias' => Yii::t('gromver.platform', 'Alias'),
-            'path' => Yii::t('gromver.platform', 'Path'),
-            'note' => Yii::t('gromver.platform', 'Note'),
-            'link' => Yii::t('gromver.platform', 'Link'),
-            'link_type' => Yii::t('gromver.platform', 'Link Type'),
-            'link_weight' => Yii::t('gromver.platform', 'Link Weight'),
-            'link_params' => Yii::t('gromver.platform', 'Link Params'),
-            'layout_path' => Yii::t('gromver.platform', 'Layout Path'),
-            'access_rule' => Yii::t('gromver.platform', 'Access Rule'),
-            'metakey' => Yii::t('gromver.platform', 'Meta keywords'),
-            'metadesc' => Yii::t('gromver.platform', 'Meta description'),
-            'robots' => Yii::t('gromver.platform', 'Robots'),
-            'secure' => Yii::t('gromver.platform', 'Secure'),
-            'created_at' => Yii::t('gromver.platform', 'Created At'),
-            'updated_at' => Yii::t('gromver.platform', 'Updated At'),
-            'created_by' => Yii::t('gromver.platform', 'Created By'),
-            'updated_by' => Yii::t('gromver.platform', 'Updated By'),
-            'lft' => Yii::t('gromver.platform', 'Lft'),
-            'rgt' => Yii::t('gromver.platform', 'Rgt'),
-            'level' => Yii::t('gromver.platform', 'Level'),
-            'ordering' => Yii::t('gromver.platform', 'Ordering'),
-            'hits' => Yii::t('gromver.platform', 'Hits'),
-            'lock' => Yii::t('gromver.platform', 'Lock'),
+            'status'         => Yii::t('gromver.platform', 'Status'),
+            'language'       => Yii::t('gromver.platform', 'Language'),
+            'title'          => Yii::t('gromver.platform', 'Title'),
+            'alias'          => Yii::t('gromver.platform', 'Alias'),
+            'path'           => Yii::t('gromver.platform', 'Path'),
+            'note'           => Yii::t('gromver.platform', 'Note'),
+            'link'           => Yii::t('gromver.platform', 'Link'),
+            'link_type'      => Yii::t('gromver.platform', 'Link Type'),
+            'link_weight'    => Yii::t('gromver.platform', 'Link Weight'),
+            'link_params'    => Yii::t('gromver.platform', 'Link Params'),
+            'layout_path'    => Yii::t('gromver.platform', 'Layout Path'),
+            'access_rule'    => Yii::t('gromver.platform', 'Access Rule'),
+            'metakey'        => Yii::t('gromver.platform', 'Meta keywords'),
+            'metadesc'       => Yii::t('gromver.platform', 'Meta description'),
+            'robots'         => Yii::t('gromver.platform', 'Robots'),
+            'secure'         => Yii::t('gromver.platform', 'Secure'),
+            'created_at'     => Yii::t('gromver.platform', 'Created At'),
+            'updated_at'     => Yii::t('gromver.platform', 'Updated At'),
+            'created_by'     => Yii::t('gromver.platform', 'Created By'),
+            'updated_by'     => Yii::t('gromver.platform', 'Updated By'),
+            'lft'            => Yii::t('gromver.platform', 'Lft'),
+            'rgt'            => Yii::t('gromver.platform', 'Rgt'),
+            'level'          => Yii::t('gromver.platform', 'Level'),
+            'ordering'       => Yii::t('gromver.platform', 'Ordering'),
+            'hits'           => Yii::t('gromver.platform', 'Hits'),
+            'lock'           => Yii::t('gromver.platform', 'Lock'),
         ];
     }
 
@@ -214,7 +286,8 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     /**
      * @return MenuItemQuery
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->hasOne(self::className(), ['id' => 'parent_id']);
     }
 
@@ -239,11 +312,13 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         return 'lock';
     }
 
-    public function saveNode($runValidation = true, $attributes = null) {
+    public function saveNode($runValidation = true, $attributes = null)
+    {
         if ($this->getIsNewRecord()) {
             // если parent_id не задан, то ищем корневой элемент
-            if($parent = $this->parent_id ? self::findOne($this->parent_id) : self::find()->roots()->one()) {
+            if ($parent = $this->parent_id ? self::findOne($this->parent_id) : self::find()->roots()->one()) {
                 $this->parent_id = $parent->id;
+
                 return $this->appendTo($parent, $runValidation, $attributes);
             } else {
                 // если рутового элемента не существует, то сохраняем модель как корневую
@@ -254,8 +329,10 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         // модель перемещена в другую модель
         if ($this->getOldAttribute('parent_id') != $this->parent_id && $newParent = $this->parent_id ? self::findOne($this->parent_id) : self::find()->roots()->one()) {
             $this->parent_id = $newParent->id;
+
             return $this->appendTo($newParent, $runValidation, $attributes);
         }
+
         // просто апдейт
         return $this->save($runValidation, $attributes);
     }
@@ -270,7 +347,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         // устанавливаем translation_id по умолчанию
         if ($insert && $this->translation_id === null) {
             $this->updateAttributes([
-                'translation_id' => $this->id
+                'translation_id' => $this->id,
             ]);
         }
 
@@ -296,13 +373,17 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         }
     }
 
-    /**
-     * @return string
-     */
-    private function calculatePath()
+    public function normalizeLanguage()
     {
-        $aliases = $this->parents()->excludeRoots()->select('alias')->column();
-        return empty($aliases) ? $this->alias : implode('/', $aliases) . '/' . $this->alias;
+        $ids = $this->children()->select('id')->column();
+        self::updateAll(['menu_type_id' => $this->menu_type_id, 'language' => $this->language], ['id' => $ids]);
+    }
+
+    public function normalizeStatus()
+    {
+        if ($this->status == self::STATUS_MAIN_PAGE) {
+            self::updateAll(['status' => self::STATUS_PUBLISHED], 'status=:status AND language=:language AND id!=:id', [':status' => self::STATUS_MAIN_PAGE, ':id' => $this->id, ':language' => $this->language]);
+        }
     }
 
     public function normalizePath($parentPath = null)
@@ -322,26 +403,14 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         }
     }
 
-    public function normalizeLanguage()
-    {
-        $ids = $this->children()->select('id')->column();
-        self::updateAll(['menu_type_id' => $this->menu_type_id, 'language' => $this->language], ['id' => $ids]);
-    }
-
-    //для каждого языка возможен только один пукнт меню со статусом главной страницы
-    public function normalizeStatus()
-    {
-        if ($this->status == self::STATUS_MAIN_PAGE) {
-            self::updateAll(['status' => self::STATUS_PUBLISHED], 'status=:status AND language=:language AND id!=:id', [':status' => self::STATUS_MAIN_PAGE, ':id' => $this->id, ':language' => $this->language]);
-        }
-    }
-
     /**
-     * @return array
+     * @return string
      */
-    public function getLinkParams()
+    private function calculatePath()
     {
-        return Json::decode($this->link_params);
+        $aliases = $this->parents()->excludeRoots()->select('alias')->column();
+
+        return empty($aliases) ? $this->alias : implode('/', $aliases) . '/' . $this->alias;
     }
 
     /**
@@ -359,30 +428,21 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public function getLinkTitle()
     {
         $linkParams = $this->getLinkParams();
+
         return empty($linkParams['title']) ? $this->title : $linkParams['title'];
     }
 
     /**
-     * @var array
-     */
-    private static $_statuses = [
-        self::STATUS_PUBLISHED => 'Published',
-        self::STATUS_UNPUBLISHED => 'Unpublished',
-        self::STATUS_MAIN_PAGE => 'Main Page',
-    ];
-
-    /**
      * @return array
      */
-    public static function statusLabels()
+    public function getLinkParams()
     {
-        return array_map(function($label) {
-            return Yii::t('menu', $label);
-        }, self::$_statuses);
+        return Json::decode($this->link_params);
     }
 
     /**
      * @param null|integer $status
+     *
      * @return string
      */
     public function getStatusLabel($status = null)
@@ -390,28 +450,15 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         if ($status === null) {
             return Yii::t('menu', self::$_statuses[$this->status]);
         }
+
         return Yii::t('v', self::$_statuses[$status]);
-    }
-
-    private static $_linkTypes = [
-        self::LINK_ROUTE => 'Component route',
-        self::LINK_HREF => 'Link as is',
-    ];
-
-    /**
-     * Список типов ссылки
-     * @return array
-     */
-    public static function linkTypeLabels()
-    {
-        return array_map(function($label) {
-                return Yii::t('menu', $label);
-            }, self::$_linkTypes);
     }
 
     /**
      * Возвращает локализованную метку
+     *
      * @param null|integer $type
+     *
      * @return string
      */
     public function getLinkTypeLabel($type = null)
@@ -419,6 +466,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         if ($type === null) {
             return Yii::t('menu', self::$_linkTypes[$this->link_type]);
         }
+
         return Yii::t('menu', self::$_linkTypes[$type]);
     }
 
@@ -429,38 +477,10 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     {
         $arUrl = parse_url($this->link);
         parse_str(@$arUrl['query'], $params);
-        if(!empty($arUrl['fragment']))
+        if (!empty($arUrl['fragment']))
             $params['#'] = $arUrl['fragment'];
+
         return [trim($arUrl['path'], '/'), $params];
-    }
-
-    /**
-     * @param string|array $route
-     * @param null $params
-     * @return mixed|null|string
-     */
-    public static function toRoute($route, $params = null)
-    {
-        if (is_array($route)) {
-            $_route = $route;
-            $route = ArrayHelper::remove($_route, 0);
-            $params = array_merge($_route, (array)$params);
-        }
-
-        return !empty($params) ? $route . '?' . http_build_query($params) : $route;
-    }
-
-    /**
-     * @var integer
-     */
-    private $_context;
-
-    /**
-     * @param integer $value
-     */
-    public function setContext($value)
-    {
-        $this->_context = $value;
     }
 
     /**
@@ -470,6 +490,17 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     {
         return $this->_context;
     }
+
+    /**
+     * @param integer $value
+     */
+    public function setContext($value)
+    {
+        $this->_context = $value;
+    }
+
+
+    // ViewableInterface
 
     /**
      * @return bool
@@ -487,50 +518,12 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         return $this->_context === self::CONTEXT_APPLICABLE;
     }
 
-
-    // ViewableInterface
-    /**
-     * @inheritdoc
-     */
-    public function getFrontendViewLink()
-    {
-        if ($this->link_type == self::LINK_ROUTE) {
-            if($this->status == self::STATUS_MAIN_PAGE) {
-                return Url::home();
-            }
-
-            return ['/' . $this->path];
-        } else {
-            return $this->link;
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function frontendViewLink($model)
-    {
-        if ($model['link_type'] == self::LINK_ROUTE) {
-            return ['/' . $model['path']];
-        } else {
-            return $model['link'];
-        }
-    }
-
     /**
      * @inheritdoc
      */
     public function getBackendViewLink()
     {
         return ['/admin/menu/item/view', 'id' => $this->id];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function backendViewLink($model)
-    {
-        return ['/admin/menu/item/view', 'id' => $model['id']];
     }
 
     public function getBreadcrumbs($includeSelf = false)
@@ -542,13 +535,30 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
             if ($includeSelf) {
                 $path[] = $this;
             }
+
             return array_map(function ($item) {
                 /** @var self $item */
                 return [
                     'label' => $item->title,
-                    'url' => $item->getFrontendViewLink()
+                    'url'   => $item->getFrontendViewLink(),
                 ];
             }, $path);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFrontendViewLink()
+    {
+        if ($this->link_type == self::LINK_ROUTE) {
+            if ($this->status == self::STATUS_MAIN_PAGE) {
+                return Url::home();
+            }
+
+            return ['/' . $this->path];
+        } else {
+            return $this->link;
         }
     }
 }

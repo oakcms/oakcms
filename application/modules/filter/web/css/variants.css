@@ -1,8 +1,8 @@
-.pistol88-filter ul.filter-variants {
+.oakcms-filter ul.filter-variants {
     padding-left: 0px;
     margin-left: 0px;
 }
-.pistol88-filter .filter-variants li {
+.oakcms-filter .filter-variants li {
     width: 170px;
     float: left;
     padding: 3px;
@@ -11,11 +11,11 @@
     list-style: none;
 }
 
-.pistol88-filter .new-variant {
+.oakcms-filter .new-variant {
     clear: both;
 }
 
-.pistol88-filter .new-variant input {
+.oakcms-filter .new-variant input {
     margin-right: 2px;
     width: 150px;
     display: inline;

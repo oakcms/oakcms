@@ -37,76 +37,80 @@ $this->params['breadcrumbs'][] = 'Обновить';
                         <?= yii::$app->session->getFlash('modification-success-added') ?>
                     </div>
                 <?php } ?>
-                <?php if ($modificationDataProvider->getCount()) { ?>
-                    <?= GridView::widget([
-                        'dataProvider' => $modificationDataProvider,
-                        'filterModel'  => $searchModificationModel,
-                        'columns'      => [
-                            //['class' => 'yii\grid\SerialColumn', 'options' => ['style' => 'width: 20px;']],
-                            ['attribute' => 'id', 'filter' => false, 'options' => ['style' => 'width: 25px;']],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'name',
-                                'url'             => ['/admin/shop/modification/edit-field'],
-                                'type'            => 'text',
-                                'editableOptions' => [
-                                    'mode' => 'inline',
-                                ],
-                                'options'         => ['style' => 'width: 75px;'],
+                <?= GridView::widget([
+                    'dataProvider' => $modificationDataProvider,
+                    'filterModel'  => $searchModificationModel,
+                    'tableOptions' => ['class' => 'table table-striped table-bordered table-advance table-hover'],
+                    'columns'      => [
+                        //['class' => 'yii\grid\SerialColumn', 'options' => ['style' => 'width: 20px;']],
+                        ['attribute' => 'id', 'filter' => false, 'options' => ['style' => 'width: 25px;']],
+                        [
+                            'class'           => EditableColumn::className(),
+                            'attribute'       => 'name',
+                            'url'             => ['/admin/shop/modification/edit-field'],
+                            'type'            => 'text',
+                            'editableOptions' => [
+                                'mode' => 'inline',
                             ],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'sort',
-                                'url'             => ['/admin/shop/modification/edit-field'],
-                                'type'            => 'text',
-                                'editableOptions' => [
-                                    'mode' => 'inline',
-                                ],
-                                'options'         => ['style' => 'width: 49px;'],
+                            'options'         => ['style' => 'width: 75px;'],
+                        ],
+                        [
+                            'class'           => EditableColumn::className(),
+                            'attribute'       => 'sort',
+                            'url'             => ['/admin/shop/modification/edit-field'],
+                            'type'            => 'text',
+                            'editableOptions' => [
+                                'mode' => 'inline',
                             ],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'available',
-                                'url'             => ['/admin/shop/modification/edit-field'],
-                                'type'            => 'select',
-                                'editableOptions' => [
-                                    'mode'   => 'inline',
-                                    'source' => ['yes', 'no'],
-                                ],
-                                'filter'          => false, /*Html::activeDropDownList(
-                                $searchModel,
+                            'options'         => ['style' => 'width: 49px;'],
+                        ],
+                        [
+                            'class'           => EditableColumn::className(),
+                            'attribute'       => 'available',
+                            'url'             => ['/admin/shop/modification/edit-field'],
+                            'type'            => 'select',
+                            'editableOptions' => [
+                                'mode'   => 'inline',
+                                'source' => ['yes', 'no'],
+                            ],
+                            'filter'          => Html::activeDropDownList(
+                                $searchModificationModel,
                                 'available',
                                 ['no' => 'Нет', 'yes' => 'Да'],
                                 ['class' => 'form-control', 'prompt' => 'Наличие']
-                            ),*/
-                                'contentOptions'  => ['style' => 'width: 27px;'],
-                            ],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'price',
-                                'url'             => ['/admin/shop/modification/edit-field'],
-                                'type'            => 'text',
-                                'editableOptions' => [
-                                    'mode' => 'inline',
-                                ],
-                                'options'         => ['style' => 'width: 40px;'],
-                            ],
-                            ['class' => 'yii\grid\ActionColumn', 'controller' => 'modification', 'template' => '{update} {delete}', 'buttonOptions' => ['class' => 'btn btn-default'], 'options' => ['style' => 'width: 30px;']],
+                            ),
+                            'contentOptions'  => ['style' => 'width: 27px;'],
                         ],
-                    ]); ?>
-                <?php } else { ?>
-                    <p>Модификации не добавлены.</p>
-                <?php } ?>
-
+                        [
+                            'class'           => EditableColumn::className(),
+                            'attribute'       => 'price',
+                            'url'             => ['/admin/shop/modification/edit-field'],
+                            'type'            => 'text',
+                            'editableOptions' => [
+                                'mode' => 'inline',
+                            ],
+                            'options'         => ['style' => 'width: 40px;'],
+                        ],
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'controller' => 'modification',
+                            'template' => '{update} {delete}','buttonOptions' => ['class' => 'btn btn-default'], 'options' => ['style' => 'width: 30px;']
+                        ],
+                    ],
+                ]); ?>
                 <p>
-                    <a href="#modificationModal" data-toggle="modal" data-target="#modificationModal" class="btn btn-success add-product-modification">Добавить
-                        <span class="glyphicon glyphicon-plus add-price"></span></a></p>
+                    <a href="#modificationModal" data-toggle="modal" data-target="#modificationModal" class="btn btn-success add-product-modification">
+                        Добавить
+                        <span class="glyphicon glyphicon-plus add-price"></span>
+                    </a>
+                </p>
                 <div class="modal fade" id="modificationModal" tabindex="-1" role="dialog">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                                 <h4 class="modal-title">Товары</h4>
                             </div>
                             <div class="modal-body">

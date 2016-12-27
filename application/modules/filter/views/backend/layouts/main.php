@@ -43,7 +43,7 @@ Asset::register($this);
 
         <footer class="footer">
             <div class="container">
-                <p class="pull-left">&copy; pistol88 cart <?= date('Y') ?></p>
+                <p class="pull-left">&copy; oakcms cart <?= date('Y') ?></p>
 
                 <p class="pull-right"><?= Yii::powered() ?></p>
             </div>

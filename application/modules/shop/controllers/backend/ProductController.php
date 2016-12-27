@@ -124,6 +124,7 @@ class ProductController extends Controller
         $modificationModel = $this->module->getService('modification');
         $searchModificationModel = new ModificationSearch();
         $typeParams['ModificationSearch']['product_id'] = $id;
+        //var_dump($typeParams);
         $modificationDataProvider = $searchModificationModel->search($typeParams);
 
         $priceTypes = PriceType::find()->orderBy('sort DESC')->all();

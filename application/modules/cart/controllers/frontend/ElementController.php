@@ -50,9 +50,9 @@ class ElementController extends \yii\web\Controller
     {
         $json = ['result' => 'undefind', 'error' => false];
 
-        $cart = yii::$app->cart;
+        $cart = Yii::$app->cart;
 
-        $postData = yii::$app->request->post();
+        $postData = Yii::$app->request->post();
 
         $model = $postData['CartElement']['model'];
         if($model) {
@@ -64,11 +64,13 @@ class ElementController extends \yii\web\Controller
                 $options = $postData['CartElement']['options'];
             }
 
-            if($postData['CartElement']['price'] && $postData['CartElement']['price'] != 'false' && $postData['CartElement']['price'] > 0) {
-                $elementModel = $cart->putWithPrice($productModel, $postData['CartElement']['price'], $postData['CartElement']['count'], $options);
-            } else {
-                $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
-            }
+
+            $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
+//            if($postData['CartElement']['price'] && $postData['CartElement']['price'] != 'false' && $postData['CartElement']['price'] > 0) {
+//                $elementModel = $cart->putWithPrice($productModel, $postData['CartElement']['price'], $postData['CartElement']['count'], $options);
+//            } else {
+//                $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
+//            }
 
             $json['elementId'] = $elementModel->getId();
             $json['result'] = 'success';

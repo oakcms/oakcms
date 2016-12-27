@@ -1,12 +1,11 @@
 <?php
 namespace app\modules\cart;
 
-use yii\base\Component;
-use yii\helpers\ArrayHelper;
 use app\modules\cart\events\Cart as CartEvent;
 use app\modules\cart\events\CartElement as CartElementEvent;
 use app\modules\cart\events\CartGroupModels;
-use yii;
+use yii\base\Component;
+use yii\helpers\ArrayHelper;
 
 class Cart extends Component
 {
@@ -20,18 +19,17 @@ class Cart extends Component
     const EVENT_ELEMENT_COST = 'element_cost';
     const EVENT_ELEMENT_PRICE = 'element_price';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
-
+    public $currency = null;
+    public $elementBehaviors = [];
+    public $currencyPosition = 'after';
+    public $priceFormat = [2, '.', ''];
     private $cost = 0;
     private $element = null;
     private $cart = null;
 
-    public $currency = NULL;
-    public $elementBehaviors = [];
-    public $currencyPosition = 'after';
-    public $priceFormat = [2, '.', ''];
-
-    public function __construct(interfaces\CartService $cartService, interfaces\ElementService $elementService, $config = [])
-    {
+    public function __construct(
+        interfaces\CartService $cartService, interfaces\ElementService $elementService, $config = []
+    ) {
         $this->cart = $cartService;
         $this->element = $elementService;
 
@@ -46,15 +44,26 @@ class Cart extends Component
         return $this;
     }
 
+    private function update()
+    {
+        $this->cart = $this->cart->my();
+        $this->cost = $this->cart->getCost();
+
+        return true;
+    }
+
     public function put(\app\modules\cart\interfaces\CartElement $model, $count = 1, $options = [])
     {
         if (!$elementModel = $this->cart->getElement($model, $options)) {
             $elementModel = new $this->element;
             $elementModel->setCount((int)$count);
-            var_dump($model->getCartPrice());
-            var_dump($model->getCartId());
-            exit;
-            $elementModel->setPrice($model->getCartPrice());
+
+            if (count($options)) {
+                $elementModel->setPrice($model->getPriceByOption($options));
+            } else {
+                $elementModel->setPrice($model->getCartPrice());
+            }
+
             $elementModel->setItemId($model->getCartId());
             $elementModel->setModel(get_class($model));
             $elementModel->setOptions($options);
@@ -62,7 +71,7 @@ class Cart extends Component
             $elementEvent = new CartElementEvent(['element' => $elementModel]);
             $this->trigger(self::EVENT_CART_PUT, $elementEvent);
 
-            if(!$elementEvent->stop) {
+            if (!$elementEvent->stop) {
                 try {
                     $this->cart->put($elementModel);
                 } catch (Exception $e) {
@@ -89,7 +98,7 @@ class Cart extends Component
             $elementEvent = new CartElementEvent(['element' => $elementModel]);
             $this->trigger(self::EVENT_CART_PUT, $elementEvent);
 
-            if(!$elementEvent->stop) {
+            if (!$elementEvent->stop) {
                 try {
                     $this->cart->put($elementModel);
                 } catch (Exception $e) {
@@ -112,7 +121,7 @@ class Cart extends Component
     {
         $elements = $this->elements;
 
-        return md5(implode('-', ArrayHelper::map($elements, 'id', 'id')).implode('-', ArrayHelper::map($elements, 'count', 'count')));
+        return md5(implode('-', ArrayHelper::map($elements, 'id', 'id')) . implode('-', ArrayHelper::map($elements, 'count', 'count')));
     }
 
     public function getCount()
@@ -126,13 +135,24 @@ class Cart extends Component
         return $count;
     }
 
+    public function getCostFormatted()
+    {
+        $price = number_format($this->getCost(), $this->priceFormat[0], $this->priceFormat[1], $this->priceFormat[2]);
+
+        if ($this->currencyPosition == 'after') {
+            return "<span>$price</span>{$this->currency}";
+        } else {
+            return "<span>{$this->currency}</span>$price";
+        }
+    }
+
     public function getCost($withTriggers = true)
     {
         $elements = $this->cart->elements;
 
         $pricesByModels = [];
 
-        foreach($elements as $element) {
+        foreach ($elements as $element) {
             $price = $element->getCost($withTriggers);
 
             if (!isset($pricesByModels[$element->model])) {
@@ -144,7 +164,7 @@ class Cart extends Component
 
         $cost = 0;
 
-        foreach($pricesByModels as $model => $price) {
+        foreach ($pricesByModels as $model => $price) {
             $cartGroupModels = new CartGroupModels(['cart' => $this->cart, 'cost' => $price, 'model' => $model]);
             $this->trigger(self::EVENT_MODELS_ROUNDING, $cartGroupModels);
             $cost += $cartGroupModels->cost;
@@ -152,7 +172,7 @@ class Cart extends Component
 
         $cartEvent = new CartEvent(['cart' => $this->cart, 'cost' => $cost]);
 
-        if($withTriggers) {
+        if ($withTriggers) {
             $this->trigger(self::EVENT_CART_COST, $cartEvent);
             $this->trigger(self::EVENT_CART_ROUNDING, $cartEvent);
         }
@@ -162,17 +182,6 @@ class Cart extends Component
         $this->cost = $cost;
 
         return $this->cost;
-    }
-
-    public function getCostFormatted()
-    {
-        $price = number_format($this->getCost(), $this->priceFormat[0], $this->priceFormat[1], $this->priceFormat[2]);
-
-        if ($this->currencyPosition == 'after') {
-            return "<span>$price</span>{$this->currency}";
-        } else {
-            return "<span>{$this->currency}</span>$price";
-        }
     }
 
     public function getElementsByModel(\app\modules\cart\interfaces\CartElement $model)
@@ -197,13 +206,5 @@ class Cart extends Component
         $this->update();
 
         return $truncate;
-    }
-
-    private function update()
-    {
-        $this->cart = $this->cart->my();
-        $this->cost = $this->cart->getCost();
-
-        return true;
     }
 }

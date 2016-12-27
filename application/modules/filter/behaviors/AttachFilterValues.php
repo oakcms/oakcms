@@ -83,6 +83,10 @@ class AttachFilterValues extends Behavior
         }
     }
 
+    /**
+     * Get Filters from model
+     * @return array
+     */
     public function getFilters()
     {
         $model = $this->owner;
@@ -92,10 +96,12 @@ class AttachFilterValues extends Behavior
         foreach($filters as $filter) {
             $field = $filter->relation_field_name;
             $show = false;
+
             if (empty($filter->relation_field_value)) {
                 $show = true;
             } else {
                 foreach ($filter->relation_field_value as $rfv) {
+
                     if ($model->{$field} == $rfv) {
                         $show = true;
                     }

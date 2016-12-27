@@ -43,6 +43,7 @@ class Image extends \yii\db\ActiveRecord
 
     public function getUrl($size = false, $main = false)
     {
+
         if($main && (!$size || $size == '')) {
             $url = $this->getModule()->getStoreUrl().'/' . $this->filePath;
         } else {

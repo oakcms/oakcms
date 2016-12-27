@@ -5,10 +5,12 @@
 
 namespace app\modules\shop\models;
 
+use app\modules\filter\behaviors\AttachFilterValues;
 use app\modules\shop\models\product\ProductQuery;
 use app\modules\field\behaviors\AttachFields;
 use app\modules\gallery\behaviors\AttachImages;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 
 /**
  * Class Product
@@ -21,8 +23,9 @@ use yii\helpers\Url;
  * @property string $code;
  * @property string $text;
  *
- * @method getField($code) Get Attach Fields see [[app\modules\field\behaviors\AttachFields]] behavior for more info;
- * @method getImages() Get Images Gallery see [[app\modules\gallery\behaviors\AttachImages]] behavior for more info;
+ * @mixin AttachImages
+ * @mixin AttachFields
+ * @mixin AttachFilterValues
  */
 
 class Product extends \yii\db\ActiveRecord implements \app\modules\relations\interfaces\Torelate, \app\modules\cart\interfaces\CartElement
@@ -38,6 +41,8 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
 
     const AVAILABLE_YES = 'yes';
     const AVAILABLE_NO = 'no';
+
+    public $price_type = 'lower';
 
     public static function tableName()
     {
@@ -70,12 +75,20 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                 'class' => 'app\modules\seo\behaviors\SeoFields',
             ],*/
             'filter'     => [
-                'class' => 'app\modules\filter\behaviors\AttachFilterValues',
+                'class' => AttachFilterValues::className(),
             ],
             'field'      => [
                 'class' => AttachFields::className(),
             ],
         ];
+    }
+
+    public static function find()
+    {
+        $return = new ProductQuery(get_called_class());
+        $return = $return->with('category');
+
+        return $return;
     }
 
     public function rules()
@@ -175,8 +188,9 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return $return;
     }
 
-    public function getPrice($type = 'lower')
+    public function getPrice()
     {
+        $type = $this->price_type;
         if ($price = $this->getPriceModel($type)) {
             return $price->price;
         }
@@ -201,26 +215,40 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
 
     public function getCartPrice()
     {
-        return $this->price;
+        return $this->getPrice();
+    }
+
+    public function getPriceByOption($options) {
+        if(is_array($options)) {
+            $options = serialize($options);
+        }
+        $modification = $this->getModifications()->andWhere(['filter_values' => $options])->one();
+        return $modification->price;
     }
 
     public function getCartOptions()
     {
         $options = [];
 
-        if ($filters = $this->getFilters()) {
-            foreach ($filters as $filter) {
-                if ($variants = $filter->variants) {
-                    $options[$filter->id]['name'] = $filter->name;
-                    foreach ($variants as $variant) {
-                        $options[$filter->id]['variants'][$variant->id] = $variant->value;
+        foreach ($this->modifications as $modification) {
+            $modification = unserialize($modification->filter_values);
+            foreach ($modification as $filter_id => $filter_variant_id) {
+
+                if ($filters = $this->getFilters()) {
+                    foreach ($filters as $filter) {
+                        if (($variants = $filter->variants) && $filter->id == $filter_id) {
+                            $options[$filter->id]['name'] = $filter->name;
+                            foreach ($variants as $variant) {
+                                if($variant->id == $filter_variant_id) {
+                                    $options[$filter->id]['variants'][$variant->id] = $variant->value;
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
-
         return $options;
-        //return ['Цвет' => ['Красный', 'Белый', 'Синий'], 'Размер' => ['XXL']];
     }
 
     public function getName()
@@ -252,14 +280,6 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     public function getActionProducts()
     {
         return self::find()->where(['is_promo' => self::IS_PROMO_YES])->available()->all();
-    }
-
-    public static function Find()
-    {
-        $return = new ProductQuery(get_called_class());
-        $return = $return->with('category');
-
-        return $return;
     }
 
     public function getLink()

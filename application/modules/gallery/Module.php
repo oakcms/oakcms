@@ -34,6 +34,7 @@ class Module extends \yii\base\Module
         $itemId = preg_replace('/[^0-9]+/', '', $item);
         $modelName = preg_replace('/[0-9]+/', '', $item);
 
+
         $image = Image::find()
             ->where([
                 'modelName' => $modelName,
@@ -41,7 +42,8 @@ class Module extends \yii\base\Module
                 'urlAlias' => $alias
             ])
             ->one();
-        if(!$image){
+
+        if(!$image) {
             return $this->getPlaceHolder();
         }
 

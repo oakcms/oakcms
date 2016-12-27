@@ -17,12 +17,13 @@ oakcms.modificationconstruct = {
     setModification: function(options) {
         if(oakcms.modificationconstruct.modifications) {
             var cartOptions = options;
+
             $.each(oakcms.modificationconstruct.modifications, function(i, m) {
+
                 var options = [];
                 $.each(cartOptions, function(i, co) {
                     options.push(co);
                 });
-
                 var filter_value = $.makeArray(m.filter_value);
 
 

@@ -11,6 +11,17 @@ namespace app\modules\filter\models;
 use yii;
 use yii\helpers\ArrayHelper;
 
+/**
+ * This is the model class for table "{{%filter}}".
+ *
+ * @property string $relation_field_name
+ * @property string $name
+ * @property string $slug
+ * @property string $type
+ * @property string $description
+ * @property string $is_filter
+ * @property integer $sort
+ */
 class Filter extends \yii\db\ActiveRecord
 {
     public static function tableName()
@@ -61,7 +72,7 @@ class Filter extends \yii\db\ActiveRecord
 
     public static function saveEdit($id, $name, $value)
     {
-        $setting = Filter::findOne($id);
+        $setting = self::findOne($id);
         $setting->$name = $value;
         $setting->save();
     }

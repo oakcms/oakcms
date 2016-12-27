@@ -34,7 +34,6 @@ oakcms.cart = {
         }
         else {
             var els = $('.oakcms-cart-option'+id+':checked');
-            console.log('radio');
         }
 
         $(els).each(function() {
@@ -48,6 +47,7 @@ oakcms.cart = {
         data.CartElement.id = id;
         data.CartElement.options = JSON.stringify(options);
 
+        console.log(data);
         oakcms.cart.sendData(data, jQuery(this).data('href'));
 
         return false;
@@ -141,7 +141,6 @@ oakcms.cart = {
         data.CartElement.item_id = jQuery(this).data('id');
         data.CartElement.count = jQuery(this).data('count');
         data.CartElement.price = jQuery(this).data('price');
-        console.log('price');
         data.CartElement.options = jQuery(this).data('options');
 
         oakcms.cart.sendData(data, jQuery(this).attr('href'));
@@ -161,6 +160,8 @@ oakcms.cart = {
 
         data.elementsListWidgetParams = oakcms.cart.elementsListWidgetParams;
         data[oakcms.cart.csrf_param] = oakcms.cart.csrf;
+
+        console.log(data);
 
         jQuery.post(link, data,
             function(json) {

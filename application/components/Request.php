@@ -43,7 +43,9 @@ class Request extends \yii\web\Request
                 $url = $url.'?'.http_build_query($queryParams);
             }
 
-            if($url !== urldecode(Url::to())) {
+            //  OR urldecode($url) !== urldecode(Url::to())
+
+            if(urldecode($url) !== urldecode(Url::to())) {
                 Yii::$app->getResponse()->redirect($url, 301);
             }
 
