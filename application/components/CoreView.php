@@ -10,9 +10,15 @@
 namespace app\components;
 
 
+use app\modules\system\components\SeoViewBehavior;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 
+/**
+ * Class CoreView
+ * @package oakcms
+ *
+ * @mixin SeoViewBehavior
+ */
 class CoreView extends \rmrevin\yii\minify\View
 {
     public $bodyClass = [];

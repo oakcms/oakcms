@@ -6,18 +6,25 @@
  * Project: oakcms
  * File name: view.php
  *
- * @var $this \app\components\CoreView;
+ * @var $this  \app\components\CoreView;
  * @var $model \app\modules\shop\models\Product;
  */
 
 use yii\helpers\Html;
-use yii\helpers\Url;
+
+$this->setSeoData($model->name);
+
+Yii::$app->opengraph->set([
+    'title' => $model->name,
+    'description' => 'My_Article_Description',
+    'image' => 'http://image.for.my/article',
+]);
 
 $this->bodyClass[] = 'product_page';
 
 $this->params['breadcrumbs'][] = [
-    'url' => ['/shop/category/view', 'slug' => $model->category->slug],
-    'label' => $model->category->name
+    'url'   => ['/shop/category/view', 'slug' => $model->category->slug],
+    'label' => $model->category->name,
 ];
 $this->params['breadcrumbs'][] = $model->name;
 
@@ -78,11 +85,11 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
     <div class="row">
         <div class="col-md-6 no_padding_left">
             <?= \app\modules\shop\widgets\ShowMainGallery::widget([
-                'model' => $model,
+                'model'   => $model,
                 'content' => "<div class=\"soc_lis_item\"><span>Поделится c друзями:</span><div class=\"ya-share2\" data-services=\"vkontakte,facebook,odnoklassniki,moimir,gplus,twitter\" data-counter=\"\"></div></div>",
             ]) ?>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 product-info">
             <ul class="product-params subject hidden-xs hidden-sm">
                 <li>
                     <span class="product-params__title">Габариты(ШхВхГ):</span>
@@ -105,32 +112,45 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
             <span class="text-right variants hidden-xs hidden-sm ">Варианты цветовго исполнения:</span>
 
 
-            <?= \app\modules\cart\widgets\ChangeOptions::widget([
-                'model' => $model,
-                'cssClass' => 'colors row',
-                'type' => 'radio'
-            ]); ?>
-
-            <?= \app\modules\shop\widgets\ShowPrice::widget(['model' => $model, 'htmlTag' => 'p', 'cssClass' => 'no_padding col-xs-12 mob_center']) ?>
-
-            <?= \app\modules\cart\widgets\ChangeCount::widget([
-                'model' => $model,
-                'cssClass' => 'quantity total col-xs-12 mob_center',
-                'downArr' => '-',
-                'upArr' => '+',
-            ]); ?>
-
-
-            <div class="buy_block mob_center">
-                <?=\app\modules\cart\widgets\BuyButton::widget([
-                    'model' => $model,
-                    'cssClass' => 'buy_button',
-                    'text' => 'купить',
-                    'htmlTag' => 'button'
+            <div class="container-fluid">
+                <?= \app\modules\cart\widgets\ChangeOptions::widget([
+                    'model'    => $model,
+                    'cssClass' => 'colors row',
+                    'type' => 'radio',
                 ]); ?>
-                <img class="margin_left hidden-xs hidden-sm" src="img/icon-like.png" alt="">
-                <img class="hidden-xs hidden-sm" src="img/icon-home.png" alt="">
-                <a class="mob_center" style="display:block;" href="#">Купить в 1 клик</a>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <?= \app\modules\shop\widgets\ShowPrice::widget(['model' => $model, 'htmlTag' => 'p', 'cssClass' => 'no_padding col-xs-12 mob_center']) ?>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <?= \app\modules\cart\widgets\ChangeCount::widget([
+                        'model'    => $model,
+                        'cssClass' => 'quantity total col-xs-12 mob_center',
+                        'downArr'  => '-',
+                        'upArr'    => '+',
+                    ]); ?>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="buy_block mob_center">
+                        <?= \app\modules\cart\widgets\BuyButton::widget([
+                            'model'    => $model,
+                            'cssClass' => 'buy_button',
+                            'text'     => 'купить',
+                            'htmlTag'  => 'button',
+                        ]); ?>
+                        <img class="margin_left hidden-xs hidden-sm" src="img/icon-like.png" alt="">
+                        <img class="hidden-xs hidden-sm" src="img/icon-home.png" alt="">
+                        <a class="mob_center" style="display:block;" href="#">Купить в 1 клик</a>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-3 no_padding_right hidden-xs hidden-sm">
@@ -168,23 +188,20 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
         </div>
     </div>
 </div>
+<!--
 <div class="row">
     <div class="block row">
         <div class="col-md-6">
             <h3>ElementsList</h3>
-            <?=\app\modules\cart\widgets\ElementsList::widget(['type' => 'full']);?>
+            <?= \app\modules\cart\widgets\ElementsList::widget(['type' => 'full']); ?>
         </div>
         <div class="col-md-3">
             <h3>TruncateButton</h3>
-            <?=\app\modules\cart\widgets\TruncateButton::widget();?>
+            <?= \app\modules\cart\widgets\TruncateButton::widget(); ?>
         </div>
-        <div class="col-md-3">
-            <h3>CartInformer</h3>
-            <?=\app\modules\cart\widgets\CartInformer::widget();?>
-        </div>
-
     </div>
 </div>
+-->
 
 <?= $model->text ?>
 

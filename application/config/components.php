@@ -69,11 +69,6 @@ return [
         'class'           => 'yii\web\AssetManager',
         'linkAssets'      => false,
         'appendTimestamp' => YII_ENV_DEV,
-        'bundles'         => [
-            'yii\bootstrap\BootstrapAsset' => [
-                //='css' => [],
-            ],
-        ],
         'converter'       => [
             'class'          => 'nizsheanez\assetConverter\Converter',
             'destinationDir' => 'css',
@@ -129,6 +124,9 @@ return [
                 'enableCaching'      => false,
             ],
         ],
+    ],
+    'opengraph' => [
+        'class' => 'dragonjet\opengraph\OpenGraph',
     ],
     'db'           => require(__DIR__ . '/db.php'),
     'urlManager'   => require(__DIR__ . '/urlManager.php'),

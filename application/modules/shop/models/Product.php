@@ -14,7 +14,6 @@ use yii\helpers\VarDumper;
 
 /**
  * Class Product
- * @package oakcms
  *
  * @property integer $id;
  * @property integer $category_id;
@@ -27,7 +26,6 @@ use yii\helpers\VarDumper;
  * @mixin AttachFields
  * @mixin AttachFilterValues
  */
-
 class Product extends \yii\db\ActiveRecord implements \app\modules\relations\interfaces\Torelate, \app\modules\cart\interfaces\CartElement
 {
     const IS_PROMO_YES = 'yes';

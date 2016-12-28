@@ -112,7 +112,7 @@ class ShowMainGallery extends Widget
 
         $lines[] = Html::beginTag($mainImageTag, $mainImageOptions);
         $lineMainImage = Html::a(
-            Html::img($this->model->getImage()->getUrl('600x'), [
+            Html::img($this->model->getImage()->getUrl('835x'), [
                 'class' => 'product-photo__img',
                 'data-product-photo' => true,
                 'data-zoom-image-small' => true,
@@ -136,7 +136,7 @@ class ShowMainGallery extends Widget
             }
             $linesThumbImages[] = Html::tag(
                 'li',
-                Html::a(Html::img($item->getUrl('65x50'), ['class' => 'product-photo__thumb-img']), $item->getUrl(), $thumbImageLinkOptions),
+                Html::a(Html::img($item->getUrl('x100'), ['class' => 'product-photo__thumb-img']), $item->getUrl(), $thumbImageLinkOptions),
                 ['class' => 'product-photo__thumb']
             );
         }
