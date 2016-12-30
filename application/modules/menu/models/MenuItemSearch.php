@@ -30,12 +30,17 @@ class MenuItemSearch extends MenuItem
     public $excludeItem;
 
     /**
+     * @var integer
+     */
+    public $main;
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'menu_type_id', 'parent_id', 'status', 'link_type', 'secure', 'created_at', 'updated_at', 'created_by', 'updated_by', 'lft', 'rgt', 'level', 'ordering', 'hits', 'lock', 'excludeItem', 'excludeRoots'], 'integer'],
+            [['id', 'menu_type_id', 'parent_id', 'status', 'main', 'link_type', 'secure', 'created_at', 'updated_at', 'created_by', 'updated_by', 'lft', 'rgt', 'level', 'ordering', 'hits', 'lock', 'excludeItem', 'excludeRoots'], 'integer'],
             [['language', 'title', 'alias', 'path', 'note', 'link', 'link_params', 'layout_path', 'access_rule', 'metakey', 'metadesc', 'robots'], 'safe'],
         ];
     }
@@ -72,7 +77,6 @@ class MenuItemSearch extends MenuItem
             'id' => $this->id,
             'menu_type_id' => $this->menu_type_id,
             'parent_id' => $this->parent_id,
-            'status' => $this->status,
             'link_type' => $this->link_type,
             'secure' => $this->secure,
             'created_at' => $this->created_at,
@@ -86,6 +90,12 @@ class MenuItemSearch extends MenuItem
             'hits' => $this->hits,
             'lock' => $this->lock,
         ]);
+
+        if($this->main <= 0) {
+            $query->andFilterWhere(['status' => $this->status]);
+        } else {
+            $query->andFilterWhere(['status' => $this->main]);
+        }
 
         $query->andFilterWhere(['like', 'language', $this->language])
             ->andFilterWhere(['like', 'title', $this->title])

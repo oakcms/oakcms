@@ -84,16 +84,37 @@ $this->params['actions_buttons'] = [
             ],
             ['attribute' => 'link'],
             [
-                'attribute' => 'status',
+                'attribute' => 'main',
                 'format'    => 'raw',
                 'options'   => ['width' => '50px'],
                 'header'    => Yii::t('menu', 'Home'),
                 'filter'    => Html::activeDropDownList(
                     $searchModel,
-                    'status',
-                    [1 => Yii::t('menu', 'Yes')],
+                    'main',
+                    [MenuItem::STATUS_MAIN_PAGE => Yii::t('menu', 'Yes')],
                     ['class' => 'form-control', 'prompt' => Yii::t('menu', 'Select')]
-                )
+                ),
+                'value'     => function ($model) {
+                    /** @var $model MenuItem */
+                    $class = ['fa', 'fa-star', 'switch-fa'];
+                    if ($model->status == MenuItem::STATUS_MAIN_PAGE) $class[] = 'switch-fa--active';
+
+                    return Html::a(
+                        Html::tag('span', '', ['class' => $class]),
+                        [
+                            '/admin/menu/item/status',
+                            'id' => $model->primaryKey,
+                            'status' => MenuItem::STATUS_MAIN_PAGE
+                        ],
+                        [
+                            'data'  => [
+                                'method' => 'post',
+                                'toggle' => 'tooltip',
+                                'original-title' => Yii::t('menu', 'Set home page')
+                            ]
+                        ]
+                    );
+                },
             ],
             [
                 'class'     => \app\modules\admin\components\grid\EnumColumn::className(),
@@ -101,10 +122,10 @@ $this->params['actions_buttons'] = [
                 'format'    => 'raw',
                 'options'   => ['width' => '50px'],
                 'value'     => function ($model, $index, $widget) {
-                    return Html::checkbox('', $model->status == MenuItem::STATUS_PUBLISHED, [
+                    return Html::checkbox('', $model->status == MenuItem::STATUS_PUBLISHED || $model->status == MenuItem::STATUS_MAIN_PAGE, [
                         'class'       => 'switch toggle ',
                         'data-id'     => $model->primaryKey,
-                        'data-link'   => \yii\helpers\Url::to(['/admin/content/article']),
+                        'data-link'   => \yii\helpers\Url::to(['/admin/menu/item']),
                         'data-reload' => '0',
                         'disabled'    => $model->status == MenuItem::STATUS_MAIN_PAGE,
                     ]);

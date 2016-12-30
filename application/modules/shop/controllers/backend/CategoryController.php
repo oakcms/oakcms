@@ -93,7 +93,7 @@ class CategoryController extends Controller
      * @param string $route
      * @return string
      */
-    public function actionSelect($route = '/shop/category/view')
+    public function actionSelect($route = 'shop/category/view')
     {
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());

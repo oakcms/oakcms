@@ -131,7 +131,7 @@ class ShowMainGallery extends Widget
                 'data-magnific-galley-thumb' => true,
                 'data-magnific-galley-title' => $this->model->name,
             ];
-            if($item->isMain == 1) {
+            if($item->isMain == 1 OR $i == 0) {
                 $thumbImageLinkOptions = ArrayHelper::merge($thumbImageLinkOptions, ['data-product-photo-thumb-active' => true]);
             }
             $linesThumbImages[] = Html::tag(

@@ -79,7 +79,7 @@ class Category extends \yii\db\ActiveRecord
      */
     public function getFrontendViewLink()
     {
-        return ['/shop/category/view', 'id' => $this->id, 'alias' => $this->slug];
+        return ['shop/category/view', 'id' => $this->id, 'alias' => $this->slug];
     }
 
 

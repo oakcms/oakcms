@@ -49,10 +49,8 @@ class CartInformer extends \yii\base\Widget
             $cost = $cart->getCostFormatted();
 
             if($count <= 0 ) $count = '';
-            if($cost <= 0 ) $cost = '';
-
             $text = str_replace(['{c}', '{p}'],
-                ['<span class="oakcms-cart-count">'.$count.'</span>', '<strong class="oakcms-cart-price">'.$cost.'</strong>'],
+                ['<span class="oakcms-cart-count">'.$count.'</span>', '<span class="oakcms-cart-price">'.$cost.'</span>'],
                 $this->text
             );
         } else {
@@ -61,17 +59,14 @@ class CartInformer extends \yii\base\Widget
             $cost2 = round($cart->getCost(false));
 
             if($count <= 0 ) $count = '';
-            if($cost1 <= 0 ) $cost1 = '';
-            if($cost2 <= 0 ) $cost2 = '';
 
             $text = str_replace(['{c}', '{p}'],
-                ['<span class="oakcms-cart-count">'.$count.'</span>', '<strong class="oakcms-cart-price"><s>'.$cost1.'</s>'.$cost2.'</strong>'],
+                ['<span class="oakcms-cart-count">'.$count.'</span>', '<span class="oakcms-cart-price"><s>'.$cost1.'</s>'.$cost2.'</span>'],
                 $this->text
             );
         }
 
         return Html::tag($this->htmlTag, $text, [
-                'href' => $this->offerUrl,
                 'class' => "oakcms-cart-informer {$this->cssClass}",
         ]);
     }

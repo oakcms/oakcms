@@ -40,11 +40,12 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
     <div class="col-md-6 col-sm-12">
         <div class="block_header ">
 
+            <?if($model->producer):?>
             <div class="manufacturer text-left">
                 <img src="img/manufactured.png" alt="">
                 Производитель: <?= Html::a($model->producer->name, ['/shop/producer/view', 'slug' => $model->producer->slug]) ?>
             </div>
-
+            <?endif?>
             <div class="question text-right">
                 <img src="img/question.png" alt="" style="height: 20px;">
                 <a href="#">Задать вопрос по этому товару</a>

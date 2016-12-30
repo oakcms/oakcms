@@ -62,7 +62,7 @@ $this->params['actions_buttons'] = [
 ?>
 <div class="content-pages-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
         <?= GridView::widget([
             'id' => 'grid',

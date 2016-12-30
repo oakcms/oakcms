@@ -28,8 +28,11 @@ class Request extends \yii\web\Request
             $menuPath       = $menuManager->menuMap->getMenuPathByRoute($menuRoute);
             $menu           = $menuManager->menuMap->getMenuByRoute($menuRoute);
             $menuStatus     = $menu ? $menu->status : 0;
+            $homeMenuItem   = $menuManager->menuMap->getMainMenu();
 
             list ($routeURL, $paramsURL) = Yii::$app->urlManager->parseRequest($this);
+
+
             $currentURL = [$routeURL];
             foreach ($paramsURL as $k=>$item) {
                 $currentURL[$k] = $item;
@@ -44,15 +47,28 @@ class Request extends \yii\web\Request
             }
 
             //  OR urldecode($url) !== urldecode(Url::to())
-
-            if(urldecode($url) !== urldecode(Url::to())) {
+            if(urldecode($url) !== urldecode(Url::to()) && $menuRoute != $homeMenuItem->link) {
                 Yii::$app->getResponse()->redirect($url, 301);
             }
 
+
+            //var_dump($menuRoute);
+            /*var_dump(
+                urldecode(Url::to()), urldecode(Url::home()),
+                $menuStatus, $menuRoute, $homeMenuItem->link);exit;
+*/
             if($menuPath) {
-                if($menuPath != ltrim(urldecode(Url::to()), '/') && $menuStatus != 2) {
+                if(
+                    $menuPath != ltrim(urldecode(Url::to()), '/') &&
+                    $menuRoute != $homeMenuItem->link &&
+                    $menuStatus != 2
+                ) {
                     Yii::$app->getResponse()->redirect(Url::home().$menuPath, 301);
-                } elseif(urldecode(Url::to()) != urldecode(Url::home()) && $menuStatus == 2) {
+                } elseif(
+                    urldecode(Url::to()) != urldecode(Url::home()) &&
+                    $menuRoute == $homeMenuItem->link &&
+                    $menuStatus == 2
+                ) {
                     Yii::$app->getResponse()->redirect(Url::home(), 301);
                 }
             }

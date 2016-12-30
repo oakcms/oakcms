@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['actions_buttons'] = [
     [
         'tagName' => 'a',
-        'label' => Yii::t('content', 'Create'),
+        'label' => Yii::t('admin', 'Create'),
         'options' => [
             'href' => Url::to(['create'])
         ],
@@ -30,14 +30,11 @@ $this->params['actions_buttons'] = [
 ?>
 <div class="menu-index">
 
-    <div class="page-header">
-        <h1><?= Html::encode($this->title) ?></h1>
-    </div>
-
     <?= GridView::widget([
         'id' => 'table-grid',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
         'columns' => [
             [
                 'class' => 'yii\grid\CheckboxColumn',

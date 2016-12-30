@@ -9,6 +9,7 @@ namespace app\components\menu;
 use app\modules\menu\models\MenuItem;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\caching\DbDependency;
 use yii\di\Instance;
 use yii\caching\Cache;
 
@@ -46,12 +47,19 @@ class MenuMap extends \yii\base\Object
             throw new InvalidConfigException(get_called_class().'::language must be set.');
         }
 
+
         if ($this->cache) {
             /** @var Cache $cache */
             $this->cache = Instance::ensure($this->cache, Cache::className());
             $cacheKey = [__CLASS__, $this->language];
+
             if ((list($paths, $routes, $links) = $this->cache->get($cacheKey)) === false) {
                 $this->createMap();
+
+                $this->cacheDependency = \Yii::createObject([
+                    'class' => 'yii\caching\DbDependency',
+                    'sql' => 'SELECT MAX(updated_at) FROM '.MenuItem::tableName(),
+                ]);
                 $this->cache->set($cacheKey, [$this->_paths, $this->_routes, $this->_links], $this->cacheDuration, $this->cacheDependency);
             } else {
                 $this->_paths = $paths;

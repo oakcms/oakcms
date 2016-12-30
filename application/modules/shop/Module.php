@@ -21,6 +21,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     const EVENT_PRODUCT_CREATE = 'create_product';
     const EVENT_PRODUCT_DELETE = 'delete_product';
     const EVENT_PRODUCT_UPDATE = 'update_product';
+
     /** @var array The rules to be used in Frontend Url management. */
     public static $urlRulesFrontend = [
         '/shop/category/<slug:[\w\-]+>' => '/shop/category/view',

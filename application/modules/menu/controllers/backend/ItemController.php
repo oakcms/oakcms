@@ -11,6 +11,7 @@ namespace app\modules\menu\controllers\backend;
 
 
 use app\components\BackendController;
+use app\modules\admin\components\behaviors\StatusController;
 use app\modules\menu\models\MenuItem;
 use app\modules\menu\models\MenuItemSearch;
 use app\modules\menu\models\MenuLinkParams;
@@ -43,6 +44,10 @@ class ItemController extends BackendController
                     'status'      => ['post'],
                     //'type-items' => ['post'],
                 ],
+            ],
+            [
+                'class' => StatusController::className(),
+                'model' => MenuItem::className(),
             ],
         ];
     }
@@ -274,7 +279,7 @@ class ItemController extends BackendController
             'model'           => $model,
             'linkParamsModel' => $linkParamsModel,
             'sourceModel'     => $sourceModel,
-            'lang'            => $lang
+            'lang'            => $lang,
         ];
 
         if ($model->load(Yii::$app->request->post()) && $linkParamsModel->load(Yii::$app->request->post()) && $model->validate() && $linkParamsModel->validate()) {
@@ -283,7 +288,7 @@ class ItemController extends BackendController
 
             if (Yii::$app->request->post('submit-type') == 'continue')
                 return $this->redirect(['update', 'id' => $model->id]);
-            elseif(Yii::$app->request->post('submit-type') == 'createNew')
+            elseif (Yii::$app->request->post('submit-type') == 'createNew')
                 return $this->redirect(['create']);
             else
                 return $this->redirect(['index']);
@@ -315,7 +320,7 @@ class ItemController extends BackendController
 
             if (Yii::$app->request->post('submit-type') == 'continue')
                 return $this->redirect(['update', 'id' => $model->id]);
-            elseif(Yii::$app->request->post('submit-type') == 'createNew')
+            elseif (Yii::$app->request->post('submit-type') == 'createNew')
                 return $this->redirect(['create']);
             else
                 return $this->redirect(['index']);
@@ -324,7 +329,7 @@ class ItemController extends BackendController
             return $this->render('update', [
                 'model'           => $model,
                 'linkParamsModel' => $linkParamsModel,
-                'lang'            => $lang
+                'lang'            => $lang,
             ]);
         }
     }
@@ -425,6 +430,16 @@ class ItemController extends BackendController
         $model->save();
 
         return $this->redirect(ArrayHelper::getValue(Yii::$app->request, 'referrer', ['index']));
+    }
+
+    public function actionOn($id)
+    {
+        return $this->changeStatus($id, MenuItem::STATUS_PUBLISHED);
+    }
+
+    public function actionOff($id)
+    {
+        return $this->changeStatus($id, MenuItem::STATUS_UNPUBLISHED);
     }
 
     /**

@@ -40,8 +40,6 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     const AVAILABLE_YES = 'yes';
     const AVAILABLE_NO = 'no';
 
-    public $price_type = 'lower';
-
     public static function tableName()
     {
         return '{{%shop_product}}';
@@ -63,7 +61,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                 'inAttribute'  => 'related_ids',
             ],
             'toCategory' => [
-                'class'     => 'voskobovich\behaviors\ManyToManyBehavior',
+                'class'     => \voskobovich\behaviors\ManyToManyBehavior::className(),
                 'relations' => [
                     'category_ids' => 'categories',
                 ],
@@ -164,13 +162,13 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
 
     public function getPriceModel($type = 'lower')
     {
-        $price = $this->hasOne(Price::className(), ['product_id' => 'id']);
+        $price = $this->hasOne(Price::className(), ['product_id' => 'id'])->andWhere(['not', ['price' => null]]);
 
         if ($type == 'lower') {
             $price = $price->orderBy('price ASC')->one();
         } elseif ($type) {
             $price = $price->where(['type_id' => $type])->one();
-        } elseif ($defaultType = yii::$app->getModule('shop')->getPriceTypeId($this)) {
+        } elseif ($defaultType = \Yii::$app->getModule('shop')->getPriceTypeId($this)) {
             $price = $price->where(['type_id' => $defaultType])->one();
         } else {
             $price = $price->orderBy('price DESC')->one();
@@ -186,9 +184,8 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return $return;
     }
 
-    public function getPrice()
+    public function getPrice($type = 'lower')
     {
-        $type = $this->price_type;
         if ($price = $this->getPriceModel($type)) {
             return $price->price;
         }
