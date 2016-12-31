@@ -44,12 +44,15 @@ class FilterValueController extends Controller
 
     public function actionCreate()
     {
-        $model = new FilterValue();
-
         $json = [];
 
-        if ($model->load(yii::$app->request->post()) && $model->save()) {
+        if(!($model = FilterValue::find()->where(['variant_id' => Yii::$app->request->post('FilterValue')['variant_id']])->one())) {
+            $model = new FilterValue();
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $json['result'] = 'success';
+            $json['new'] = $model->isNewRecord;
         } else {
             $json['result'] = 'fail';
         }

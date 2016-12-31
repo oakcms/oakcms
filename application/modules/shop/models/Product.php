@@ -184,10 +184,15 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return $return;
     }
 
+    /**
+     * @param string $type
+     *
+     * @return float|null
+     */
     public function getPrice($type = 'lower')
     {
         if ($price = $this->getPriceModel($type)) {
-            return $price->price;
+            return (float)$price->price;
         }
 
         return null;

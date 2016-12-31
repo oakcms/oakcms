@@ -10,6 +10,7 @@
 
 namespace app\modules\shop\controllers\frontend;
 
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
 class ProductController extends \app\components\Controller

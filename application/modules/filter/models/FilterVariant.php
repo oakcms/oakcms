@@ -46,6 +46,11 @@ class FilterVariant extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getFilter()
+    {
+        return $this->hasOne(Filter::className(), ['id' => 'filter_id']);
+    }
+
     public static function saveEdit($id, $name, $value)
     {
         $setting = FilterVariant::findOne($id);

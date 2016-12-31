@@ -49,11 +49,7 @@ class CategorySearch extends Category
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => false,
-            'sort' => new \yii\data\Sort([
-                'attributes' => [
-                    'name'
-                ],
-            ])
+            'sort'=> ['defaultOrder' => ['id' => SORT_DESC]]
         ]);
 
         $this->load($params);

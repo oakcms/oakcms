@@ -3,11 +3,9 @@
 namespace app\modules\admin;
 
 use app\components\BackendTheme;
-use yii\helpers\Url;
+use app\modules\admin\rbac\Rbac;
 use Yii;
 use yii\filters\AccessControl;
-use app\modules\admin\rbac\Rbac;
-use yii\helpers\VarDumper;
 
 /**
  * admin module definition class
@@ -40,16 +38,17 @@ class Module extends \app\components\module\Module
 
     /** @var array The rules to be used in URL management. */
     public $urlRules = [
-        ''                                                                      => 'default/index',
-        'user/<_a:[\w\-]+>'                                                     => 'user/user/<_a>',
-        '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>'                                    => '<_c>/<_a>',
-        '<_c:[\w\-]+>/<_a:[\w\-]+>'                                             => '<_c>/<_a>',
-        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>/<language:\w+>'        => '<_m>/<_c>/<_a>',
-        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>'                       => '<_m>/<_c>/<_a>',
-        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>'                                => '<_m>/<_c>/<_a>',
-        '<_m:[\w\-]+>/<_c:[\w\-]+>'                                             => '<_m>/<_c>/index',
-        '<_m:[\w\-]+>'                                                          => '<_m>/default/index',
-        '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'                                    => '<_m>/<_c>/view',
+        ''                                                               => 'default/index',
+        'user/<_a:[\w\-]+>'                                              => 'user/user/<_a>',
+        '/admin/file-manager-elfinder/manage'                            => '/admin/file-manager-elfinder/manage',
+        '<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>'                             => '<_c>/<_a>',
+        '<_c:[\w\-]+>/<_a:[\w\-]+>'                                      => '<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>/<language:\w+>' => '<_m>/<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>'                => '<_m>/<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>'                         => '<_m>/<_c>/<_a>',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>'                                      => '<_m>/<_c>/index',
+        '<_m:[\w\-]+>'                                                   => '<_m>/default/index',
+        '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>'                             => '<_m>/<_c>/view',
     ];
 
     public function behaviors()
@@ -64,8 +63,8 @@ class Module extends \app\components\module\Module
                     ],
                     [
                         'actions' => ['login'],
-                        'allow' => true,
-                        'roles' => ['?'],
+                        'allow'   => true,
+                        'roles'   => ['?'],
                     ],
                 ],
             ],
@@ -77,6 +76,7 @@ class Module extends \app\components\module\Module
         if (!parent::beforeAction($action)) {
             return false;
         }
+
         return true;
     }
 
@@ -88,7 +88,7 @@ class Module extends \app\components\module\Module
     {
         parent::init();
 
-        if(Yii::$app->cache === null) {
+        if (Yii::$app->cache === null) {
             throw new \yii\web\ServerErrorHttpException('Please configure Cache component.');
         }
 
@@ -97,8 +97,9 @@ class Module extends \app\components\module\Module
         }
     }
 
-    public function getSettings($module) {
-        if(isset(\Yii::$app->getModule('admin')->activeModules[$module]->settings)) {
+    public function getSettings($module)
+    {
+        if (isset(\Yii::$app->getModule('admin')->activeModules[$module]->settings)) {
             return \Yii::$app->getModule('admin')->activeModules[$module]->settings;
         } else {
             return [];

@@ -50,17 +50,22 @@ class ChangeOptions extends \yii\base\Widget
 
         if (!empty($optionsList)) {
             $i = 1;
+            //yii\helpers\VarDumper::dump($optionData['variants']);exit;
             foreach ($optionsList as $optionId => $optionData) {
                 if (!is_array($optionData)) {
                     $optionData = [];
                 }
-
+                if(isset($optionData['variants'])) {
                 $cssClass = "{$changerCssClass} oakcms-cart-option{$id} ";
 
                 $optionsArray = [];
-                foreach ($optionData['variants'] as $variantId => $value) {
-                    $optionsArray[$variantId] = $value;
-                }
+
+
+                    foreach ($optionData['variants'] as $variantId => $value) {
+                        $optionsArray[$variantId] = $value;
+                    }
+
+
 
                 if ($this->type == 'select') {
 
@@ -79,7 +84,9 @@ class ChangeOptions extends \yii\base\Widget
                 }
 
                 $options[] = Html::tag('div', $list, ['class' => "oakcms-option"]);
+                }
                 $i++;
+
             }
         } else {
             return null;

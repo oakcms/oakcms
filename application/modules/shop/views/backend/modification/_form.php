@@ -3,6 +3,9 @@ use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+/**
+ * @var $productModel \app\modules\shop\models\Product;
+ */
 ?>
 <div class="product-add-modification-form">
     <?php $form = ActiveForm::begin(); ?>
@@ -12,7 +15,7 @@ use yii\widgets\ActiveForm;
         <?php if($filters = $productModel->getFilters()) {  ?>
             <div class="filters form-group">
                 <?php foreach($filters as $filter) { ?>
-                    <?php if($variants = $filter->variants) { ?>
+                    <?php if(($variants = $filter->variants) && $filter->is_filter == \app\modules\filter\models\Filter::NOT_FILTER) { ?>
                         <div class="col-md-3 col-xs-6">
                             <p>
                                 <label for="filterValue<?=$filter->id;?>"><?=$filter->name;?></label>

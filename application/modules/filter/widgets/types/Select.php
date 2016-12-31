@@ -44,6 +44,7 @@ class Select extends \yii\base\Widget
 
         $select = Select2::widget([
             'name' => 'choise-option',
+            'id' => 'selectVariantsList',
             'value' => $checked,
             'data' => $variantsList,
             'language' => 'ru',
@@ -56,9 +57,23 @@ class Select extends \yii\base\Widget
         $variants = Html::tag('div', $select, $this->options);
 
         $new = [];
-        $new[] = Html::input('text', 'variant_value', '', ['placeholder' => 'Новый вариант', 'data-filter-id' => $this->filter->id, 'data-create-action' => Url::toRoute(['/admin/filter/filter-variant/create']), 'class' => ' form-control']);
-        $new[] = Html::button(Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['class' => 'btn btn-success']);
 
+
+        $new[] = Html::beginTag('div', ['class' => 'row']);
+        $new[] = Html::beginTag('div', ['class' => 'col-sm-3']);
+        $new[] = Html::beginTag('div', ['class' => 'input-group']);
+        $new[] = Html::input('text', 'variant_value', '', [
+            'placeholder' => 'Новый вариант',
+            'data-filter-id' => $this->filter->id,
+            'data-create-action' => Url::toRoute(['/admin/filter/filter-variant/create']),
+            'class' => ' form-control'
+        ]);
+        $new[] = Html::beginTag('span', ['class' => 'input-group-btn']);
+        $new[] = Html::button(Html::tag('i', '', ['class' => 'glyphicon glyphicon-plus']), ['class' => 'btn btn-success']);
+        $new[] = Html::endTag('span');
+        $new[] = Html::endTag('div');
+        $new[] = Html::endTag('div');
+        $new[] = Html::endTag('div');
         $variants .= Html::tag('div', implode('', $new), ['class' => 'new-variant']);
 
         return $variants;

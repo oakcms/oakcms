@@ -69,6 +69,7 @@ class FilterVariantController extends Controller
                 $json['value'] = $have->value;
                 $json['id'] = $have->id;
                 $json['new'] = false;
+                $json['type'] = $have->filter->type;
             //Если варианта нет, создаем
             } else {
                 if ($model->load(yii::$app->request->post()) && $model->save()) {
@@ -76,6 +77,7 @@ class FilterVariantController extends Controller
                     $json['value'] = $model->value;
                     $json['id'] = $model->id;
                     $json['new'] = true;
+                    $json['type'] = $model->filter->type;
                 } else {
                     $json['result'] = 'fail';
                 }

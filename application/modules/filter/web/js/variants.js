@@ -17,14 +17,15 @@ oakcms.filter = {
         oakcms.filter.csrf_token = $('meta[name="csrf-token"]').attr('content');
     },
     addVariant: function() {
-        var input = $(this).siblings('input');
-        var filter_id = $(input).data('filter-id');
-        var value = $(input).val();
+        var input = $(this).closest('.new-variant').find('input');
+        var filter_id = input.data('filter-id');
+        var value = input.val();
 
-        $(input).css('opacity', '0.3');
+        input.css('opacity', '0.3');
 
-        var create_action = $(this).siblings('input').data('create-action');
+        var create_action = input.data('create-action');
 
+        console.log(input.data('create-action'));
         var data = {};
         data.FilterVariant = {};
         data.FilterVariant.filter_id = filter_id;
@@ -35,23 +36,43 @@ oakcms.filter = {
         $.post(create_action, data,
             function(json) {
                 if(json.result == 'success') {
-                    $(input).val('');
-                    $(input).css('opacity', 1);
+                    switch (json.type) {
+                        case 'radio':
+                            input.val('');
+                            input.css('opacity', 1);
+                            var newState = new Option(value, json.id, true, true);
+                            input.closest('.oakcms-filter')
+                                .find('#selectVariantsList')
+                                .append(newState).trigger('change');
+                            break;
+                        case 'checkbox':
+                            input.val('');
+                            input.css('opacity', 1);
 
-                    $(input).parent('div').siblings('ul.filter-data-container').append('<li><input checked="checked" type="checkbox" id="filtervariant'+json.id+'" name="variant" value="1" data-id="'+json.id+'"> <label for="filtervariant'+json.id+'">'+value+'</label></li>');
-
-                    if(json.new) {
-                        $(input).parent('div').siblings('.filter-data-container').find('select').append('<option value="'+json.id+'">'+value+'</option>').val(json.id).change();
+                            if(json.new) {
+                                input
+                                    .closest('.oakcms-filter')
+                                    .find('ul.filter-data-container')
+                                    .append('<li>' +
+                                        '<input ' +
+                                        'checked="checked" ' +
+                                        'type="checkbox" ' +
+                                        'id="filtervariant'+json.id+'" ' +
+                                        'name="variant" ' +
+                                        'value="1" ' +
+                                        'data-id="'+json.id+'">' +
+                                        '<label for="filtervariant'+json.id+'">'+value+'</label>' +
+                                        '</li>');
+                            } else {
+                                $('#filtervariant'+json.id).prop('checked', true);
+                            }
+                            $('#filtervariant'+json.id).change();
+                            $("input[type=checkbox]").uniform();
+                        break;
                     }
-                    else {
-                        $(input).parent('div').siblings('.filter-data-container').find('select').val(json.id).change();
-                    }
-                    $('#filtervariant'+json.id).change();
-                }
-                else {
+                } else {
                     alert('Error');
                 }
-
             }, "json");
     },
     choiceVariant: function() {

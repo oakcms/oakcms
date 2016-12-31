@@ -21,7 +21,10 @@ return [
                         'baseUrl'  => 'uploads',
                         'basePath' => '@webroot/uploads',
                         'path'     => '',
-                        'access'   => ['read' => \app\modules\admin\rbac\Rbac::PERMISSION_ADMIN_PANEL, 'write' => \app\modules\admin\rbac\Rbac::PERMISSION_ADMIN_PANEL],
+                        'access'   => [
+                            'read' => \app\modules\admin\rbac\Rbac::PERMISSION_ADMIN_PANEL,
+                            'write' => \app\modules\admin\rbac\Rbac::PERMISSION_ADMIN_PANEL
+                        ],
                     ],
                 ],
             ],

@@ -21,7 +21,6 @@ use yii\helpers\Url;
  * @property string $name
  * @property string $slug
  */
-
 class Category extends \yii\db\ActiveRecord
 {
     function behaviors()

@@ -85,7 +85,7 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
 
         if($selected = unserialize($this->filter_values)) {
             foreach($selected as $filter => $value) {
-                $return[] = $value;
+                if($value != '') $return[] = $value;
             }
         }
 

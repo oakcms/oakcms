@@ -24,6 +24,9 @@ use yii\helpers\ArrayHelper;
  */
 class Filter extends \yii\db\ActiveRecord
 {
+    const IS_FILTER = 'yes';
+    const NOT_FILTER = 'no';
+
     public static function tableName()
     {
         return '{{%filter}}';
