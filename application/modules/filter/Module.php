@@ -24,7 +24,7 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
         'radio' => 'Radio',
         'checkbox' => 'Checkbox',
         'select' => 'Select',
-        'range' => 'Промежуток'
+        'range' => 'Промежуток Цены'
     ];
     public $adminRoles = [Rbac::PERMISSION_ADMIN_PANEL];
 

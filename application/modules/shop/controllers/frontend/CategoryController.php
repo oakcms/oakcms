@@ -22,8 +22,14 @@ class CategoryController extends \app\components\Controller
     public function actionView($slug) {
         $model = self::findModelBySlug($slug);
 
+        $query = $model->getProducts();
+
+        if(\Yii::$app->request->get('filter')) {
+            $query = $query->filtered();
+        }
+
         $productDataProvider = new ActiveDataProvider([
-            'query' => $model->getProducts(),
+            'query' => $query,
             'sort' => new \yii\data\Sort([
                 'attributes' => [
                     'price',

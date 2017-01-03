@@ -148,6 +148,7 @@ class ElementsList extends \yii\base\Widget
 
         if($this->showOptions && $item->getOptions()) {
             $options = '';
+
             foreach($item->getOptions() as $optionId => $valueId) {
                 if($optionData = $allOptions[$optionId]) {
                     $option = $optionData['name'];

@@ -24,37 +24,7 @@ class PageController extends Controller
 
         $model = $this->findModel($slug);
 
-        if(($menu =  MenuItems::find()
-            ->joinWith(['translations'])
-            ->andWhere(['{{%menu_items}}.disable_breadcrumbs' => 0])
-            ->andWhere([
-                'or',
-                [
-                    '{{%menu_items_lang}}.url' => 'page/'.$slug
-                ],
-                [
-                    '{{%menu_items_lang}}.url' => '/page/'.$slug
-                ],
-                [
-                    '{{%menu_items_lang}}.url' => \yii\helpers\Url::to(['/system/default']).'page/'.$slug
-                ]
-            ])
-            ->one())) {
-
-
-            /*if(($mParent = $menu->parents(1)->one())) {
-                $arr = explode('/', $mParent->url);
-                var_dump($arr);
-                if(end($arr) != $slugMenu)
-                    throw new NotFoundHttpException('The requested page does not exist.');
-            }*/
-
-            $breadcrumbs = Menu::getBreadcrumbsById($menu->id);
-        } else {
-            $breadcrumbs = Menu::getBreadcrumbs('page/'.$slug);
-        }
-
-        return $this->render('view', ['breadcrumbs' => $breadcrumbs, 'model' => $model]);
+        return $this->render('view', ['model' => $model]);
     }
 
     protected function findModel($slug)

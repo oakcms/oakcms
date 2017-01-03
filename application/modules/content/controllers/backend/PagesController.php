@@ -103,7 +103,7 @@ class PagesController extends BackendController
      * @param string $route
      * @return string
      */
-    public function actionSelect($route = 'grom/page/frontend/default/view') {
+    public function actionSelect($route = 'content/page/view') {
         $searchModel = new ContentPagesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 

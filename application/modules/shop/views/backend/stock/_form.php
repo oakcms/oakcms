@@ -27,20 +27,9 @@ use kartik\select2\Select2;
             ],
         ]);
     ?>
-    
-    <?php echo $form->field($model, 'text')->widget(
-        \yii\imperavi\Widget::className(),
-        [
-            'plugins' => ['fullscreen', 'fontcolor', 'video'],
-            'options'=>[
-                'minHeight' => 400,
-                'maxHeight' => 400,
-                'buttonSource' => true,
-                'imageUpload' => Url::toRoute(['tools/upload-imperavi'])
-            ]
-        ]
-    ) ?>
-	
+
+    <?php echo $form->field($model, 'text')->widget(\app\widgets\Editor::className()) ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Создать' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

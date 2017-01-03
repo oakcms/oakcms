@@ -47,13 +47,19 @@ class FilterPanel extends \yii\base\Widget
             $params['id'] = $this->filterId;
         }
 
-        $filters = Filter::find()->orderBy('sort DESC')->andWhere($params)->all();
+        $filters = Filter::find()->andWhere($params)->orderBy('sort DESC')->all();
 
         $return = [];
+        $return[] = Html::beginTag('div', ['class' => 'filter_left_sidebar']);
         foreach($filters as $filter) {
+
             if(in_array($this->itemId, $filter->selected)) {
                 $block = '';
-                $title = Html::tag('p', $filter->name, ['class' => 'heading']);
+                $title = Html::tag('span', $filter->name, ['class' => 'filter_name']);
+
+                if($filter->description != '') {
+                    $title .= Html::button('', ['class' => 'btn btn-default', 'title' => htmlspecialchars($filter->description), 'data' => ['toggle' => 'tooltip', 'placement' => 'right']]);
+                }
 
                 if($this->findModel) {
                     $variants = $filter->getVariantsByFindModel($this->findModel)->all();
@@ -64,6 +70,7 @@ class FilterPanel extends \yii\base\Widget
                 if($filter->type == 'range') {
                     $max = 0;
                     $min = 0;
+
                     foreach($variants as $variant) {
                         if($max < $variant->numeric_value) {
                             $max = $variant->numeric_value;
@@ -115,8 +122,8 @@ class FilterPanel extends \yii\base\Widget
 
                     $variantsList = ArrayHelper::map($variants, 'id', 'value');
 
-                    foreach($variantsList as $id => $value) {
-                        $variantsListWithNull[$id] = $value;
+                    foreach($variantsList as $id => $item) {
+                        $variantsListWithNull[$id] = $item;
                     }
 
                     $block = Html::dropDownList($fieldName, $value, $variantsListWithNull, ['class' => 'form-control']);
@@ -139,15 +146,14 @@ class FilterPanel extends \yii\base\Widget
                             $fieldName = $this->fieldName.'['.$filter->id.']['.$variant->id.']';
                         }
 
-                        $field = Html::input($filter->type, $fieldName, $variant->id, ['checked' => $checked, 'data-item-css-class' => $this->itemCssClass, 'id' => "variant{$variant->id}"]);
+                        $field = Html::label(Html::input($filter->type, $fieldName, $variant->id, ['checked' => $checked, 'data-item-css-class' => $this->itemCssClass]). ' ' .$variant->value);
 
-                        $field .= Html::label($variant->value, "variant{$variant->id}");
-
-                        $block .= Html::tag('div', $field);
+                        $block .= Html::tag('div', $field, ['class' => 'checkbox']);
                     }
                 }
 
                 if(!empty($variants)) {
+                    $block .= '<div class="line "></div>';
                     $return[] = Html::tag('div', $title.$block, ['class' => $this->blockCssClass]);
                 }
             }
@@ -155,7 +161,7 @@ class FilterPanel extends \yii\base\Widget
 
         if($return) {
             $return[] = Html::input('submit', '', $this->submitButtonValue, ['class' => 'btn btn-submit']);
-
+            $return[] = Html::endTag('div');
             return Html::tag('form', implode('', $return), ['data-resulthtmlselector' => $this->resultHtmlSelector, 'name' => 'oakcms-filter', 'action' => '', 'class' => 'oakcms-filter']);
         }
 

@@ -13,6 +13,23 @@
 
 use yii\helpers\Html;
 
+
+$slider = '$( function() {
+    $( "#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: 500,
+        values: [ 75, 300 ],
+        slide: function( event, ui ) {
+            $( "#amount" ).val( "$" + ui.values[ 0 ]  );
+            $( "#amount_2" ).val( "$" + ui.values[ 1 ]  );
+        }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 )  );
+    $( "#amount_2" ).val( "$" + $( "#slider-range" ).slider( "values", 1 )  );
+});';
+
+$this->registerJs($slider, \yii\web\View::POS_END, 'slider');
 ?>
 
 <h1 class="title text-center"><?= $model->name ?></h1>
@@ -28,19 +45,28 @@ use yii\helpers\Html;
                 'dataProvider' => $productDataProvider,
                 'itemView' => '_item',
                 'summary' => false,
+                'options' => ['id' => 'productsList']
             ]); ?>
         </div>
         <div class="col-md-3 col-md-pull-9">
-            <div class="filter_left_sidebar">
+            <?//= \app\modules\filter\widgets\FilterPanel::widget(['itemId' => $model->id]);?>
+
+            <?= \app\modules\filter\widgets\FilterPanel::widget([
+                'itemId' => $model->id,
+                'findModel' => $productDataProvider->query,
+                'ajaxLoad' => true,
+                'resultHtmlSelector' => '#productsList'
+            ]); ?>
+
+            <!--<div class="filter_left_sidebar">
 
                 <span class="filter_name">Геметрия</span>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Подсказка"></button>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="Подсказка"></button>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" value="">
                         Прямая
                     </label>
-
                 </div>
 
                 <div class="checkbox">
@@ -61,7 +87,7 @@ use yii\helpers\Html;
                 <div class="line "></div>
 
                 <span class="filter_name">Стиль</span>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Подсказка">  </button>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="Подсказка">  </button>
 
                 <select class="form-control">
                     <option>Первый </option>
@@ -84,14 +110,14 @@ use yii\helpers\Html;
                         </div>
                     </form>
 
-                    <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"><div class="ui-slider-range ui-corner-all ui-widget-header" style="left: 15%; width: 45%;"></div><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 15%;"></span><span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="left: 60%;"></span></div>
+                    <div id="slider-range"></div>
                 </div>
 
 
                 <div class="line"></div>
 
                 <span class="filter_name">Габариты</span>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Подсказка">  </button>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="Подсказка">  </button>
                 <input type="text">
 
                 <div class="line"></div>
@@ -117,7 +143,7 @@ use yii\helpers\Html;
                 <div class="line"></div>
 
                 <span class="filter_name">Декор</span>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Подсказка">  </button>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="Подсказка">  </button>
 
                 <select class="form-control">
                     <option></option>
@@ -129,7 +155,7 @@ use yii\helpers\Html;
 
 
                 <span class="filter_name">Производитель</span>
-                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="left" title="Предприятие изготовитель даной линейки мебели"> </button>
+                <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="right" title="Предприятие изготовитель даной линейки мебели"> </button>
 
                 <select class="form-control">
                     <option></option>
@@ -141,7 +167,7 @@ use yii\helpers\Html;
                 <div class="line"></div>
 
                 <a href="#">Сбросить параметры</a>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>

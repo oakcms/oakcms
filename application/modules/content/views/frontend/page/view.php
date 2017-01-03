@@ -10,8 +10,6 @@
  */
 
 
-$this->params['breadcrumbs'] = $breadcrumbs;
-
 $this->bodyClass = ['page-'.$model->id];
 
 $this->setSeoData($model->title_h1, $model->description, '');

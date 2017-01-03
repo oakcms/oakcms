@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property string $layout
+ * @property string $slug
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -108,6 +109,57 @@ class ContentPages extends ActiveRecord
             'created_at' => Yii::t('content', 'Created At'),
             'updated_at' => Yii::t('content', 'Updated At'),
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function statusLabels($status = false) {
+        $statuses = [
+            self::STATUS_PUBLISHED => Yii::t('admin', 'Published'),
+            self::STATUS_DRAFT => Yii::t('admin', 'Unpublished'),
+        ];
+        if($status !== false) {
+            return $statuses[$status];
+        } else {
+            return $statuses;
+        }
+    }
+
+    public function getStatusLabel() {
+        return self::statusLabels($this->status);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getFrontendViewLink()
+    {
+        return ['content/page/view', 'slug' => $this->slug];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function frontendViewLink($model)
+    {
+        return ['content/page/view', 'slug' => $model['slug']];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getBackendViewLink()
+    {
+        return ['/admin/content/page/view', 'id' => $this->id];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function backendViewLink($model)
+    {
+        return ['/admin/content/page/view', 'id' => $model['id']];
     }
 
     public function afterDelete()

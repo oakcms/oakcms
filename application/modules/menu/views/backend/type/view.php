@@ -7,24 +7,22 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\menu\models\MenuType */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('gromver.platform', 'Menu Types'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('menu', 'Menu Types'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('<i class="glyphicon glyphicon-plus"></i> ' . Yii::t('gromver.platform', 'Add'), ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('gromver.platform', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-trash"></i> ' . Yii::t('gromver.platform', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a('<i class="glyphicon glyphicon-plus"></i> ' . Yii::t('menu', 'Add'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('menu', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-trash"></i> ' . Yii::t('menu', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger pull-right',
             'data' => [
-                'confirm' => Yii::t('gromver.platform', 'Are you sure you want to delete this item?'),
+                'confirm' => Yii::t('menu', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('gromver.platform', 'Menu Items'), ['/grom/menu/backend/item/index', 'MenuItemSearch' => ['menu_type_id' => (int)$model->id]], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-th-list"></i> ' . Yii::t('menu', 'Menu Items'), ['/admin/menu/item/index', 'MenuItemSearch' => ['menu_type_id' => (int)$model->id]], ['class' => 'btn btn-default']) ?>
     </p>
 
     <?= DetailView::widget([

@@ -189,12 +189,13 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
         </div>
     </div>
 </div>
+
 <!--
 <div class="row">
     <div class="block row">
         <div class="col-md-6">
             <h3>ElementsList</h3>
-            <?= \app\modules\cart\widgets\ElementsList::widget(['type' => 'full']); ?>
+            <?//= \app\modules\cart\widgets\ElementsList::widget(['type' => 'full']); ?>
         </div>
         <div class="col-md-3">
             <h3>TruncateButton</h3>

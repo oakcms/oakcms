@@ -18,7 +18,7 @@ $this->params['actions_buttons'] = [
         'tagName'      => 'a',
         'label'        => Yii::t('admin', 'Create'),
         'options'      => [
-            'href' => Url::to(['create']),
+            'href' => Url::to(['create', 'menuTypeId' => $searchModel->menu_type_id]),
         ],
         'icon'         => 'fa fa-plus',
         'iconPosition' => Button::ICON_POSITION_LEFT,

@@ -1,11 +1,4 @@
 <?php
-/**
- * @link      https://github.com/gromver/yii2-platform-basic.git#readme
- * @copyright Copyright (c) Gayazov Roman, 2014
- * @license   https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
- * @package   yii2-platform-basic
- * @version   1.0.0
- */
 
 namespace app\modules\menu\controllers\backend;
 
@@ -25,9 +18,8 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
- * Class ItemController implements the CRUD actions for Menu model.
- * @package yii2-platform-basic
- * @author  Gayazov Roman <gromver5@gmail.com>
+ * Class ItemController
+ * @package app\modules\menu\controllers\backend
  */
 class ItemController extends BackendController
 {
@@ -76,7 +68,7 @@ class ItemController extends BackendController
         $searchModel = new MenuItemSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
-        Yii::$app->grom->applyModalLayout();
+        Yii::$app->getView()->applyModalLayout();
 
         return $this->render('select', [
             'dataProvider' => $dataProvider,

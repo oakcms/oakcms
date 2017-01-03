@@ -66,12 +66,12 @@ if(\Yii::$app->user->can(\app\modules\admin\rbac\Rbac::PERMISSION_ADMIN_PANEL)) 
 
     <ul class="menus-icon">
         <li>
-            <a href="<?= Url::to(['/admin/cache/flush-cache']) ?>" class="js-oak-flush-cache" data-toggle="tooltip" title="<?= Yii::t('admin', 'Flush cache') ?>">
+            <a href="<?= Url::to(['/admin/cache/flush-cache']) ?>" class="js-oak-flush-cache" data-toggle="tooltip" title="<?= Yii::t('admin', 'Flush cache') ?>" data-placement="bottom">
                 <i class="glyphicon glyphicon-flash"></i>
             </a>
         </li>
         <li>
-            <a href="<?= Url::to(['/admin/cache/clear-assets']) ?>" class="js-oak-clear-assets" data-toggle="tooltip" title="<?= Yii::t('admin', 'Clear assets') ?>">
+            <a href="<?= Url::to(['/admin/cache/clear-assets']) ?>" class="js-oak-clear-assets" data-toggle="tooltip" title="<?= Yii::t('admin', 'Clear assets') ?>" data-placement="bottom" >
                 <i class="glyphicon glyphicon-trash"></i>
             </a>
         </li>

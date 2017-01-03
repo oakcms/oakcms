@@ -54,15 +54,14 @@ class ShowPrice extends \yii\base\Widget
                 ) .
                 Html::tag(
                     $this->htmlTag,
-                    'Цена: <span>'.ceil($this->model->getPrice(2)).'р.</span>',
-                    ['class' => "total_cost oakcms-shop-price oakcms-shop-price-{$this->model->id} {$this->cssClass}"]
+                    'Цена: <span class="oakcms-shop-price oakcms-shop-price-'.$this->model->id.'">'.ceil($this->model->getPrice(2)).'</span><span>р.</span>',
+                    ['class' => "total_cost {$this->cssClass}"]
                 );
         } elseif ($this->model->getPrice(1)) {
-            return
-                Html::tag(
+            return Html::tag(
                     $this->htmlTag,
-                    'Цена: <span>'.ceil($this->model->getPrice(1)).'р.</span>',
-                    ['class' => "total_cost oakcms-shop-price oakcms-shop-price-{$this->model->id} {$this->cssClass}"]
+                    'Цена: <span class="oakcms-shop-price oakcms-shop-price-'.$this->model->id.'">'.ceil($this->model->getPrice(1)).'</span><span>р.</span>',
+                    ['class' => "total_cost {$this->cssClass}"]
                 );
         }
     }
