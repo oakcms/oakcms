@@ -16,7 +16,7 @@ use yii\helpers\Url;
 
 /**
  * Class Menu
- * @package app\modules\menu\api
+ * @package oakcms
  *
  * @method array getMenuLvlAll(int $id) Вертає масив елементів вибриного меню
  * @method array getMenuLvl(int $id, int $startLvl, int $endLvl) Вертає масив елементів вибриного меню
@@ -86,36 +86,6 @@ class Menu extends API  {
 
     public static function getBreadcrumbs($slug) {
         $breadcrumbs = [];
-
-        if(($menu = MenuItem::find()
-            ->joinWith(['translations'])
-            ->andWhere(['{{%menu_items}}.disable_breadcrumbs' => 0])
-            ->andWhere([
-                'or',
-                [
-                    '{{%menu_items_lang}}.url' => 'page/'.$slug
-                ],
-                [
-                    '{{%menu_items_lang}}.url' => '/page/'.$slug
-                ],
-                [
-                    '{{%menu_items_lang}}.url' => \yii\helpers\Url::to(['/system/default']).'page/'.$slug
-                ]
-            ])
-            ->one()))
-        {
-            if(($rMenu = $menu->parents()->all())) {
-                foreach ($rMenu as $item) {
-                    $breadcrumbs[] = [
-                        'label' => $item->title,
-                        'url' => $item->url
-                    ];
-                }
-            }
-            $breadcrumbs[] = [
-                'label' => $menu->title,
-            ];
-        }
 
         return $breadcrumbs;
     }
