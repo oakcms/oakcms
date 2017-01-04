@@ -24,9 +24,6 @@ class Bootstrap implements BootstrapInterface
          *
          */
 
-        // Установка теми з настроек сайту
-        $themeFrontend = Yii::$app->keyStorage->get('themeFrontend');
-
         \Yii::$app->getView()->title = Yii::$app->keyStorage->get('siteName');
 
         $assetManager = [
@@ -64,15 +61,18 @@ class Bootstrap implements BootstrapInterface
         $app->set('assetManager', $assetManager);
 
         $rHostInfo = Url::home(true);
+        $themeBackend = Yii::$app->keyStorage->get('themeBackend');
+        $themeFrontend = Yii::$app->keyStorage->get('themeFrontend');
+        \Yii::setAlias('@frontendBackend', realpath(__DIR__ . '/../../templates/backend/' . $themeBackend));
+        \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
+
         if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
-            $themeBackend = Yii::$app->keyStorage->get('themeBackend');
             $themeClass = '\app\templates\backend\\'.$themeBackend.'\Theme';
             \Yii::$app->getView()->theme = new $themeClass;
             Yii::$app->getErrorHandler()->errorAction = '/admin/default/error';
         } else {
             $themeClass = '\app\templates\frontend\\' . $themeFrontend . '\Theme';
             \Yii::$app->getView()->theme = new $themeClass;
-            \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
         }
 
         // Індексація сайту
