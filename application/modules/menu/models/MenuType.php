@@ -72,16 +72,16 @@ class MenuType extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('gromver.platform', 'ID'),
-            'status' => Yii::t('gromver.platform', 'Status'),
-            'title' => Yii::t('gromver.platform', 'Title'),
-            'alias' => Yii::t('gromver.platform', 'Alias'),
-            'note' => Yii::t('gromver.platform', 'Note'),
-            'created_at' => Yii::t('gromver.platform', 'Created At'),
-            'updated_at' => Yii::t('gromver.platform', 'Updated At'),
-            'created_by' => Yii::t('gromver.platform', 'Created By'),
-            'updated_by' => Yii::t('gromver.platform', 'Updated By'),
-            'lock' => Yii::t('gromver.platform', 'Lock'),
+            'id' => Yii::t('menu', 'ID'),
+            'status' => Yii::t('menu', 'Status'),
+            'title' => Yii::t('menu', 'Title'),
+            'alias' => Yii::t('menu', 'Alias'),
+            'note' => Yii::t('menu', 'Note'),
+            'created_at' => Yii::t('menu', 'Created At'),
+            'updated_at' => Yii::t('menu', 'Updated At'),
+            'created_by' => Yii::t('menu', 'Created By'),
+            'updated_by' => Yii::t('menu', 'Updated By'),
+            'lock' => Yii::t('menu', 'Lock'),
         ];
     }
 

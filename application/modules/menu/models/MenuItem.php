@@ -23,8 +23,6 @@ use yii\helpers\Url;
 
 /**
  * This is the model class for table "menu_item".
- * @package yii2-platform-basic
- * @author  Gayazov Roman <gromver5@gmail.com>
  *
  * @property integer    $id
  * @property integer    $menu_type_id
@@ -451,7 +449,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
             return Yii::t('menu', self::$_statuses[$this->status]);
         }
 
-        return Yii::t('v', self::$_statuses[$status]);
+        return Yii::t('menu', self::$_statuses[$status]);
     }
 
     /**

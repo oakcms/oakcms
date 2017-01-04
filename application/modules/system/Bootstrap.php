@@ -63,7 +63,7 @@ class Bootstrap implements BootstrapInterface
         $rHostInfo = Url::home(true);
         $themeBackend = Yii::$app->keyStorage->get('themeBackend');
         $themeFrontend = Yii::$app->keyStorage->get('themeFrontend');
-        \Yii::setAlias('@frontendBackend', realpath(__DIR__ . '/../../templates/backend/' . $themeBackend));
+        \Yii::setAlias('@backendTemplate', realpath(__DIR__ . '/../../templates/backend/' . $themeBackend));
         \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
 
         if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {

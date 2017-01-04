@@ -8,10 +8,12 @@ use app\templates\backend\base\assets\BaseAsset;
 
 $asset = BaseAsset::register($this);
 
-/* @var $this yii\web\View */
-/* @var $model app\modules\text\models\Text */
-/* @var $form yii\widgets\ActiveForm */
-
+/**
+ * @var $this yii\web\View
+ * @var $model app\modules\text\models\Text
+ * @var $form yii\widgets\ActiveForm
+ * @var $menus \app\modules\menu\models\MenuType
+ */
 
 // Language
 if($model->isNewRecord) {
@@ -141,22 +143,21 @@ $this->params['actions_buttons'] = [
                         <div class="checkbox well well-sm">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <?php
-                                    $menus = \app\modules\menu\models\Menu::find()->all();
-                                    foreach($menus as $menu) {
-                                        $cats = \app\modules\menu\models\MenuItems::cats($menu->id);
-                                    ?>
-                                        <div class="col-sm-6">
+                                    <?php $i = 0; ?>
+                                    <?php foreach($menus as $menu):?>
+                                        <div class="col-xs-12 col-sm-6">
                                             <b><?= $menu->title ?></b><br>
-                                            <?php foreach($cats as $cat) : ?>
-                                                <label style="padding-left:  <?= $cat->depth * 20 ?>px;">
-                                                    <input type="checkbox" name="Text[links][]" <?=($model->links !==null && in_array($cat->id, $model->links))?"checked":""?> value="<?= $cat->id ?>"> <?= $cat->title ?></label>
+                                            <?php foreach($menu->items as $cat) : ?>
+                                                <label style="padding-left:  <?= $cat->level * 20 ?>px;">
+                                                    <input type="checkbox" name="Text[links][]" <?=($model->links !== null && in_array($cat->id, $model->links))?"checked":""?> value="<?= $cat->id ?>">
+                                                    <?= $cat->title ?>
+                                                </label>
                                                 <br>
                                             <?php endforeach;?>
                                         </div>
-                                    <?php
-                                    }
-                                    ?>
+                                        <?= $i % 2  ? '<div class="clearfix"></div>' : '' ?>
+                                        <?php $i++; ?>
+                                    <?php endforeach;?>
                                 </div>
                             </div>
                         </div>

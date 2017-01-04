@@ -17,7 +17,8 @@ $this->params['breadcrumbs'][] = Yii::t('carousel', 'Update').': '.$model->title
         'model' => $model,
         'lang'  => $lang,
         'layouts' => $layouts,
-        'positions' => $positions
+        'positions' => $positions,
+        'menus' => $menus
     ]) ?>
 
 </div>

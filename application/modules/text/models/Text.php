@@ -11,8 +11,6 @@ use yii\db\ActiveRecord;
 
 class Text extends ActiveRecord
 {
-    public static $SLUG_PATTERN = '/^[0-9a-z-]{0,128}$/';
-
     const CACHE_KEY = 'oakcms_text';
 
     const STATUS_PUBLISHED = 1;

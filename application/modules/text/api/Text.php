@@ -1,15 +1,12 @@
 <?php
 namespace app\modules\text\api;
 
-use app\modules\menu\models\MenuItems;
-use app\modules\text\controllers\backend\DefaultController;
 use Yii;
 use app\components\API;
 use app\helpers\Data;
 use yii\helpers\Url;
 use app\modules\text\models\Text as TextModel;
 use yii\helpers\Html;
-use yii\helpers\VarDumper;
 
 /**
  * Text module API
@@ -54,28 +51,20 @@ class Text extends API
                         $return = false;
                         break;
                     case '1':
-                        $arr = [];
-                        foreach ($text->links as $item) {
-                            $menu = MenuItems::findOne($item);
-                            if($menu !== null) {
-                                $arr[] = Url::to([trim($menu->url)]);
-                            }
-                        }
-                        if(in_array(Url::to(), $arr)) {
+                        if(
+                            ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
+                            in_array(Yii::$app->menuManager->activeMenu->id, $text->links)
+                        ) {
                             $return = true;
                         } else {
                             $return = false;
                         }
                         break;
                     case '-1':
-                        $arr = [];
-                        foreach ($text->links as $item) {
-                            $menu = MenuItems::findOne($item);
-                            if($menu !== null) {
-                                $arr[] = Url::to([trim($menu->url)]);
-                            }
-                        }
-                        if(!in_array(Url::to(), $arr)){
+                        if(
+                            ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
+                            !in_array(Yii::$app->menuManager->activeMenu->id, $text->links)
+                        ) {
                             $return = true;
                         } else {
                             $return = false;
@@ -115,8 +104,8 @@ class Text extends API
     private function notFound($id_slug)
     {
         $text = '';
-        if(!Yii::$app->user->isGuest && preg_match(TextModel::$SLUG_PATTERN, $id_slug)) {
-            $text = Html::a(Yii::t('text', 'Create text'), ['/admin/text/default/create', 'slug' => $id_slug], ['target' => '_blank']);
+        if(!Yii::$app->user->isGuest && LIVE_EDIT) {
+            $text = Html::tag('div', Html::a(Yii::t('text', 'Create text'), ['/admin/text/default/create', 'slug' => $id_slug], ['target' => '_blank']));
         }
         return $text;
     }

@@ -1099,7 +1099,8 @@ CREATE TABLE `texts` (
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `where_to_place` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `links` text COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `status` tinyint(1) NOT NULL,
+  `order` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

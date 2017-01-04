@@ -11,9 +11,9 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
 
     /** @var UrlManager The rules to be used in Backend Url management. */
     public static $urlRulesBackend = [
-        'text/default/get-settings/<file:[\w\-]+>'          => 'text/default/get-settings',
-        'text/default/<_a:[\w\-]+>/<id:\d+>/<file:[\w\-]+>' => 'text/default/<_a>',
-        'text/default/<_a:[\w\-]+>/<file:[\w\-]+>'          => 'text/default/<_a>',
+        '/admin/text/default/<_a:[\w\-]+>/<id:\d+>'                => '/admin/text/default/<_a>',
+        '/admin/text/default/<_a:[\w\-]+>/<id:\d+>/<file:[\w\-]+>' => '/admin/text/default/<_a>',
+        '/admin/text/default/<_a:[\w\-]+>/<file:[\w\-]+>'          => '/admin/text/default/<_a>',
     ];
     public $settings = [];
 

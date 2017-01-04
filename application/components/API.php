@@ -2,16 +2,16 @@
 namespace app\components;
 
 use app\components\module\Module;
-use Yii;
 
 /**
  * Base API component. Used by all modules
- * @package yii\easyii\components
+ * @package oakcms
  */
 class API extends \yii\base\Object
 {
     /** @var  array */
     static $classes;
+
     /** @var  string module name */
     public $module;
 
@@ -20,7 +20,6 @@ class API extends \yii\base\Object
         parent::init();
 
         $this->module = Module::getModuleName(self::className());
-        //Module::registerTranslations($this->module);
     }
 
     public static function __callStatic($method, $params)
@@ -29,18 +28,21 @@ class API extends \yii\base\Object
         if (!isset(self::$classes[$name])) {
             self::$classes[$name] = new static();
         }
+
         return call_user_func_array([self::$classes[$name], 'api_' . $method], $params);
     }
 
     /**
      * Wrap text with liveEdit tags, which later will fetched by jquery widget
-     * @param $text
-     * @param $path
+     *
+     * @param        $text
+     * @param        $path
      * @param string $tag
+     *
      * @return string
      */
-    public static  function liveEdit($text, $path, $tag = 'span')
+    public static function liveEdit($text, $path, $tag = 'span')
     {
-        return $text ? '<'.$tag.' class="oakcms-edit" data-edit="'.$path.'">'.$text.'</'.$tag.'>' : '';
+        return $text ? '<' . $tag . ' class="oakcms-edit" data-edit="' . $path . '">' . $text . '</' . $tag . '>' : '';
     }
 }

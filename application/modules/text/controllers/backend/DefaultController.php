@@ -5,6 +5,7 @@ namespace app\modules\text\controllers\backend;
 use app\modules\admin\components\behaviors\StatusController;
 use app\modules\admin\widgets\Html;
 use app\modules\language\models\Language;
+use app\modules\menu\models\MenuType;
 use himiklab\sortablegrid\SortableGridAction;
 use Yii;
 use app\modules\text\models\Text;
@@ -68,10 +69,12 @@ class DefaultController extends BackendController
     {
         $lang = $this->getDefaultLanguage();
         $model = new Text();
+        $model->slug = Yii::$app->request->get('slug');
         $model->language = $lang->language_id;
         $model->settingsAfterLanguage();
 
-        $positions = require_once Yii::getAlias('@app/templates/frontend/'.Yii::$app->keyStorage->get('themeFrontend').'/positions.php');
+        $positions = require_once Yii::getAlias('@frontendTemplate/positions.php');
+        $menus = MenuType::find()->all();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setSetting(Yii::$app->request->post('Settings'), $model->layout);
@@ -87,7 +90,8 @@ class DefaultController extends BackendController
                 'model' => $model,
                 'lang'  => $lang,
                 'layouts' => $this->getLayouts(),
-                'positions' => $positions
+                'positions' => $positions,
+                'menus' => $menus
             ]);
         }
     }
@@ -105,8 +109,8 @@ class DefaultController extends BackendController
         $model->language = $lang->language_id;
         $model->settingsAfterLanguage();
 
-        $positions = require_once Yii::getAlias('@app/templates/frontend/'.Yii::$app->keyStorage->get('themeFrontend').'/positions.php');
-
+        $positions = require_once Yii::getAlias('@frontendTemplate/positions.php');
+        $menus = MenuType::find()->all();
         if ($model->load(Yii::$app->request->post())) {
             $model->setSetting(Yii::$app->request->post('Settings'), $model->layout);
             if($model->save()) {
@@ -121,7 +125,8 @@ class DefaultController extends BackendController
                 'model' => $model,
                 'lang'  => $lang,
                 'layouts' => $this->getLayouts(),
-                'positions' => $positions
+                'positions' => $positions,
+                'menus' => $menus
             ]);
         }
     }
@@ -284,7 +289,7 @@ class DefaultController extends BackendController
 
             return $this->renderAjax('get-settings', ['return' => $return]);
         } else {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
 }
