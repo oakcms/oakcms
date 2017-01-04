@@ -8,9 +8,9 @@
  */
 
 return [
-    'header' => 'Header',
-    'slider' => 'Slider',
-    'footer' => 'Footer',
+    'header'  => 'Header',
+    'slider'  => 'Slider',
+    'footer'  => 'Footer',
     'contact' => 'Contact',
 
     'position_top_1' => 'Position Top 1',
