@@ -125,11 +125,7 @@ CREATE TABLE `content_articles` (
 --
 
 INSERT INTO `content_articles` (`id`, `create_user_id`, `update_user_id`, `published_at`, `created_at`, `updated_at`, `image`, `status`, `comment_status`, `create_user_ip`, `access_type`, `category_id`, `main_image`) VALUES
-(1, 1, 1, 1458900000, 1464815424, 1474735966, '57e6ac2260217.jpg', 1, 1, '127.0.0.1', 1, 1, 1),
-(2, 1, 1, 1474282680, 1474279142, 1474737324, '57dfb6e64b0d5.jpg', 1, 0, '127.0.0.1', 1, 1, 1),
-(3, 1, 1, 1474282920, 1474279364, 1474737605, '57e6b36857270.png', 1, 0, '127.0.0.1', 1, 1, 9),
-(4, 1, 1, 1474283280, 1474279708, 1474279708, '57dfb91c3f8f1.jpg', 1, 0, '127.0.0.1', 1, 1, 1),
-(5, 1, 1, 1475788500, 1475788511, 1475788555, '57f6bedf0fe95.jpg', 1, 0, '192.168.0.10', 1, 1, 1);
+(1, 1, 1, 1458900000, 1464815424, 1474735966, '57e6ac2260217.jpg', 1, 1, '127.0.0.1', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -157,11 +153,7 @@ CREATE TABLE `content_articles_lang` (
 --
 
 INSERT INTO `content_articles_lang` (`id`, `content_articles_id`, `slug`, `title`, `description`, `content`, `link`, `meta_title`, `meta_keywords`, `meta_description`, `settings`, `language`) VALUES
-(2, 1, 'testovaa-stata', 'Тестова стаття', '', '<p>12</p>\r\n', '', 'Еше', '', '', '{"show_title":{"value":true,"type":"checkbox"},"link_titles":{"value":true,"type":"checkbox"},"show_intro":{"value":false,"type":"checkbox"},"show_category":{"value":false,"type":"checkbox"},"link_category":{"value":false,"type":"checkbox"},"show_parent_category":{"value":false,"type":"checkbox"},"link_parent_category":{"value":false,"type":"checkbox"},"show_author":{"value":false,"type":"checkbox"},"link_author":{"value":false,"type":"checkbox"},"show_create_date":{"value":false,"type":"checkbox"},"show_modify_date":{"value":false,"type":"checkbox"},"show_publish_date":{"value":false,"type":"checkbox"},"show_hits":{"value":false,"type":"checkbox"}}', 'ru-RU'),
-(3, 2, 'started-foundation-work-office-a-residential-center-on-the-street-mechnikov-11', 'Начались фундаментные работы офисно - жилого центра по ул. Мечникова, 11', '<p>Начались работы по устройству фундамента и откопки котлована на объекте строительства офисно - жилого центра по ул. Мечникова, 11 Печерского района в городе Киев.</p>\r\n', '<p>Начались работы по устройству фундамента и откопки котлована на объекте строительства офисно - жилого центра по ул. Мечникова, 11 Печерского района в городе Киев.</p>\r\n', '', '', '', '', '[]', 'ru-ru'),
-(4, 3, 'began-construction-and-installation-work-on-the-project-blast-furnace-plant-krivoy-rog', 'Начались строительно-монтажные работы на объекте «ДОМЕННЫЙ ЦЕХ», г. Кривой рог.', '<p>Начались работы по устройству фундамента и откопки котлована на объекте строительства офисно - жилого центра по ул. Мечникова, 11 Печерского района в городе Киев.</p>\r\n', '<p>Начались работы по устройству свайных фундаментов в зоне метрополитена на объекте «Строительство социально-общественного комплекса в составе многофункционального торгового центра...</p>\r\n', '', '', '', '', '[]', 'ru-ru'),
-(5, 4, 'work-began-on-the-device-pile-foundations-ocean-plaza', 'Начались работы по устройству свайных фундаментов OCEAN PLAZA', '', 'Начались работы по устройству свайных фундаментов в зоне метрополитена на объекте «Строительство социально-общественного комплекса в составе многофункционального торгового центра...', '', '', '', '', '[]', 'ru-ru'),
-(6, 5, 'nacalis-fundamentnye-raboty-ofisno-zilogo-centra-po-ul-mecnikova-11', 'НАЧАЛИСЬ ФУНДАМЕНТНЫЕ РАБОТЫ ОФИСНО - ЖИЛОГО ЦЕНТРА ПО УЛ. МЕЧНИКОВА, 11', '<p>Начались строительно-монтажные работы на объекте «Доменный цех» при строительстве здания системы углеподачи в городе Кривой Рог.</p>\r\n', '<p>Начались строительно-монтажные работы на объекте «Доменный цех» при строительстве здания системы углеподачи в городе Кривой Рог.</p>\r\n\r\n<p>Начались строительно-монтажные работы на объекте «Доменный цех» при строительстве здания системы углеподачи в городе Кривой Рог.</p>\r\n\r\n<p>Начались строительно-монтажные работы на объекте «Доменный цех» при строительстве здания системы углеподачи в городе Кривой Рог.</p>\r\n', '', '', '', '', '[]', 'ru-ru');
+(2, 1, 'testovaa-stata', 'Тестова стаття', '', '<p>12</p>\r\n', '', 'Еше', '', '', '{"show_title":{"value":true,"type":"checkbox"},"link_titles":{"value":true,"type":"checkbox"},"show_intro":{"value":false,"type":"checkbox"},"show_category":{"value":false,"type":"checkbox"},"link_category":{"value":false,"type":"checkbox"},"show_parent_category":{"value":false,"type":"checkbox"},"link_parent_category":{"value":false,"type":"checkbox"},"show_author":{"value":false,"type":"checkbox"},"link_author":{"value":false,"type":"checkbox"},"show_create_date":{"value":false,"type":"checkbox"},"show_modify_date":{"value":false,"type":"checkbox"},"show_publish_date":{"value":false,"type":"checkbox"},"show_hits":{"value":false,"type":"checkbox"}}', 'ru-RU');
 
 -- --------------------------------------------------------
 
