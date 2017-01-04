@@ -417,8 +417,7 @@ CREATE TABLE `field_variant` (
 --
 
 INSERT INTO `field_variant` (`id`, `field_id`, `value`, `numeric_value`) VALUES
-(1, 1, 'Белый', 0),
-(2, 1, 'Черный', 0);
+(1, 1, 'Белый', 0);
 
 -- --------------------------------------------------------
 
