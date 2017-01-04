@@ -725,10 +725,6 @@ CREATE TABLE `migration` (
   `apply_time` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `migration`
---
-
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
 ('m000000_000000_base', 1459877391),
 ('m000003_000000_grom_menu_create_tables', 1476543704),
