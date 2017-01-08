@@ -2,39 +2,90 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
  * @version    0.0.1
  */
 
+use yii\bootstrap\Html;
+use app\modules\admin\widgets\ActiveForm;
+use app\modules\admin\widgets\Button;
+use app\modules\user\models\UserProfile;
+
 /**
- * @var $model \app\modules\user\models\UserProfile;
- * @var $this \app\components\CoreView;
+ * @var $model UserProfile
  */
 
 $this->title = Yii::t('user', 'User Profile');
 $this->params['title_icon'] = 'fa fa-user';
 
 $role = current(\Yii::$app->authManager->getRolesByUser($model->user->id));
+$this->title = empty($model->name) ? Html::encode($model->user->username) : Html::encode($model->name);
+
+$this->params['actions_buttons'] = [
+    [
+        'label' => $model->isNewRecord ? Yii::t('admin', 'Create') : Yii::t('admin', 'Update'),
+        'options' => [
+            'form' => 'user-id',
+            'type' => 'submit'
+        ],
+        'icon' => 'fa fa-save',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size' => Button::SIZE_SMALL,
+        'disabled' => false,
+        'block' => false,
+        'type' => Button::TYPE_CIRCLE,
+        'color' => 'btn-success'
+    ]
+];
 ?>
+<?php $form = ActiveForm::begin([
+    'options' => [
+        'id' => 'user-id',
+        'enctype' => 'multipart/form-data'
+    ],
+]); ?>
+<style>
+    .field-userprofile-avatar {
+        text-align: center;
+    }
+    .field-userprofile-avatar .file-input .file-preview-frame,
+    .field-userprofile-avatar .file-input .file-preview-frame:hover {
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        text-align: center;
+    }
+    .field-userprofile-avatar .file-input {
+        display: table-cell;
+        max-width: 220px;
+    }
+</style>
+<?= $form->field($model, 'avatar')->widget(\kartik\widgets\FileInput::className(), [
+    'options' => [
+        'class' => 'kv-avatar center-block'
+    ],
+    'pluginOptions' => [
+        'overwriteInitial' => true,
+        'showCaption' => false,
+        'showClose' => false,
+        'browseIcon' => '<i class="glyphicon glyphicon-folder-open"></i>',
+        'removeIcon' => '<i class="glyphicon glyphicon-remove"></i>',
+        'layoutTemplates' => ['main2' => '{preview}{remove}{browse}'],
+        'browseLabel' => '',
+        'removeLabel' => '',
+        'removeTitle' => Yii::t('user', 'Cancel or reset changes'),
+        'allowedFileExtensions' => ["jpg", "png", "gif"],
+        'defaultPreviewContent' => Html::img($model->getThumbUploadUrl('avatar'))
+    ],
+])->label('') ?>
+<?= $form->field($model, 'firstname')->textInput(['maxlength' => 255]) ?>
+<?= $form->field($model, 'middlename')->textInput(['maxlength' => 255]) ?>
+<?= $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
+<?= $form->field($model, 'locale')->dropDownlist(\yii\helpers\ArrayHelper::map(\app\modules\language\models\Language::getLanguages(), 'language_id', 'name')) ?>
+<?= $form->field($model, 'gender')->dropDownlist([
+    UserProfile::GENDER_FEMALE => Yii::t('backend', 'Female'),
+    UserProfile::GENDER_MALE => Yii::t('backend', 'Male')
+]) ?>
 
-<div class="col-md-3">
-    <div class="box box-primary">
-        <div class="box-body box-profile">
-            <?if($model->avatar != ''):?>
-                <img class="profile-user-img img-responsive img-circle" src="<?= $model->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('admin', 'Avatar image for {username}', ['username' => $model->user->username]) ?>">
-            <?else:?>
-                <?= \cebe\gravatar\Gravatar::widget([
-                    'email' => $model->user->email,
-                    'options' => [
-                        'alt' => Yii::t('admin', 'Avatar image for {username}', ['username' => $model->user->username]),
-                        'class' => 'profile-user-img img-responsive img-circle'
-                    ]
-                ]); ?>
-            <?endif?>
-
-            <h3 class="profile-username text-center"><?= $model->getFullName(); ?></h3>
-            <p class="text-muted text-center"><?= $role->description; ?></p>
-        </div>
-    </div>
-</div>
-
+<?php ActiveForm::end(); ?>

@@ -41,16 +41,24 @@ $this->params['actions_buttons'] = [
                 'attribute' => 'id',
                 'options'   => ['style' => 'width:36px'],
             ],
-//            [
-//                'attribute' => 'language',
-//                'width'     => '80px',
-//                'value'     => function ($model) {
-//                    /** @var $model \app\modules\menu\models\MenuItem */
-//                    //return \app\modules\main\widgets\TranslationsBackend::widget(['model' => $model]);
-//                },
-//                'format'    => 'raw',
-//                //'filter' => Yii::$app->getAcceptedLanguagesList()
-//            ],
+            [
+                'attribute' => 'language',
+                'options'   => ['style' => 'width:80px'],
+                'value' => function ($model) {
+                    /** @var $model MenuItem */
+                    return \app\modules\menu\widgets\TranslationsBackend::widget(['model' => $model]);
+                },
+                'format' => 'raw',
+                'filter' => \app\modules\language\models\Language::getAllLang()
+            ],
+            [
+                'attribute' => 'title',
+                'value'     => function ($model) {
+                    /** @var $model \app\modules\menu\models\MenuItem */
+                    return str_repeat("&ndash;&nbsp; ", max($model->level - 2, 0)) . $model->title . '<br/>' . Html::tag('small', $model->path);
+                },
+                'format'    => 'raw',
+            ],
             [
                 'attribute' => 'menu_type_id',
                 'options'   => ['style' => '100px'],
@@ -73,14 +81,6 @@ $this->params['actions_buttons'] = [
                     /** @var $model \app\modules\menu\models\MenuItem */
                     return str_repeat("- ", max($model->level - 2, 0)) . $model->title;
                 }),
-            ],
-            [
-                'attribute' => 'title',
-                'value'     => function ($model) {
-                    /** @var $model \app\modules\menu\models\MenuItem */
-                    return str_repeat("&ndash;&nbsp; ", max($model->level - 2, 0)) . $model->title . '<br/>' . Html::tag('small', $model->path);
-                },
-                'format'    => 'raw',
             ],
             ['attribute' => 'link'],
             [
@@ -145,8 +145,7 @@ $this->params['actions_buttons'] = [
 //                'options'   => ['style' => '50px'],
 //            ],
             [
-                'class'        => 'app\modules\admin\components\grid\ActionColumn',
-                'translatable' => true,
+                'class'        => 'app\modules\admin\components\grid\ActionColumn'
             ],
         ],
     ]); ?>

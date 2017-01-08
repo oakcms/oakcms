@@ -3,6 +3,7 @@
 namespace app\modules\content\controllers\backend;
 
 use app\modules\admin\components\behaviors\StatusController;
+use app\modules\content\models\search\ContentCategorySearch;
 use Yii;
 use app\modules\content\models\ContentCategory;
 use yii\web\NotFoundHttpException;
@@ -28,19 +29,22 @@ class CategoryController extends \app\components\CategoryController
         ];
     }
 
-
     /**
-     * Deletes an existing ContentCategory model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
+     * @param string $route
+     * @return string
      */
-    /*public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    public function actionSelect($route = 'content/category/view') {
+        $searchModel = new ContentCategorySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
-        return $this->redirect(['index']);
-    }*/
+        Yii::$app->getView()->applyModalLayout();
+
+        return $this->render('select', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'route' => $route
+        ]);
+    }
 
     /**
      * Deletes items an existing SeoItems model.

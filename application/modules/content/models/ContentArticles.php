@@ -35,9 +35,19 @@ use yii\db\ActiveQuery;
  */
 class ContentArticles extends \app\components\ActiveRecord
 {
-
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
+
+
+    public function fields()
+    {
+        return [
+            'id',
+            'title' => function($model) {
+                return $model->title;
+            },
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -222,4 +232,14 @@ class ContentArticles extends \app\components\ActiveRecord
             return $record;
         return null;
     }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getFrontendViewLink()
+    {
+        return ['/content/article/view', 'catslug' => $this->category->slug, 'slug' => $this->slug];
+    }
+
 }

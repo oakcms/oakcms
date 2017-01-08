@@ -516,6 +516,23 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
         return $this->_context === self::CONTEXT_APPLICABLE;
     }
 
+    //TranslatableInterface
+    /**
+     * @inheritdoc
+     */
+    public function getTranslations()
+    {
+        return self::hasMany(self::className(), ['translation_id' => 'translation_id'])->indexBy('language');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
     /**
      * @inheritdoc
      */

@@ -14,6 +14,7 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -219,8 +220,6 @@ class ItemController extends BackendController
     public function actionCreate(
         $menuTypeId = null, $sourceId = null, $parentId = null, $language = null, $backUrl = null
     ) {
-
-        $lang = $this->getDefaultLanguage();
         $model = new MenuItem();
         $model->loadDefaultValues();
         $model->status = MenuItem::STATUS_PUBLISHED;
@@ -271,7 +270,6 @@ class ItemController extends BackendController
             'model'           => $model,
             'linkParamsModel' => $linkParamsModel,
             'sourceModel'     => $sourceModel,
-            'lang'            => $lang,
         ];
 
         if ($model->load(Yii::$app->request->post()) && $linkParamsModel->load(Yii::$app->request->post()) && $model->validate() && $linkParamsModel->validate()) {
@@ -298,11 +296,9 @@ class ItemController extends BackendController
      *
      * @return mixed
      */
-    public function actionUpdate($id, $language, $backUrl = null)
+    public function actionUpdate($id, $backUrl = null)
     {
-        $lang = $this->getDefaultLanguage($language);
         $model = $this->findModel($id);
-        $model->language = $lang->language_id;
         $linkParamsModel = new MenuLinkParams();
         $linkParamsModel->setAttributes($model->getLinkParams());
 
@@ -321,7 +317,6 @@ class ItemController extends BackendController
             return $this->render('update', [
                 'model'           => $model,
                 'linkParamsModel' => $linkParamsModel,
-                'lang'            => $lang,
             ]);
         }
     }

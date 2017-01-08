@@ -11,6 +11,7 @@ use app\components\module\ModuleEventsInterface;
 use app\modules\admin\widgets\events\MenuItemsEvent;
 use app\modules\admin\widgets\Menu;
 use app\modules\menu\events\MenuItemLayoutsModuleEvent;
+use app\templates\frontend\KNGroup\Theme;
 use Yii;
 
 /**
@@ -69,7 +70,8 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
      */
     public function getMenuItemLayouts()
     {
-        return ModuleEvent::trigger(self::EVENT_MENU_ITEM_LAYOUTS, new MenuItemLayoutsModuleEvent(['items' => $this->_menuItemLayouts]), 'items');
+        $themeClass = '\app\templates\frontend\\'.Yii::$app->keyStorage->get('themeFrontend').'\Theme';
+        return $themeClass::$menuItemLayouts;
     }
 
     /**

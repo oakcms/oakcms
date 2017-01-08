@@ -107,7 +107,7 @@ class PagesController extends BackendController
         $searchModel = new ContentPagesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
 
-        Yii::$app->layout = '//modal';
+        Yii::$app->getView()->applyModalLayout();
 
         return $this->render('select', [
             'dataProvider' => $dataProvider,

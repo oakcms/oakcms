@@ -3,9 +3,8 @@
 namespace app\modules\system\controllers\frontend;
 
 use app\components\Controller;
-use app\modules\system\models\History;
 use app\modules\system\models\SystemBackCall;
-use yii\data\ActiveDataProvider;
+use yii\helpers\VarDumper;
 
 /**
  * Default controller for the `system` module
@@ -65,6 +64,47 @@ class DefaultController extends Controller
     {
         \Yii::$app->session->set('oak_live_edit', $id);
         $this->back();
+    }
+
+    public function actionMenuRules()
+    {
+        if (\Yii::$app->hasModule('menu')) {
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $arr = [];
+            foreach (\Yii::$app->menuManager->menuMap->routes as $id => $item) {
+
+                $url = parse_url($item);
+
+                $arrC = explode('/', $url['path']);
+                $arrCR = [];
+                foreach ($arrC as $i) {
+                    $arrCR[] = ucfirst($i);
+                }
+                $controller = implode('', $arrCR);
+
+                $arr[$id] = [
+                    "tempUrls"   => $item,
+                    "controller" => $controller,
+                ];
+            }
+            foreach (\Yii::$app->menuManager->menuMap->paths as $id => $item) {
+                $arr[$id]['link'] = $id == \Yii::$app->menuManager->menuMap->mainMenu->id ? '' : $item;
+            }
+
+            return $arr;
+        }
+    }
+
+    public function actionGetTemplate() {
+        if($url = \Yii::$app->request->get('template')) {
+            // Декодуємо УРЛ
+            $url = urldecode($url);
+
+            // Парсимо УРЛ
+            $request = parse_url($url);
+
+            return \Yii::$app->controller->renderPartial('//angular/'.$request['path']);
+        }
     }
 
     public function actionError()

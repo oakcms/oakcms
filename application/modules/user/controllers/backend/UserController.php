@@ -4,6 +4,7 @@ namespace app\modules\user\controllers\backend;
 
 use app\components\BackendController;
 use app\modules\user\forms\LoginForm;
+use app\modules\user\models\backend\User;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -81,5 +82,25 @@ class UserController extends BackendController
             'model' => $model,
             'user' => $user
         ]);
+    }
+
+    /**
+     * Updates an existing User model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionAccount()
+    {
+        $model = User::findOne(\Yii::$app->getUser()->getId());
+        $model->scenario = User::SCENARIO_ADMIN_UPDATE;
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['/admin/user/default/view', 'id' => $model->id]);
+        } else {
+            return $this->render('account', [
+                'model' => $model,
+            ]);
+        }
     }
 }

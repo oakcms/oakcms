@@ -13,7 +13,6 @@ class ShortCode extends \app\components\ShortCode
 {
     public static function shortCode($event)
     {
-        //$this->
         if(isset($event->output)){
             if (!$app = @include(__DIR__.'/../widgetkit/widgetkit_yii2.php')) {
                 return;

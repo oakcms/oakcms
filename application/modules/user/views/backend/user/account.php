@@ -38,13 +38,12 @@ $this->params['actions_buttons'] = [
     <?php $form = ActiveForm::begin([
         'options' => [
             'id' => 'user-id',
-            //'enctype' => 'multipart/form-data'
         ],
     ]); ?>
     <?= $form->field($model, 'username') ?>
     <?= $form->field($model, 'email') ?>
-    <?= $form->field($model, 'password')->passwordInput() ?>
-    <?= $form->field($model, 'password_confirm')->passwordInput() ?>
+    <?= $form->field($model, 'newPassword')->passwordInput() ?>
+    <?= $form->field($model, 'newPasswordRepeat')->passwordInput() ?>
     <?//= $form->field($model, 'googleAuthenticator')->checkbox(['class'=>'make-switch', 'data-size'=>'small'], false) ?>
 
     <div id="googleAuthenticator">

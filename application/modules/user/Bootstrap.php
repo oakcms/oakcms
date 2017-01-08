@@ -12,6 +12,7 @@ class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app)
     {
+        /*
         $time = time();
 
         $js = 'var autoTimer, autoInterval;
@@ -21,7 +22,7 @@ class Bootstrap implements BootstrapInterface
             window.onclick      = resetTimer;
             window.onscroll     = resetTimer;
             window.onkeypress   = resetTimer;
-    
+
             function lockScreen() {
                 setInterval(function () {
                     clearInterval(autoInterval);
@@ -30,11 +31,11 @@ class Bootstrap implements BootstrapInterface
                     }
                 }, 3000);
             }
-    
+
             function resetTimer() {
                 clearTimeout(autoTimer);
                 autoTimer = setTimeout(lockScreen, 1000 * 60 * 15);
-    
+
             }';
 
         if (!\Yii::$app->user->isGuest) {
@@ -45,5 +46,6 @@ class Bootstrap implements BootstrapInterface
             //setcookie("LockScreenSession", $time, $time + 60 * 15, '/');
             setcookie("LockScreenSession", $time, $time + 60000 * 15, '/');
         }
+        */
     }
 }

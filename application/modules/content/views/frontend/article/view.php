@@ -12,8 +12,6 @@
  */
 use app\modules\admin\widgets\Html;
 
-$this->params['breadcrumbs'] = $breadcrumbs;
-
 $this->setSeoData(($model->meta_title != '')?$model->meta_title:$model->title, $model->meta_description, $model->meta_keywords);
 ?>
 

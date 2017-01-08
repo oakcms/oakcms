@@ -23,23 +23,20 @@ class CategoryController extends Controller
             throw new NotFoundHttpException(\Yii::t('system', 'The requested page does not exist.'));
         }
 
-        $breadcrumbs = Menu::getBreadcrumbs('content/'.$slug);
-        if(count($breadcrumbs) == 0) {
-            $breadcrumbs = [
-                'label' => $model->title,
-            ];
-        }
         $dataProvider = new ActiveDataProvider([
             'query' => ContentArticles::find()
                 ->andWhere(['category_id' => $model->id])
                 ->orderBy(['published_at'=>SORT_DESC])
                 ->published(),
+
             'pagination' => [
                 'defaultPageSize' => 10,
                 'forcePageParam' => false,
                 'pageSizeParam' => false,
             ],
         ]);
+
+        $breadcrumbs = [];
 
         return $this->render('view', [
             'breadcrumbs' => $breadcrumbs,

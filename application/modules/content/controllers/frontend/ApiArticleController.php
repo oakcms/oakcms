@@ -9,58 +9,29 @@
 
 namespace app\modules\content\controllers\frontend;
 
+use app\components\Controller;
 use app\modules\content\models\ContentArticles;
 use app\modules\content\models\ContentCategory;
-use yii\data\ActiveDataProvider;
-use yii\rest\ActiveController;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
-class ApiArticleController extends ActiveController
+class ApiArticleController extends Controller
 {
-    /**
-     * @var string
-     */
-    public $modelClass = 'app\modules\content\models\ContentArticles';
 
-    /**
-     * @var array
-     */
-    public $serializer = [
-        'class' => 'yii\rest\Serializer',
-        'collectionEnvelope' => 'items'
-    ];
-
-    /**
-     * @inheritdoc
-     */
-    public function actions()
+    public function behaviors()
     {
         return [
-            'index' => [
-                'class' => 'yii\rest\IndexAction',
-                'modelClass' => $this->modelClass,
-                'prepareDataProvider' => [$this, 'prepareDataProvider']
-            ],
-//            'view' => [
-//                'class' => 'yii\rest\ViewAction',
-//                'modelClass' => $this->modelClass,
-//                'findModel' => [$this, 'findModel']
-//            ],
-            'options' => [
-                'class' => 'yii\rest\OptionsAction'
+            // ...
+            'contentNegotiator' => [
+                'class' => \yii\filters\ContentNegotiator::className(),
+                'only' => ['index', 'view'],
+                'formatParam' => '_format',
+                'formats' => [
+                    'application/json' => \yii\web\Response::FORMAT_JSON,
+                    //'application/xml' => \yii\web\Response::FORMAT_XML,
+                ],
             ],
         ];
-    }
-
-    /**
-     * @return ActiveDataProvider
-     */
-    public function prepareDataProvider()
-    {
-        return new ActiveDataProvider(array(
-            'query' => ContentArticles::find()->published()
-        ));
     }
 
     /**
@@ -75,13 +46,9 @@ class ApiArticleController extends ActiveController
             ->andWhere(['{{%content_category_lang}}.slug' => $catslug])
             ->one();
 
-        $model = ContentArticles::find()->published()
-            ->joinWith(['translations'])
-            ->andWhere(['{{%content_articles_lang}}.slug' => $slug])
-            ->asArray()
-            ->one();
+        $model = ContentArticles::find()->published()->one();
 
-        if($model === null AND $categoryModel === null) {
+        if($model === null || $categoryModel === null) {
             throw new NotFoundHttpException(\Yii::t('system', 'The requested page does not exist.'));
         }
 

@@ -9,6 +9,9 @@
 
 namespace app\modules\system;
 
+use app\modules\menu\events\MenuItemLayoutsModuleEvent;
+use app\modules\menu\Module;
+use yii\base\Event;
 use Yii;
 use yii\base\BootstrapInterface;
 use yii\helpers\Url;

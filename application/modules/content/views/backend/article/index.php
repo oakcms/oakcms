@@ -128,14 +128,14 @@ $this->params['actions_buttons'] = [
 <script>
     function deleteA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/content/article/delete-ids?id=' + keys.join();
+        window.location.href = 'admin/content/article/delete-ids?id=' + keys.join();
     }
     function publishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/content/article/published?id=' + keys.join();
+        window.location.href = 'admin/content/article/published?id=' + keys.join();
     }
     function unpublishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/content/article/unpublished?id=' + keys.join();
+        window.location.href = 'admin/content/article/unpublished?id=' + keys.join();
     }
 </script>

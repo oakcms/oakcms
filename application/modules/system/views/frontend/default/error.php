@@ -18,7 +18,7 @@ $this->bodyClass = ['error'];
         ?>
         <div class="mb-30 font-22" style="text-transform: uppercase"><?= Yii::t('admin', 'Error 404! Page not found.') ?></div>
         <div class="line mb-20">
-            <img src="/uploads/page-404.png" alt="404" class="img-responsive center-block">
+            <img src="uploads/page-404.png" alt="404" class="img-responsive center-block">
         </div>
         <?
     } else {

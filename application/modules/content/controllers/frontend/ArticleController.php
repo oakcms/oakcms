@@ -24,25 +24,11 @@ class ArticleController extends Controller
             ->andWhere(['{{%content_articles_lang}}.slug' => $slug])
             ->one();
 
-        if($model === null AND $categoryModel === null) {
+        if(!$model || !$categoryModel) {
             throw new NotFoundHttpException(\Yii::t('system', 'The requested page does not exist.'));
         }
 
-        $breadcrumbs = Menu::getBreadcrumbs('content/'.$catslug.'/'.$slug);
-        if(count($breadcrumbs) == 0) {
-            $breadcrumbs = [
-                [
-                    'label' => $categoryModel->title,
-                    'url' => Url::to(['/content/category/view', 'slug' => $categoryModel->slug]),
-                ],
-                [
-                    'label' => $model->title
-                ]
-            ];
-        }
-
         return $this->render('view', [
-            'breadcrumbs' => $breadcrumbs,
             'model' => $model,
             'categoryModel' => $categoryModel
         ]);

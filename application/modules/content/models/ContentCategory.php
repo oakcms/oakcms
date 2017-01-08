@@ -146,6 +146,41 @@ class ContentCategory extends CategoryModel
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getFrontendViewLink()
+    {
+        return ['/content/category/update', 'id' => $this->id];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function frontendViewLink($model)
+    {
+        return ['/content/category/update', 'id' => $model['id']];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getBackendViewLink()
+    {
+        return ['/admin/content/category/update', 'id' => $this->id];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function backendViewLink($model)
+    {
+        return ['/admin/content/category/update', 'id' => $model['id']];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getTranslations()
     {
         return $this->hasMany(ContentCategoryLang::className(), ['content_category_id' => 'id']);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
@@ -11,19 +12,27 @@ namespace app\modules\user\controllers\backend;
 use Yii;
 use app\components\BackendController;
 use app\modules\user\models\UserProfile;
+use yii\helpers\VarDumper;
 
+
+/**
+ * Class ProfileController
+ * @package app\modules\user\controllers\backend
+ */
 class ProfileController extends BackendController
 {
 
     public function actionIndex() {
 
         $model = UserProfile::findOne(\Yii::$app->getUser()->getId());
+        $model->setScenario('update');
+        if ($model->load(Yii::$app->request->post())) {
 
-        if (!$model->load(Yii::$app->request->post()) && !$model->save()) {
-            $this->flash('error', implode(' ', $model->getErrors()));
+            if(!$model->save()) {
+                $this->flash('error', implode(' ', $model->getErrors()));
+            }
         }
 
-        $this->layout = '//clear_content';
         return $this->render('index', [
             'model' => $model,
         ]);

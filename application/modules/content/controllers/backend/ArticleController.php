@@ -36,10 +36,10 @@ class ArticleController extends BackendController
      * Lists all ContentArticles models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($id = null)
     {
         $searchModel = new ContentArticlesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -118,6 +118,24 @@ class ArticleController extends BackendController
                 'lang' => $lang,
             ]);
         }
+    }
+
+    /**
+     * @param string $route
+     * @return string
+     */
+    public function actionSelect($route = 'content/article/view')
+    {
+        $searchModel = new ContentArticlesSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+
+        Yii::$app->getView()->applyModalLayout();
+
+        return $this->render('select', [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+            'route' => $route
+        ]);
     }
 
     /**

@@ -19,6 +19,8 @@ use app\modules\system\models\Language;
  * @property integer $gender
  *
  * @property User $user
+ *
+ * @mixin \mongosoft\file\UploadImageBehavior
  */
 class UserProfile extends \yii\db\ActiveRecord
 {

@@ -99,6 +99,14 @@ class Language extends ActiveRecord
         return $languages;
     }
 
+    public static function getAllLangR() {
+        $languages = [];
+        foreach (self::find()->published()->all() as $language) {
+            $languages += [$language->language_id => $language->url];
+        }
+        return $languages;
+    }
+
     public static function getAllLangLabels() {
 
         $languages = [];

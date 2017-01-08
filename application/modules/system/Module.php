@@ -11,7 +11,7 @@ use yii\helpers\VarDumper;
 class Module extends \yii\base\Module
 {
 
-    const VERSION = '0.0.1';
+    const VERSION = '0.0.1-alpha.0.3';
 
     public $activeModules;
 
@@ -46,11 +46,9 @@ class Module extends \yii\base\Module
         ],
     ];
 
-    /*public static $urlRulesFrontend = [
-        '<action:(?!admin|user)(.*)+>/<id:\d+>'        => 'system/default/<action>',
-        '<action:(?!admin|user)(.*)+>/page-<page:\d+>' => 'system/default/<action>',
-        '<action:(?!admin|user)(.*)+>'                 => 'system/default/<action>',
-    ];*/
+    public static $urlRulesFrontend = [
+        'system/<_c>/<_a:[\w\-]+>/page-<page:\d+>' => 'system/<_c>/<_a>',
+    ];
 
     public static $installConfig = [];
 

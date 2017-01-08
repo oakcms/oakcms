@@ -17,7 +17,9 @@ use yii\widgets\ListView;
 $this->params['breadcrumbs'] = $breadcrumbs;
 
 $this->setSeoData(($model->meta_title != '')?$model->meta_title:$model->title, $model->meta_description, $model->meta_keywords);
+
 ?>
+<h1><?= $model->title ?></h1>
 <section class="main-news-container">
     <div class="main-news">
         <?= ListView::widget([

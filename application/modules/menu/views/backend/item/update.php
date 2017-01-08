@@ -18,8 +18,7 @@ $this->params['breadcrumbs'][] = Yii::t('gromver.platform', 'Update');
 
     <?= $this->render('_form', [
         'model'           => $model,
-        'linkParamsModel' => $linkParamsModel,
-        'lang'            => $lang
+        'linkParamsModel' => $linkParamsModel
     ]) ?>
 
 </div>

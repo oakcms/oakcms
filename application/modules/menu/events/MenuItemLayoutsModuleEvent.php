@@ -4,7 +4,7 @@
  */
 
 namespace app\modules\menu\events;
-use app\components\module\Event;
+use yii\base\Event;
 
 
 /**

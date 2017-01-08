@@ -53,7 +53,7 @@ class Gallery extends \yii\base\Widget
     private function getImagePreview($image)
     {
         $size = (explode('x', $this->previewSize));
-        $delete = Html::a('✖', '#', ['data-action' => Url::toRoute(['/admin/gallery/default/delete']), 'class' => 'delete']);
+        $delete = Html::a('x', '#', ['data-action' => Url::toRoute(['/admin/gallery/default/delete']), 'class' => 'delete']);
         $write = Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', '#', ['data-action' => Url::toRoute(['/admin/gallery/default/modal']), 'class' => 'write']);
         $img = Html::img($image->getUrl($this->previewSize), ['data-action' => Url::toRoute(['/admin/gallery/default/setmain']), 'width' => $size[0], 'height' => $size[1], 'class' => 'thumb']);
         $a = Html::a($img, $image->getUrl());
