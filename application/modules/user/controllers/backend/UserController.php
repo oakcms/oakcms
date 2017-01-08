@@ -5,6 +5,7 @@ namespace app\modules\user\controllers\backend;
 use app\components\BackendController;
 use app\modules\user\forms\LoginForm;
 use app\modules\user\models\backend\User;
+use Google\Authenticator\GoogleAuthenticator;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -95,8 +96,16 @@ class UserController extends BackendController
         $model = User::findOne(\Yii::$app->getUser()->getId());
         $model->scenario = User::SCENARIO_ADMIN_UPDATE;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/admin/user/default/view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->googleAuthenticator) {
+                $ga = new GoogleAuthenticator();
+                $model->googleAuthenticatorSecret = $ga->generateSecret();
+            } else {
+                $model->googleAuthenticatorSecret = '';
+            }
+
+            $model->save();
+            return $this->redirect(['/admin/user/account']);
         } else {
             return $this->render('account', [
                 'model' => $model,

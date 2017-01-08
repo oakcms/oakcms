@@ -4,6 +4,7 @@ namespace app\modules\user\forms;
 
 use app\modules\user\models\User;
 use app\modules\user\Module;
+use Google\Authenticator\GoogleAuthenticator;
 use Yii;
 use yii\base\Model;
 
@@ -14,6 +15,7 @@ class LoginForm extends Model
 {
     public $username;
     public $password;
+    public $secretCode;
     public $rememberMe = true;
 
     private $_user = false;
@@ -26,6 +28,7 @@ class LoginForm extends Model
         return [
             [['username', 'password'], 'required'],
             ['rememberMe', 'boolean'],
+            ['secretCode', 'string', 'max' => 6],
             ['password', 'validatePassword'],
         ];
     }
@@ -50,6 +53,7 @@ class LoginForm extends Model
     {
         if (!$this->hasErrors()) {
             $user = $this->getUser();
+            $ga = new GoogleAuthenticator();
 
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError('password', Yii::t('user', 'Error wrong username or password'));
@@ -57,6 +61,12 @@ class LoginForm extends Model
                 $this->addError('username', Yii::t('user', 'Error profile blocked'));
             } elseif ($user && $user->status == User::STATUS_WAIT) {
                 $this->addError('username', Yii::t('user', 'Error profile not confirmed'));
+            } elseif (
+                Yii::$app->keyStorage->get('googleAuthenticator') &&
+                $user->googleAuthenticator &&
+                $ga->getCode($user->googleAuthenticatorSecret) != $this->secretCode
+            ) {
+                $this->addError('username', Yii::t('user', 'Error wrong secret code'));
             }
         }
     }

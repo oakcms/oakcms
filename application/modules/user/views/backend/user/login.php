@@ -13,7 +13,7 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this app\components\AdminView */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \app\modules\user\models\LoginForm */
+/* @var $model \app\modules\user\forms\LoginForm */
 
 $this->title = Yii::t('user', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
@@ -36,6 +36,9 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
     ];
 </script>
 <style>
+    .wrapper {
+        background-color: #d2d6de!important;
+    }
     .backstretch {
         opacity:0.8;
         -moz-opacity:0.8;
@@ -128,13 +131,19 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                         <?= $form->field($model, 'username', [
                             'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n{hint}\n{error}</div>",
                             'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
-                        ])->textInput(['placeholder'=>Yii::t('admin', 'Username')])->label(false) ?>
+                        ])->textInput(['placeholder' => Yii::t('user', 'Username')])->label(false) ?>
 
                         <?= $form->field($model, 'password', [
                             'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n{hint}\n{error}</div>",
                             'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
-                        ])->passwordInput(['placeholder'=>Yii::t('admin', 'Password')])->label(false) ?>
+                        ])->passwordInput(['placeholder'=>Yii::t('user', 'Password')])->label(false) ?>
 
+                        <?if(Yii::$app->keyStorage->get('googleAuthenticator')):?>
+                            <?= $form->field($model, 'secretCode', [
+                                'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"fa fa-shield form-control-feedback\"></span>\n{hint}\n{error}</div>",
+                                'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
+                            ])->passwordInput(['placeholder'=>Yii::t('user', 'Secret Code')])->label(false) ?>
+                        <?endif;?>
                         <div class="row">
                             <div class="col-xs-8">
                                 <div class="checkbox icheck">

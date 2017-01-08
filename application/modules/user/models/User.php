@@ -23,6 +23,8 @@ use yii\web\IdentityInterface;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property string $googleAuthenticator
+ * @property string $googleAuthenticatorSecret
  * @property string $role
  * @property integer $status
  */
@@ -63,6 +65,10 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'email'],
             ['email', 'unique', 'targetClass' => self::className(), 'message' => \Yii::t('user', 'ERROR_EMAIL_EXISTS')],
             ['email', 'string', 'max' => 255],
+
+            // GA
+            ['googleAuthenticatorSecret', 'string', 'max' => 255],
+            ['googleAuthenticator', 'integer'],
 
             ['status', 'integer'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
