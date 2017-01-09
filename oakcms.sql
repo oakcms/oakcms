@@ -1122,6 +1122,7 @@ CREATE TABLE `user` (
   `password_reset_token` varchar(255) DEFAULT NULL,
   `email` varchar(255) NOT NULL,
   `googleAuthenticator` tinyint(1) NOT NULL,
+  `googleAuthenticatorSecret` varchar(255) DEFAULT NULL,
   `status` smallint(6) NOT NULL DEFAULT '0',
   `role` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1130,8 +1131,8 @@ CREATE TABLE `user` (
 -- Дамп данных таблицы `user`
 --
 
-INSERT INTO `user` (`id`, `created_at`, `updated_at`, `username`, `auth_key`, `email_confirm_token`, `password_hash`, `password_reset_token`, `email`, `googleAuthenticator`, `status`, `role`) VALUES
-(1, 1459981535, 1481243575, 'admin', '-ZSUE3afc2rCB0UXa08ymzhpWsPSHEfk', 'Ht3SjXJ0MUJOXt4P0gwsltk5B0eKJFOH', '$2y$13$KC2ZxM17jpzz6zNnjLzXH.r2vgQ7urxVfRuS/xkZsGzfNnwtcrdWK', NULL, 'legionerblack@yandex.ru', 0, 1, 'administrator');
+INSERT INTO `user` (`id`, `created_at`, `updated_at`, `username`, `auth_key`, `email_confirm_token`, `password_hash`, `password_reset_token`, `email`, `googleAuthenticator`, `googleAuthenticatorSecret`, `status`, `role`) VALUES
+(1, 1459981535, 1481243575, 'admin', '-ZSUE3afc2rCB0UXa08ymzhpWsPSHEfk', 'Ht3SjXJ0MUJOXt4P0gwsltk5B0eKJFOH', '$2y$13$KC2ZxM17jpzz6zNnjLzXH.r2vgQ7urxVfRuS/xkZsGzfNnwtcrdWK', NULL, 'legionerblack@yandex.ru', 0, NULL, 1, 'administrator');
 
 -- --------------------------------------------------------
 
