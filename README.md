@@ -21,3 +21,11 @@ REQUIREMENTS
 ------------
 
 The minimum requirement by this project template that your Web server supports PHP 5.5.0.
+
+ADVANTAGE
+---------
+1) Google Two factor authentication.
+2) The modular structure of the site.
+3) WidgetKit integration. (http://yootheme.com/widgetkit)
+4) Menu module allows you to make any structure of the site from the admin panel. (Analog Joomla Menu component)
+And more...
