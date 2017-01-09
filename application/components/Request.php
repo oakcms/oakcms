@@ -12,7 +12,9 @@ namespace app\components;
 use app\modules\menu\models\MenuItem;
 use Yii;
 use yii\helpers\Url;
+use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
+use yii\web\UrlNormalizer;
 
 class Request extends \yii\web\Request
 {
@@ -44,31 +46,41 @@ class Request extends \yii\web\Request
 
             list ($routeURL, $paramsURL) = Yii::$app->urlManager->parseRequest($this);
 
+            $defaultLang = Yii::$app->getUrlManager()->getDefaultLanguage();
 
             $currentURL = [$routeURL];
             foreach ($paramsURL as $k=>$item) {
                 $currentURL[$k] = $item;
             }
-            $url = Yii::$app->getUrlManager()->createUrl($currentURL);
 
+            $url = Yii::$app->getUrlManager()->createUrl($currentURL);
+            $url = rtrim($url, '/');
+            
             //  OR urldecode($url) !== urldecode(Url::to())
             if(urldecode($this->createUrlToRedirect($url)) !== urldecode(Url::to()) && $menuRoute != $homeMenuItem->link) {
                 Yii::$app->getResponse()->redirect($url, 301);
             }
 
             if($menuPath) {
+                if($defaultLang == Yii::$app->language) {
+                    $homeUrl = Url::home();
+                } else {
+                    $homeUrl = Url::to(['/', 'language' => Yii::$app->language]);
+                }
+
+
                 if(
-                    urldecode($this->createUrlToRedirect($menuPath)) != ltrim(urldecode(Url::to()), '/') &&
+                    urldecode($this->createUrlToRedirect($menuPath)) != ltrim(urldecode($homeUrl), '/') &&
                     $menuRoute != $homeMenuItem->link &&
                     $menuStatus != 2
                 ) {
-                    Yii::$app->getResponse()->redirect(Url::home().$menuPath, 301);
+                    Yii::$app->getResponse()->redirect($homeUrl.$menuPath, 301);
                 } elseif(
-                    urldecode(Url::to()) != urldecode($this->createUrlToRedirect(Url::home())) &&
+                    urldecode(Url::to()) != urldecode($this->createUrlToRedirect($homeUrl)) &&
                     $menuRoute == $homeMenuItem->link &&
                     $menuStatus == 2
                 ) {
-                    Yii::$app->getResponse()->redirect($this->createUrlToRedirect(Url::home()), 301);
+                    Yii::$app->getResponse()->redirect($this->createUrlToRedirect($homeUrl), 301);
                 }
             }
 

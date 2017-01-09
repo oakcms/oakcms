@@ -6,13 +6,12 @@
  * Project: osnovasite
  * File name: UrlManager.php
  */
+
 namespace app\components;
 
 use app\modules\language\models\Language;
-use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 
-class UrlManager extends \yii\web\UrlManager {
+class UrlManager extends \codemix\localeurls\UrlManager {
     const LANGUAGE_PARAM = 'language';
     public $languages;
     private $_language;
@@ -32,16 +31,21 @@ class UrlManager extends \yii\web\UrlManager {
      */
     public function createUrl($params, $language = null)
     {
-        if(isset($params['q'])) {
-            unset($params['q']);
-        }
-
-        $this->_language = isset($language) ? $language : ArrayHelper::getValue($params, static::LANGUAGE_PARAM, \Yii::$app->language);
-
-        if(is_array($params)) {
-            //unset($params[static::LANGUAGE_PARAM]);
-        }
+//        if(isset($params['q'])) {
+//            unset($params['q']);
+//        }
+//
+//        $this->_language = isset($language) ? $language : ArrayHelper::getValue($params, static::LANGUAGE_PARAM, \Yii::$app->language);
+//
+//        if(is_array($params)) {
+//            unset($params[static::LANGUAGE_PARAM]);
+//        }
 
         return parent::createUrl($params);
+    }
+
+    protected function processLocaleUrl($request) {
+        parent::processLocaleUrl($request);
+        \Yii::$app->cache->flush();
     }
 }

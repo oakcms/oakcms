@@ -1086,11 +1086,17 @@ CREATE TABLE `texts` (
   `where_to_place` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `links` text COLLATE utf8_unicode_ci NOT NULL,
   `status` tinyint(1) NOT NULL,
-  `order` int(11) NOT NULL
+  `order` int(11) NOT NULL,
+  `published_at` int(11) NOT NULL,
+  `created_at` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
-
+ALTER TABLE `texts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `slug` (`slug`),
+  ADD KEY `updated_at` (`updated_at`);
 --
 -- Структура таблицы `texts_lang`
 --
