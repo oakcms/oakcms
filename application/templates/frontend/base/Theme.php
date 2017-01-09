@@ -17,6 +17,11 @@ use Yii;
 class Theme extends \yii\base\Theme
 {
 
+    public static $menuItemLayouts = [
+        '@frontendTemplate/views/layouts/_clear'  => 'clear',
+        '@frontendTemplate/views/layouts/content' => 'content',
+        '@frontendTemplate/views/layouts/main'    => 'main'
+    ];
 
     /**
      * @inheritdoc
