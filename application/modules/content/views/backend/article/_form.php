@@ -174,8 +174,23 @@ $this->params['actions_buttons'] = [
                 <?= $form->field($model, 'category_id')->dropDownList(\yii\helpers\ArrayHelper::map(
                     \app\modules\content\models\ContentCategory::find()->published()->all(), 'id', 'title'
                 )) ?>
+                <?= $form->field($model, 'tagNames')->widget(\dosamigos\selectize\SelectizeTextInput::className(), [
+
+                    'loadUrl' => ['/admin/content/article/list'],
+                    'options' => ['class' => 'form-control'],
+                    'clientOptions' => [
+                        'plugins' => ['remove_button'],
+                        'valueField' => 'name',
+                        'labelField' => 'name',
+                        'searchField' => ['name'],
+                        'create' => true,
+                    ],
+                ])->hint(Yii::t('content', 'Use commas to separate tags')) ?>
+
                 <?= $form->field($model, 'description')->widget(\app\widgets\Editor::className())->translatable() ?>
+
                 <?= $form->field($model, 'content')->widget(\app\widgets\Editor::className())->translatable() ?>
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-3">
@@ -186,6 +201,7 @@ $this->params['actions_buttons'] = [
                         </div>
                     </div>
                 </div>
+
                 <?= $form->field($model, 'image')->fileInput(['accept' => 'image/*']) ?>
                 <?= $form->field($model, 'meta_title')->textInput() ?>
                 <?= $form->field($model, 'meta_keywords')->textInput() ?>

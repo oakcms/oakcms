@@ -21,6 +21,9 @@ class CategoryController extends BackendController
     /** @var string  */
     public $viewRoute = '/items';
 
+    /** @var string  */
+    public $returnUrl = '/article';
+
     /**
      * Categories list
      *
@@ -68,11 +71,11 @@ class CategoryController extends BackendController
                 }
 
                 if(!$model->hasErrors()){
-                    $this->flash('success', Yii::t('easyii', 'Category created'));
-                    return $this->redirect(['/admin/'.$this->moduleName, 'id' => $model->primaryKey]);
+                    $this->flash('success', Yii::t('admin', 'Category created'));
+                    return $this->redirect(['/admin/'.$this->moduleName.$this->returnUrl, 'id' => $model->primaryKey]);
                 }
                 else {
-                    $this->flash('error', Yii::t('easyii', 'Create error. {0}', $model->formatErrors()));
+                    $this->flash('error', Yii::t('admin', 'Create error. {0}', $model->formatErrors()));
                     return $this->refresh();
                 }
             }

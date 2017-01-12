@@ -6,8 +6,6 @@ use app\modules\admin\components\behaviors\StatusController;
 use app\modules\admin\widgets\Html;
 use app\modules\language\models\Language;
 use app\modules\menu\models\MenuType;
-use himiklab\sortablegrid\SortableGridAction;
-use kartik\builder\Form;
 use Yii;
 use app\modules\text\models\Text;
 use app\modules\text\models\search\TextSearch;
@@ -23,9 +21,9 @@ class DefaultController extends BackendController
     public function actions()
     {
         return [
-            'sort' => [
-                'class' => SortableGridAction::className(),
-                'modelName' => Text::className(),
+            'sorting' => [
+                'class' => \kotchuprik\sortable\actions\Sorting::className(),
+                'query' => Text::find(),
             ],
         ];
     }
@@ -109,6 +107,7 @@ class DefaultController extends BackendController
         $model = $this->findModel($id);
         $model->language = $lang->language_id;
         $model->settingsAfterLanguage();
+        $model->published_at = date('Y-m-d H:i', $model->published_at);
 
         $positions = require_once Yii::getAlias('@frontendTemplate/positions.php');
         $menus = MenuType::find()->all();
@@ -212,7 +211,7 @@ class DefaultController extends BackendController
 
         $files = [];
         if($file) {
-            if(is_file($fileL = Yii::getAlias('@frontendTemplate/modules/text/views/frontend/layouts/'.$file.'/plugin.php')))
+            if(is_file($fileL = Yii::getAlias('@frontendTemplate/modules/text/layouts/'.$file.'/plugin.php')))
                 $files[] = require $fileL;
             else
                 $files[] = require Yii::getAlias('@app/modules/text/views/frontend/layouts/'.$file.'/plugin.php');
@@ -220,7 +219,7 @@ class DefaultController extends BackendController
         } else {
 
             $core = glob(Yii::getAlias('@app/modules/text/views/frontend/layouts/*/plugin.php'));
-            $template = glob(Yii::getAlias('@frontendTemplate/modules/text/views/frontend/layouts/*/plugin.php'));
+            $template = glob(Yii::getAlias('@frontendTemplate/modules/text/layouts/*/plugin.php'));
 
             foreach ($core as $plugin) {
                 if(is_file($plugin)) {
@@ -239,7 +238,7 @@ class DefaultController extends BackendController
     }
 
     public static function getLayoutsResponse($file) {
-        if(is_file($fileL = Yii::getAlias('@frontendTemplate/modules/text/views/frontend/layouts/'.$file.'/plugin.php')))
+        if(is_file($fileL = Yii::getAlias('@frontendTemplate/modules/text/layouts/'.$file.'/plugin.php')))
             $plugin = $fileL;
         else
             $plugin = Yii::getAlias('@app/modules/text/views/frontend/layouts/'.$file.'/plugin.php');

@@ -4,9 +4,13 @@ namespace app\modules\text\api;
 use Yii;
 use app\components\API;
 use app\helpers\Data;
+use yii\caching\Cache;
+use yii\caching\DbDependency;
+use yii\di\Instance;
 use yii\helpers\Url;
 use app\modules\text\models\Text as TextModel;
 use yii\helpers\Html;
+use yii\helpers\VarDumper;
 
 /**
  * Text module API
@@ -18,18 +22,38 @@ class Text extends API
 {
     private $_texts = [];
 
+    public $cache = 'cache';
+
+    public $cacheDependency;
+
+    public $cacheDuration;
+
     public function init()
     {
         parent::init();
 
-        $this->_texts = Data::cache(TextModel::CACHE_KEY, 3600, function() {
-            $models = TextModel::find()->where([ 'status' => TextModel::STATUS_PUBLISHED])->all();
-            $return = [];
-            foreach ($models as $k=>$model) {
-                $return[$model->slug.'_'.\Yii::$app->language][$model->id] = $model;
+        if (count($this->_texts) == 0) {
+            $this->cache = Instance::ensure($this->cache, Cache::className());
+
+            if ($this->cache) {
+                if (($this->_texts = $this->cache->get(TextModel::CACHE_KEY)) === false) {
+                    $models = TextModel::find()->where([ 'status' => TextModel::STATUS_PUBLISHED])->all();
+                    $return = [];
+                    foreach ($models as $k=>$model) {
+                        $return[$model->slug.'_'.\Yii::$app->language][$model->id] = $model;
+                    }
+                    $this->_texts = $return;
+                    $this->cacheDependency = \Yii::createObject([
+                        'class' => 'yii\caching\DbDependency',
+                        'sql' => 'SELECT MAX(updated_at) FROM '.TextModel::tableName(),
+                    ]);
+
+                    $this->cache->set(TextModel::CACHE_KEY, $this->_texts, $this->cacheDuration, $this->cacheDependency);
+                }
+            } else {
+                $this->_texts = TextModel::find()->where([ 'status' => TextModel::STATUS_PUBLISHED])->all();
             }
-            return $return;
-        });
+        }
     }
     public function api_get($id_slug, $id = false)
     {
@@ -76,7 +100,7 @@ class Text extends API
                 }
 
                 if($return) {
-                    if(is_file($file = Yii::getAlias('@frontendTemplate/modules/text/views/frontend/layouts/'.$text->layout.'/plugin.php')))
+                    if(is_file($file = Yii::getAlias('@frontendTemplate/modules/text/layouts/'.$text->layout.'/plugin.php')))
                         $params = require $file;
                     else
                         $params = require Yii::getAlias('@app/modules/text/views/frontend/layouts/'.$text->layout.'/plugin.php');
@@ -94,7 +118,7 @@ class Text extends API
     private function findText($id_slug, $id)
     {
         if($id) {
-            $return = \app\modules\text\models\Text::find()->where(['status'=>1, 'id'=>$id_slug])->all();
+            $return = \app\modules\text\models\Text::find()->where(['status'=>1, 'id'=>$id])->all();
         } else {
             $return = (isset($this->_texts[$id_slug.'_'.\Yii::$app->language])) ? $this->_texts[$id_slug.'_'.\Yii::$app->language] : null;
         }

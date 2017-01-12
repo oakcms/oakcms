@@ -8,6 +8,7 @@
 
 namespace YOOtheme\Framework\Yii;
 
+use app\components\Controller;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 use yii\web\View;
@@ -91,8 +92,9 @@ class YiiPlugin extends ApplicationAware implements PluginInterface
             throw new \RuntimeException(sprintf('Unable to create cache folder in "%s"', $app['path.cache']));
         }
 
-        //$this->init();
         $app->trigger('init', array($app));
+
+        $this->init();
 
         $app['yii']->on(\yii\web\View::EVENT_BEGIN_BODY, function () use ($app) {
             $app->trigger('view', array($app));
@@ -126,9 +128,9 @@ class YiiPlugin extends ApplicationAware implements PluginInterface
 
         foreach ($this['scripts'] as $script) {
             if ($source = $script->getSource()) {
-                $view->registerJsFile(htmlentities($this['url']->to($source, array(), true)), ['depends' => ['\yii\web\JqueryAsset'], 'position' => View::POS_HEAD]);
+                $view->registerJsFile(htmlentities($this['url']->to($source, array(), true)), ['depends' => ['yii\web\JqueryAsset']], $script->getName());
             } elseif ($content = $script->getContent()) {
-                $view->registerJs($content, View::POS_HEAD);
+                $view->registerJs($content, View::POS_HEAD, $script->getName());
             }
         }
     }

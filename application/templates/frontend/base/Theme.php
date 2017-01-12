@@ -14,7 +14,7 @@ use Yii;
 /**
  * Class Theme
  */
-class Theme extends \yii\base\Theme
+class Theme extends \app\components\ThemeFrontend
 {
 
     public static $menuItemLayouts = [

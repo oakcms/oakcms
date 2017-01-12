@@ -19,15 +19,17 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
 {
     /** @var array The rules to be used in Backend Url management. */
     public static $urlRulesBackend = [];
+
     /** @var array The rules to be used in Frontend Url management. */
     public static $urlRulesFrontend = [
+        'api/page/<slug:[\w\-]+>'                      => 'content/api-page/view',
         'api/content/<catslug:[\w\-]+>/<slug:[\w\-]+>' => 'content/api-article/view',
         'api/content/<slug:[\w\-]+>'                   => 'content/api-category/view',
-        'api/page/<slug:[\w\-]+>'                      => 'content/api-page/view',
         'content/<slug:[\w\-]+>'                       => 'content/category/view',
         'content/<catslug:[\w\-]+>/<slug:[\w\-]+>'     => 'content/article/view',
         'page/<slug:[\w\-]+>'                          => 'content/page/view',
     ];
+
     public $settings = [
         'show_title'           => [
             'type'  => 'checkbox',

@@ -3,6 +3,7 @@
 namespace app\modules\content\controllers\backend;
 
 use app\modules\admin\components\behaviors\StatusController;
+use app\modules\content\models\ContentTags;
 use Yii;
 use app\modules\content\models\ContentArticles;
 use app\modules\content\models\search\ContentArticlesSearch;
@@ -30,6 +31,22 @@ class ArticleController extends BackendController
                 'model' => ContentArticles::className()
             ]
         ];
+    }
+
+    public function actionList()
+    {
+        $query = Yii::$app->request->get('query');
+        $models = ContentTags::find()->where(['name' => $query])->all();
+        $items = [];
+
+        foreach ($models as $model) {
+            $items[] = ['name' => $model->name];
+        }
+        // We know we can use ContentNegotiator filter
+        // this way is easier to show you here :)
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        return $items;
     }
 
     /**

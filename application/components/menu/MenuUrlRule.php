@@ -90,6 +90,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
             'sender'  => $this,
         ]), 'routers');
 
+
         // вытаскиваем инструкции из всех роутеров
         foreach ($routers as $routerClass) {
             $router = $this->getRouter($routerClass);
@@ -175,7 +176,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
             if (Yii::$app->user->getIsGuest()) {
                 Yii::$app->user->loginRequired();
             } else {
-                throw new ForbiddenHttpException(Yii::t('gromver.platform', 'You have no rights for access to this section of the site.'));
+                throw new ForbiddenHttpException(Yii::t('menu', 'You have no rights for access to this section of the site.'));
             }
         }
 
@@ -236,7 +237,11 @@ class MenuUrlRule extends Object implements UrlRuleInterface
                 $cacheKey = [__CLASS__, $menu->id];
                 if (($this->_metaData = $this->cache->get($cacheKey)) === false) {
                     $this->_metaData = $this->buildMenuMetaData($menu);
-                    $this->cache->set($cacheKey, $this->_metaData, $this->cacheDuration, $this->menuManager->getMenuMap()->cacheDependency);
+                    $this->cacheDependency = \Yii::createObject([
+                        'class' => 'yii\caching\DbDependency',
+                        'sql' => 'SELECT MAX(updated_at) FROM '.MenuItem::tableName(),
+                    ]);
+                    $this->cache->set($cacheKey, $this->_metaData, $this->cacheDuration, $this->cacheDependency);
                 }
             } else {
                 $this->_metaData = $this->buildMenuMetaData($menu);

@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1
  *
  * Use the
  *
@@ -32,20 +35,11 @@
  * ```
  */
 
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 03.07.2016
- * Project: oakcms
- * File name: SettingModel.php
- */
-
 namespace app\modules\admin\components\behaviors;
 
 use app\components\ActiveRecord;
 use app\modules\admin\models\ModulesModules;
 use app\modules\text\controllers\backend\DefaultController;
-use yii\helpers\VarDumper;
 
 class SettingModel extends \yii\base\Behavior
 {
@@ -116,5 +110,11 @@ class SettingModel extends \yii\base\Behavior
             }
         }
         $this->owner->{$this->settingsField} = $newSettings;
+    }
+
+    public function getSetting($setting, $defaultValue = '') {
+        $params = $this->owner->{$this->settingsField};
+
+        return (isset($params[$setting]['value']) AND $params[$setting]['value'] != '') ? $params[$setting]['value'] : $defaultValue;
     }
 }

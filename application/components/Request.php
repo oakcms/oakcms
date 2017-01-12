@@ -55,8 +55,9 @@ class Request extends \yii\web\Request
 
             $url = Yii::$app->getUrlManager()->createUrl($currentURL);
             $url = rtrim($url, '/');
-            
+
             //  OR urldecode($url) !== urldecode(Url::to())
+
             if(urldecode($this->createUrlToRedirect($url)) !== urldecode(Url::to()) && $menuRoute != $homeMenuItem->link) {
                 Yii::$app->getResponse()->redirect($url, 301);
             }
@@ -68,9 +69,8 @@ class Request extends \yii\web\Request
                     $homeUrl = Url::to(['/', 'language' => Yii::$app->language]);
                 }
 
-
                 if(
-                    urldecode($this->createUrlToRedirect($menuPath)) != ltrim(urldecode($homeUrl), '/') &&
+                    urldecode($this->createUrlToRedirect(ltrim($homeUrl, '/').$menuPath)) != ltrim(urldecode(Url::to()), '/') &&
                     $menuRoute != $homeMenuItem->link &&
                     $menuStatus != 2
                 ) {

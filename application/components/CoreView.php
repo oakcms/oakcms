@@ -38,4 +38,18 @@ class CoreView extends \rmrevin\yii\minify\View
     {
         \Yii::$app->layout = $this->modalLayout;
     }
+
+    public function init()
+    {
+
+        if(!\Yii::$app->user->isGuest) {
+            if(($locale = \Yii::$app->user->identity->userProfile->locale) != '') {
+                \Yii::$app->language = $locale;
+            }
+        } else {
+            \Yii::$app->language = \Yii::$app->keyStorage->get('language');
+        }
+
+        parent::init();
+    }
 }

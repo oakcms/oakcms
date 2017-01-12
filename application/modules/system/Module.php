@@ -2,8 +2,6 @@
 
 namespace app\modules\system;
 
-use yii\helpers\VarDumper;
-
 
 /**
  * system module definition class
@@ -11,7 +9,7 @@ use yii\helpers\VarDumper;
 class Module extends \yii\base\Module
 {
 
-    const VERSION = '0.0.1-alpha.0.3';
+    const VERSION = '0.0.1-alpha.0.4';
 
     public $activeModules;
 

@@ -12,13 +12,17 @@ use app\modules\content\models\ContentPages;
  */
 class ContentPagesSearch extends ContentPages
 {
+    public $title;
+    public $slug;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'status','created_at', 'updated_at'], 'integer'],
+            [['slug', 'title'], 'string'],
             [['layout'], 'safe'],
         ];
     }
@@ -41,13 +45,23 @@ class ContentPagesSearch extends ContentPages
      */
     public function search($params)
     {
-        $query = ContentPages::find();
+        $query = ContentPages::find()
+        ->joinWith('translations');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 
         $this->load($params);
+
+        $dataProvider->sort->attributes['title'] = [
+            'asc' => ['{{%content_pages_lang}}.title' => SORT_ASC],
+            'desc' => ['{{%content_pages_lang}}.title' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['slug'] = [
+            'asc' => ['{{%content_pages_lang}}.slug' => SORT_ASC],
+            'desc' => ['{{%content_pages_lang}}.slug' => SORT_DESC],
+        ];
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -62,7 +76,9 @@ class ContentPagesSearch extends ContentPages
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'layout', $this->layout]);
+        $query->andFilterWhere(['like', 'layout', $this->layout])
+            ->andFilterWhere(['like', '{{%content_pages_lang}}.title', $this->title])
+            ->andFilterWhere(['like', '{{%content_pages_lang}}.slug', $this->slug]);
 
         return $dataProvider;
     }

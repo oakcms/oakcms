@@ -14,12 +14,11 @@ class ShortCode extends \app\components\ShortCode
     public static function shortCode($event)
     {
         if(isset($event->output)){
-            if (!$app = @include(__DIR__.'/../widgetkit/widgetkit_yii2.php')) {
+            if (!$app = include(__DIR__.'/../widgetkit/widgetkit_yii2.php')) {
                 return;
             }
 
             $event->output = $app['shortcode']->parse('widgetkit', $event->output, function($attrs) use ($app) {
-                $app->trigger('init.site', array($app));
                 return $app->renderWidget($attrs);
             });
         }

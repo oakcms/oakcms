@@ -2,10 +2,8 @@
 
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\grid\GridView;
 use app\modules\admin\widgets\Button;
 use app\modules\admin\models\ModulesModules;
-use yii\jui\JuiAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\admin\models\search\ModulesModulesSearch */
@@ -65,12 +63,25 @@ $this->params['actions_buttons'] = [
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
-        <?= \himiklab\sortablegrid\SortableGridView::widget([
+        <?= \yii\grid\GridView::widget([
             'id' => 'grid',
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
+            'options' => [
+                'class' => 'grid-view',
+                'data' => [
+                    'sortable-widget' => 1,
+                    'sortable-url' => \yii\helpers\Url::toRoute(['sorting']),
+                ],
+            ],
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+            'rowOptions' => function ($model, $key, $index, $grid) {
+                return ['data-sortable-id' => $model->module_id];
+            },
             'columns' => [
+                [
+                    'class' => \kotchuprik\sortable\grid\Column::className(),
+                ],
                 [
                     'class' => 'yii\grid\CheckboxColumn',
                     'options' => ['style' => 'width:36px']

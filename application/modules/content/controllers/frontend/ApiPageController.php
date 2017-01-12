@@ -10,26 +10,15 @@
 namespace app\modules\content\controllers\frontend;
 
 
-use app\components\Controller;
+use app\components\ApiController;
 use app\modules\content\models\ContentPages;
-use app\modules\menu\api\Menu;
-use app\modules\menu\models\MenuItems;
-use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 
-class PageController extends Controller
+class ApiPageController extends ApiController
 {
 
-    /**
-     * @param $slug
-     * Return template page-{slug}.php or page-{id}.php or page.php
-     * @return string
-     */
     public function actionView($slug) {
-
-        $model = $this->findModel($slug);
-
-        return $this->render($model->layout, ['model' => $model]);
+        return $this->findModel($slug);
     }
 
     protected function findModel($slug)

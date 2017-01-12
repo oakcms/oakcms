@@ -6,8 +6,14 @@ use Yii;
 
 class StatusController extends \yii\base\Behavior
 {
+    /** @var string */
     public $model;
+
+    /** @var string */
     public $error;
+
+    /** @var string */
+    public $statusField = 'status';
 
     public function changeStatus($id, $status)
     {
@@ -15,11 +21,8 @@ class StatusController extends \yii\base\Behavior
 
         /** @var $model ActiveRecord */
         if(($model = $modelClass::findOne($id))){
-            $model->status = $status;
-            if(!$model->update()) {
-                var_dump($model->getErrors());
-                exit;
-            }
+            $model->{$this->statusField} = $status;
+            $model->update(false, [$this->statusField]);
         }
         else{
             $this->error = Yii::t('admin', 'Not found');

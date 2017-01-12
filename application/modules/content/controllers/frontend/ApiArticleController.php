@@ -9,30 +9,14 @@
 
 namespace app\modules\content\controllers\frontend;
 
-use app\components\Controller;
+use app\components\ApiController;
 use app\modules\content\models\ContentArticles;
 use app\modules\content\models\ContentCategory;
 use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 
-class ApiArticleController extends Controller
+class ApiArticleController extends ApiController
 {
-
-    public function behaviors()
-    {
-        return [
-            // ...
-            'contentNegotiator' => [
-                'class' => \yii\filters\ContentNegotiator::className(),
-                'only' => ['index', 'view'],
-                'formatParam' => '_format',
-                'formats' => [
-                    'application/json' => \yii\web\Response::FORMAT_JSON,
-                    //'application/xml' => \yii\web\Response::FORMAT_XML,
-                ],
-            ],
-        ];
-    }
 
     /**
      * @param $id
@@ -46,7 +30,10 @@ class ApiArticleController extends Controller
             ->andWhere(['{{%content_category_lang}}.slug' => $catslug])
             ->one();
 
-        $model = ContentArticles::find()->published()->one();
+        $model = ContentArticles::find()->published()
+            ->joinWith(['translations'])
+            ->andWhere(['{{%content_articles_lang}}.slug' => $slug])
+            ->one();
 
         if($model === null || $categoryModel === null) {
             throw new NotFoundHttpException(\Yii::t('system', 'The requested page does not exist.'));

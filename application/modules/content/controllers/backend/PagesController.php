@@ -2,6 +2,8 @@
 
 namespace app\modules\content\controllers\backend;
 
+use app\modules\admin\components\behaviors\StatusController;
+use Guzzle\Inflection\Inflector;
 use Yii;
 use app\modules\content\models\ContentPages;
 use app\modules\content\models\search\ContentPagesSearch;
@@ -24,6 +26,10 @@ class PagesController extends BackendController
                     'delete' => ['post'],
                 ],
             ],
+            [
+                'class' => StatusController::className(),
+                'model' => ContentPages::className()
+            ]
         ];
     }
 
@@ -62,7 +68,8 @@ class PagesController extends BackendController
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'lang'  => $lang
+                'lang'  => $lang,
+                'layouts' => self::getLayouts()
             ]);
         }
     }
@@ -95,6 +102,7 @@ class PagesController extends BackendController
             return $this->render('update', [
                 'model' => $model,
                 'lang' => $lang,
+                'layouts' => self::getLayouts()
             ]);
         }
     }
@@ -190,6 +198,30 @@ class PagesController extends BackendController
     public function actionOff($id)
     {
         return $this->changeStatus($id, ContentPages::STATUS_DRAFT);
+    }
+
+    /**
+     * Get All layouts
+     */
+    protected static function getLayouts()
+    {
+        $layouts = [];
+        $core = glob(Yii::getAlias('@app/modules/content/views/frontend/page/*.php'));
+        $template = glob(Yii::getAlias('@frontendTemplate/modules/content/page/*.php'));
+
+        foreach ($core as $layout) {
+            if(is_file($layout)) {
+                $layouts[basename($layout, ".php")] = \yii\helpers\Inflector::camel2words(basename($layout, ".php"));
+            }
+        }
+
+        foreach ($template as $layout) {
+            if(is_file($layout)) {
+                $layouts[basename($layout, ".php")] = \yii\helpers\Inflector::camel2words(basename($layout, ".php"));
+            }
+        }
+
+        return $layouts;
     }
 
     /**

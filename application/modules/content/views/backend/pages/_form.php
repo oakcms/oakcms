@@ -9,6 +9,7 @@ $asset = \app\templates\backend\base\assets\BaseAsset::register($this);
 /* @var $this yii\web\View */
 /* @var $model app\modules\content\models\ContentPages */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $layouts */
 
 if($model->isNewRecord) {
     $langueBtn = [
@@ -95,9 +96,7 @@ $this->params['actions_buttons'] = [
         ],
     ]); ?>
 
-    <?php echo $form->field($model, 'title_h1')->textInput(['maxlength' => true])->translatable() ?>
     <?php echo $form->field($model, 'title')->textInput(['maxlength' => true])->translatable() ?>
-    <?php echo $form->field($model, 'subtitle')->textInput(['maxlength' => true])->translatable() ?>
     <?php echo $form->field($model, 'slug')
         ->hint(Yii::t('admin', 'If you\'ll leave this field empty, slug will be generated automatically'))
         ->textInput(['maxlength' => true])->translatable() ?>
@@ -118,9 +117,8 @@ $this->params['actions_buttons'] = [
         </div>
     </div>
     <?= $form->field($model, 'background_image')->fileInput(['accept' => 'image/*']) ?>
-    <?= $form->field($model, 'icon_image')->textarea() ?>
 
-    <?= $form->field($model, 'layout')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'layout')->dropDownList($layouts) ?>
     <?= $form->field($model, 'status')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
     <?= $form->field($model, 'created_at')->staticField(date('d.m.Y H:i', $model->created_at)) ?>
     <?= $form->field($model, 'updated_at')->staticField(date('d.m.Y H:i', $model->updated_at)) ?>

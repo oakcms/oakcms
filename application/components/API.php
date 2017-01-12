@@ -9,17 +9,24 @@ use app\components\module\Module;
  */
 class API extends \yii\base\Object
 {
-    /** @var  array */
+    /** @var array */
     static $classes;
 
-    /** @var  string module name */
+    /** @var string module name */
     public $module;
+
+    /** @var string app language */
+    public $language;
+
 
     public function init()
     {
         parent::init();
 
         $this->module = Module::getModuleName(self::className());
+
+        $this->language or $this->language = \Yii::$app->language;
+
     }
 
     public static function __callStatic($method, $params)

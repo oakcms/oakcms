@@ -41,9 +41,9 @@ class ModulesModules extends ActiveRecord
     public function behaviors()
     {
         return [
-            'sort' => [
-                'class' => SortableGridBehavior::className(),
-                'sortableAttribute' => 'order'
+            'sortable' => [
+                'class' => \kotchuprik\sortable\behaviors\Sortable::className(),
+                'query' => self::find(),
             ],
         ];
     }

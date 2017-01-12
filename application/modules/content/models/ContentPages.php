@@ -15,6 +15,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property string $layout
+ * @property string $title
  * @property string $slug
  * @property integer $status
  * @property integer $created_at
@@ -24,6 +25,37 @@ class ContentPages extends ActiveRecord
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
+
+    public function fields()
+    {
+        return [
+            'id',
+            'title' => function($model) {
+                return $model->title;
+            },
+            'slug' => function($model) {
+                return $model->slug;
+            },
+            'content' => function($model) {
+                return $model->content;
+            },
+            'description' => function($model) {
+                return $model->description;
+            },
+            'meta_title' => function($model) {
+                return $model->meta_title;
+            },
+            'meta_keywords' => function($model) {
+                return $model->meta_keywords;
+            },
+            'meta_description' => function($model) {
+                return $model->meta_description;
+            },
+            'settings' => function($model) {
+                return $model->settings;
+            }
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -35,7 +67,7 @@ class ContentPages extends ActiveRecord
             SettingModel::className(),
             [
                 'class' => SluggableBehavior::className(),
-                'attribute' => 'title_h1',
+                'attribute' => 'title',
                 'slugAttribute' => 'slug',
             ],
             [
@@ -50,7 +82,7 @@ class ContentPages extends ActiveRecord
             'trans' => [
                 'class' => TranslateableBehavior::className(),
                 'translationAttributes' => [
-                    'slug', 'title', 'subtitle', 'title_h1', 'content', 'description', 'meta_title', 'meta_keywords', 'meta_description', 'settings'
+                    'slug', 'title', 'content', 'description', 'meta_title', 'meta_keywords', 'meta_description', 'settings'
                 ]
             ],
         ];
@@ -75,10 +107,10 @@ class ContentPages extends ActiveRecord
     public function rules()
     {
         return [
-            [['title_h1', 'content', 'status'], 'required'],
+            [['content', 'status'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['meta_title', 'meta_keywords', 'meta_description', 'layout'], 'string', 'max' => 255],
-            [['subtitle', 'title', 'description', 'settings', 'icon_image'], 'string'],
+            [['title', 'description', 'settings'], 'string'],
             [['slug'], 'string', 'max' => 150],
             [
                 ['slug'],

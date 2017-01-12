@@ -6,10 +6,10 @@
  * Project: osnovasite
  * File name: UrlManager.php
  */
-
 namespace app\components;
 
 use app\modules\language\models\Language;
+use yii\helpers\ArrayHelper;
 
 class UrlManager extends \codemix\localeurls\UrlManager {
     const LANGUAGE_PARAM = 'language';
@@ -31,9 +31,9 @@ class UrlManager extends \codemix\localeurls\UrlManager {
      */
     public function createUrl($params, $language = null)
     {
-//        if(isset($params['q'])) {
-//            unset($params['q']);
-//        }
+        if(isset($params['q'])) {
+            unset($params['q']);
+        }
 //
 //        $this->_language = isset($language) ? $language : ArrayHelper::getValue($params, static::LANGUAGE_PARAM, \Yii::$app->language);
 //

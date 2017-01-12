@@ -117,7 +117,11 @@ CREATE TABLE `content_articles` (
   `create_user_ip` varchar(20) NOT NULL,
   `access_type` int(11) NOT NULL DEFAULT '1',
   `category_id` int(11) DEFAULT NULL,
-  `main_image` int(11) NOT NULL DEFAULT '1'
+  `main_image` int(11) NOT NULL DEFAULT '1',
+  `hits` int(11) NOT NULL,
+  `rating` varchar(11) NOT NULL DEFAULT '0',
+  `rating_sum` varchar(255) NOT NULL DEFAULT '0',
+  `rating_votes` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -125,7 +129,7 @@ CREATE TABLE `content_articles` (
 --
 
 INSERT INTO `content_articles` (`id`, `create_user_id`, `update_user_id`, `published_at`, `created_at`, `updated_at`, `image`, `status`, `comment_status`, `create_user_ip`, `access_type`, `category_id`, `main_image`) VALUES
-(1, 1, 1, 1458900000, 1464815424, 1474735966, '57e6ac2260217.jpg', 1, 1, '127.0.0.1', 1, 1, 1);
+(1, 1, 1, 1458900000, 1464815424, 1474735966, '57e6ac2260217.jpg', 1, 1, '::1', 1, 1, 1, 11, '4.07', '57', 14);
 
 -- --------------------------------------------------------
 
@@ -258,18 +262,10 @@ CREATE TABLE `content_pages` (
   `id` int(11) NOT NULL,
   `layout` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `background_image` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `icon_image` text COLLATE utf8_unicode_ci NOT NULL,
   `status` int(11) NOT NULL,
   `created_at` int(11) NOT NULL,
   `updated_at` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Дамп данных таблицы `content_pages`
---
-
-INSERT INTO `content_pages` (`id`, `layout`, `background_image`, `icon_image`, `status`, `created_at`, `updated_at`) VALUES
-(1, '', '', '', 1, 1476250048, 1476250048);
 
 -- --------------------------------------------------------
 
@@ -281,8 +277,6 @@ CREATE TABLE `content_pages_lang` (
   `id` int(11) NOT NULL,
   `content_pages_id` int(11) NOT NULL,
   `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `subtitle` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `title_h1` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `content` text COLLATE utf8_unicode_ci NOT NULL,
@@ -293,14 +287,6 @@ CREATE TABLE `content_pages_lang` (
   `language` varchar(10) COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Дамп данных таблицы `content_pages_lang`
---
-
-INSERT INTO `content_pages_lang` (`id`, `content_pages_id`, `title`, `subtitle`, `title_h1`, `slug`, `description`, `content`, `meta_title`, `meta_keywords`, `meta_description`, `settings`, `language`) VALUES
-(1, 1, 'Часто задаваемые вопросы', '', 'Часто задаваемые вопросы', 'questions', '', '', '', '', '', '[]', 'ru-ru');
-
--- --------------------------------------------------------
 
 --
 -- Структура таблицы `content_tags`
@@ -399,6 +385,28 @@ CREATE TABLE `field_value` (
 INSERT INTO `field_value` (`id`, `field_id`, `variant_id`, `item_id`, `value`, `numeric_value`) VALUES
 (1, 1, 3, 2, 'Белый', NULL);
 
+
+--
+-- Структура таблицы `hits`
+--
+
+CREATE TABLE `hits` (
+  `hit_id` int(11) NOT NULL,
+  `user_agent` text NOT NULL,
+  `ip` varchar(255) NOT NULL,
+  `target_group` varchar(255) NOT NULL,
+  `target_pk` varchar(255) NOT NULL,
+  `created_at` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Индексы таблицы `hits`
+--
+ALTER TABLE `hits`
+  ADD PRIMARY KEY (`hit_id`);
+
+ALTER TABLE `hits`
+  MODIFY `hit_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 -- --------------------------------------------------------
 
 --

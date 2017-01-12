@@ -18,18 +18,18 @@ use yii\helpers\Url;
  * Class Menu
  * @package oakcms
  *
- * @method array getMenuLvlAll(int $id) Вертає масив елементів вибриного меню
- * @method array getMenuLvl(int $id, int $startLvl, int $endLvl) Вертає масив елементів вибриного меню
+ * @method static getMenuLvlAll(int $id) Вертає масив елементів вибриного меню
+ * @method static getMenuLvl(int $id, int $startLvl, int $endLvl) Вертає масив елементів вибриного меню
  */
 
-class Menu extends API  {
-
+class Menu extends API
+{
     /**
      * @param $id int Ідентефікатор меню
      * @return array
      */
     public function api_getMenuLvlAll($id) {
-        $collection = MenuItem::find()->where(['menu_type_id' => $id])->orderBy(['ordering' => SORT_ASC])->all();
+        $collection = MenuItem::find()->type($id)->published()->language($this->language)->orderBy('lft')->all();
         return $this->generateMenuArray($collection);
     }
 

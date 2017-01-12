@@ -78,12 +78,26 @@ $this->params['actions_buttons'] = [
                     'attribute' => 'id',
                     'options' => ['style' => 'width:100px']
                 ],
-                'title_h1',
                 'title',
-                'layout',
-                'status',
-                'created_at:datetime',
-                'updated_at:datetime',
+                'slug',
+                [
+                    'class' => \app\modules\admin\components\grid\EnumColumn::className(),
+                    'attribute' => 'status',
+                    'format' => 'raw',
+                    'options' => ['width' => '50px'],
+                    'value' => function ($model, $index, $widget) {
+                        return Html::checkbox('', $model->status == ContentPages::STATUS_PUBLISHED, [
+                            'class' => 'switch toggle',
+                            'data-id' => $model->primaryKey,
+                            'data-link' => \yii\helpers\Url::to(['/admin/content/pages']),
+                            'data-reload' => '0'
+                        ]);
+                    },
+                    'enum' => [
+                        Yii::t('admin', 'Off'),
+                        Yii::t('admin', 'On')
+                    ]
+                ],
                 [
                     'class' => 'app\modules\admin\components\grid\ActionColumn',
                     'translatable' => true

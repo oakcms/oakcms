@@ -568,7 +568,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     {
         if ($this->link_type == self::LINK_ROUTE) {
             if ($this->status == self::STATUS_MAIN_PAGE) {
-                return Url::home();
+                return '';
             }
 
             return ['/' . $this->path];

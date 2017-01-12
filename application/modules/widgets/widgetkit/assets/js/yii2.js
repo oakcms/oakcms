@@ -48,7 +48,7 @@
             var t = o.scope();
             t.vm.setView("content"), t.$apply()
         }).on("click", "#toolbar-options", function () {
-            location.href = "/admin/modules/setting?name=widgets"
+            location.href = "admin/modules/setting?name=widgets"
         }), c.on("keyup", '[ng-model="content.name"]', s), e.$on("wk.change.view", function (t, n) {
             a(function () {
                 l.text(o.find("h2.js-header").text()), r.empty().html("content" == n ? p : "contentEdit" == n ? d : "").append(u), s()

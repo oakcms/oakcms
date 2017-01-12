@@ -64,12 +64,25 @@ $this->params['actions_buttons'] = [
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
-        <?= \himiklab\sortablegrid\SortableGridView::widget([
+        <?= \yii\grid\GridView::widget([
             'id' => 'grid',
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
+            'options' => [
+                'class' => 'grid-view',
+                'data' => [
+                    'sortable-widget' => 1,
+                    'sortable-url' => \yii\helpers\Url::toRoute(['sorting']),
+                ],
+            ],
+            'rowOptions' => function ($model, $key, $index, $grid) {
+                return ['data-sortable-id' => $model->id];
+            },
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => [
+                [
+                    'class' => \kotchuprik\sortable\grid\Column::className(),
+                ],
                 [
                     'class' => 'yii\grid\CheckboxColumn',
                     'options' => ['style' => 'width:36px']
@@ -82,7 +95,6 @@ $this->params['actions_buttons'] = [
                 'subtitle',
                 'layout',
                 'slug',
-                // 'text:ntext',
                 [
                     'class' => \app\modules\admin\components\grid\EnumColumn::className(),
                     'attribute' => 'status',

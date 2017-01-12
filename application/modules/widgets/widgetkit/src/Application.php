@@ -43,7 +43,6 @@ class Application extends BaseApplication implements EventSubscriberInterface
         });
 
         $this->on('boot', function ($event, $app) {
-
             $app['plugins']->addPath($app['path'].'/plugins/*/*/plugin.php');
             $app['locator']->addPath('widgetkit', dirname(__DIR__));
 

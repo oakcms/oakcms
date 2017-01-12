@@ -7,8 +7,22 @@ use dosamigos\translateable\TranslateableBehavior;
 use himiklab\sortablegrid\SortableGridBehavior;
 use Yii;
 use yii\behaviors\SluggableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
+/**
+ * Class Text
+ * @package app\modules\text\models
+ *
+ * @property $published_at;
+ * @property $created_at;
+ * @property $updated_at;
+ * @property $status;
+ * @property $order;
+ * @property $settings;
+ *
+ * @mixin SettingModel Settings Model
+ */
 class Text extends ActiveRecord
 {
     const CACHE_KEY = 'oakcms_text';
@@ -38,6 +52,7 @@ class Text extends ActiveRecord
     public function behaviors()
     {
         return [
+            TimestampBehavior::className(),
             [
                 'class' => SettingModel::className(),
                 'settingsField' => 'settings',
@@ -54,9 +69,9 @@ class Text extends ActiveRecord
                     'title', 'subtitle', 'text', 'settings'
                 ]
             ],
-            'sort' => [
-                'class' => SortableGridBehavior::className(),
-                'sortableAttribute' => 'order'
+            'sortable' => [
+                'class' => \kotchuprik\sortable\behaviors\Sortable::className(),
+                'query' => self::find(),
             ],
         ];
     }
@@ -74,6 +89,10 @@ class Text extends ActiveRecord
             [['title', 'subtitle', 'layout', 'links'], 'string'],
             ['text', 'trim'],
             [['slug', 'where_to_place'], 'string', 'max' => 150],
+
+            ['published_at', 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
+            ['published_at', 'default', 'value' => time()],
+
             //[['slug'], 'unique'],
             ['slug', 'default', 'value' => null],
             //[['settings'], JsonValidator::className()],

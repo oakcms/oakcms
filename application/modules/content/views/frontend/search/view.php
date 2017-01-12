@@ -13,13 +13,10 @@
 
 use yii\widgets\ListView;
 
-
-//$this->params['breadcrumbs'] = $breadcrumbs;
-
-$this->setSeoData(($model->meta_title != '')?$model->meta_title:$model->title, $model->meta_description, $model->meta_keywords);
+$this->setSeoData('', '', '');
 ?>
 <section class="thumbnav">
-    <h2><?= $model->title ?></h2>
+    <h2>Поиск по запросу: <?= Yii::$app->request->get('q') ?></h2>
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
         'itemOptions' => ['class' => 'news-wrapp'],

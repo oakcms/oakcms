@@ -20,9 +20,10 @@ class ModulesController extends BackendController
     public function actions()
     {
         return [
-            'sort' => [
-                'class' => SortableGridAction::className(),
-                'modelName' => ModulesModules::className(),
+            'sorting' => [
+                'class' => \kotchuprik\sortable\actions\Sorting::className(),
+                'query' => ModulesModules::find(),
+                'pk' => 'module_id'
             ],
         ];
     }

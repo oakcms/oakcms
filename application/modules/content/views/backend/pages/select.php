@@ -7,7 +7,7 @@
  */
 
 use yii\helpers\Html;
-use kartik\grid\GridView;
+use yii\grid\GridView;
 
 /**
  * @var yii\web\View $this
@@ -25,20 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
         'id' => 'grid',
         'columns' => [
             [
                 'attribute' => 'id',
                 'options' => ['width' => '60px'],
             ],
-            //[
-            //    'attribute' => 'title',
-//                'value' => function($model){
-//                    /** @var \app\modules\content\models\ContentPages $model */
-//                    return str_repeat(" • ", max($model->level-2, 0)) . $model->title . '<br/>' . Html::tag('small', ' — ' . $model->path, ['class' => 'text-muted']);
-//                },
-//                'format' => 'raw'
-//            ],
+            'title',
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
@@ -64,22 +58,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]),
                     ]);
                 },
-                'width' => '80px',
-                'mergeHeader' => true,
+                'options' => ['width' => '80px'],
                 'format' => 'raw'
             ]
-        ],
-        'responsive' => true,
-        'hover' => true,
-        'condensed' => true,
-        'floatHeader' => true,
-        'floatHeaderOptions' => ['scrollingTop' => 0],
-        'bordered' => false,
-        'panel' => [
-            'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-th-list"></i> ' . Html::encode($this->title) . '</h3>',
-            'type' => 'info',
-            'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . Yii::t('gromver.platform', 'Reset List'), [null], ['class' => 'btn btn-info']),
-            'showFooter' => false,
         ],
     ]) ?>
 

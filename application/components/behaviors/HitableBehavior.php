@@ -1,0 +1,144 @@
+<?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1
+ */
+
+/**
+ * Created by Vladimir Hryvinskyy.
+ * Site: http://codice.in.ua/
+ * Date: 21.11.2016
+ * Project: kardamon_blog
+ * File name: HitableBehavior.php
+ */
+
+namespace app\components\behaviors;
+
+use Yii;
+use yii\base\Behavior;
+use yii\db\ActiveRecord;
+use yii\db\IntegrityException;
+use yii\db\Query;
+
+/**
+ * HitCountableBehavior
+ *
+ * @property ActiveRecord $owner
+ *
+ */
+class HitableBehavior extends Behavior
+{
+    /**
+     * @var string
+     */
+    public $attribute = 'hits';
+
+    /**
+     * @var bool
+     */
+    public $group = false;
+
+    /**
+     * @var int
+     */
+    public $delay = 86400;
+
+    /**
+     * @var string
+     */
+    public $table_name = '{{%hits}}';
+
+    /**
+     * @throws IntegrityException
+     */
+    public function init()
+    {
+        if (!$this->attribute) {
+            throw new IntegrityException('Attribute is not defined');
+        }
+        parent::init();
+    }
+
+    /**
+     * @param \yii\base\Component $owner
+     */
+    public function attach($owner)
+    {
+        parent::attach($owner);
+        if (!$this->group) {
+            $this->group = get_class($this->owner);
+        }
+    }
+
+    /**
+     *
+     */
+    public function touch()
+    {
+        if ((date('U') - $this->getLatestVisit() > $this->delay) && !$this->getIsBot()) {
+            if ($this->storeHit()) {
+                $this->increaseCounter();
+            }
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHitsCount()
+    {
+        return $this->owner->getAttribute($this->attribute);
+    }
+
+    /**
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    private function storeHit()
+    {
+        return $this->owner->getDb()->createCommand()
+            ->insert($this->table_name, [
+                'user_agent' => Yii::$app->getRequest()->getUserAgent(),
+                'ip' => Yii::$app->getRequest()->getUserIP(),
+                'target_group' => $this->group,
+                'target_pk' => $this->owner->primaryKey,
+                'created_at' => date('U'),
+            ])
+            ->execute();
+    }
+    /**
+     * @return bool
+     */
+    private function increaseCounter()
+    {
+        return $this->owner->updateCounters([
+            $this->attribute => 1,
+        ]);
+    }
+    /**
+     * @return bool|string
+     */
+    private function getLatestVisit()
+    {
+        return (new Query())
+            ->select('created_at')
+            ->from($this->table_name)
+            ->orderBy('created_at DESC')
+            ->andWhere([
+                'user_agent' => Yii::$app->getRequest()->getUserAgent(),
+                'ip' => Yii::$app->getRequest()->getUserIP(),
+                'target_group' => $this->group,
+                'target_pk' => $this->owner->primaryKey,
+            ])
+            ->scalar();
+    }
+    /**
+     * @return bool
+     */
+    protected function getIsBot()
+    {
+        return false;
+    }
+}
