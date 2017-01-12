@@ -56,6 +56,7 @@ class ContentArticles extends \app\components\ActiveRecord
         return [
             TimestampBehavior::className(),
             SettingModel::className(),
+            Taggable::className(),
             [
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'create_user_id',
