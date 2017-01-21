@@ -128,7 +128,7 @@ CREATE TABLE `content_articles` (
 -- Дамп данных таблицы `content_articles`
 --
 
-INSERT INTO `content_articles` (`id`, `create_user_id`, `update_user_id`, `published_at`, `created_at`, `updated_at`, `image`, `status`, `comment_status`, `create_user_ip`, `access_type`, `category_id`, `main_image`) VALUES
+INSERT INTO `content_articles` (`id`, `create_user_id`, `update_user_id`, `published_at`, `created_at`, `updated_at`, `image`, `status`, `comment_status`, `create_user_ip`, `access_type`, `category_id`, `main_image`, `hits`, `rating`, `rating_sum`, `rating_votes`) VALUES
 (1, 1, 1, 1458900000, 1464815424, 1474735966, '57e6ac2260217.jpg', 1, 1, '::1', 1, 1, 1, 11, '4.07', '57', 14);
 
 -- --------------------------------------------------------
@@ -1102,9 +1102,8 @@ CREATE TABLE `texts` (
 
 -- --------------------------------------------------------
 ALTER TABLE `texts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `slug` (`slug`),
-  ADD KEY `updated_at` (`updated_at`);
+  ADD PRIMARY KEY (`id`);
+  
 --
 -- Структура таблицы `texts_lang`
 --
@@ -1518,12 +1517,6 @@ ALTER TABLE `system_settings`
   ADD UNIQUE KEY `ux_yupe_yupe_settings_module_id_param_name_user_id` (`param_name`),
   ADD KEY `ix_yupe_yupe_settings_param_name` (`param_name`);
 
---
--- Индексы таблицы `texts`
---
-ALTER TABLE `texts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `slug` (`slug`);
 
 --
 -- Индексы таблицы `texts_lang`
