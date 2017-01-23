@@ -68,6 +68,8 @@
         "rmrevin/yii2-minify-view": "~1.9",
 
         "sonata-project/google-authenticator": "*",
+		
+		"kotchuprik/yii2-sortable-widgets" : "^2.0.2",
 
         "himiklab/yii2-sortable-grid-view-widget" : "*",
 
