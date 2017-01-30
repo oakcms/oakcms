@@ -14,7 +14,7 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.9",
         "yiisoft/yii2": ">=2.0.5",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
@@ -48,11 +48,13 @@
         "dragonjet/yii2-opengraph": "dev-master",
 
         "2amigos/yii2-translateable-behavior" : "*",
+        "2amigos/yii2-transliterator-helper": "*",
         "2amigos/yii2-packagist-component": "0.1.*",
         "2amigos/yii2-arrayquery-component": "0.1.*",
         "2amigos/yii2-pjax-filter-behavior": "0.1.*",
         "2amigos/yii2-grid-view-library" : "*",
-        "2amigos/yii2-transliterator-helper": "*",
+        "2amigos/yii2-taggable-behavior": "~1.0",
+        "2amigos/yii2-selectize-widget": "~1.0",
 
         "trntv/yii2-aceeditor": "~2.0",
 
@@ -61,17 +63,15 @@
         "cebe/yii2-gravatar": "*",
         "cebe/markdown": "1.*",
 
-        "creocoder/yii2-nested-sets": "~0.9",
+        "creocoder/yii2-nested-sets": "dev-master",
 
         "nizsheanez/yii2-asset-converter": "1.*",
 
         "rmrevin/yii2-minify-view": "~1.9",
 
         "sonata-project/google-authenticator": "*",
-		
-		"kotchuprik/yii2-sortable-widgets" : "^2.0.2",
 
-        "himiklab/yii2-sortable-grid-view-widget" : "*",
+        "kotchuprik/yii2-sortable-widgets" : "^2.0.2",
 
         "newerton/yii2-fancybox": "dev-master",
 
@@ -88,12 +88,14 @@
         "kartik-v/yii2-field-range": "*",
         "kartik-v/yii2-export": "*",
 		"kartik-v/yii2-builder": "*",
+        "kartik-v/yii2-icons": "*",
 
         "kop/yii2-scroll-pager": "dev-master",
 
         "pigochu/yii2-jquery-locationpicker": ">=0.2.0",
         "zelenin/yii2-slug-behavior": "~1.5.1",
-        "voskobovich/yii2-many-many-behavior": "^3.0"
+        "voskobovich/yii2-many-many-behavior": "^3.0",
+        "claviska/simpleimage": "~2.5"
     },
     "config": {
         "process-timeout": 1800
