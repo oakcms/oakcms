@@ -13,13 +13,10 @@
 
 namespace app\modules\content\models\query;
 
-use creocoder\nestedsets\NestedSetsQueryBehavior;
 
 class ContentCategoryQuery extends \yii\db\ActiveQuery
 {
     public function behaviors() {
-        return [
-            NestedSetsQueryBehavior::className(),
-        ];
+
     }
 }

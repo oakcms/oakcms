@@ -45,6 +45,12 @@ class ContentCategorySearch extends ContentCategory
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'lft' => SORT_ASC,
+                    'order' => SORT_ASC
+                ]
+            ]
         ]);
 
         $this->load($params);

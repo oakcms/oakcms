@@ -1,0 +1,25 @@
+{
+    "name": "yootheme/framework",
+    "description": "YOOtheme Framework",
+    "homepage": "http://yootheme.com",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "YOOtheme",
+            "email": "info@yootheme.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "YOOtheme\\Widgetkit\\Framework": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "1.1.x-dev"
+        }
+    }
+}

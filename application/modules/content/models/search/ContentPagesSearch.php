@@ -21,8 +21,8 @@ class ContentPagesSearch extends ContentPages
     public function rules()
     {
         return [
-            [['id', 'status','created_at', 'updated_at'], 'integer'],
-            [['slug', 'title'], 'string'],
+            [['id', 'status','created_at', 'updated_at', 'parent_id'], 'integer'],
+            [['slug', 'title', 'layout'], 'string'],
             [['layout'], 'safe'],
         ];
     }
@@ -45,11 +45,17 @@ class ContentPagesSearch extends ContentPages
      */
     public function search($params)
     {
-        $query = ContentPages::find()
+        $query = ContentPages::find()->excludeRoots()
         ->joinWith('translations');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'lft' => SORT_ASC,
+                    'ordering' => SORT_ASC,
+                ]
+            ]
         ]);
 
         $this->load($params);
@@ -71,9 +77,11 @@ class ContentPagesSearch extends ContentPages
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'parent_id' => $this->parent_id,
             'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'layout' => $this->layout,
         ]);
 
         $query->andFilterWhere(['like', 'layout', $this->layout])

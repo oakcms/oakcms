@@ -1,0 +1,213 @@
+// Name:            Subnav
+// Description:     Defines styles for the sub navigation
+//
+// Component:       `wk-subnav`
+//
+// Modifiers:       `wk-subnav-line`
+//                  `wk-subnav-pill`
+//
+// States:          `wk-active`
+//
+// Markup:
+//
+// <!-- wk-subnav -->
+// <ul class="wk-subnav">
+//     <li><a href=""></a></li>
+// </ul>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@subnav-margin-horizontal:                      10px;
+@subnav-margin-vertical:                        @subnav-margin-horizontal;
+
+@subnav-color:                                  #444;
+@subnav-hover-color:                            #07D;
+@subnav-hover-text-decoration:                  none;
+@subnav-active-color:                           #07D;
+
+@subnav-line-border-height:                     10px;
+@subnav-line-border:                            #ddd;
+@subnav-line-border-width:                      1px;
+
+@subnav-pill-padding-vertical:                  3px;
+@subnav-pill-padding-horizontal:                9px;
+@subnav-pill-hover-background:                  #eee;
+@subnav-pill-hover-color:                       #444;
+@subnav-pill-active-background:                 #00a8e6;
+@subnav-pill-active-color:                      #fff;
+
+@subnav-disabled-color:                         #999;
+
+
+/* ========================================================================
+   Component: Subnav
+ ========================================================================== */
+
+/*
+ * 1. Gutter
+ * 2. Remove default list style
+ */
+
+.wk-subnav {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    /* 1 */
+    margin-left: -@subnav-margin-horizontal;
+    margin-top: -@subnav-margin-vertical;
+    /* 2 */
+    padding: 0;
+    list-style: none;
+}
+
+/*
+ * 1. Space is allocated solely based on content dimensions
+ * 2. Horizontal gutter is using `padding` so `wk-width-*` classes can be applied
+ * 3. Create position context for dropdowns
+ */
+
+.wk-subnav > * {
+    /* 1 */
+    -ms-flex: none;
+    -webkit-flex: none;
+    flex: none;
+    /* 2 */
+    padding-left: @subnav-margin-horizontal;
+    margin-top: @subnav-margin-vertical;
+    /* 3 */
+    position: relative;
+}
+
+/*
+ * DEPRECATED IE9 Support
+ */
+
+.wk-subnav:before,
+.wk-subnav:after {
+    content: "";
+    display: block;
+    overflow: hidden;
+}
+
+.wk-subnav:after { clear: both; }
+
+.wk-subnav > * { float: left; }
+
+
+/* Items
+ ========================================================================== */
+
+.wk-subnav > * > * {
+    display: inline-block;
+    color: @subnav-color;
+    .hook-subnav;
+}
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ */
+
+.wk-subnav > * > :hover,
+.wk-subnav > * > :focus { // 1
+    color: @subnav-hover-color;
+    text-decoration: @subnav-hover-text-decoration;
+    .hook-subnav-hover;
+}
+
+/*
+ * Active
+ */
+
+.wk-subnav > .wk-active > * {
+    color: @subnav-active-color;
+    .hook-subnav-active;
+}
+
+
+/* Modifier: 'subnav-line'
+ ========================================================================== */
+
+.wk-subnav-line > :before {
+    content: "";
+    display: inline-block;
+    height: @subnav-line-border-height;
+    vertical-align: middle;
+}
+
+.wk-subnav-line > :nth-child(n+2):before {
+    margin-right: @subnav-margin-horizontal;
+    border-left: @subnav-line-border-width solid @subnav-line-border;
+    .hook-subnav-line-divider;
+}
+
+
+/* Modifier: 'subnav-pill'
+ ========================================================================== */
+
+.wk-subnav-pill > * > * {
+    padding: @subnav-pill-padding-vertical @subnav-pill-padding-horizontal;
+    .hook-subnav-pill;
+}
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ * 2. Remove default focus style
+ */
+
+.wk-subnav-pill > * > :hover,
+.wk-subnav-pill > * > :focus { // 1
+    background: @subnav-pill-hover-background;
+    color: @subnav-pill-hover-color;
+    text-decoration: none;
+    /* 2 */
+    outline: none;
+    .hook-subnav-pill-hover;
+}
+
+/*
+ * Active
+ * `li` needed for higher specificity to override hover
+ */
+
+.wk-subnav-pill > .wk-active > * {
+    background: @subnav-pill-active-background;
+    color: @subnav-pill-active-color;
+    .hook-subnav-pill-active;
+}
+
+
+/* Disabled state
+ ========================================================================== */
+
+.wk-subnav > .wk-disabled > * {
+    background: none;
+    color: @subnav-disabled-color;
+    text-decoration: none;
+    cursor: text;
+    .hook-subnav-disabled;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-subnav-misc;
+
+.hook-subnav() {}
+.hook-subnav-hover() {}
+.hook-subnav-active() {}
+.hook-subnav-line-divider() {}
+.hook-subnav-pill() {}
+.hook-subnav-pill-hover() {}
+.hook-subnav-pill-active() {}
+.hook-subnav-disabled() {}
+.hook-subnav-misc() {}

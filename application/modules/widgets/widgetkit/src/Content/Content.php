@@ -175,10 +175,14 @@ class Content implements ContentInterface
         if (function_exists('mb_strpos')) {
             if (($pos = @mb_strpos($text, ' ', $length)) > 0) {
                 $text = mb_substr($text, 0, $pos) . '...';
+            } else {
+                $text = @mb_strlen($text) > $length ? mb_substr($text, 0, $length) . '...' : $text;
             }
         } else {
             if (($pos = @strpos($text, ' ', $length)) > 0) {
                 $text = substr($text, 0, $pos) . '...';
+            } else {
+                $text = @strlen($text) > $length ? substr($text, 0, $length) . '...' : $text;
             }
         }
 

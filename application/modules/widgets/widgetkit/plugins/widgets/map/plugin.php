@@ -73,9 +73,8 @@ return array(
                 $app['scripts']->add('googlemapsapi', 'GOOGLE_MAPS_API_KEY = "'.$app['config']->get('googlemapseapikey').'";', array(), 'string');
             }
 
-            $app['scripts']->add('widgetkit-maps', 'plugins/widgets/map/assets/maps.js', array('uikit'));
+            $app['scripts']->add('widgetkit-maps', 'plugins/widgets/map/assets/maps.js', array('uikit2'));
             $app['scripts']->add('widgetkit-marker', 'plugins/widgets/map/assets/marker-helper.js');
-
         },
 
         'init.admin' => function($event, $app) {

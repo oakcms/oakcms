@@ -59,7 +59,7 @@ return array(
     'events' => array(
 
         'init.site' => function($event, $app) {
-            $app['scripts']->add('uikit-slider', 'vendor/assets/uikit/js/components/slider.min.js', array('uikit'));
+            $app['scripts']->add('uikit2-slider', "vendor/assets/uikit/js/components/slider.min.js", array('uikit2'));
         },
 
         'init.admin' => function($event, $app) {

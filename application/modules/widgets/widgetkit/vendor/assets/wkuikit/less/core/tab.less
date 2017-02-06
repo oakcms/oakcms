@@ -1,0 +1,368 @@
+// Name:            Tab
+// Description:     Defines styles for a tabbed navigation
+//
+// Component:       `wk-tab`
+//
+// Modifiers:       `wk-tab-flip`
+//                  `wk-tab-center`
+//                  `wk-tab-grid`
+//                  `wk-tab-bottom`
+//                  `wk-tab-left`
+//                  `wk-tab-right`
+//                  `wk-tab-responsive`
+//
+// States:          `wk-active`
+//                  `wk-disabled`
+//
+// Markup:
+//
+// <!-- wk-tab -->
+// <ul class="wk-tab" data-wk-tab>
+//     <li class="wk-active"><a href=""></a></li>
+//     <li><a href=""></a></li>
+// </ul>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@tab-border:                                    #ddd;
+@tab-border-width:                              1px;
+@tab-padding-horizontal:                        12px;
+@tab-padding-vertical:                          8px;
+@tab-padding-top:                               @tab-padding-vertical;
+@tab-padding-bottom:                            @tab-padding-vertical;
+@tab-margin-horizontal:                         5px;
+@tab-margin-vertical:                           5px;
+@tab-color:                                     #07D;
+@tab-hover-border:                              #f5f5f5;
+@tab-hover-background:                          #f5f5f5;
+@tab-hover-color:                               #059;
+@tab-active-border:                             #ddd;
+@tab-active-background:                         #fff;
+@tab-active-color:                              #444;
+@tab-disabled-color:                            #999;
+
+
+/* ========================================================================
+   Component: Tab
+ ========================================================================== */
+
+.wk-tab {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: @tab-border-width solid @tab-border;
+}
+
+/*
+ * Micro clearfix on the deepest container
+ */
+
+.wk-tab:before,
+.wk-tab:after {
+    content: "";
+    display: table;
+}
+
+.wk-tab:after { clear: both; }
+
+/*
+ * Items
+ * 1. Create position context for dropdowns
+ */
+
+.wk-tab > li {
+    margin-bottom: -@tab-border-width;
+    float: left;
+    /* 1 */
+    position: relative;
+}
+
+.wk-tab > li > a {
+    display: block;
+    padding: @tab-padding-top @tab-padding-horizontal @tab-padding-bottom @tab-padding-horizontal;
+    border: @tab-border-width solid transparent;
+    border-bottom-width: 0;
+    color: @tab-color;
+    text-decoration: none;
+    .hook-tab;
+}
+
+.wk-tab > li:nth-child(n+2) > a { margin-left: @tab-margin-horizontal; }
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ * 2. Also apply if dropdown is opened
+ * 3. Remove default focus style
+ */
+
+.wk-tab > li > a:hover,
+.wk-tab > li > a:focus, // 1
+.wk-tab > li.wk-open > a { // 2
+    border-color: @tab-hover-border;
+    background: @tab-hover-background;
+    color: @tab-hover-color;
+    /* 2 */
+    outline: none;
+    .hook-tab-hover;
+}
+
+.wk-tab > li:not(.wk-active) > a:hover,
+.wk-tab > li:not(.wk-active) > a:focus,
+.wk-tab > li.wk-open:not(.wk-active) > a {
+    margin-bottom: @tab-border-width;
+    padding-bottom: @tab-padding-bottom - @tab-border-width;
+}
+
+/* Active */
+.wk-tab > li.wk-active > a {
+    border-color: @tab-active-border;
+    border-bottom-color: transparent;
+    background: @tab-active-background;
+    color: @tab-active-color;
+    .hook-tab-active;
+}
+
+/* Disabled */
+.wk-tab > li.wk-disabled > a {
+    color: @tab-disabled-color;
+    cursor: text;
+    .hook-tab-disabled;
+}
+
+.wk-tab > li.wk-disabled > a:hover,
+.wk-tab > li.wk-disabled > a:focus,
+.wk-tab > li.wk-disabled.wk-active > a {
+    background: none;
+    border-color: transparent;
+}
+
+
+/* Modifier: 'tab-flip'
+ ========================================================================== */
+
+.wk-tab-flip > li { float: right; }
+
+.wk-tab-flip > li:nth-child(n+2) > a {
+    margin-left: 0;
+    margin-right: @tab-margin-horizontal;
+}
+
+
+/* Modifier: 'tab-responsive'
+ ========================================================================== */
+
+.wk-tab > li.wk-tab-responsive > a {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/*
+ * Icon
+ */
+
+.wk-tab-responsive > a:before {
+    content: "\f0c9\00a0";
+    font-family: FontAwesome;
+}
+
+
+/* Modifier: 'tab-center'
+ ========================================================================== */
+
+.wk-tab-center { border-bottom: @tab-border-width solid @tab-border; }
+
+.wk-tab-center-bottom {
+    border-bottom: none;
+    border-top: @tab-border-width solid @tab-border;
+}
+
+.wk-tab-center:before,
+.wk-tab-center:after {
+    content: "";
+    display: table;
+}
+
+.wk-tab-center:after { clear: both; }
+
+
+/*
+ * 1. Using `right` to prevent vertical scrollbar caused by centering if to many tabs
+ */
+
+.wk-tab-center .wk-tab {
+    position: relative;
+    right: 50%;
+    border: none;
+    float: right;
+}
+
+.wk-tab-center .wk-tab > li {
+    position: relative;
+    right: -50%;
+}
+
+.wk-tab-center .wk-tab > li > a { text-align: center; }
+
+
+/* Modifier: 'tab-bottom'
+ ========================================================================== */
+
+.wk-tab-bottom {
+    border-top: @tab-border-width solid @tab-border;
+    border-bottom: none;
+}
+
+.wk-tab-bottom > li {
+    margin-top: -@tab-border-width;
+    margin-bottom: 0;
+}
+
+.wk-tab-bottom > li > a {
+    padding-top: @tab-padding-bottom;
+    padding-bottom: @tab-padding-top;
+    border-bottom-width: @tab-border-width;
+    border-top-width: 0;
+}
+
+.wk-tab-bottom > li:not(.wk-active) > a:hover,
+.wk-tab-bottom > li:not(.wk-active) > a:focus,
+.wk-tab-bottom > li.wk-open:not(.wk-active) > a {
+    margin-bottom: 0;
+    margin-top: @tab-border-width;
+    padding-bottom: @tab-padding-top;
+    padding-top: @tab-padding-bottom - @tab-border-width;
+}
+
+.wk-tab-bottom > li.wk-active > a {
+    border-top-color: transparent;
+    border-bottom-color: @tab-active-border;
+}
+
+
+/* Modifier: 'tab-grid'
+ ========================================================================== */
+
+/*
+ * 1. Create position context to prevent hidden border because of negative `z-index`
+ */
+
+.wk-tab-grid {
+    margin-left: -@tab-margin-horizontal;
+    border-bottom: none;
+    /* 1 */
+    position: relative;
+    z-index: 0;
+}
+
+.wk-tab-grid:before {
+    display: block;
+    position: absolute;
+    left: @tab-margin-horizontal;
+    right: 0;
+    bottom: -@tab-border-width;
+    border-top: @tab-border-width solid @tab-border;
+    /* 1 */
+    z-index: -1;
+}
+
+.wk-tab-grid > li:first-child > a { margin-left: @tab-margin-horizontal; }
+
+.wk-tab-grid > li > a { text-align: center; }
+
+/*
+ * If `wk-tab-bottom`
+ */
+
+.wk-tab-grid.wk-tab-bottom { border-top: none; }
+.wk-tab-grid.wk-tab-bottom:before {
+    top: -@tab-border-width;
+    bottom: auto;
+}
+
+
+/* Modifier: 'tab-left', 'tab-right'
+ ========================================================================== */
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .wk-tab-left,
+    .wk-tab-right { border-bottom: none; }
+
+    .wk-tab-left > li,
+    .wk-tab-right > li {
+        margin-bottom: 0;
+        float: none;
+    }
+
+    .wk-tab-left > li > a,
+    .wk-tab-right > li > a {
+        padding-top: @tab-padding-vertical;
+        padding-bottom: @tab-padding-vertical;
+    }
+
+    .wk-tab-left > li:nth-child(n+2) > a,
+    .wk-tab-right > li:nth-child(n+2) > a {
+        margin-left: 0;
+        margin-top: @tab-margin-vertical;
+    }
+
+    .wk-tab-left > li.wk-active > a,
+    .wk-tab-right > li.wk-active > a { border-color: @tab-active-border; }
+
+    /*
+     * Modifier: 'tab-left'
+     */
+
+    .wk-tab-left { border-right: @tab-border-width solid @tab-border; }
+    .wk-tab-left > li { margin-right: -@tab-border-width; }
+    .wk-tab-left > li > a {
+        border-bottom-width: @tab-border-width;
+        border-right-width: 0;
+    }
+    .wk-tab-left > li:not(.wk-active) > a:hover,
+    .wk-tab-left > li:not(.wk-active) > a:focus {
+        margin-bottom: 0;
+        margin-right: @tab-border-width;
+        padding-bottom: @tab-padding-vertical;
+        padding-right: @tab-padding-horizontal - @tab-border-width;
+    }
+    .wk-tab-left > li.wk-active > a { border-right-color: transparent; }
+
+    /*
+     * Modifier: 'tab-right'
+     */
+
+    .wk-tab-right { border-left: @tab-border-width solid @tab-border; }
+    .wk-tab-right > li { margin-left: -@tab-border-width; }
+    .wk-tab-right > li > a {
+        border-bottom-width: @tab-border-width;
+        border-left-width: 0;
+    }
+    .wk-tab-right > li:not(.wk-active) > a:hover,
+    .wk-tab-right > li:not(.wk-active) > a:focus {
+        margin-bottom: 0;
+        margin-left: @tab-border-width;
+        padding-bottom: @tab-padding-vertical;
+        padding-left: @tab-padding-horizontal - @tab-border-width;
+    }
+    .wk-tab-right > li.wk-active > a { border-left-color: transparent; }
+
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-tab-misc;
+
+.hook-tab() {}
+.hook-tab-hover() {}
+.hook-tab-active() {}
+.hook-tab-disabled() {}
+.hook-tab-misc() {}

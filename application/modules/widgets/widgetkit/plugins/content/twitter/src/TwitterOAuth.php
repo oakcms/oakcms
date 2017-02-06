@@ -2,8 +2,8 @@
 
 namespace YOOtheme\Widgetkit\Content\Twitter;
 
-use YOOtheme\Framework\Application;
-use YOOtheme\Framework\ApplicationAware;
+use YOOtheme\Widgetkit\Framework\Application;
+use YOOtheme\Widgetkit\Framework\ApplicationAware;
 
 use Codebird\Codebird;
 

@@ -22,7 +22,7 @@ use app\modules\content\models\ContentArticles;
 class MenuRouterContent extends MenuRouter
 {
     private $_categoryPaths = [];
-    private $_productPaths = [];
+    private $_articlesPaths = [];
 
     /**
      * @inheritdoc
@@ -34,10 +34,10 @@ class MenuRouterContent extends MenuRouter
                 'menuRoute' => 'content/category/view',
                 'handler'   => 'parseCategoryView',
             ],
-            [
-                'menuRoute' => 'content/product/view',
-                'handler'   => 'parseProductView',
-            ],
+            /*[
+                'menuRoute' => 'content/article/view',
+                'handler'   => 'parseArticleView',
+            ],*/
         ];
     }
 
@@ -49,14 +49,14 @@ class MenuRouterContent extends MenuRouter
         return [
             [
                 'requestRoute'  => 'content/category/view',
-                'requestParams' => ['id'],
+                'requestParams' => ['slug'],
                 'handler'       => 'createCategoryView',
             ],
-            [
-                'requestRoute'  => 'content/product/view',
-                'requestParams' => ['id'],
-                'handler'       => 'createProductView',
-            ],
+            /*[
+                'requestRoute'  => 'content/article/view',
+                'requestParams' => ['catslug', 'slug'],
+                'handler'       => 'createArticleView',
+            ],*/
         ];
     }
 
@@ -69,7 +69,7 @@ class MenuRouterContent extends MenuRouter
     {
         if(isset($requestInfo->requestRoute) && $requestInfo->requestRoute != '') {
             if(
-                ($category = ContentCategory::findOne([$requestInfo->menuParams['id']])) &&
+                ($category = ContentCategory::findOne([$requestInfo->menuParams['slug']])) &&
                 ($article = ContentArticles::findOne([$requestInfo->requestRoute])) &&
                 $category->id == $article->category_id
             ) {
@@ -77,7 +77,7 @@ class MenuRouterContent extends MenuRouter
             }
         }
         /** @var ContentCategory $menuCategory */
-        if ($menuCategory = ContentCategory::findOne([$requestInfo->menuParams['id']])) {
+        if ($menuCategory = ContentCategory::findOne([$requestInfo->menuParams['slug']])) {
             return ['content/category/view', ['slug' => $menuCategory->slug]];
         }
     }
@@ -87,11 +87,21 @@ class MenuRouterContent extends MenuRouter
      *
      * @return array
      */
-    public function parseProductView($requestInfo)
+    public function parseArticleView($requestInfo)
     {
-        /** @var Category $menuCategory */
-        if ($menuCategory = Product::findOne(['slug' => $requestInfo->menuParams['slug']])) {
-            return ['shop/product/view', ['slug' => $menuCategory->slug]];
+        /** @var ContentArticles $menuCategory */
+        $categoryModel = ContentCategory::find()->published()
+            ->joinWith(['translations'])
+            ->andWhere(['{{%content_category_lang}}.slug' => $requestInfo->menuParams['catslug']])
+            ->one();
+
+        $model = ContentArticles::find()->published()
+            ->joinWith(['translations'])
+            ->andWhere(['{{%content_articles_lang}}.slug' => $requestInfo->menuParams['slug']])
+            ->one();
+
+        if($model !== null || $categoryModel !== null) {
+            return ['content/article/view', ['slug' => $model->slug]];
         }
     }
 
@@ -102,12 +112,12 @@ class MenuRouterContent extends MenuRouter
      */
     public function createCategoryView($requestInfo)
     {
-        if ($path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('content/category/view', ['id' => $requestInfo->requestParams['id']]))) {
-            unset($requestInfo->requestParams['id']);
+        if ($path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('content/category/view', ['slug' => $requestInfo->requestParams['slug']]))) {
+            unset($requestInfo->requestParams['slug']);
 
             return MenuItem::toRoute($path, $requestInfo->requestParams);
         } else {
-            return "shop/category/" . $requestInfo->requestParams['id'];
+            return "content/category/" . $requestInfo->requestParams['slug'];
         }
     }
 
@@ -116,15 +126,15 @@ class MenuRouterContent extends MenuRouter
      *
      * @return mixed|null|string
      */
-    public function createProductView($requestInfo)
+    public function createArticleView($requestInfo)
     {
-        if ($path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('shop/product/view', ['slug' => $requestInfo->requestParams['slug']]))) {
-            unset($requestInfo->requestParams['id'], $requestInfo->requestParams['slug']);
+        if ($path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('content/article/view', ['slug' => $requestInfo->requestParams['slug']]))) {
+            unset($requestInfo->requestParams['catslug'], $requestInfo->requestParams['slug']);
 
             return MenuItem::toRoute($path, $requestInfo->requestParams);
         }
 
-        return $this->findProductMenuPath($requestInfo->requestParams['slug'], $requestInfo->menuMap);
+        return $this->findArticleMenuPath($requestInfo->requestParams['catslug'], $requestInfo->requestParams['slug'], $requestInfo->menuMap);
     }
 
     /**
@@ -159,32 +169,39 @@ class MenuRouterContent extends MenuRouter
         /** @var Category $category */
 
         if (!isset($this->_categoryPaths[$menuMap->language][$categorySlug])) {
-            if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute('shop/category/view', ['slug' => $categorySlug]))) {
+            if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute('content/category/view', ['slug' => $categorySlug]))) {
                 $this->_categoryPaths[$menuMap->language][$categorySlug] = $path;
-            } elseif (($category = Category::findOne($categorySlug)) && $category->parent_id != 0 && $path = $this->findCategoryMenuPath($category->parent_id, $menuMap)) {
+            } elseif (($category = ContentCategory::findOne($categorySlug)) && $category->parent_id != 0 && $path = $this->findCategoryMenuPath($category->parent_id, $menuMap)) {
                 $this->_categoryPaths[$menuMap->language][$categorySlug] = $path . '/' . $category->slug;
             } else {
                 $this->_categoryPaths[$menuMap->language][$categorySlug] = false;
             }
         }
-
         return $this->_categoryPaths[$menuMap->language][$categorySlug];
     }
 
-    private function findProductMenuPath($productSlug, $menuMap)
+    private function findArticleMenuPath($articleCatSlug, $articleSlug, $menuMap)
     {
-        $product = Product::findOne(['slug' => $productSlug]);
+        $category = ContentCategory::find()->published()
+            ->joinWith(['translations'])
+            ->andWhere(['{{%content_category_lang}}.slug' => $articleCatSlug])
+            ->one();
 
-        if (!isset($this->_productPaths[$menuMap->language][$productSlug])) {
-            if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute('shop/product/view', ['slug' => $productSlug]))) {
-                $this->_productPaths[$menuMap->language][$productSlug] = $path;
-            } elseif (isset($product->category) && ($path = $this->findCategoryMenuPath($product->category->slug, $menuMap))) {
-                $this->_productPaths[$menuMap->language][$productSlug] = $path . '/' . $product->slug;
+        $article = ContentArticles::find()->published()
+            ->joinWith(['translations'])
+            ->andWhere(['{{%content_articles_lang}}.slug' => $articleSlug])
+            ->one();
+
+        if (!isset($this->_articlesPaths[$menuMap->language][$articleSlug]) || $category || $article) {
+            if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute('content/article/view', ['catslug' => $articleCatSlug, 'slug' => $articleSlug]))) {
+                $this->_articlesPaths[$menuMap->language][$articleSlug] = $path;
+            } elseif (isset($article->category) && ($path = $this->findCategoryMenuPath($article->category->slug, $menuMap))) {
+                $this->_articlesPaths[$menuMap->language][$articleSlug] = $path . '/' . $article->slug;
             } else {
-                $this->_productPaths[$menuMap->language][$productSlug] = false;
+                $this->_articlesPaths[$menuMap->language][$articleSlug] = false;
             }
         }
 
-        return $this->_productPaths[$menuMap->language][$productSlug];
+        return $this->_articlesPaths[$menuMap->language][$articleSlug];
     }
 }

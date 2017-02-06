@@ -1,0 +1,534 @@
+// Name:            Overlay
+// Description:     Defines styles for image overlays
+//
+// Component:       `wk-overlay`
+//
+// Sub-objects:     `wk-overlay-panel`
+//                  `wk-overlay-hover`
+//                  `wk-overlay-active`
+//                  `wk-overlay-icon`
+//
+// Modifier:        `wk-overlay-background`
+//                  `wk-overlay-image`
+//                  `wk-overlay-top`
+//                  `wk-overlay-bottom`
+//                  `wk-overlay-left`
+//                  `wk-overlay-right`
+//                  `wk-overlay-fade`
+//                  `wk-overlay-scale`
+//                  `wk-overlay-spin`
+//                  `wk-overlay-grayscale`
+//                  `wk-overlay-slide-top`
+//                  `wk-overlay-slide-bottom`
+//                  `wk-overlay-slide-left`
+//                  `wk-overlay-slide-right`
+//
+// DEPRECATED:      `wk-overlay-area`
+//                  `wk-overlay-area-content`
+//                  `wk-overlay-caption`
+//                  `wk-overlay-toggle`
+//
+// States:          `wk-hover`
+//                  `wk-active`
+//                  `wk-ignore`
+//
+// Uses:            Icon: `[class*='wk-icon-']`
+//                  `wk-border-circle`
+//
+// Markup:
+//
+// <!-- wk-overlay -->
+// <figure class="wk-overlay" href="">
+//     <img src="" alt="">
+//     <figcaption class="wk-overlay-panel"></figcaption>
+// </figure>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@overlay-panel-padding:                         20px;
+@overlay-panel-color:                           #fff;
+
+@overlay-panel-background:                      rgba(0,0,0,0.5);
+
+@overlay-icon:                                  "\f002";
+@overlay-icon-size:                             50px;
+@overlay-icon-color:                            #fff;
+
+@overlay-fade-in-opacity:                       1;
+@overlay-fade-out-opacity:                      0.7;
+
+@overlay-scale-in-scale:                        1.1;
+@overlay-scale-out-scale:                       1;
+
+@overlay-spin-in-scale:                         1.1;
+@overlay-spin-out-scale:                        1;
+@overlay-spin-in-rotate:                        3deg;
+@overlay-spin-out-rotate:                       0deg;
+
+@overlay-panel-link-color:                      inherit;
+@overlay-panel-link-text-decoration:            underline;
+
+// DEPRECATED
+@overlay-area-background:                       rgba(0,0,0,0.3);
+
+@overlay-area-icon:                             "\f002";
+@overlay-area-icon-size:                        50px;
+@overlay-area-icon-color:                       #fff;
+
+@overlay-area-content-font-size:                1rem;
+@overlay-area-content-padding-horizontal:       15px;
+@overlay-area-content-color:                    #fff;
+@overlay-area-content-link-color:               inherit;
+
+@overlay-caption-background:                    rgba(0,0,0,0.5);
+@overlay-caption-padding:                       15px;
+@overlay-caption-color:                         #fff;
+
+
+/* ========================================================================
+   Component: Overlay
+ ========================================================================== */
+
+/*
+ * 1. Container width fits its content
+ * 2. Create position context
+ * 3. Set max-width for responsive images to prevent `inline-block` consequences
+ * 4. Remove the gap between the container and its child element
+ * 5. Needed for transitions and to fixed wrong scaling calculation for images in Chrome
+ * 6. Fixed `overflow: hidden` to be ignored with border-radius and CSS transforms in Webkit
+ * 7. Reset margin
+ */
+
+.wk-overlay {
+    /* 1 */
+    display: inline-block;
+    /* 2 */
+    position: relative;
+    /* 3 */
+    max-width: 100%;
+    /* 4 */
+    vertical-align: middle;
+    /* 5 */
+    overflow: hidden;
+    /* 6 */
+    -webkit-transform: translateZ(0);
+    /* 7 */
+    margin: 0;
+}
+
+/* 6 for Safari */
+.wk-overlay.wk-border-circle { -webkit-mask-image: -webkit-radial-gradient(circle, white 100%, black 100%); }
+
+/*
+ * Remove margin from content
+ */
+
+.wk-overlay > :first-child { margin-bottom: 0; }
+
+
+/* Sub-object `wk-overlay-panel`
+ ========================================================================== */
+
+/*
+ * 1. Position cover
+ * 2. Style
+ */
+
+.wk-overlay-panel {
+    /* 1 */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* 2 */
+    padding: @overlay-panel-padding;
+    color: @overlay-panel-color;
+    .hook-overlay-panel;
+}
+
+/*
+ * Remove margin from the last-child
+ */
+
+.wk-overlay-panel > :last-child,
+.wk-overlay-panel.wk-flex > * > :last-child { margin-bottom: 0; }
+
+/*
+ * Keep color for headings if the default heading color is changed
+ */
+
+.wk-overlay-panel h1,
+.wk-overlay-panel h2,
+.wk-overlay-panel h3,
+.wk-overlay-panel h4,
+.wk-overlay-panel h5,
+.wk-overlay-panel h6 { color: inherit; }
+
+.wk-overlay-panel a:not([class]) {
+    color: @overlay-panel-link-color;
+    text-decoration: @overlay-panel-link-text-decoration;
+}
+
+.wk-overlay-panel a[class*='wk-icon-']:not(.wk-icon-button) { color: @overlay-panel-link-color; }
+
+
+/* Sub-object `wk-overlay-hover` and `wk-overlay-active`
+ ========================================================================== */
+
+.wk-overlay-hover:not(:hover):not(.wk-hover) .wk-overlay-panel:not(.wk-ignore) { opacity: 0; }
+
+.wk-overlay-active :not(.wk-active) > .wk-overlay-panel:not(.wk-ignore) { opacity: 0; }
+
+
+/* Modifier `wk-overlay-background`
+ ========================================================================== */
+
+.wk-overlay-background {
+    background: @overlay-panel-background;
+    .hook-overlay-background;
+}
+
+
+/* Modifier `wk-overlay-image`
+ ========================================================================== */
+
+/*
+ * Reset panel
+ */
+
+.wk-overlay-image {
+    padding: 0;
+    .hook-overlay-image;
+}
+
+
+/* Position modifiers
+ ========================================================================== */
+
+.wk-overlay-top { bottom: auto; }
+
+.wk-overlay-bottom { top: auto; }
+
+.wk-overlay-left { right: auto; }
+
+.wk-overlay-right { left: auto; }
+
+
+/* Sub-object `wk-overlay-icon`
+ ========================================================================== */
+
+.wk-overlay-icon:before {
+    content: @overlay-icon;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: @overlay-icon-size;
+    height: @overlay-icon-size;
+    margin-top: -(@overlay-icon-size / 2);
+    margin-left: -(@overlay-icon-size / 2);
+    font-size: @overlay-icon-size;
+    line-height: 1;
+    font-family: FontAwesome;
+    text-align: center;
+    color: @overlay-icon-color;
+    .hook-overlay-icon;
+}
+
+
+/* Transitions
+ ========================================================================== */
+
+.wk-overlay-fade,
+.wk-overlay-scale,
+.wk-overlay-spin,
+.wk-overlay-grayscale,
+.wk-overlay-blur,
+[class*='wk-overlay-slide'] {
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+    transition-property: opacity, transform, filter;
+}
+
+.wk-overlay-active .wk-overlay-fade,
+.wk-overlay-active .wk-overlay-scale,
+.wk-overlay-active .wk-overlay-spin,
+.wk-overlay-active [class*='wk-overlay-slide'] { transition-duration: 0.8s; }
+
+/*
+ * Fade
+ */
+
+.wk-overlay-fade { opacity: @overlay-fade-out-opacity; }
+
+.wk-overlay-hover:hover .wk-overlay-fade,
+.wk-overlay-hover.wk-hover .wk-overlay-fade,
+.wk-overlay-active .wk-active > .wk-overlay-fade { opacity: @overlay-fade-in-opacity; }
+
+/*
+ * Scale
+ */
+
+.wk-overlay-scale {
+    -webkit-transform: scale(@overlay-scale-out-scale);
+    transform: scale(@overlay-scale-out-scale);
+}
+
+.wk-overlay-hover:hover .wk-overlay-scale,
+.wk-overlay-hover.wk-hover .wk-overlay-scale,
+.wk-overlay-active .wk-active > .wk-overlay-scale {
+    -webkit-transform: scale(@overlay-scale-in-scale);
+    transform: scale(@overlay-scale-in-scale);
+}
+
+/*
+ * Spin
+ */
+
+.wk-overlay-spin {
+    -webkit-transform: scale(@overlay-spin-out-scale) rotate(@overlay-spin-out-rotate);
+    transform: scale(@overlay-spin-out-scale) rotate(@overlay-spin-out-rotate);
+}
+
+.wk-overlay-hover:hover .wk-overlay-spin,
+.wk-overlay-hover.wk-hover .wk-overlay-spin,
+.wk-overlay-active .wk-active > .wk-overlay-spin {
+    -webkit-transform: scale(@overlay-spin-in-scale) rotate(@overlay-spin-in-rotate);
+    transform: scale(@overlay-spin-in-scale) rotate(@overlay-spin-in-rotate);
+}
+
+/*
+ * Grayscale
+ */
+
+.wk-overlay-grayscale {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.wk-overlay-hover:hover .wk-overlay-grayscale,
+.wk-overlay-hover.wk-hover .wk-overlay-grayscale,
+.wk-overlay-active .wk-active > .wk-overlay-grayscale {
+    -webkit-filter: grayscale(0%);
+    filter: grayscale(0%);
+}
+
+/*
+ * Slide
+ */
+
+[class*='wk-overlay-slide'] { opacity: 0; }
+
+/* Top */
+.wk-overlay-slide-top {
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+}
+
+/* Bottom */
+.wk-overlay-slide-bottom {
+    -webkit-transform: translateY(100%);
+    transform: translateY(100%);
+}
+
+/* Left */
+.wk-overlay-slide-left {
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+}
+
+/* Right */
+.wk-overlay-slide-right {
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+}
+
+/* Hover */
+.wk-overlay-hover:hover [class*='wk-overlay-slide'],
+.wk-overlay-hover.wk-hover [class*='wk-overlay-slide'],
+.wk-overlay-active .wk-active > [class*='wk-overlay-slide'] {
+    opacity: 1;
+    -webkit-transform: translateX(0) translateY(0);
+    transform: translateX(0) translateY(0);
+}
+
+
+/* DEPRECATED
+ * Sub-object `wk-overlay-area`
+ ========================================================================== */
+
+/*
+ * 1. Set position
+ * 2. Set style
+ * 3. Fade-in transition
+ */
+
+.wk-overlay-area {
+    /* 1 */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* 2 */
+    background: @overlay-area-background;
+    /* 3 */
+    opacity: 0;
+    -webkit-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
+    -webkit-transform: translate3d(0,0,0);
+    .hook-overlay-area;
+}
+
+/*
+ * Hover
+ * 1. `wk-hover` to support touch devices
+ * 2. Use optional `wk-overlay-toggle` to trigger the overlay earlier
+ */
+
+.wk-overlay:hover .wk-overlay-area,
+.wk-overlay.wk-hover .wk-overlay-area, // 1
+.wk-overlay-toggle:hover .wk-overlay-area, // 2
+.wk-overlay-toggle.wk-hover .wk-overlay-area { opacity: 1; }
+
+/*
+ * Icon
+ */
+
+.wk-overlay-area:empty:before {
+    content: @overlay-area-icon;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: @overlay-area-icon-size;
+    height: @overlay-area-icon-size;
+    margin-top: -(@overlay-area-icon-size / 2);
+    margin-left: -(@overlay-area-icon-size / 2);
+    font-size: @overlay-area-icon-size;
+    line-height: 1;
+    font-family: FontAwesome;
+    text-align: center;
+    color: @overlay-area-icon-color;
+    .hook-overlay-area-icon;
+}
+
+
+/* DEPRECATED
+ * Sub-object `wk-overlay-area-content`
+ ========================================================================== */
+
+/*
+ * Remove whitespace between child elements when using `inline-block`
+ * Needed for Firefox
+ */
+
+.wk-overlay-area:not(:empty) { font-size: 0.001px; }
+
+/*
+ * 1. Needed for vertical alignment
+ */
+
+.wk-overlay-area:not(:empty):before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+/*
+ * 1. Set vertical alignment
+ * 2. Reset whitespace hack
+ * 3. Set horizontal alignment
+ * 4. Set style
+ */
+
+.wk-overlay-area-content {
+    /* 1 */
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    vertical-align: middle;
+    /* 2 */
+    font-size: @overlay-area-content-font-size;
+    /* 3 */
+    text-align: center;
+    /* 4 */
+    padding: 0 @overlay-area-content-padding-horizontal;
+    color: @overlay-area-content-color;
+    .hook-overlay-area-content;
+}
+
+/*
+ * Remove margin from the last-child
+ */
+
+.wk-overlay-area-content > :last-child { margin-bottom: 0; }
+
+/*
+ * Links in overlay area
+ */
+
+.wk-overlay-area-content a:not([class]),
+.wk-overlay-area-content a:not([class]):hover { color: @overlay-area-content-link-color; }
+
+
+/* DEPRECATED
+ * Sub-object `wk-overlay-caption`
+ ========================================================================== */
+
+/*
+ * 1. Set position
+ * 2. Set style
+ * 3. Fade-in transition
+ */
+
+.wk-overlay-caption {
+    /* 1 */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    /* 2 */
+    padding: @overlay-caption-padding;
+    background: @overlay-caption-background;
+    color: @overlay-caption-color;
+    /* 3 */
+    opacity: 0;
+    -webkit-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
+    -webkit-transform: translate3d(0,0,0);
+    .hook-overlay-caption;
+}
+
+/*
+ * Hover
+ * 1. `wk-hover` to support touch devices
+ * 2. Use optional `wk-overlay-toggle` to trigger the overlay earlier
+ */
+
+.wk-overlay:hover .wk-overlay-caption,
+.wk-overlay.wk-hover .wk-overlay-caption, // 1
+.wk-overlay-toggle:hover .wk-overlay-caption, // 2
+.wk-overlay-toggle.wk-hover .wk-overlay-caption { opacity: 1; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-overlay-misc;
+
+.hook-overlay-panel() {}
+.hook-overlay-background() {}
+.hook-overlay-image() {}
+.hook-overlay-icon() {}
+.hook-overlay-misc() {}
+
+// DEPRECATED
+.hook-overlay-area() {}
+.hook-overlay-area-icon() {}
+.hook-overlay-area-content() {}
+.hook-overlay-caption() {}

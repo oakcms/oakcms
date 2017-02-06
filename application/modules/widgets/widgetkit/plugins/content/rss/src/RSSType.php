@@ -2,8 +2,8 @@
 
 namespace YOOtheme\Widgetkit\Content\rss;
 
-use YOOtheme\Framework\Application;
-use YOOtheme\Framework\Routing\ControllerInterface;
+use YOOtheme\Widgetkit\Framework\Application;
+use YOOtheme\Widgetkit\Framework\Routing\ControllerInterface;
 use YOOtheme\Widgetkit\Content\Type;
 
 

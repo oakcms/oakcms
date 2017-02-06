@@ -31,9 +31,6 @@ class UrlManager extends \codemix\localeurls\UrlManager {
      */
     public function createUrl($params, $language = null)
     {
-        if(isset($params['q'])) {
-            unset($params['q']);
-        }
 //
 //        $this->_language = isset($language) ? $language : ArrayHelper::getValue($params, static::LANGUAGE_PARAM, \Yii::$app->language);
 //

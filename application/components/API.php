@@ -2,6 +2,8 @@
 namespace app\components;
 
 use app\components\module\Module;
+use yii\base\ExitException;
+use yii\web\HttpException;
 
 /**
  * Base API component. Used by all modules
@@ -23,9 +25,11 @@ class API extends \yii\base\Object
     {
         parent::init();
 
-        $this->module = Module::getModuleName(self::className());
+        if(!($this->module = Module::getModuleName(self::className()))) {
+            throw new HttpException(500, \Yii::t('system', 'The module can not be found'));
+        }
 
-        $this->language or $this->language = \Yii::$app->language;
+        $this->language || $this->language = \Yii::$app->language;
 
     }
 

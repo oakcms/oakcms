@@ -58,11 +58,6 @@ class Text extends ActiveRecord
                 'settingsField' => 'settings',
                 'module' => false
             ],
-            [
-                'class' => SluggableBehavior::className(),
-                'attribute' => 'title',
-                'slugAttribute' => 'slug',
-            ],
             'trans' => [
                 'class' => TranslateableBehavior::className(),
                 'translationAttributes' => [
@@ -85,17 +80,15 @@ class Text extends ActiveRecord
     {
         return [
             [['id', 'order'], 'number', 'integerOnly' => true],
-            [['text', 'title'], 'required'],
-            [['title', 'subtitle', 'layout', 'links'], 'string'],
+            [['title'], 'required'],
+            [['title', 'subtitle', 'layout', 'links', 'text'], 'string'],
             ['text', 'trim'],
             [['slug', 'where_to_place'], 'string', 'max' => 150],
 
             ['published_at', 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             ['published_at', 'default', 'value' => time()],
 
-            //[['slug'], 'unique'],
             ['slug', 'default', 'value' => null],
-            //[['settings'], JsonValidator::className()],
             [['settings'], 'safe'],
         ];
     }

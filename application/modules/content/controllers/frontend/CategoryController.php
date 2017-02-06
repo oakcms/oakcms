@@ -37,8 +37,7 @@ class CategoryController extends Controller
         ]);
 
         $breadcrumbs = [];
-
-        return $this->render('view', [
+        return $this->render($model->layout, [
             'breadcrumbs' => $breadcrumbs,
             'model' => $model,
             'dataProvider' => $dataProvider

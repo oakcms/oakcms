@@ -32,7 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id',
                 'options' => ['width' => '60px'],
             ],
-            'title',
+            [
+                'attribute' => 'title',
+                'value'     => function ($model) {
+                    /** @var $model \app\modules\content\models\ContentPages */
+                    return str_repeat("&ndash;&nbsp; ", max($model->level - 1, 0)) . $model->title;
+                },
+                'format'    => 'raw',
+            ],
             [
                 'attribute' => 'status',
                 'value' => function ($model) {

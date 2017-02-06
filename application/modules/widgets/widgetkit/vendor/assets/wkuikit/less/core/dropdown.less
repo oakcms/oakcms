@@ -1,0 +1,283 @@
+// Name:            Dropdown
+// Description:     Defines styles for a toggleable dropdown
+//
+// Component:       `wk-dropdown`
+//
+// Sub-objects:     `wk-dropdown-overlay`
+//
+// Modifiers:       `wk-dropdown-blank`
+//                  `wk-dropdown-top`
+//                  `wk-dropdown-bottom`
+//                  `wk-dropdown-left`
+//                  `wk-dropdown-right`
+//                  `wk-dropdown-justify`
+//                  `wk-dropdown-grid`
+//                  `wk-dropdown-width-2`
+//                  `wk-dropdown-width-3`
+//                  `wk-dropdown-width-4`
+//                  `wk-dropdown-width-5`
+//                  `wk-dropdown-stack`
+//                  `wk-dropdown-small`
+//                  `wk-dropdown-navbar`
+//                  `wk-dropdown-scrollable`
+//
+// States:          `wk-open`
+//
+// Uses:            Animation
+//                  Grid: `wk-width-*`
+//                  Panel: `wk-panel`
+//                  Nav: `wk-nav`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@dropdown-z-index:                              970;
+@dropdown-width:                                200px;
+@dropdown-margin-top:                           5px;
+@dropdown-padding:                              15px;
+@dropdown-background:                           #f5f5f5;
+@dropdown-color:                                #444;
+@dropdown-font-size:                            1rem;
+@dropdown-animation:                            wk-fade;
+
+@dropdown-divider-border-width:                 1px;
+@dropdown-divider-border:                       #ddd;
+
+@dropdown-small-padding:                        5px;
+
+@dropdown-navbar-margin:                        0;
+@dropdown-navbar-background:                    #f5f5f5;
+@dropdown-navbar-color:                         #444;
+@dropdown-navbar-animation:                     wk-slide-top-fixed;
+
+@dropdown-scrollable-height:                    200px;
+
+
+/* ========================================================================
+   Component: Dropdown
+ ========================================================================== */
+
+/*
+ * 1. Hide by default
+ * 2. Set position
+ * 3. Box-sizing is needed for `wk-dropdown-justify`
+ * 4. Set width
+ */
+
+.wk-dropdown,
+.wk-dropdown-blank {
+    /* 1 */
+    display: none;
+    /* 2 */
+    position: absolute;
+    z-index: @dropdown-z-index;
+    /* 3 */
+    box-sizing: border-box;
+    /* 4 */
+    width: @dropdown-width;
+}
+
+/*
+ * Dropdown style
+ * 1. Reset button group whitespace hack
+ */
+
+.wk-dropdown {
+    padding: @dropdown-padding;
+    background: @dropdown-background;
+    color: @dropdown-color;
+    /* 1 */
+    font-size: @dropdown-font-size;
+    vertical-align: top;
+    .hook-dropdown;
+}
+
+/* Focus */
+.wk-dropdown:focus { outline: none; }
+
+/*
+ * 1. Show dropdown
+ * 2. Set animation
+ * 3. Needed for scale animation
+ */
+
+.wk-open > .wk-dropdown,
+.wk-open > .wk-dropdown-blank {
+    /* 1 */
+    display: block;
+    /* 2 */
+    -webkit-animation: @dropdown-animation 0.2s ease-in-out;
+    animation: @dropdown-animation 0.2s ease-in-out;
+    /* 3 */
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
+}
+
+/* Alignment modifiers
+ ========================================================================== */
+
+/*
+ * Modifier
+ */
+
+.wk-dropdown-top { margin-top: (-1 * @dropdown-margin-top); }
+.wk-dropdown-bottom { margin-top: @dropdown-margin-top; }
+.wk-dropdown-left { margin-left: (-1 * @dropdown-margin-top); }
+.wk-dropdown-right { margin-left: @dropdown-margin-top; }
+
+
+/* Nav in dropdown
+ ========================================================================== */
+
+.wk-dropdown .wk-nav { margin: 0 (-@dropdown-padding); }
+
+
+/* Grid and panel in dropdown
+ ========================================================================== */
+
+/*
+* Vertical gutter
+*/
+
+/*
+ * Grid
+ * Higher specificity to override large gutter
+ */
+
+.wk-grid .wk-dropdown-grid + .wk-dropdown-grid { margin-top: @dropdown-padding; }
+
+/* Panels */
+.wk-dropdown-grid > [class*='wk-width-'] > .wk-panel + .wk-panel { margin-top: @dropdown-padding; }
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    /*
+     * Horizontal gutter
+     */
+
+    .wk-dropdown:not(.wk-dropdown-stack) > .wk-dropdown-grid {
+        margin-left: -@dropdown-padding ;
+        margin-right: -@dropdown-padding;
+    }
+
+    .wk-dropdown:not(.wk-dropdown-stack) > .wk-dropdown-grid > [class*='wk-width-'] {
+        padding-left: @dropdown-padding;
+        padding-right: @dropdown-padding;
+    }
+
+    /*
+     * Column divider
+     */
+
+    .wk-dropdown:not(.wk-dropdown-stack) > .wk-dropdown-grid > [class*='wk-width-']:nth-child(n+2) { border-left: @dropdown-divider-border-width solid @dropdown-divider-border; }
+
+    /*
+     * Width multiplier for dropdown columns
+     */
+
+    .wk-dropdown-width-2:not(.wk-dropdown-stack) { width: (@dropdown-width * 2); }
+    .wk-dropdown-width-3:not(.wk-dropdown-stack) { width: (@dropdown-width * 3); }
+    .wk-dropdown-width-4:not(.wk-dropdown-stack) { width: (@dropdown-width * 4); }
+    .wk-dropdown-width-5:not(.wk-dropdown-stack) { width: (@dropdown-width * 5); }
+
+}
+
+/* Phone landscape and smaller */
+@media (max-width: @breakpoint-small-max) {
+
+    /*
+     * Stack columns and take full width
+     */
+
+    .wk-dropdown-grid > [class*='wk-width-'] { width: 100%; }
+
+    /*
+     * Vertical gutter
+     */
+
+    .wk-dropdown-grid > [class*='wk-width-']:nth-child(n+2) { margin-top: @dropdown-padding; }
+
+}
+
+/*
+* Stack grid columns
+*/
+
+.wk-dropdown-stack > .wk-dropdown-grid > [class*='wk-width-'] { width: 100%; }
+
+.wk-dropdown-stack > .wk-dropdown-grid > [class*='wk-width-']:nth-child(n+2) { margin-top: @dropdown-padding; }
+
+
+
+/* Modifier `wk-dropdown-small`
+ ========================================================================== */
+
+/*
+ * Set min-width and text expands dropdown if needed
+ */
+
+.wk-dropdown-small {
+    min-width: 150px;
+    width: auto;
+    padding: @dropdown-small-padding;
+    white-space: nowrap;
+}
+
+/*
+ * Nav in dropdown
+ */
+
+.wk-dropdown-small .wk-nav { margin: 0 (-@dropdown-small-padding); }
+
+
+/* Modifier: `wk-dropdown-navbar`
+ ========================================================================== */
+
+.wk-dropdown-navbar {
+    margin-top: @dropdown-navbar-margin;
+    background: @dropdown-navbar-background;
+    color: @dropdown-navbar-color;
+    .hook-dropdown-navbar;
+}
+
+.wk-open > .wk-dropdown-navbar {
+    -webkit-animation: @dropdown-navbar-animation 0.2s ease-in-out;
+    animation: @dropdown-navbar-animation 0.2s ease-in-out;
+}
+
+
+/* Modifier `wk-dropdown-scrollable`
+ ========================================================================== */
+
+/*
+ * Usefull for long lists
+ */
+
+.wk-dropdown-scrollable {
+    overflow-y: auto;
+    max-height: @dropdown-scrollable-height;
+}
+
+
+/* Sub-object: `wk-dropdown-overlay`
+ ========================================================================== */
+
+.wk-dropdown-overlay {
+    .hook-dropdown-overlay;
+}
+
+
+
+// Hooks
+// ========================================================================
+
+.hook-dropdown-misc;
+
+.hook-dropdown() {}
+.hook-dropdown-navbar() {}
+.hook-dropdown-overlay() {}
+.hook-dropdown-misc() {}

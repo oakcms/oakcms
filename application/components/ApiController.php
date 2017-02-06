@@ -17,6 +17,8 @@
 namespace app\components;
 
 
+use app\modules\text\api\Text;
+
 class ApiController extends Controller
 {
     public function behaviors()
@@ -26,10 +28,34 @@ class ApiController extends Controller
                 'class' => \yii\filters\ContentNegotiator::className(),
                 'formatParam' => '_format',
                 'formats' => [
-                    'application/xml'  => \yii\web\Response::FORMAT_XML,
+                    //'application/xml'  => \yii\web\Response::FORMAT_XML,
                     'application/json' => \yii\web\Response::FORMAT_JSON,
                 ],
             ],
         ];
+    }
+
+    public function renderWidgets($model, $attribute)
+    {
+        if(isset($model->{$attribute})){
+            $model->{$attribute} = (new \app\components\ShortCode)->parse('block', $model->{$attribute}, function($attrs) {
+                if (isset($attrs['id'])) {
+                    return Text::get($attrs['id'], true);
+                } elseif(isset($attrs['position'])) {
+                    return Text::get($attrs['position']);
+                } else {
+                    return 'error';
+                }
+            });
+
+            if (!$app = include(__DIR__.'/../modules/widgets/widgetkit/widgetkit_yii2.php')) {
+                return;
+            }
+
+            $model->{$attribute} = $app['shortcode']->parse('widgetkit', $model->{$attribute}, function($attrs) use ($app) {
+                return $app->renderWidget($attrs);
+            });
+        }
+        return $model;
     }
 }

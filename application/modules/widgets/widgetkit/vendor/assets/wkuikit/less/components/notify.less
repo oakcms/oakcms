@@ -1,0 +1,190 @@
+// Name:            Notify
+// Description:     Defines styles for toggleable notifications
+//
+// Component:       `wk-notify`
+//
+// Sub-objects:     `wk-notify-message`
+//
+// Modifiers:       `wk-notify-top-center`
+//                  `wk-notify-top-right`
+//                  `wk-notify-bottom-left`
+//                  `wk-notify-bottom-center`
+//                  `wk-notify-bottom-right`
+//                  `wk-notify-message-primary`
+//                  `wk-notify-message-success`
+//                  `wk-notify-message-warning`
+//                  `wk-notify-message-danger`
+//
+// Uses:            Close: `wk-close`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@notify-position:                               10px;
+@notify-z-index:                                1040;
+@notify-width:                                  350px;
+
+@notify-message-margin-bottom:                  10px;
+@notify-message-padding:                        15px;
+@notify-message-background:                     #444;
+@notify-message-color:                          #fff;
+@notify-message-font-size:                      16px;
+@notify-message-line-height:                    22px;
+
+@notify-message-primary-background:             #ebf7fd;
+@notify-message-primary-color:                  #2d7091;
+
+@notify-message-success-background:             #f2fae3;
+@notify-message-success-color:                  #659f13;
+
+@notify-message-warning-background:             #fffceb;
+@notify-message-warning-color:                  #e28327;
+
+@notify-message-danger-background:              #fff1f0;
+@notify-message-danger-color:                   #d85030;
+
+
+/* ========================================================================
+   Component: Notify
+ ========================================================================== */
+
+/*
+ * Message container for positioning
+ */
+
+.wk-notify {
+    position: fixed;
+    top: @notify-position;
+    left: @notify-position;
+    z-index: @notify-z-index;
+    box-sizing: border-box;
+    width: @notify-width;
+    .hook-notify;
+}
+
+
+/* Position modifiers
+========================================================================== */
+
+.wk-notify-top-right,
+.wk-notify-bottom-right  {
+    left: auto;
+    right: @notify-position;
+}
+
+.wk-notify-top-center,
+.wk-notify-bottom-center {
+    left: 50%;
+    margin-left: (@notify-width / -2);
+}
+
+.wk-notify-bottom-left,
+.wk-notify-bottom-right,
+.wk-notify-bottom-center {
+    top: auto;
+    bottom: @notify-position;
+}
+
+
+/* Responsiveness
+========================================================================== */
+
+/* Phones portrait and smaller */
+@media (max-width: @breakpoint-mini-max) {
+
+    /*
+     * Fit in small screen
+     */
+
+    .wk-notify {
+        left: 10px;
+        right: 10px;
+        width: auto;
+        margin: 0;
+    }
+
+}
+
+
+/* Sub-object: `wk-notify-message`
+========================================================================== */
+
+.wk-notify-message {
+    position: relative;
+    margin-bottom: @notify-message-margin-bottom;
+    padding: @notify-message-padding;
+    background: @notify-message-background;
+    color: @notify-message-color;
+    font-size: @notify-message-font-size;
+    line-height: @notify-message-line-height;
+    cursor: pointer;
+    .hook-notify-message;
+}
+
+
+/* Close in notify
+ ========================================================================== */
+
+.wk-notify-message > .wk-close {
+    visibility: hidden;
+    float: right;
+}
+
+.wk-notify-message:hover > .wk-close { visibility: visible; }
+
+
+/* Modifier: `wk-alert-info`
+ ========================================================================== */
+
+.wk-notify-message-primary {
+    background: @notify-message-primary-background;
+    color: @notify-message-primary-color;
+    .hook-notify-message-primary;
+}
+
+
+/* Modifier: `wk-alert-success`
+ ========================================================================== */
+
+.wk-notify-message-success {
+    background: @notify-message-success-background;
+    color: @notify-message-success-color;
+    .hook-notify-message-success;
+}
+
+
+/* Modifier: `wk-notify-message-warning`
+ ========================================================================== */
+
+.wk-notify-message-warning {
+    background: @notify-message-warning-background;
+    color: @notify-message-warning-color;
+    .hook-notify-message-warning;
+}
+
+
+/* Modifier: `wk-notify-message-danger`
+ ========================================================================== */
+
+.wk-notify-message-danger {
+    background: @notify-message-danger-background;
+    color: @notify-message-danger-color;
+    .hook-notify-message-danger;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-notify-misc;
+
+.hook-notify() {}
+.hook-notify-message() {}
+.hook-notify-message-primary() {}
+.hook-notify-message-success() {}
+.hook-notify-message-warning() {}
+.hook-notify-message-danger() {}
+.hook-notify-misc() {}

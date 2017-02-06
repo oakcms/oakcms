@@ -19,7 +19,7 @@ use yii\helpers\Url;
  * @package oakcms
  *
  * @method static getMenuLvlAll(int $id) Вертає масив елементів вибриного меню
- * @method static getMenuLvl(int $id, int $startLvl, int $endLvl) Вертає масив елементів вибриного меню
+ * @method static getMenuLvl(int $id, int $startLvl, int $endLvl, $parent_id = false) Вертає масив елементів вибриного меню
  */
 
 class Menu extends API
@@ -30,55 +30,68 @@ class Menu extends API
      */
     public function api_getMenuLvlAll($id) {
         $collection = MenuItem::find()->type($id)->published()->language($this->language)->orderBy('lft')->all();
-        return $this->generateMenuArray($collection);
+        return $this->generateMenuArray($collection, $collection[0]->level);
     }
 
     /**
      * @param $id int Ідентефікатор меню
      * @param $startLvl int Початковий рівань вибірки
      * @param $endLvl int Кінцевий рівень вибірки
+     * @param $parent_id mixed Вибірка піделементів меню
      * @return array
      */
-    public function api_getMenuLvl($id, $startLvl, $endLvl) {
+    public function api_getMenuLvl($id, $startLvl, $endLvl, $parent_id = null) {
         $collection = MenuItem::find()
-            ->andWhere(['menu_type_id' => $id])
-            ->andFilterWhere(['<=', 'level', $endLvl])
-            ->andFilterWhere(['>=', 'level', $startLvl])
-            ->orderBy(['ordering' => SORT_ASC])
+            ->type($id)
+            ->published()
+            ->language($this->language)
+            ->andFilterWhere(['<=', 'level', $endLvl + 1])
+            ->andFilterWhere(['>=', 'level', $startLvl + 1])
+            ->andFilterWhere(['=', 'parent_id', $parent_id])
+            ->orderBy('lft')
             ->all();
 
-        return $this->generateMenuArray($collection);
+        return $this->generateMenuArray($collection, $collection[0]->level);
     }
 
     /**
-     * @param $collection array Масив меню
+     * Приводит выгрузку из бд к виду [[\yii\widgets\Menu::items]]
+     * @param $rawItems array
+     * @param $level integer
      * @return array
      */
-    protected function generateMenuArray($rawItems) {
-
-
+    protected function generateMenuArray(&$rawItems, $level) {
         $items = [];
         $urlManager = \Yii::$app->urlManager;
 
         /** @var MenuItem $model */
-        while ($model = array_shift($rawItems)){
-            $linkParams = (array)Json::decode($model->link_params);
-            $items[] = [
-                'id' => $model->id,
-                'label' => @$linkParams['title'] ? $linkParams['title'] : $model->title,
-                'url' => $model->link_type == MenuItem::LINK_ROUTE ? ($model->secure ? $urlManager->createAbsoluteUrl($model->getFrontendViewLink(), 'https') : $urlManager->createUrl($model->getFrontendViewLink())) : $model->link,
-                'access_rule' => $model->access_rule,
-                'submenuOptions' => [
-                    'class' => 'level-' . $model->level
-                ],
-                'options' => [
-                    'class' => @$linkParams['class'] ? $linkParams['class'] : null,
-                    'target' => @$linkParams['target'] ? $linkParams['target'] : null,
-                    'style' => @$linkParams['style'] ? $linkParams['style'] : null,
-                    'rel' => @$linkParams['rel'] ? $linkParams['rel'] : null,
-                    'onclick' => @$linkParams['onclick'] ? $linkParams['onclick'] : null,
-                ]
-            ];
+        while ($model = array_shift($rawItems)) {
+            if ($level == $model->level) {
+                $linkParams = (array)Json::decode($model->link_params);
+                $items[] = [
+                    'id'             => $model->id,
+                    'label'          => @$linkParams['title'] ? $linkParams['title'] : $model->title,
+                    'url'            => $model->link_type == MenuItem::LINK_ROUTE ? ($model->secure ? $urlManager->createAbsoluteUrl($model->getFrontendViewLink(), 'https') : $urlManager->createUrl($model->getFrontendViewLink())) : Url::to([$model->link, 'language' => \Yii::$app->language]),
+                    'access_rule'    => $model->access_rule,
+                    'submenuOptions' => [
+                        'class' => 'level-' . $model->level
+                    ],
+                    'options'        => [
+                        'class'   => @$linkParams['class'] ? $linkParams['class'] : null,
+                        'target'  => @$linkParams['target'] ? $linkParams['target'] : null,
+                        'style'   => @$linkParams['style'] ? $linkParams['style'] : null,
+                        'rel'     => @$linkParams['rel'] ? $linkParams['rel'] : null,
+                        'onclick' => @$linkParams['onclick'] ? $linkParams['onclick'] : null,
+                    ]
+                ];
+            } elseif ($level < $model->level) {
+                array_unshift($rawItems, $model);
+                $last = count($items) - 1;
+                $items[$last]['items'] = $this->generateMenuArray($rawItems, $model->level);
+            } else {
+                array_unshift($rawItems, $model);
+                return $items;
+            }
         }
 
         return $items;

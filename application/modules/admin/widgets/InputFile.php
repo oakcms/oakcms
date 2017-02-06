@@ -18,7 +18,7 @@ class InputFile extends \mihaildev\elfinder\InputFile
 
     public $controller = '/admin/file-manager-elfinder';
     public $options = ['class' => 'form-control'];
-    public $template = '<div class="input-group">{input}{button}</div>';
+    public $template = '<div class="input-group">{input}<div class="input-group-btn">{button}</div></div>';
 
     public function run()
     {
@@ -30,17 +30,13 @@ class InputFile extends \mihaildev\elfinder\InputFile
 
         $this->buttonOptions = array_merge($this->buttonOptions, ['class' => 'btn btn-default add-file', 'type' => 'button']);
 
-        $replace['{button}'] = Html::tag(
-            'span',
-            Html::tag('button',
-                Html::tag(
-                    'i',
-                    '',
-                    ['class' => 'fa fa-file-image-o']
-                ),
-                $this->buttonOptions
+        $replace['{button}'] = Html::tag('button',
+            Html::tag(
+                'i',
+                '',
+                ['class' => 'fa fa-file-image-o']
             ),
-            ['class' => 'input-group-btn']
+            $this->buttonOptions
         );
 
         echo strtr($this->template, $replace);

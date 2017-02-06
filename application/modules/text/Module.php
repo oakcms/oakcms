@@ -23,7 +23,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     public function addAdminMenuItem($event)
     {
         $event->items['text'] = [
-            'label' => \Yii::t('text', 'Text'),
+            'label' => \Yii::t('text', 'Text Block'),
             'icon'  => '<i class="fa fa-font"></i>',
             'url'   => ['/admin/text'],
         ];

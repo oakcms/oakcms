@@ -68,7 +68,7 @@ return array(
     'events' => array(
 
         'init.site' => function($event, $app) {
-            $app['scripts']->add('uikit-parallax', 'vendor/assets/uikit/js/components/parallax.min.js', array('uikit'));
+            $app['scripts']->add('uikit2-parallax', "vendor/assets/uikit/js/components/parallax.min.js", array('uikit2'));
         },
 
         'init.admin' => function($event, $app) {

@@ -106,6 +106,10 @@ $this->params['actions_buttons'] = [
         ContentCategory::find()->andFilterWhere(['<>', 'id', $model->id])->all(), 'id', 'title'
     ), ['prompt' => '']) : '' ?>
 
+    <?php if(isset($model->content)) : ?>
+        <?= $form->field($model, 'content')->widget(\app\widgets\Editor::className())->translatable() ?>
+    <?php endif; ?>
+
     <?php if($settings['categoryThumb']['value']) : ?>
 
     <?php endif; ?>

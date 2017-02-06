@@ -4,16 +4,16 @@
 $tabs_center = '';
 if ($settings['filter'] == 'tabs') {
 
-    $filter = ($settings['filter_position'] != 'top') ? 'uk-tab uk-tab-'. $settings['filter_position'] : 'uk-tab';
-    $filter .= ($settings['filter_align'] == 'right') ? ' uk-tab-flip' : '';
-    $filter .= ($settings['filter_align'] != 'center') ? ' uk-margin uk-margin-bottom-remove' : '';
+    $filter = ($settings['filter_position'] != 'top') ? '{wk}-tab {wk}-tab-'. $settings['filter_position'] : '{wk}-tab';
+    $filter .= ($settings['filter_align'] == 'right') ? ' {wk}-tab-flip' : '';
+    $filter .= ($settings['filter_align'] != 'center') ? ' {wk}-margin {wk}-margin-bottom-remove' : '';
 
     // Center
     $tabs_center = '';
     if ($settings['filter_align'] == 'center') {
-        $tabs_center = 'uk-tab-center uk-margin uk-margin-bottom-remove';
+        $tabs_center = '{wk}-tab-center {wk}-margin {wk}-margin-bottom-remove';
         if ($settings['filter_position'] == 'bottom') {
-            $tabs_center .= ' uk-tab-center-bottom';
+            $tabs_center .= ' {wk}-tab-center-bottom';
         }
     }
 
@@ -21,17 +21,17 @@ if ($settings['filter'] == 'tabs') {
 
     switch ($settings['filter']) {
         case 'text':
-            $filter = 'uk-subnav';
+            $filter = '{wk}-subnav';
             break;
         case 'lines':
-            $filter = 'uk-subnav uk-subnav-line';
+            $filter = '{wk}-subnav {wk}-subnav-line';
             break;
         case 'nav':
-            $filter = 'uk-subnav uk-subnav-pill';
+            $filter = '{wk}-subnav {wk}-subnav-pill';
             break;
     }
 
-    $filter .= ' uk-flex-' . $settings['filter_align'];
+    $filter .= ' {wk}-flex-' . $settings['filter_align'];
 }
 
 ?>
@@ -40,14 +40,14 @@ if ($settings['filter'] == 'tabs') {
 <div class="<?php echo $tabs_center; ?>">
 <?php endif ?>
 
-<ul class="<?php echo $filter; ?>"<?php if ($settings['filter'] == 'tabs') echo ' data-uk-tab'?>>
+<ul class="<?php echo $filter; ?>"<?php if ($settings['filter'] == 'tabs') echo ' data-{wk}-tab'?>>
 
     <?php if ($settings['filter_all']) : ?>
-    <li class="uk-active" data-uk-filter=""><a href="#"><?php echo $app['translator']->trans('All'); ?></a></li>
+    <li class="{wk}-active" data-{wk}-filter=""><a href="#"><?php echo $app['translator']->trans('All'); ?></a></li>
     <?php endif ?>
 
     <?php foreach ($tags as $i => $tag) : ?>
-    <li data-uk-filter="<?php echo $tag; ?>"><a href="#"><?php echo ucwords($tag); ?></a></li>
+    <li data-{wk}-filter="<?php echo $tag; ?>"><a href="#"><?php echo ucwords($tag); ?></a></li>
     <?php endforeach; ?>
 
 </ul>

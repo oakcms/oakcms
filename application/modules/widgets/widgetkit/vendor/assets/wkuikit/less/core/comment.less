@@ -1,0 +1,172 @@
+// Name:            Comment
+// Description:     Defines styles for comment threads
+//
+// Component:       `wk-comment`
+//
+// Sub-objects:     `wk-comment-header`
+//                  `wk-comment-avatar`
+//                  `wk-comment-title`
+//                  `wk-comment-meta`
+//                  `wk-comment-body`
+//                  `wk-comment-list`
+//                  `wk-comment-primary`
+//
+// Markup:
+//
+// <!-- wk-comment -->
+// <article class="wk-comment">
+//     <header class="wk-comment-header">
+//         <img class="wk-comment-avatar" src="avatar.svg" width="50" height="50" alt="">
+//         <h4 class="wk-comment-title"></h4>
+//         <div class="wk-comment-meta"></div>
+//     </header>
+//     <div class="wk-comment-body">
+//         <p></p>
+//     </div>
+// </article>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@comment-header-margin-bottom:                  15px;
+
+@comment-avatar-margin-right:                   15px;
+
+@comment-title-margin-top:                      5px;
+@comment-title-font-size:                       16px;
+@comment-title-line-height:                     22px;
+
+@comment-meta-margin-top:                       2px;
+@comment-meta-color:                            #999;
+@comment-meta-font-size:                        11px;
+@comment-meta-line-height:                      16px;
+
+@comment-list-margin-top:                       15px;
+@comment-list-padding-left:                     100px;
+
+
+/* ========================================================================
+   Component: Comment
+ ========================================================================== */
+
+.wk-comment {
+    .hook-comment;
+}
+
+
+/* Sub-object `wk-comment-header`
+ ========================================================================== */
+
+.wk-comment-header {
+    margin-bottom: @comment-header-margin-bottom;
+    .hook-comment-header;
+}
+
+/*
+ * Micro clearfix
+ */
+
+.wk-comment-header:before,
+.wk-comment-header:after {
+    content: "";
+    display: table;
+}
+
+.wk-comment-header:after { clear: both; }
+
+
+/* Sub-object `wk-comment-avatar`
+ ========================================================================== */
+
+.wk-comment-avatar {
+    margin-right: @comment-avatar-margin-right;
+    float: left;
+    .hook-comment-avatar;
+}
+
+
+/* Sub-object `wk-comment-title`
+ ========================================================================== */
+
+.wk-comment-title {
+    margin: @comment-title-margin-top 0 0 0;
+    font-size: @comment-title-font-size;
+    line-height: @comment-title-line-height;
+    .hook-comment-title;
+}
+
+
+/* Sub-object `wk-comment-meta`
+ ========================================================================== */
+
+.wk-comment-meta {
+    margin: @comment-meta-margin-top 0 0 0;
+    font-size: @comment-meta-font-size;
+    line-height: @comment-meta-line-height;
+    color: @comment-meta-color;
+    .hook-comment-meta;
+}
+
+
+/* Sub-object `wk-comment-body`
+ ========================================================================== */
+
+.wk-comment-body {
+    .hook-comment-body;
+}
+
+/*
+ * Remove margin from the last-child
+ */
+
+ .wk-comment-body > :last-child { margin-bottom: 0; }
+
+
+/* Sub-object `wk-comment-list`
+ ========================================================================== */
+
+.wk-comment-list {
+    padding: 0;
+    list-style: none;
+}
+
+.wk-comment-list .wk-comment + ul {
+    margin: @comment-list-margin-top 0 0 0;
+    list-style: none;
+}
+
+.wk-comment-list > li:nth-child(n+2),
+.wk-comment-list .wk-comment + ul > li:nth-child(n+2) { margin-top: @comment-list-margin-top; }
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .wk-comment-list .wk-comment + ul { padding-left: @comment-list-padding-left; }
+
+}
+
+
+/* Modifier `wk-comment-primary`
+ ========================================================================== */
+
+.wk-comment-primary {
+    .hook-comment-primary;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-comment-misc;
+
+.hook-comment() {}
+.hook-comment-header() {}
+.hook-comment-avatar() {}
+.hook-comment-title() {}
+.hook-comment-meta() {}
+.hook-comment-body() {}
+.hook-comment-primary() {}
+.hook-comment-misc() {}

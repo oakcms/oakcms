@@ -18,16 +18,16 @@ use yii\web\UrlNormalizer;
 
 class Request extends \yii\web\Request
 {
+
     protected function createUrlToRedirect($url)
     {
         $queryParams = $this->getQueryParams();
-        if(isset($queryParams['q'])) {
-            unset($queryParams['q']);
-        }
+
         if(count($queryParams)) {
             $url = $url.'?'.http_build_query($queryParams);
         }
-        return $url;
+        //return $url;
+        return rtrim($url, '=');
     }
 
     public function resolve()
@@ -54,11 +54,12 @@ class Request extends \yii\web\Request
             }
 
             $url = Yii::$app->getUrlManager()->createUrl($currentURL);
-            $url = rtrim($url, '/');
 
             //  OR urldecode($url) !== urldecode(Url::to())
-
-            if(urldecode($this->createUrlToRedirect($url)) !== urldecode(Url::to()) && $menuRoute != $homeMenuItem->link) {
+            if(
+                urldecode($this->createUrlToRedirect($url)) !== rtrim(urldecode(Url::to()), '=') &&
+                $menuRoute != $homeMenuItem->link
+            ) {
                 Yii::$app->getResponse()->redirect($url, 301);
             }
 
@@ -70,16 +71,17 @@ class Request extends \yii\web\Request
                 }
 
                 if(
-                    urldecode($this->createUrlToRedirect(ltrim($homeUrl, '/').$menuPath)) != ltrim(urldecode(Url::to()), '/') &&
+                    urldecode($this->createUrlToRedirect(ltrim(trim($homeUrl, '/').'/'.$menuPath, '/'))) != ltrim(urldecode(Url::to()), '/') &&
                     $menuRoute != $homeMenuItem->link &&
                     $menuStatus != 2
                 ) {
-                    Yii::$app->getResponse()->redirect($homeUrl.$menuPath, 301);
+                    Yii::$app->getResponse()->redirect(trim($homeUrl, '/').'/'.$menuPath, 301);
                 } elseif(
                     urldecode(Url::to()) != urldecode($this->createUrlToRedirect($homeUrl)) &&
                     $menuRoute == $homeMenuItem->link &&
                     $menuStatus == 2
                 ) {
+
                     Yii::$app->getResponse()->redirect($this->createUrlToRedirect($homeUrl), 301);
                 }
             }

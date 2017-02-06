@@ -7,18 +7,18 @@ $nav_item = '';
 if ($settings['nav'] == 'tabs') {
 
     // Positon
-    $nav = 'uk-tab';
+    $nav = '{wk}-tab';
 
     // Alignment Right
-    $nav .= ($settings['alignment'] == 'right') ? ' uk-tab-flip' : '';
+    $nav .= ($settings['alignment'] == 'right') ? ' {wk}-tab-flip' : '';
 
     // Alignment Justify
-    $nav .= ($settings['alignment'] == 'justify') ? ' uk-tab-grid' : '';
-    $nav_item = ($settings['alignment'] == 'justify') ? ' class="uk-width-1-' . count($items) . '"' : '';
+    $nav .= ($settings['alignment'] == 'justify') ? ' {wk}-tab-grid' : '';
+    $nav_item = ($settings['alignment'] == 'justify') ? ' class="{wk}-width-1-' . count($items) . '"' : '';
 
     // Alignment Center
     if ($settings['alignment'] == 'center') {
-        $tabs_center = 'uk-tab-center';
+        $tabs_center = '{wk}-tab-center';
     }
 
     $javascript = 'tab';
@@ -27,22 +27,22 @@ if ($settings['nav'] == 'tabs') {
 
     switch ($settings['nav']) {
         case 'text':
-            $nav = 'uk-subnav';
+            $nav = '{wk}-subnav';
             break;
         case 'lines':
-            $nav = 'uk-subnav uk-subnav-line';
+            $nav = '{wk}-subnav {wk}-subnav-line';
             break;
         case 'nav':
-            $nav = 'uk-subnav uk-subnav-pill';
+            $nav = '{wk}-subnav {wk}-subnav-pill';
             break;
         case 'thumbnails':
-            $nav = 'uk-thumbnav';
-            $nav_item = ($settings['alignment'] == 'justify') ? ' class="uk-width-1-' . count($items) . '"' : '';
+            $nav = '{wk}-thumbnav';
+            $nav_item = ($settings['alignment'] == 'justify') ? ' class="{wk}-width-1-' . count($items) . '"' : '';
             break;
     }
 
     // Alignment
-    $nav .= ($settings['alignment'] != 'justify') ? ' uk-flex-' . $settings['alignment'] : '';
+    $nav .= ($settings['alignment'] != 'justify') ? ' {wk}-flex-' . $settings['alignment'] : '';
 
     $javascript = 'switcher';
 
@@ -57,7 +57,7 @@ $animation = ($settings['animation'] != 'none') ? ',animation:\'' . $settings['a
 <div class="<?php echo $tabs_center; ?>">
 <?php endif ?>
 
-<ul class="<?php echo $nav; ?>" data-uk-<?php echo $javascript; ?>="{connect:'#wk-<?php echo $settings['id']; ?>'<?php echo $animation; ?>}">
+<ul class="<?php echo $nav; ?>" data-{wk}-<?php echo $javascript; ?>="{connect:'#wk-<?php echo $settings['id']; ?>'<?php echo $animation; ?>}">
 <?php foreach ($items as $item) : ?>
     <?php
 

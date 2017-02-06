@@ -11,7 +11,7 @@ class Gallery extends \yii\base\Widget
     public $previewSize = '140x140';
     public $fileInputPluginLoading = true;
     public $fileInputPluginOptions = [];
-    public $label = 'Изображение';
+    public $label = 'Images';
 
     public function init()
     {

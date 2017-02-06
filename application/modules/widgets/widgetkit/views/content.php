@@ -83,17 +83,6 @@
 
         <div class="uk-panel uk-panel-box">
 
-            <ul class="uk-grid uk-grid-width-1-2 uk-grid-width-small-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-5 wk-grid-width-xlarge-1-8 uk-margin-large-top uk-margin-large-bottom" data-uk-grid-margin>
-                <li ng-repeat="wgt in data.widgets | toArray | filter:{core: 'true'}" ng-class="{'uk-active':(content.data._widget.name == wgt.name)}">
-
-                    <a class="uk-panel uk-panel-hover uk-text-center" ng-click="vm.selectWidget(wgt)">
-                        <img ng-src="{{ wgt.icon }}" width="40" height="40" alt="{{ wgt.label }}">
-                        <h3 class="uk-h4 uk-margin-top uk-margin-bottom-remove">{{ wgt.label }}</h3>
-                    </a>
-
-                </li>
-            </ul>
-
             <div ng-show="(data.widgets | toArray | filter:{core: '!true'}).length">
 
                 <h3 class="wk-heading">{{'Theme' | trans}}</h3>
@@ -109,6 +98,17 @@
                     </li>
                 </ul>
             </div>
+            <h3 class="wk-heading">{{'System' | trans}}</h3>
+            <ul class="uk-grid uk-grid-width-1-2 uk-grid-width-small-1-3 uk-grid-width-medium-1-4 uk-grid-width-large-1-5 wk-grid-width-xlarge-1-8 uk-margin-large-top uk-margin-large-bottom" data-uk-grid-margin>
+                <li ng-repeat="wgt in data.widgets | toArray | filter:{core: 'true'}" ng-class="{'uk-active':(content.data._widget.name == wgt.name)}">
+
+                    <a class="uk-panel uk-panel-hover uk-text-center" ng-click="vm.selectWidget(wgt)">
+                        <img ng-src="{{ wgt.icon }}" width="40" height="40" alt="{{ wgt.label }}">
+                        <h3 class="uk-h4 uk-margin-top uk-margin-bottom-remove">{{ wgt.label }}</h3>
+                    </a>
+
+                </li>
+            </ul>
 
         </div>
 

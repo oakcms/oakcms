@@ -1,0 +1,107 @@
+// Name:            Autocomplete
+// Description:     Provides suggestions while you type into an input field
+//
+// Component:       `wk-autocomplete`
+//
+// Modifier:	    (Nav) `wk-nav-autocomplete`
+//
+// States:          `wk-active`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+// Nav modifier
+@nav-autocomplete-color:                        #444;
+@nav-autocomplete-active-background:            #00a8e6;
+@nav-autocomplete-active-color:                 #fff;
+@nav-autocomplete-header-color:                 #999;
+@nav-autocomplete-divider-border:               #ddd;
+@nav-autocomplete-divider-border-width:         1px;
+
+
+/* ========================================================================
+   Component: Autocomplete
+ ========================================================================== */
+
+/*
+ * 1. Container width fits its content
+ * 2. Create position context
+ * 3. Prevent `inline-block` consequences
+ * 4. Remove the gap between the container and its child element
+ */
+
+.wk-autocomplete {
+    /* 1 */
+    display: inline-block;
+    /* 2 */
+    position: relative;
+    /* 3 */
+    max-width: 100%;
+    /* 4 */
+    vertical-align: middle;
+}
+
+/* Legacy dropdown modifier */
+.wk-dropdown-flip {
+    left: auto;
+    right: 0;
+}
+
+/* Nav modifier `wk-nav-autocomplete`
+ ========================================================================== */
+
+/*
+ * Items
+ */
+
+.wk-nav-autocomplete > li > a {
+    color: @nav-autocomplete-color;
+    .hook-nav-autocomplete;
+}
+
+/*
+ * Active
+ * 1. Remove default focus style
+ */
+
+.wk-nav-autocomplete > li.wk-active > a {
+    background: @nav-autocomplete-active-background;
+    color: @nav-autocomplete-active-color;
+    /* 1 */
+    outline: none;
+    .hook-nav-autocomplete-active;
+}
+
+/*
+ * Sub-object: `wk-nav-header`
+ */
+
+.wk-nav-autocomplete .wk-nav-header {
+    color: @nav-autocomplete-header-color;
+    .hook-nav-autocomplete-header;
+}
+
+/*
+ * Sub-object: `wk-nav-divider`
+ */
+
+.wk-nav-autocomplete .wk-nav-divider {
+    border-top: @nav-autocomplete-divider-border-width solid @nav-autocomplete-divider-border;
+    .hook-nav-autocomplete-divider;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-autocomplete-misc;
+
+.hook-nav-autocomplete() {}
+.hook-nav-autocomplete-active() {}
+.hook-nav-autocomplete-header() {}
+.hook-nav-autocomplete-divider() {}
+
+.hook-autocomplete-misc() {}

@@ -3,8 +3,8 @@
 namespace YOOtheme\Widgetkit\Image;
 
 use abeautifulsite\SimpleImage;
-use YOOtheme\Framework\Application;
-use YOOtheme\Framework\ApplicationAware;
+use YOOtheme\Widgetkit\Framework\Application;
+use YOOtheme\Widgetkit\Framework\ApplicationAware;
 
 class Image extends ApplicationAware
 {

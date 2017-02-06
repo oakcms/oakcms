@@ -123,7 +123,7 @@ class ItemController extends BackendController
      */
     public function actionCkeditorSelect($CKEditor, $CKEditorFuncNum, $langCode)
     {
-        Yii::$app->grom->applyModalLayout();
+        Yii::$app->getView()->applyModalLayout();
 
         return $this->render('ckeditor-select', [
             'CKEditor'        => $CKEditor,
@@ -143,7 +143,7 @@ class ItemController extends BackendController
      */
     public function actionCkeditorSelectComponent($CKEditor, $CKEditorFuncNum, $langCode)
     {
-        Yii::$app->grom->applyModalLayout();
+        Yii::$app->getView()->applyModalLayout();
 
         return $this->render('ckeditor-select-component', [
             'CKEditor'        => $CKEditor,
@@ -163,7 +163,7 @@ class ItemController extends BackendController
      */
     public function actionCkeditorSelectMenu($CKEditor, $CKEditorFuncNum, $langCode)
     {
-        Yii::$app->grom->applyModalLayout();
+        Yii::$app->getView()->applyModalLayout();
 
         return $this->render('ckeditor-select-menu', [
             'CKEditor'        => $CKEditor,
@@ -371,11 +371,11 @@ class ItemController extends BackendController
     /**
      * @return Response
      */
-    public function actionOrdering()
+    public function actionSorting()
     {
-        $data = Yii::$app->request->getBodyParam('data', []);
+        $data = \Yii::$app->request->post('sorting');
 
-        foreach ($data as $id => $order) {
+        foreach ($data as $order => $id) {
             if ($target = MenuItem::findOne($id)) {
                 $target->updateAttributes(['ordering' => intval($order)]);
             }
@@ -384,7 +384,7 @@ class ItemController extends BackendController
         MenuItem::find()->roots()->one()->reorderNode('ordering');
         DbState::updateState(MenuItem::tableName());
 
-        return $this->redirect(ArrayHelper::getValue(Yii::$app->request, 'referrer', ['index']));
+        //return $this->redirect(ArrayHelper::getValue(Yii::$app->request, 'referrer', ['index']));
     }
 
     /**

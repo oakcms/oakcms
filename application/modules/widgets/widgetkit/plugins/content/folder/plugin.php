@@ -44,8 +44,7 @@ return array(
 
             $folder = trim($content['folder'], '/');
             $pttrn  = '/\.('.implode('|', $extensions).')$/i';
-
-            $dir    = Yii::getAlias('@webroot'); // TODO: cleaner? system agnostic?
+            $dir    = dirname(dirname(dirname( $app['path'] ))); // TODO: cleaner? system agnostic?
             $sort   = explode('_', $content['sort_by'] ?: 'filename_asc');
 
             if (!$files = glob($dir.'/'.$folder.'/*')) {

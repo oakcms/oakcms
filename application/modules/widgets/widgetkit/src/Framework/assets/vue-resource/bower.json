@@ -1,0 +1,13 @@
+{
+  "name": "vue-resource",
+  "main": "dist/vue-resource.js",
+  "description": "A web request service for Vue.js",
+  "version": "0.1.17",
+  "homepage": "https://github.com/vuejs/vue-resource",
+  "license": "MIT",
+  "ignore": [
+    ".*",
+    "build",
+    "package.json"
+  ]
+}

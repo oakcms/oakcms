@@ -4,11 +4,11 @@
 $settings['id'] = substr(uniqid(), -3);
 
 // Grid
-$grid  = 'uk-grid-width-1-'.$settings['columns'];
-$grid .= $settings['columns_small'] ? ' uk-grid-width-small-1-'.$settings['columns_small'] : '';
-$grid .= $settings['columns_medium'] ? ' uk-grid-width-medium-1-'.$settings['columns_medium'] : '';
-$grid .= $settings['columns_large'] ? ' uk-grid-width-large-1-'.$settings['columns_large'] : '';
-$grid .= $settings['columns_xlarge'] ? ' uk-grid-width-xlarge-1-'.$settings['columns_xlarge'] : '';
+$grid  = '{wk}-grid-width-1-'.$settings['columns'];
+$grid .= $settings['columns_small'] ? ' {wk}-grid-width-small-1-'.$settings['columns_small'] : '';
+$grid .= $settings['columns_medium'] ? ' {wk}-grid-width-medium-1-'.$settings['columns_medium'] : '';
+$grid .= $settings['columns_large'] ? ' {wk}-grid-width-large-1-'.$settings['columns_large'] : '';
+$grid .= $settings['columns_xlarge'] ? ' {wk}-grid-width-xlarge-1-'.$settings['columns_xlarge'] : '';
 
 if ($settings['grid'] == 'dynamic') {
 
@@ -35,26 +35,26 @@ if ($settings['grid'] == 'dynamic') {
     $tabs_center = '';
     if ($settings['filter'] == 'tabs') {
 
-        $filter  = 'uk-tab';
-        $filter .= ($settings['filter_align'] == 'right') ? ' uk-tab-flip' : '';
-        $filter .= ($settings['filter_align'] != 'center') ? ' uk-margin' : '';
-        $tabs_center  = ($settings['filter_align'] == 'center') ? 'uk-tab-center uk-margin' : '';
+        $filter  = '{wk}-tab';
+        $filter .= ($settings['filter_align'] == 'right') ? ' {wk}-tab-flip' : '';
+        $filter .= ($settings['filter_align'] != 'center') ? ' {wk}-margin' : '';
+        $tabs_center  = ($settings['filter_align'] == 'center') ? '{wk}-tab-center {wk}-margin' : '';
 
     } elseif ($settings['filter'] != 'none') {
 
         switch ($settings['filter']) {
             case 'text':
-                $filter = 'uk-subnav';
+                $filter = '{wk}-subnav';
                 break;
             case 'lines':
-                $filter = 'uk-subnav uk-subnav-line';
+                $filter = '{wk}-subnav {wk}-subnav-line';
                 break;
             case 'nav':
-                $filter = 'uk-subnav uk-subnav-pill';
+                $filter = '{wk}-subnav {wk}-subnav-pill';
                 break;
         }
 
-        $filter .= ' uk-flex-' . $settings['filter_align'];
+        $filter .= ' {wk}-flex-' . $settings['filter_align'];
     }
 
     // JS Options
@@ -64,46 +64,46 @@ if ($settings['grid'] == 'dynamic') {
     $options[] = (count($tags) && $settings['filter'] != 'none' && !$settings['filter_all']) ? 'filter: \'' . $tags[0] . '\'': '';
     $options   = implode(',', array_filter($options));
 
-    $grid_js   = $options ? 'data-uk-grid="{' . $options . '}"' : 'data-uk-grid';
+    $grid_js   = $options ? 'data-{wk}-grid="{' . $options . '}"' : 'data-{wk}-grid';
 
 } else {
-    $grid .= ' uk-grid uk-grid-match';
-    $grid .= in_array($settings['gutter'], array('collapse','large','medium','small')) ? ' uk-grid-'.$settings['gutter'] : '' ;
-    $grid_js = 'data-uk-grid-match="{target:\'> div > .uk-panel\', row:true}" data-uk-grid-margin';
+    $grid .= ' {wk}-grid {wk}-grid-match';
+    $grid .= in_array($settings['gutter'], array('collapse','large','medium','small')) ? ' {wk}-grid-'.$settings['gutter'] : '' ;
+    $grid_js = 'data-{wk}-grid-match="{target:\'> div > .{wk}-panel\', row:true}" data-{wk}-grid-margin';
 
     if ($settings['parallax']) {
-        $grid_js .= ' data-uk-grid-parallax' . ($settings['parallax_translate'] ? '="translate: ' . intval($settings['parallax_translate']) . '"' : '');
+        $grid_js .= ' data-{wk}-grid-parallax' . ($settings['parallax_translate'] ? '="translate: ' . intval($settings['parallax_translate']) . '"' : '');
     }
 }
 
 // Title Size
 switch ($settings['title_size']) {
     case 'panel':
-        $title_size = 'uk-panel-title';
+        $title_size = '{wk}-panel-title';
         break;
     case 'large':
-        $title_size = 'uk-heading-large';
+        $title_size = '{wk}-heading-large';
         break;
     default:
-        $title_size = 'uk-' . $settings['title_size'];
+        $title_size = '{wk}-' . $settings['title_size'];
 }
 
 // Lightbox Title Size
 switch ($settings['lightbox_title_size']) {
     case 'panel':
-        $lightbox_title_size = 'uk-panel-title';
+        $lightbox_title_size = '{wk}-panel-title';
         break;
     case 'large':
-        $lightbox_title_size = 'uk-heading-large';
+        $lightbox_title_size = '{wk}-heading-large';
         break;
     default:
-        $lightbox_title_size = 'uk-' . $settings['lightbox_title_size'];
+        $lightbox_title_size = '{wk}-' . $settings['lightbox_title_size'];
 }
 
 // Content Size
 switch ($settings['lightbox_content_size']) {
     case 'large':
-        $lightbox_content_size = 'uk-text-large';
+        $lightbox_content_size = '{wk}-text-large';
         break;
     case 'h1':
     case 'h2':
@@ -111,7 +111,7 @@ switch ($settings['lightbox_content_size']) {
     case 'h4':
     case 'h5':
     case 'h6':
-        $lightbox_content_size = 'uk-' . $settings['lightbox_content_size'];
+        $lightbox_content_size = '{wk}-' . $settings['lightbox_content_size'];
         break;
     default:
         $lightbox_content_size = '';
@@ -120,31 +120,31 @@ switch ($settings['lightbox_content_size']) {
 // Button: Link
 switch ($settings['link_style']) {
     case 'icon-small':
-        $button_link = 'uk-icon-small';
+        $button_link = '{wk}-icon-small';
         break;
     case 'icon-medium':
-        $button_link = 'uk-icon-medium';
+        $button_link = '{wk}-icon-medium';
         break;
     case 'icon-large':
-        $button_link = 'uk-icon-large';
+        $button_link = '{wk}-icon-large';
         break;
     case 'icon-button':
-        $button_link = 'uk-icon-button';
+        $button_link = '{wk}-icon-button';
         break;
     case 'button':
-        $button_link = 'uk-button';
+        $button_link = '{wk}-button';
         break;
     case 'primary':
-        $button_link = 'uk-button uk-button-primary';
+        $button_link = '{wk}-button {wk}-button-primary';
         break;
     case 'button-large':
-        $button_link = 'uk-button uk-button-large';
+        $button_link = '{wk}-button {wk}-button-large';
         break;
     case 'primary-large':
-        $button_link = 'uk-button uk-button-large uk-button-primary';
+        $button_link = '{wk}-button {wk}-button-large {wk}-button-primary';
         break;
     case 'button-link':
-        $link_style = 'uk-button uk-button-link';
+        $link_style = '{wk}-button {wk}-button-link';
         break;
     default:
         $button_link = '';
@@ -156,7 +156,7 @@ switch ($settings['link_style']) {
     case 'icon-medium':
     case 'icon-large':
     case 'icon-button':
-        $button_link .= ' uk-icon-' . $settings['link_icon'];
+        $button_link .= ' {wk}-icon-' . $settings['link_icon'];
         $settings['link_text'] = '';
         break;
 }
@@ -164,31 +164,31 @@ switch ($settings['link_style']) {
 // Button: Lightbox
 switch ($settings['lightbox_style']) {
     case 'icon-small':
-        $button_lightbox = 'uk-icon-small';
+        $button_lightbox = '{wk}-icon-small';
         break;
     case 'icon-medium':
-        $button_lightbox = 'uk-icon-medium';
+        $button_lightbox = '{wk}-icon-medium';
         break;
     case 'icon-large':
-        $button_lightbox = 'uk-icon-large';
+        $button_lightbox = '{wk}-icon-large';
         break;
     case 'icon-button':
-        $button_lightbox = 'uk-icon-button';
+        $button_lightbox = '{wk}-icon-button';
         break;
     case 'button':
-        $button_lightbox = 'uk-button';
+        $button_lightbox = '{wk}-button';
         break;
     case 'primary':
-        $button_lightbox = 'uk-button uk-button-primary';
+        $button_lightbox = '{wk}-button {wk}-button-primary';
         break;
     case 'button-large':
-        $button_lightbox = 'uk-button uk-button-large';
+        $button_lightbox = '{wk}-button {wk}-button-large';
         break;
     case 'primary-large':
-        $button_lightbox = 'uk-button uk-button-large uk-button-primary';
+        $button_lightbox = '{wk}-button {wk}-button-large {wk}-button-primary';
         break;
     case 'button-link':
-        $link_style = 'uk-button uk-button-link';
+        $link_style = '{wk}-button {wk}-button-link';
         break;
     default:
         $button_lightbox = '';
@@ -200,16 +200,16 @@ switch ($settings['lightbox_style']) {
     case 'icon-medium':
     case 'icon-large':
     case 'icon-button':
-        $button_lightbox .= ' uk-icon-' . $settings['lightbox_icon'];
+        $button_lightbox .= ' {wk}-icon-' . $settings['lightbox_icon'];
         $settings['lightbox_text'] = '';
         break;
 }
 
 // Media Border
-$border = ($settings['media_border'] != 'none') ? 'uk-border-' . $settings['media_border'] : '';
+$border = ($settings['media_border'] != 'none') ? '{wk}-border-' . $settings['media_border'] : '';
 
 // Animation
-$animation = ($settings['animation'] != 'none') ? ' data-uk-scrollspy="{cls:\'uk-animation-' . $settings['animation'] . ' uk-invisible\', target:\'> div > .uk-panel\', delay:300}"' : '';
+$animation = ($settings['animation'] != 'none') ? ' data-{wk}-scrollspy="{cls:\'{wk}-animation-' . $settings['animation'] . ' {wk}-invisible\', target:\'> div > .{wk}-panel\', delay:300}"' : '';
 
 // Link Target
 $link_target = ($settings['link_target']) ? ' target="_blank"' : '';
@@ -227,14 +227,14 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
     <div class="<?php echo $tabs_center; ?>">
     <?php endif ?>
 
-    <ul id="wk-<?php echo $settings['id']; ?>" class="<?php echo $filter; ?>"<?php if ($settings['filter'] == 'tabs') echo ' data-uk-tab'?>>
+    <ul id="wk-<?php echo $settings['id']; ?>" class="<?php echo $filter; ?>"<?php if ($settings['filter'] == 'tabs') echo ' data-{wk}-tab'?>>
 
         <?php if ($settings['filter_all']) : ?>
-        <li class="uk-active" data-uk-filter=""><a href="#"><?php echo $app['translator']->trans('All'); ?></a></li>
+        <li class="{wk}-active" data-{wk}-filter=""><a href="#"><?php echo $app['translator']->trans('All'); ?></a></li>
         <?php endif ?>
 
         <?php foreach ($tags as $i => $tag) : ?>
-        <li data-uk-filter="<?php echo $tag; ?>"><a href="#"><?php echo ucwords($tag); ?></a></li>
+        <li data-{wk}-filter="<?php echo $tag; ?>"><a href="#"><?php echo ucwords($tag); ?></a></li>
         <?php endforeach; ?>
 
     </ul>
@@ -274,7 +274,7 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
             $attrs['width']  = $width;
             $attrs['height'] = $height;
 
-            $attrs['class'] .= ($settings['image_animation'] != 'none' && !$thumbnail_overlay) ? 'uk-overlay-' . $settings['image_animation'] : '';
+            $attrs['class'] .= ($settings['image_animation'] != 'none' && !$thumbnail_overlay) ? '{wk}-overlay-' . $settings['image_animation'] : '';
 
             if ($settings['image_width'] != 'auto' || $settings['image_height'] != 'auto') {
                 $thumbnail = $item->thumbnail($item->type('media') == 'image' ? 'media' : 'media.poster', $width, $height, $attrs);
@@ -317,8 +317,8 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
         // Second Image as Overlay
         if ($thumbnail_overlay) {
 
-            $attrs['class'] .= ' uk-overlay-panel uk-overlay-image';
-            $attrs['class'] .= ($settings['image_animation'] != 'none') ? ' uk-overlay-' . $settings['image_animation'] : '';
+            $attrs['class'] .= ' {wk}-overlay-panel {wk}-overlay-image';
+            $attrs['class'] .= ($settings['image_animation'] != 'none') ? ' {wk}-overlay-' . $settings['image_animation'] : '';
 
             $thumbnail_overlay = $item->thumbnail($thumbnail_overlay, $width, $height, $attrs);
         }
@@ -338,7 +338,7 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
         // Filter
         $filter = '';
         if ($item['tags'] && $settings['grid'] == 'dynamic' && $settings['filter'] != 'none') {
-            $filter = ' data-uk-filter="' . implode(',', $item['tags']) . '"';
+            $filter = ' data-{wk}-filter="' . implode(',', $item['tags']) . '"';
         }
 
     ?>
@@ -353,16 +353,16 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
 </div>
 
 <?php if ($settings['lightbox'] === 'slideshow') : ?>
-<div id="wk-3<?php echo $settings['id']; ?>" class="uk-modal">
-    <div class="uk-modal-dialog uk-modal-dialog-blank">
+<div id="wk-3<?php echo $settings['id']; ?>" class="{wk}-modal">
+    <div class="{wk}-modal-dialog {wk}-modal-dialog-blank">
 
-        <button class="uk-modal-close uk-close" type="button"></button>
+        <button class="{wk}-modal-close {wk}-close" type="button"></button>
 
-        <div class="uk-grid" data-uk-grid-margin>
-            <div class="uk-width-medium-1-2 uk-text-center">
+        <div class="{wk}-grid" data-{wk}-grid-margin>
+            <div class="{wk}-width-medium-1-2 {wk}-text-center">
 
-                <div class="uk-slidenav-position" data-uk-slideshow data-uk-check-display>
-                    <ul class="uk-slideshow uk-slideshow-fullscreen">
+                <div class="{wk}-slidenav-position" data-{wk}-slideshow data-{wk}-check-display>
+                    <ul class="{wk}-slideshow {wk}-slideshow-fullscreen">
                         <?php foreach ($items as $item) :
 
                             // Alternative Media Field
@@ -388,12 +388,12 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
                             }
 
                             if ($item->type($field) == 'video') {
-                                $attrs['class'] = 'uk-responsive-width';
+                                $attrs['class'] = '{wk}-responsive-width';
                                 $attrs['controls'] = true;
                             }
 
                             if ($item->type($field) == 'iframe') {
-                                $attrs['class'] = 'uk-responsive-width';
+                                $attrs['class'] = '{wk}-responsive-width';
                             }
 
                             $attrs['width']  = ($width) ? $width : '';
@@ -414,15 +414,15 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
                         <?php endforeach; ?>
                     </ul>
 
-                    <a href="#" class="uk-slidenav <?php if ($settings['lightbox_nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-previous uk-hidden-touch" data-uk-slideshow-item="previous"></a>
-                    <a href="#" class="uk-slidenav <?php if ($settings['lightbox_nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-next uk-hidden-touch" data-uk-slideshow-item="next"></a>
+                    <a href="#" class="{wk}-slidenav <?php if ($settings['lightbox_nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-previous {wk}-hidden-touch" data-{wk}-slideshow-item="previous"></a>
+                    <a href="#" class="{wk}-slidenav <?php if ($settings['lightbox_nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-next {wk}-hidden-touch" data-{wk}-slideshow-item="next"></a>
 
                 </div>
             </div>
-            <div class="uk-width-medium-1-2 uk-flex uk-flex-middle uk-flex-center">
+            <div class="{wk}-width-medium-1-2 {wk}-flex {wk}-flex-middle {wk}-flex-center">
 
-                <div class="uk-panel-body uk-width-1-1 <?php echo $settings['lightbox_content_width'] ? 'uk-width-xlarge-' . $settings['lightbox_content_width'] : ''; ?>" data-uk-slideshow data-uk-check-display>
-                    <ul class="uk-slideshow">
+                <div class="{wk}-panel-body {wk}-width-1-1 <?php echo $settings['lightbox_content_width'] ? '{wk}-width-xlarge-' . $settings['lightbox_content_width'] : ''; ?>" data-{wk}-slideshow data-{wk}-check-display>
+                    <ul class="{wk}-slideshow">
                         <?php foreach ($items as $item) : ?>
                         <li>
 
@@ -431,21 +431,21 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
                             <?php endif; ?>
 
                             <?php if ($item['lightbox_content']) : ?>
-                            <div class="uk-margin-top <?php echo $lightbox_content_size; ?>"><?php echo $item['lightbox_content']; ?></div>
+                            <div class="{wk}-margin-top <?php echo $lightbox_content_size; ?>"><?php echo $item['lightbox_content']; ?></div>
                             <?php elseif ($item['content']) : ?>
-                            <div class="uk-margin-top <?php echo $lightbox_content_size; ?>"><?php echo $item['content']; ?></div>
+                            <div class="{wk}-margin-top <?php echo $lightbox_content_size; ?>"><?php echo $item['content']; ?></div>
                             <?php endif; ?>
 
                             <?php if ($item['link'] && $settings['link']) : ?>
-                            <p class="uk-margin-bottom-remove"><a href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>><?php echo $app['translator']->trans($settings['link_text']); ?></a></p>
+                            <p class="{wk}-margin-bottom-remove"><a href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>><?php echo $app['translator']->trans($settings['link_text']); ?></a></p>
                             <?php endif; ?>
 
                         </li>
                     <?php endforeach; ?>
                     </ul>
 
-                    <div class="uk-margin-top">
-                        <ul class="uk-thumbnav uk-margin-bottom-remove">
+                    <div class="{wk}-margin-top">
+                        <ul class="{wk}-thumbnav {wk}-margin-bottom-remove">
                         <?php foreach ($items as $i => $item) :
 
                                 // Thumbnails
@@ -468,7 +468,7 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
                                 }
 
                             ?>
-                            <li data-uk-slideshow-item="<?php echo $i; ?>"><a href="#"><?php echo ($thumbnail) ? $thumbnail : $item['title']; ?></a></li>
+                            <li data-{wk}-slideshow-item="<?php echo $i; ?>"><a href="#"><?php echo ($thumbnail) ? $thumbnail : $item['title']; ?></a></li>
                         <?php endforeach; ?>
                         </ul>
                     </div>
@@ -485,10 +485,10 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
 
         var modal      = $('#wk-3<?php echo $settings['id']; ?>'),
             container  = modal.prev(),
-            slideshows = modal.find('[data-uk-slideshow]'),
+            slideshows = modal.find('[data-{wk}-slideshow]'),
             slideshow;
 
-        container.on('click', '[href^="#wk-"][data-uk-modal]', function(e) {
+        container.on('click', '[href^="#wk-"][data-{wk}-modal]', function(e) {
             slideshows.each(function(){
 
                 slideshow = $(this).data('slideshow');
@@ -497,7 +497,7 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
         });
 
         modal.on('beforeshow.uk.slideshow', function(e, next) {
-            slideshows.not(next.closest('[data-uk-slideshow]')[0]).data('slideshow').show(next.index());
+            slideshows.not(next.closest('[data-{wk}-slideshow]')[0]).data('slideshow').show(next.index());
         });
 
     })(jQuery);
@@ -508,7 +508,7 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
 (function($){
 
     // get the images of the gallery and replace it by a canvas of the same size to fix the problem with overlapping images on load.
-    $('img[width][height]:not(.uk-overlay-panel)', $('#wk-grid<?php echo $settings['id']; ?>')).each(function() {
+    $('img[width][height]:not(.{wk}-overlay-panel)', $('#wk-grid<?php echo $settings['id']; ?>')).each(function() {
 
         var $img = $(this);
 
@@ -516,7 +516,7 @@ if (!in_array($settings['overlay'], array('default', 'center', 'bottom'))) {
             return;
         }
 
-        var $canvas = $('<canvas class="uk-responsive-width"></canvas>').attr({width:$img.attr('width'), height:$img.attr('height')}),
+        var $canvas = $('<canvas class="{wk}-responsive-width"></canvas>').attr({width:$img.attr('width'), height:$img.attr('height')}),
             img = new Image,
             release = function() {
                 $canvas.remove();

@@ -37,7 +37,7 @@ $app->on('init.admin', function ($event, $app) {
 }, 10);
 
 $app->on('view', function ($event, $app) {
-    //$app['config']->set('theme.support', []);
+    $app['config']->set('theme.support', false);
 });
 
 $app->boot();

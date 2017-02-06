@@ -39,6 +39,6 @@ $settings['directionsText'] = $app['translator']->trans('Get Directions');
 
 ?>
 
-<script type="widgetkit/map" data-id="<?php echo $map_id;?>" data-class="<?php echo $settings['class']; ?> uk-img-preserve" data-style="width:<?php echo $width?>;height:<?php echo $height?>;">
+<script type="widgetkit/map" data-id="<?php echo $map_id;?>" data-class="<?php echo $settings['class']; ?> {wk}-img-preserve" data-style="width:<?php echo $width?>;height:<?php echo $height?>;">
     <?php echo json_encode($settings) ?>
 </script>

@@ -10,8 +10,10 @@
 namespace app\modules\admin\widgets;
 
 
+use app\modules\menu\models\MenuType;
+use app\modules\widgets\models\Widgetkit;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
-use yii\helpers\VarDumper;
 
 class Html extends \yii\bootstrap\Html
 {
@@ -79,6 +81,30 @@ class Html extends \yii\bootstrap\Html
                         'value'      => $item['value'],
                     ])
                     .
+                    parent::endTag('div') .
+                    parent::endTag('div');
+                break;
+            case 'menuType':
+                $menus = ArrayHelper::map(MenuType::find()->all(), 'id', 'title');
+                $return =
+                    parent::beginTag('div', ['class' => 'form-group']) .
+                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
+                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
+                    parent::endTag('label') .
+                    parent::beginTag('div', ['class' => 'col-md-9']) .
+                    parent::dropDownList('Settings['.$key.']', $item['value'], $menus, ['class' => 'form-control']).
+                    parent::endTag('div') .
+                    parent::endTag('div');
+                break;
+            case 'widgetkit':
+                $menus = ArrayHelper::map(Widgetkit::find()->all(), 'id', 'name');
+                $return =
+                    parent::beginTag('div', ['class' => 'form-group']) .
+                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
+                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
+                    parent::endTag('label') .
+                    parent::beginTag('div', ['class' => 'col-md-9']) .
+                    parent::dropDownList('Settings['.$key.']', $item['value'], $menus, ['class' => 'form-control']).
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;

@@ -3,11 +3,13 @@
 namespace app\modules\content\controllers\backend;
 
 use app\modules\admin\components\behaviors\StatusController;
+use app\modules\system\models\DbState;
 use Guzzle\Inflection\Inflector;
 use Yii;
 use app\modules\content\models\ContentPages;
 use app\modules\content\models\search\ContentPagesSearch;
 use app\components\BackendController;
+use yii\base\Response;
 use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -59,8 +61,9 @@ class PagesController extends BackendController
         $model = new ContentPages();
         $model->language = $lang->language_id;
         $model->settingsAfterLanguage();
-        $model->setScenario('insert');
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->saveNode(true);
             if(Yii::$app->request->post('submit-type') == 'continue')
                 return $this->redirect(['update', 'id' => $model->id]);
             else
@@ -86,25 +89,40 @@ class PagesController extends BackendController
         $model = $this->findModel($id);
         $model->language = $lang->language_id;
         $model->settingsAfterLanguage();
-        $model->setScenario('update');
 
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setSetting(Yii::$app->request->post('Settings'));
-            if($model->save()) {
+            if($model->saveNode(true)) {
                 if(Yii::$app->request->post('submit-type') == 'continue') {
                     return $this->redirect(['update', 'id' => $model->id, 'language' => $lang->url]);
                 } else {
                     return $this->redirect(['index']);
                 }
             }
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'lang' => $lang,
-                'layouts' => self::getLayouts()
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+            'lang' => $lang,
+            'layouts' => self::getLayouts()
+        ]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function actionSorting()
+    {
+        $data = \Yii::$app->request->post('sorting');
+
+        foreach ($data as $order => $id) {
+            if ($target = ContentPages::findOne($id)) {
+                $target->updateAttributes(['ordering' => intval($order)]);
+            }
+        }
+
+        ContentPages::find()->roots()->one()->reorderNode('ordering');
+        DbState::updateState(ContentPages::tableName());
     }
 
     /**
@@ -174,8 +192,15 @@ class PagesController extends BackendController
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        if(($model = $this->findModel($id))){
+            $children = $model->children()->all();
+            $model->deleteWithChildren();
+            foreach($children as $child) {
+                $child->afterDelete();
+            }
+        } else {
+            $this->error = Yii::t('admin', 'Not found');
+        }
         return $this->redirect(['index']);
     }
 
@@ -206,8 +231,8 @@ class PagesController extends BackendController
     protected static function getLayouts()
     {
         $layouts = [];
-        $core = glob(Yii::getAlias('@app/modules/content/views/frontend/page/*.php'));
-        $template = glob(Yii::getAlias('@frontendTemplate/modules/content/page/*.php'));
+        $core = glob(Yii::getAlias('@app/modules/content/views/frontend/page/[!_]*.php'));
+        $template = glob(Yii::getAlias('@frontendTemplate/modules/content/page/[!_]*.php'));
 
         foreach ($core as $layout) {
             if(is_file($layout)) {
@@ -222,6 +247,11 @@ class PagesController extends BackendController
         }
 
         return $layouts;
+    }
+
+    public function actionSystem() {
+        $model = ContentPages::findOne(1);
+        var_dump($model->reorderNode('lft'));
     }
 
     /**

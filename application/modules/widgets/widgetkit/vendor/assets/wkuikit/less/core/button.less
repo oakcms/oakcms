@@ -1,0 +1,406 @@
+// Name:            Button
+// Description:     Defines styles for buttons
+//
+// Component:       `wk-button`
+//
+// Sub-objects:     `wk-button-group`
+//                  `wk-button-dropdown`
+//
+// Modifiers:       `wk-button-primary`
+//                  `wk-button-success`
+//                  `wk-button-danger`
+//                  `wk-button-link`
+//                  `wk-button-mini`
+//                  `wk-button-small`
+//                  `wk-button-large`
+//
+// States:          `wk-active`
+//
+// Markup:
+//
+// <!-- wk-button-group -->
+// <div class="wk-button-group">
+//     <button class="wk-button"></button>
+//     <button class="wk-button"></button>
+// </div>
+//
+// <!-- wk-button-dropdown -->
+// <div class="wk-button-dropdown" data-wk-dropdown>
+//     <button class="wk-button"></button>
+//     <div class="wk-dropdown wk-dropdown-small">
+//         <ul class="wk-nav wk-nav-dropdown">
+//             <li><a href=""></a></li>
+//         </ul>
+//     </div>
+// </div>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@button-height:                                 30px;
+@button-mini-height:                            20px;
+@button-small-height:                           25px;
+@button-large-height:                           40px;
+
+@button-line-height:                            30px;
+@button-mini-line-height:                       20px;
+@button-small-line-height:                      25px;
+@button-large-line-height:                      40px;
+
+@button-mini-font-size:                         11px;
+@button-small-font-size:                        12px;
+@button-large-font-size:                        16px;
+
+@button-padding-horizontal:                     12px;
+@button-mini-padding-horizontal:                6px;
+@button-small-padding-horizontal:               10px;
+@button-large-padding-horizontal:               15px;
+
+@button-font-size:                              1rem;
+@button-background:                             #eee;
+@button-color:                                  #444;
+@button-hover-background:                       #f5f5f5;
+@button-hover-color:                            #444;
+@button-active-background:                      #ddd;
+@button-active-color:                           #444;
+
+@button-primary-background:                     #00a8e6;
+@button-primary-color:                          #fff;
+@button-primary-hover-background:               #35b3ee;
+@button-primary-hover-color:                    #fff;
+@button-primary-active-background:              #0091ca;
+@button-primary-active-color:                   #fff;
+
+@button-success-background:                     #8cc14c;
+@button-success-color:                          #fff;
+@button-success-hover-background:               #8ec73b;
+@button-success-hover-color:                    #fff;
+@button-success-active-background:              #72ae41;
+@button-success-active-color:                   #fff;
+
+@button-danger-background:                      #da314b;
+@button-danger-color:                           #fff;
+@button-danger-hover-background:                #e4354f;
+@button-danger-hover-color:                     #fff;
+@button-danger-active-background:               #c91032;
+@button-danger-active-color:                    #fff;
+
+@button-disabled-background:                    #f5f5f5;
+@button-disabled-color:                         #999;
+
+@button-link-color:                             #07D;
+@button-link-hover-color:                       #059;
+@button-link-hover-text-decoration:             underline;
+@button-link-disabled-color:                    #999;
+
+
+/* ========================================================================
+   Component: Button
+ ========================================================================== */
+
+/*
+ * Removes inner padding and border in Firefox 4+.
+ */
+
+.wk-button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*
+ * 1. Correct inability to style clickable `input` types in iOS.
+ * 2. Remove margins in Chrome, Safari and Opera.
+ * 3. Remove borders for `button`.
+ * 4. Address `overflow` set to `hidden` in IE 8/9/10/11.
+ * 5. Correct `font` properties and `color` not being inherited for `button`.
+ * 6. Address inconsistent `text-transform` inheritance which is only inherit in Firefox and IE
+ * 7. Style
+ * 8. `line-height` is used to create a height
+ * 9. `min-height` is necessary for `input` elements in Firefox and Opera because `line-height` is not working.
+ * 10. Reset button group whitespace hack
+ * 11. Required for `a`.
+ */
+
+.wk-button {
+    /* 1 */
+    -webkit-appearance: none;
+    /* 2 */
+    margin: 0;
+    /* 3 */
+    border: none;
+    /* 4 */
+    overflow: visible;
+    /* 5 */
+    font: inherit;
+    color: @button-color;
+    /* 6 */
+    text-transform: none;
+    /* 7 */
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 0 @button-padding-horizontal;
+    background: @button-background;
+    vertical-align: middle;
+    /* 8 */
+    line-height: @button-line-height;
+    /* 9 */
+    min-height: @button-height;
+    /* 10 */
+    font-size: @button-font-size;
+    /* 11 */
+    text-decoration: none;
+    text-align: center;
+    .hook-button;
+}
+
+.wk-button:not(:disabled) { cursor: pointer; }
+
+/*
+ * Hover
+ * 1. Apply hover style also to focus state
+ * 2. Remove default focus style
+ * 3. Required for `a` elements
+ */
+
+.wk-button:hover,
+.wk-button:focus { // 1
+    background-color: @button-hover-background;
+    color: @button-hover-color;
+    /* 2 */
+    outline: none;
+    /* 3 */
+    text-decoration: none;
+    .hook-button-hover;
+}
+
+/* Active */
+.wk-button:active,
+.wk-button.wk-active {
+    background-color: @button-active-background;
+    color: @button-active-color;
+    .hook-button-active;
+}
+
+
+/* Color modifiers
+ ========================================================================== */
+
+/*
+ * Modifier: `wk-button-primary`
+ */
+
+.wk-button-primary {
+    background-color: @button-primary-background;
+    color: @button-primary-color;
+    .hook-button-primary;
+}
+
+/* Hover */
+.wk-button-primary:hover,
+.wk-button-primary:focus {
+    background-color: @button-primary-hover-background;
+    color: @button-primary-hover-color;
+    .hook-button-primary-hover;
+}
+
+/* Active */
+.wk-button-primary:active,
+.wk-button-primary.wk-active {
+    background-color: @button-primary-active-background;
+    color: @button-primary-active-color;
+    .hook-button-primary-active;
+}
+
+/*
+ * Modifier: `wk-button-success`
+ */
+
+.wk-button-success {
+    background-color: @button-success-background;
+    color: @button-success-color;
+    .hook-button-success;
+}
+
+/* Hover */
+.wk-button-success:hover,
+.wk-button-success:focus {
+    background-color: @button-success-hover-background;
+    color: @button-success-hover-color;
+    .hook-button-success-hover;
+}
+
+/* Active */
+.wk-button-success:active,
+.wk-button-success.wk-active {
+    background-color: @button-success-active-background;
+    color: @button-success-active-color;
+    .hook-button-success-active;
+}
+
+/*
+ * Modifier: `wk-button-danger`
+ */
+
+.wk-button-danger {
+    background-color: @button-danger-background;
+    color: @button-danger-color;
+    .hook-button-danger;
+}
+
+/* Hover */
+.wk-button-danger:hover,
+.wk-button-danger:focus {
+    background-color: @button-danger-hover-background;
+    color: @button-danger-hover-color;
+    .hook-button-danger-hover;
+}
+
+/* Active */
+.wk-button-danger:active,
+.wk-button-danger.wk-active {
+    background-color: @button-danger-active-background;
+    color: @button-danger-active-color;
+    .hook-button-danger-active;
+}
+
+
+/* Disabled state
+ * Overrides also the color modifiers
+ ========================================================================== */
+
+/* Equal for all button types */
+.wk-button:disabled {
+    background-color: @button-disabled-background;
+    color: @button-disabled-color;
+    .hook-button-disable;
+}
+
+
+/* Modifier: `wk-button-link`
+ ========================================================================== */
+
+ /* Reset */
+.wk-button-link,
+.wk-button-link:hover,
+.wk-button-link:focus,
+.wk-button-link:active,
+.wk-button-link.wk-active,
+.wk-button-link:disabled {
+    border-color: transparent;
+    background: none;
+    .hook-button-link;
+}
+
+/* Color */
+.wk-button-link { color: @button-link-color; }
+
+.wk-button-link:hover,
+.wk-button-link:focus,
+.wk-button-link:active,
+.wk-button-link.wk-active {
+    color: @button-link-hover-color;
+    text-decoration: @button-link-hover-text-decoration;
+}
+
+.wk-button-link:disabled { color: @button-link-disabled-color; }
+
+/* Focus */
+.wk-button-link:focus { outline: 1px dotted; }
+
+
+/* Size modifiers
+ ========================================================================== */
+
+.wk-button-mini {
+    min-height: @button-mini-height;
+    padding: 0 @button-mini-padding-horizontal;
+    line-height: @button-mini-line-height;
+    font-size: @button-mini-font-size;
+}
+
+.wk-button-small {
+    min-height: @button-small-height;
+    padding: 0 @button-small-padding-horizontal;
+    line-height: @button-small-line-height;
+    font-size: @button-small-font-size;
+}
+
+.wk-button-large {
+    min-height: @button-large-height;
+    padding: 0 @button-large-padding-horizontal;
+    line-height: @button-large-line-height;
+    font-size: @button-large-font-size;
+    .hook-button-large;
+}
+
+
+/* Sub-object `wk-button-group`
+ ========================================================================== */
+
+/*
+ * 1. Behave like buttons
+ * 2. Create position context for dropdowns
+ * 3. Remove whitespace between child elements when using `inline-block`
+ * 4. Prevent buttons from wrapping
+ * 5. Remove whitespace between child elements when using `inline-block`
+ */
+
+.wk-button-group {
+    /* 1 */
+    display: inline-block;
+    vertical-align: middle;
+    /* 2 */
+    position: relative;
+    /* 3 */
+    font-size: 0.001px;
+    /* 4 */
+    white-space: nowrap;
+}
+
+.wk-button-group > * { display: inline-block; }
+
+/* 5 */
+.wk-button-group .wk-button { vertical-align: top; }
+
+
+/* Sub-object: `wk-button-dropdown`
+ ========================================================================== */
+
+/*
+ * 1. Behave like buttons
+ * 2. Create position context for dropdowns
+ */
+
+.wk-button-dropdown {
+    /* 1 */
+    display: inline-block;
+    vertical-align: middle;
+    /* 2 */
+    position: relative;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-button-misc;
+
+.hook-button() {}
+.hook-button-hover() {}
+.hook-button-active() {}
+.hook-button-primary() {}
+.hook-button-primary-hover() {}
+.hook-button-primary-active() {}
+.hook-button-success() {}
+.hook-button-success-hover() {}
+.hook-button-success-active() {}
+.hook-button-danger() {}
+.hook-button-danger-hover() {}
+.hook-button-danger-active() {}
+.hook-button-disable() {}
+.hook-button-link() {}
+.hook-button-large() {}
+.hook-button-misc() {}

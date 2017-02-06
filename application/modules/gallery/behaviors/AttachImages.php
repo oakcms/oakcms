@@ -66,9 +66,6 @@ class AttachImages extends Behavior
         $imageQuery = Image::find()->where($finder);
         $imageQuery->orderBy(['isMain' => SORT_DESC, 'sort' => SORT_DESC, 'id' => SORT_ASC]);
         $imageRecords = $imageQuery->all();
-        if (!$imageRecords) {
-            return [$this->getModule()->getPlaceHolder()];
-        }
 
         return $imageRecords;
     }

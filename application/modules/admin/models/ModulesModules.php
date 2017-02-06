@@ -137,7 +137,7 @@ class ModulesModules extends ActiveRecord
         return Data::cache(self::CACHE_KEY_FRONTEND, 3600, function () {
             $result = [];
             try {
-                foreach (self::find()->where(['status' => self::STATUS_PUBLISHED, 'isFrontend' => self::STATUS_PUBLISHED])->orderBy('order')->all() as $module) {
+                foreach (self::find()->where(['status' => self::STATUS_PUBLISHED])->orderBy('order')->all() as $module) {
                     $module->trigger(self::EVENT_AFTER_FIND);
                     $result[$module->name] = (object)$module->attributes;
                 }

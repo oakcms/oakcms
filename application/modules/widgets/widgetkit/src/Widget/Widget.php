@@ -2,8 +2,8 @@
 
 namespace YOOtheme\Widgetkit\Widget;
 
-use YOOtheme\Framework\Application;
-use YOOtheme\Framework\Plugin\Plugin;
+use YOOtheme\Widgetkit\Framework\Application;
+use YOOtheme\Widgetkit\Framework\Plugin\Plugin;
 use YOOtheme\Widgetkit\Content\ContentInterface;
 
 class Widget extends Plugin implements WidgetInterface

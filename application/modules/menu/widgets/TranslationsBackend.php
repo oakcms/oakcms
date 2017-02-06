@@ -11,6 +11,7 @@ namespace app\modules\menu\widgets;
 
 
 use app\modules\language\models\Language;
+use kartik\icons\Icon;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
@@ -43,18 +44,18 @@ class TranslationsBackend extends \yii\base\Widget
             /** @var ActiveRecord | TranslatableInterface $translationModel */
             // if ($translationModel->equals($this->model)) continue;
             $lang = $translationModel->language;
-            $buttons[$lang] = Html::a($lang, ['update', 'id' => $translationModel->getPrimaryKey()], ['class' => 'btn btn-xs' . ($this->model->language == $lang ? ' btn-primary' : ' btn-default'), 'data-pjax' => '0']);
+            $buttons[$lang] = Html::a(Icon::show(strtolower(substr($lang, 3, 2)), [], Icon::FI).$lang, ['update', 'id' => $translationModel->getPrimaryKey()], ['class' => 'btn btn-block btn-xs' . ($this->model->language == $lang ? ' btn-primary' : ' btn-default'), 'data-pjax' => '0']);
         }
 
         $unsupportedLanguages = array_diff(Language::getAllLang(), array_keys($buttons));
         foreach ($unsupportedLanguages as $lang) {
-            $buttons[$lang] = Html::a($lang,
+            $buttons[$lang] = Html::a(Icon::show(strtolower(substr($lang, 3, 2)), [], Icon::FI).$lang,
                 [
                     'create',
                     'language' => $lang,
                     'sourceId' => $this->model->getPrimaryKey()
                 ],
-                ['class' => 'btn btn-danger btn-xs', 'data-pjax' => '0']);
+                ['class' => 'btn btn-block btn-danger btn-xs', 'data-pjax' => '0']);
         }
 
         ksort($buttons);

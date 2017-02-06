@@ -10,78 +10,72 @@
 
 namespace app\behaviors;
 
-use yii\db\Exception;
 use yii\db\ActiveRecord;
+use yii\db\Exception;
 
 class NestedSetsBehavior extends \creocoder\nestedsets\NestedSetsBehavior
 {
+    static private $_orderCache;
     public $orderingAttribute = 'ordering';
     public $depthAttribute = 'level';
 
-    static private $_orderCache;
-
     /**
      * Сортировка дерева начиная с $this элемента. Сортировка поуровневая.
-     * @param string $orderByAttribute  Колонка по которой будет сортироватся элементы(ex: ordering asc/lft asc).
-     * @param int $orderByDir
+     *
+     * @param string $orderByAttribute Колонка по которой будет сортироватся элементы(ex: ordering asc/lft asc).
+     * @param int    $orderByDir
+     *
      * @throws Exception
      * @throws \Exception
      */
     public function reorderNode($orderByAttribute, $orderByDir = SORT_ASC)
     {
         $db = $this->owner->getDb();
-        $extTransFlag = $db->getTransaction();
 
-        if ($extTransFlag === null) {
-            $transaction = $db->beginTransaction();
-        }
+        $transaction = $db->getTransaction() === null ? $db->beginTransaction() : null;
 
-        try
-        {
+        try {
             self::$_orderCache = [];
 
             $this->applyNodeOrder([$orderByAttribute => $orderByDir], $this->owner->{$this->leftAttribute}, $this->owner->{$orderByAttribute});
 
             foreach (self::$_orderCache as $node) {
+
                 /** @var $node ActiveRecord */
                 $node->updateAttributes([$this->leftAttribute, $this->rightAttribute, $this->orderingAttribute]);
             }
 
-            if($extTransFlag === null){
+            if ($transaction !== null) {
                 $transaction->commit();
             }
-        }
-        catch(Exception $e)
-        {
-            if($extTransFlag===null){
+
+        } catch (Exception $e) {
+
+            if ($transaction !== null) {
                 $transaction->rollback();
             }
 
             throw $e;
         }
     }
-    //рекурсивная функция проходящяя по уровням дерева, применяя порядок $orderBy к выборке, с последущей нумерацией поля $this->owner->{$this->orderingAttribute}, и перестройки атрибутов lft, rgt
+
     /**
+     * Рекурсивная функция проходящяя по уровням дерева, применяя порядок $orderBy к выборке,
+     * с последущей нумерацией поля $this->owner->{$this->orderingAttribute}, и перестройки атрибутов lft, rgt
      * @param $orderBy array ['ordering' => 'ASC']
-     * @param $leftId integer
-     * @param $order integer
+     * @param $leftId  integer
+     * @param $order   integer
+     *
      * @return mixed
      */
     public function applyNodeOrder($orderBy, $leftId, $order)
     {
         $children = $this->children(1)->orderBy($orderBy)->all();
 
-        // The right value of this node is the left value + 1
         $rightId = $leftId + 1;
 
-        // Execute this function recursively over all children
         foreach ($children as $i => $node) {
-            /*
-             * $rightId is the current right value, which is incremented on recursion return.
-             * Increment the level for the children.
-             * Add this item's alias to the path (but avoid a leading /)
-             */
-            $rightId = $node->applyNodeOrder($orderBy, $rightId, $i+1);
+            $rightId = $node->applyNodeOrder($orderBy, $rightId, $i + 1);
         }
 
         $this->owner->{$this->leftAttribute} = $leftId;
@@ -90,7 +84,6 @@ class NestedSetsBehavior extends \creocoder\nestedsets\NestedSetsBehavior
 
         self::$_orderCache[] = $this->owner;
 
-        // Return the right value of this node + 1.
         return $rightId + 1;
     }
 }

@@ -100,7 +100,7 @@ class SeoViewBehavior extends Behavior
         /* @var $view View */
         $view = $this->owner;
         $title = $this->_page_title;
-        echo '<title>' . Html::encode($this->normalizeStr($title)) . '</title>' . PHP_EOL;
+        echo '<title data-ng-bind="metaTitle">' . Html::encode($this->normalizeStr($title)) . '</title>' . PHP_EOL;
         if (!empty($this->_meta_description)) {
             $view->registerMetaTag(['name' => 'description', 'content' => Html::encode($this->normalizeStr($this->_meta_description))]);
         }
@@ -129,6 +129,7 @@ class SeoViewBehavior extends Behavior
         $str = trim(preg_replace('/[\s]+/is', ' ', $str));
         return $str;
     }
+
     /**
      * Установить meta-тег noindex для текущей страницы
      *

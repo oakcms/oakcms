@@ -17,32 +17,32 @@ $options = '{'.implode(',', array_filter($options)).'}';
 
 // Slidenav Position Relative
 if ($settings['slidenav'] == 'default') {
-    $position_relative = 'uk-slidenav-position';
+    $position_relative = '{wk}-slidenav-position';
 } else {
-    $position_relative = 'uk-position-relative';
+    $position_relative = '{wk}-position-relative';
 }
 
 // Nav
-$nav = 'uk-position-bottom uk-margin-bottom';
+$nav = '{wk}-position-bottom {wk}-margin-bottom';
 
 switch ($settings['nav_align']) {
     case 'left':
-        $nav .= ' uk-margin-left';
+        $nav .= ' {wk}-margin-left';
         break;
     case 'right':
-        $nav .= ' uk-margin-right';
+        $nav .= ' {wk}-margin-right';
         break;
     case 'center':
     case 'justify':
-        $nav .= ' uk-margin-left uk-margin-right';
+        $nav .= ' {wk}-margin-left {wk}-margin-right';
         break;
 }
 
 ?>
 
-<div class="<?php echo $position_relative; ?>" data-uk-slideshow="<?php echo $options; ?>">
+<div class="<?php echo $position_relative; ?>" data-{wk}-slideshow="<?php echo $options; ?>">
 
-    <ul class="uk-slideshow<?php if ($settings['fullscreen']) echo ' uk-slideshow-fullscreen'; ?>">
+    <ul class="{wk}-slideshow<?php if ($settings['fullscreen']) echo ' {wk}-slideshow-fullscreen'; ?>">
         <?php foreach ($items as $item) :
 
                 // Media Type
@@ -57,12 +57,12 @@ switch ($settings['nav_align']) {
                 }
 
                 if ($item->type('media') == 'video') {
-                    $attrs['class'] = 'uk-responsive-width';
+                    $attrs['class'] = '{wk}-responsive-width';
                     $attrs['controls'] = true;
                 }
 
                 if ($item->type('media') == 'iframe') {
-                    $attrs['class'] = 'uk-responsive-width';
+                    $attrs['class'] = '{wk}-responsive-width';
                 }
 
                 $attrs['width']  = ($width) ? $width : '';
@@ -84,15 +84,15 @@ switch ($settings['nav_align']) {
     </ul>
 
     <?php if (in_array($settings['slidenav'], array('top-left', 'top-right', 'bottom-left', 'bottom-right'))) : ?>
-    <div class="uk-position-<?php echo $settings['slidenav']; ?> uk-margin uk-margin-left uk-margin-right">
-        <div class="uk-grid uk-grid-small">
-            <div><a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-previous" data-uk-slideshow-item="previous"></a></div>
-            <div><a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-next" data-uk-slideshow-item="next"></a></div>
+    <div class="{wk}-position-<?php echo $settings['slidenav']; ?> {wk}-margin {wk}-margin-left {wk}-margin-right">
+        <div class="{wk}-grid {wk}-grid-small">
+            <div><a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-previous" data-{wk}-slideshow-item="previous"></a></div>
+            <div><a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-next" data-{wk}-slideshow-item="next"></a></div>
         </div>
     </div>
     <?php elseif ($settings['slidenav'] == 'default') : ?>
-    <a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-previous uk-hidden-touch" data-uk-slideshow-item="previous"></a>
-    <a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-next uk-hidden-touch" data-uk-slideshow-item="next"></a>
+    <a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-previous {wk}-hidden-touch" data-{wk}-slideshow-item="previous"></a>
+    <a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-next {wk}-hidden-touch" data-{wk}-slideshow-item="next"></a>
     <?php endif ?>
 
     <?php if ($settings['nav_overlay'] && ($settings['nav'] != 'none')) : ?>

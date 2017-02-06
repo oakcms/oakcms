@@ -2,7 +2,7 @@
 
 namespace YOOtheme\Widgetkit\Content;
 
-use YOOtheme\Framework\Application;
+use YOOtheme\Widgetkit\Framework\Application;
 
 class Item implements ItemInterface
 {

@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = Yii::t('admin', 'Update').': '.$model->id;
     <?= $this->render('_form', [
         'model' => $model,
         'lang' => $lang,
+        'layouts' => $layouts
     ]) ?>
 
 </div>

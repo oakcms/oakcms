@@ -32,6 +32,8 @@
                 <option ng-if="content.data.featured" value="featured">{{'Featured Articles Order' | trans}}</option>
                 <option value="rdate">{{'Latest First' | trans}}</option>
                 <option value="date">{{'Latest Last' | trans}}</option>
+                <option value="rpublished">{{'Published First' | trans}}</option>
+                <option value="published">{{'Published Last' | trans}}</option>
                 <option value="rmodified">{{'Modified First' | trans}}</option>
                 <option value="modified">{{'Modified Last' | trans}}</option>
                 <option value="alpha">{{'Alphabetical' | trans}}</option>

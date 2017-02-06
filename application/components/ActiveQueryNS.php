@@ -14,7 +14,7 @@ class ActiveQueryNS extends ActiveQuery
 
     public function sort()
     {
-        $this->orderBy('order DESC, lft ASC');
+        $this->orderBy('lft ASC, order ASC');
         return $this;
     }
 }

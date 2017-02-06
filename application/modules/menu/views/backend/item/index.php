@@ -5,10 +5,13 @@ use app\modules\menu\models\MenuItem;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use kartik\icons\Icon;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\menu\models\MenuItemSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
+
+Icon::map($this, Icon::FI);
 
 $this->title = Yii::t('menu', 'Menu Items');
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,13 +33,25 @@ $this->params['actions_buttons'] = [
 ];
 ?>
 <div class="menu-index">
-
     <?= GridView::widget([
         'id'           => 'table-grid',
         'tableOptions' => ['class' => 'table table-striped table-bordered table-advance table-hover'],
         'dataProvider' => $dataProvider,
         'filterModel'  => $searchModel,
+        'options' => [
+            'class' => 'grid-view',
+            'data' => [
+                'sortable-widget' => 1,
+                'sortable-url' => \yii\helpers\Url::toRoute(['sorting']),
+            ],
+        ],
+        'rowOptions' => function ($model, $key, $index, $grid) {
+            return ['data-sortable-id' => $model->id];
+        },
         'columns'      => [
+            [
+                'class' => \kotchuprik\sortable\grid\Column::className(),
+            ],
             [
                 'attribute' => 'id',
                 'options'   => ['style' => 'width:36px'],
@@ -61,7 +76,7 @@ $this->params['actions_buttons'] = [
             ],
             [
                 'attribute' => 'menu_type_id',
-                'options'   => ['style' => '100px'],
+                'options'   => ['style' => 'width: 100px'],
                 'value'     => function ($model) {
                     /** @var $model \app\modules\menu\models\MenuItem */
                     return $model->menuType->title;
@@ -75,9 +90,7 @@ $this->params['actions_buttons'] = [
                     /** @var $model \app\modules\menu\models\MenuItem */
                     return $model->level > 2 ? $model->parent->title : '';
                 },
-                'filter'    => \yii\helpers\ArrayHelper::map(\app\modules\menu\models\MenuItem::find()->excludeRoots()->orderBy('lft')->all(), 'id', function (
-                    $model
-                ) {
+                'filter'    => \yii\helpers\ArrayHelper::map(\app\modules\menu\models\MenuItem::find()->excludeRoots()->orderBy('lft')->all(), 'id', function ($model) {
                     /** @var $model \app\modules\menu\models\MenuItem */
                     return str_repeat("- ", max($model->level - 2, 0)) . $model->title;
                 }),

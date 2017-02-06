@@ -18,7 +18,7 @@ class ApiPageController extends ApiController
 {
 
     public function actionView($slug) {
-        return $this->findModel($slug);
+        return $this->renderWidgets($this->findModel($slug), 'content');
     }
 
     protected function findModel($slug)
@@ -28,6 +28,5 @@ class ApiPageController extends ApiController
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-
     }
 }

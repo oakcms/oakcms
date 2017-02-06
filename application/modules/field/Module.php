@@ -26,7 +26,8 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
         'numeric' => 'Число',
         'text' => 'Текст',
         'textarea' => 'Текстарея',
-        'image' => 'Картинка'
+        'image' => 'Картинка',
+        'textBlock' => 'Text Block'
     ];
 
     public $_relationModels = [];

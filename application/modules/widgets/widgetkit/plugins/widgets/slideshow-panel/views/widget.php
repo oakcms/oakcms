@@ -13,28 +13,28 @@ $options[] = ($settings['autoplay_pause']) ? '' : 'pauseOnHover: false';
 $options = '{'.implode(',', array_filter($options)).'}';
 
 // Panel
-$panel = 'uk-panel';
+$panel = '{wk}-panel';
 switch ($settings['panel']) {
     case 'box' :
-        $panel .= ' uk-panel-box';
+        $panel .= ' {wk}-panel-box';
         break;
     case 'primary' :
-        $panel .= ' uk-panel-box uk-panel-box-primary';
+        $panel .= ' {wk}-panel-box {wk}-panel-box-primary';
         break;
     case 'secondary' :
-        $panel .= ' uk-panel-box uk-panel-box-secondary';
+        $panel .= ' {wk}-panel-box {wk}-panel-box-secondary';
         break;
 }
 
 // Media Width
 if ($settings['media_align'] == 'top') {
 
-    $media_width = 'uk-width-1-1';
-    $content_width = 'uk-width-1-1';
+    $media_width = '{wk}-width-1-1';
+    $content_width = '{wk}-width-1-1';
 
 } else {
 
-    $media_width = 'uk-width-' . $settings['media_breakpoint'] . '-' . $settings['media_width'];
+    $media_width = '{wk}-width-' . $settings['media_breakpoint'] . '-' . $settings['media_width'];
 
     switch ($settings['media_width']) {
         case '1-5':
@@ -63,32 +63,32 @@ if ($settings['media_align'] == 'top') {
             break;
     }
 
-    $content_width = 'uk-width-' . $settings['media_breakpoint'] . '-' . $content_width;
+    $content_width = '{wk}-width-' . $settings['media_breakpoint'] . '-' . $content_width;
 
     // Align Right
-    $media_width .= ($settings['media_align'] == 'right') ? ' uk-float-right uk-flex-order-last-' . $settings['media_breakpoint'] : '';
+    $media_width .= ($settings['media_align'] == 'right') ? ' {wk}-float-right {wk}-flex-order-last-' . $settings['media_breakpoint'] : '';
 
 }
 
 // Content Align
-$content_align  = ($settings['content_align'] && $settings['media_align'] != 'top') ? 'uk-flex-middle' : '';
+$content_align  = ($settings['content_align'] && $settings['media_align'] != 'top') ? '{wk}-flex-middle' : '';
 
 // Title Size
 switch ($settings['title_size']) {
     case 'panel':
-        $title_size = 'uk-panel-title';
+        $title_size = '{wk}-panel-title';
         break;
     case 'large':
-        $title_size = 'uk-heading-large uk-margin-top-remove';
+        $title_size = '{wk}-heading-large {wk}-margin-top-remove';
         break;
     default:
-        $title_size = 'uk-' . $settings['title_size'] . ' uk-margin-top-remove';
+        $title_size = '{wk}-' . $settings['title_size'] . ' {wk}-margin-top-remove';
 }
 
 // Content Size
 switch ($settings['content_size']) {
     case 'large':
-        $content_size = 'uk-text-large';
+        $content_size = '{wk}-text-large';
         break;
     case 'h1':
     case 'h2':
@@ -96,7 +96,7 @@ switch ($settings['content_size']) {
     case 'h4':
     case 'h5':
     case 'h6':
-        $content_size = 'uk-' . $settings['content_size'];
+        $content_size = '{wk}-' . $settings['content_size'];
         break;
     default:
         $content_size = '';
@@ -105,19 +105,19 @@ switch ($settings['content_size']) {
 // Link Style
 switch ($settings['link_style']) {
     case 'button':
-        $link_style = 'uk-button';
+        $link_style = '{wk}-button';
         break;
     case 'primary':
-        $link_style = 'uk-button uk-button-primary';
+        $link_style = '{wk}-button {wk}-button-primary';
         break;
     case 'button-large':
-        $link_style = 'uk-button uk-button-large';
+        $link_style = '{wk}-button {wk}-button-large';
         break;
     case 'primary-large':
-        $link_style = 'uk-button uk-button-large uk-button-primary';
+        $link_style = '{wk}-button {wk}-button-large {wk}-button-primary';
         break;
     case 'button-link':
-        $link_style = 'uk-button uk-button-link';
+        $link_style = '{wk}-button {wk}-button-link';
         break;
     default:
         $link_style = '';
@@ -129,22 +129,22 @@ $link_target = ($settings['link_target']) ? ' target="_blank"' : '';
 // Badge Style
 switch ($settings['badge_style']) {
     case 'badge':
-        $badge_style = 'uk-badge';
+        $badge_style = '{wk}-badge';
         break;
     case 'success':
-        $badge_style = 'uk-badge uk-badge-success';
+        $badge_style = '{wk}-badge {wk}-badge-success';
         break;
     case 'warning':
-        $badge_style = 'uk-badge uk-badge-warning';
+        $badge_style = '{wk}-badge {wk}-badge-warning';
         break;
     case 'danger':
-        $badge_style = 'uk-badge uk-badge-danger';
+        $badge_style = '{wk}-badge {wk}-badge-danger';
         break;
     case 'text-muted':
-        $badge_style  = 'uk-text-muted';
+        $badge_style  = '{wk}-text-muted';
         break;
     case 'text-primary':
-        $badge_style  = 'uk-text-primary';
+        $badge_style  = '{wk}-text-primary';
         break;
 }
 
@@ -154,18 +154,18 @@ $class = $settings['class'] ? ' class="' . $settings['class'] . '"' : '';
 ?>
 
 <div id="wk-<?php echo $settings['id']; ?>"<?php echo $class; ?>>
-    <div class="uk-panel <?php echo $panel; ?> uk-padding-remove uk-overflow-hidden">
+    <div class="{wk}-panel <?php echo $panel; ?> {wk}-padding-remove {wk}-overflow-hidden">
 
         <?php if ($settings['media']) : ?>
-        <div class="uk-grid uk-grid-collapse <?php echo $content_align; ?>" data-uk-grid-margin>
-            <div class="<?php echo $media_width ?> uk-text-center">
+        <div class="{wk}-grid {wk}-grid-collapse <?php echo $content_align; ?>" data-{wk}-grid-margin>
+            <div class="<?php echo $media_width ?> {wk}-text-center">
                 <?php echo $this->render('plugins/widgets/' . $widget->getConfig('name')  . '/views/_media.php', compact('items', 'settings', 'widget')); ?>
             </div>
             <div class="<?php echo $content_width ?>">
         <?php endif; ?>
 
-        <div class="uk-panel-body uk-text-<?php echo $settings['text_align']; ?>" data-uk-slideshow="<?php echo $options; ?>">
-            <ul class="uk-slideshow">
+        <div class="{wk}-panel-body {wk}-text-<?php echo $settings['text_align']; ?>" data-{wk}-slideshow="<?php echo $options; ?>">
+            <ul class="{wk}-slideshow">
                 <?php foreach ($items as $item) : ?>
 
                 <li>
@@ -174,24 +174,24 @@ $class = $settings['class'] ? ' class="' . $settings['class'] . '"' : '';
                     <h3 class="<?php echo $title_size; ?>">
 
                         <?php if ($item['link']) : ?>
-                            <a class="uk-link-reset" href="<?php echo $item->escape('link'); ?>" <?php echo $link_target; ?>><?php echo $item['title']; ?></a>
+                            <a class="{wk}-link-reset" href="<?php echo $item->escape('link'); ?>" <?php echo $link_target; ?>><?php echo $item['title']; ?></a>
                         <?php else : ?>
                             <?php echo $item['title']; ?>
                         <?php endif; ?>
 
                         <?php if ($item['badge'] && $settings['badge']) : ?>
-                        <span class="uk-margin-small-left <?php echo $badge_style; ?>"><?php echo $item['badge']; ?></span>
+                        <span class="{wk}-margin-small-left <?php echo $badge_style; ?>"><?php echo $item['badge']; ?></span>
                         <?php endif; ?>
 
                     </h3>
                     <?php endif; ?>
 
                     <?php if ($item['content'] && $settings['content']) : ?>
-                    <div class="<?php echo $content_size; ?> uk-margin-top"><?php echo $item['content']; ?></div>
+                    <div class="<?php echo $content_size; ?> {wk}-margin-top"><?php echo $item['content']; ?></div>
                     <?php endif; ?>
 
                     <?php if ($item['link'] && $settings['link']) : ?>
-                    <p class="uk-margin-bottom-remove"><a<?php if($link_style) echo ' class="' . $link_style . '"'; ?> href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>><?php echo $app['translator']->trans($settings['link_text']); ?></a></p>
+                    <p class="{wk}-margin-bottom-remove"><a<?php if($link_style) echo ' class="' . $link_style . '"'; ?> href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>><?php echo $app['translator']->trans($settings['link_text']); ?></a></p>
                     <?php endif; ?>
 
                 </li>
@@ -200,7 +200,7 @@ $class = $settings['class'] ? ' class="' . $settings['class'] . '"' : '';
             </ul>
 
             <?php if (!$settings['nav_overlay'] && ($settings['nav'] != 'none')) : ?>
-            <div class="uk-margin-top">
+            <div class="{wk}-margin-top">
                 <?php echo $this->render('plugins/widgets/' . $widget->getConfig('name')  . '/views/_nav.php', compact('items', 'settings')); ?>
             </div>
             <?php endif ?>
@@ -221,11 +221,11 @@ $class = $settings['class'] ? ' class="' . $settings['class'] . '"' : '';
 
         var settings   = <?php echo json_encode($settings); ?>,
             container  = $('#wk-<?php echo $settings["id"]; ?>'),
-            slideshows = container.find('[data-uk-slideshow]');
+            slideshows = container.find('[data-{wk}-slideshow]');
 
         if (slideshows.length > 1) {
             container.on('beforeshow.uk.slideshow', function(e, next) {
-                slideshows.not(next.closest('[data-uk-slideshow]')[0]).data('slideshow').show(next.index());
+                slideshows.not(next.closest('[data-{wk}-slideshow]')[0]).data('slideshow').show(next.index());
             });
         }
 

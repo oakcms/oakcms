@@ -5,12 +5,15 @@ namespace app\modules\content\models;
 use app\components\behaviors\HitableBehavior;
 use app\modules\admin\components\behaviors\SettingModel;
 use app\modules\admin\models\Medias;
+use app\modules\field\behaviors\AttachFields;
+use dosamigos\taggable\Taggable;
 use dosamigos\translateable\TranslateableBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
+use yii\validators\UniqueValidator;
 
 /**
  * This is the model class for table "{{%content_articles}}".
@@ -28,6 +31,7 @@ use yii\db\ActiveQuery;
  * @property string $image
  * @property integer $comment_status
  * @property string $create_user_ip
+ * @property string $layout
  * @property integer $access_type
  * @property integer $category_id
  * @property string $settings
@@ -45,6 +49,22 @@ class ContentArticles extends \app\components\ActiveRecord
             'title' => function($model) {
                 return $model->title;
             },
+            'categoryTitle' => function($model) {
+                return $model->category->title;
+            },
+            'content' => function($model) {
+                return $model->content;
+            },
+            'image' => function($model) {
+                return $model->getUploadUrl('image');
+            },
+            'fields' => function($model) {
+                $return = [];
+                foreach ($model->getFields() as $field) {
+                    $return[$field->slug] = $model->getField($field->slug);
+                }
+                return $return;
+            }
         ];
     }
 
@@ -57,6 +77,7 @@ class ContentArticles extends \app\components\ActiveRecord
             TimestampBehavior::className(),
             SettingModel::className(),
             Taggable::className(),
+            AttachFields::className(),
             [
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'create_user_id',
@@ -66,6 +87,21 @@ class ContentArticles extends \app\components\ActiveRecord
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'slugAttribute' => 'slug',
+                'ensureUnique' => true,
+                'uniqueValidator' => [
+                    'class' => UniqueValidator::className(),
+                    'targetClass' => ContentArticlesLang::className(),
+                    'targetAttribute' => 'slug',
+                    'filter' => function ($query) {
+                        /**
+                         * @var $query ActiveQuery
+                         */
+                        if(!$this->isNewRecord)
+                            $query->andWhere('content_articles_id <> :a_id', ['a_id' => $this->id]);
+
+                        return $query;
+                    }
+                ],
             ],
             'hit' => [
                 'class' => HitableBehavior::className(),
@@ -128,8 +164,9 @@ class ContentArticles extends \app\components\ActiveRecord
             [['title', 'content', 'language'], 'required'],
             [['update_user_id','status', 'comment_status', 'access_type', 'category_id', 'main_image'], 'integer'],
             [['create_user_ip'], 'string', 'max' => 20],
+            [['description'], 'string'],
             //[['settings'], 'string'],
-            [['title', 'link', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 255],
+            [['title', 'link', 'meta_title', 'meta_keywords', 'meta_description', 'layout'], 'string', 'max' => 255],
             [['published_at'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             ['published_at', 'default', 'value' => time()],
             //[['category_id'], 'exist', 'targetClass' => ArticleCategory::className(), 'targetAttribute' => 'id'],
@@ -143,7 +180,9 @@ class ContentArticles extends \app\components\ActiveRecord
                     /**
                      * @var $query ActiveQuery
                      */
-                    $query->andWhere('content_articles_id <> :a_id', ['a_id' => $this->id]);
+                    if(!$this->isNewRecord)
+                        $query->andWhere('content_articles_id <> :a_id', ['a_id' => $this->id]);
+
                     return $query;
                 }
             ],
@@ -169,6 +208,7 @@ class ContentArticles extends \app\components\ActiveRecord
             'create_user_ip' => Yii::t('content', 'Create User Ip'),
             'access_type' => Yii::t('content', 'Access Type'),
             'category_id' => Yii::t('content', 'Category'),
+            'tagNames' => Yii::t('content', 'Tags'),
         ];
     }
 

@@ -1,0 +1,231 @@
+// Name:            Nestable
+// Description:     Defines styles for nestable lists
+//
+// Component:       `wk-nestable`
+//
+// Sub-objects:     `wk-nestable-list`
+//                  `wk-nestable-item`
+//                  `wk-nestable-handle`
+//                  `wk-nestable-moving`
+//                  `wk-nestable-toggle`
+//                  `wk-nestable-panel`
+//
+// Modifier:        `wk-nestable-dragged`
+//                  `wk-nestable-placeholder`
+//
+// States:          `wk-parent`
+//                  `wk-collapsed`
+//
+// Markup:
+//
+// <!-- wk-nestable -->
+// <ul class="wk-nestable" data-wk-nestable>
+//     <li></li>
+//     <li></li>
+// </ul>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@nestable-padding-left:                         40px;
+
+@nestable-item-margin:                          10px;
+
+@nestable-dragged-z-index:                      1050;
+
+@nestable-placeholder-border:                   #ddd;
+
+@nestable-empty-height:                         30px;
+
+@nestable-toggle-icon:                          "\f147";
+@nestable-toggle-collapsed-icon:                "\f196";
+
+@nestable-panel-padding:                        5px;
+@nestable-panel-background:                     #f5f5f5;
+
+
+/* ========================================================================
+   Component: Nestable
+ ========================================================================== */
+
+.wk-nestable {
+    padding: 0;
+    list-style: none;
+    .hook-nestable;
+}
+
+/*
+ * Disables the default callout shown when you touch and hold a touch target
+ * Currently only works in Webkit
+ */
+
+.wk-nestable a,
+.wk-nestable img { -webkit-touch-callout: none; }
+
+
+/* Sub-object `wk-nestable-list`
+ ========================================================================== */
+
+.wk-nestable-list {
+    margin: 0;
+    padding-left: @nestable-padding-left;
+    list-style: none;
+}
+
+
+/* Sub-modifier `wk-nestable-item`
+ ========================================================================== */
+
+/*
+ * 1. Deactivate browser touch actions in IE11
+ */
+
+.wk-nestable-item {
+    /* 1 */
+    touch-action: none;
+    .hook-nestable-item;
+}
+
+.wk-nestable-item + .wk-nestable-item { margin-top: @nestable-item-margin; }
+
+.wk-nestable-list:not(.wk-nestable-dragged) > .wk-nestable-item:first-child { margin-top: @nestable-item-margin; }
+
+
+/* Sub-modifier `wk-nestable-dragged`
+ ========================================================================== */
+
+/*
+ * 1. Reset style
+ */
+
+.wk-nestable-dragged {
+    position: absolute;
+    z-index: @nestable-dragged-z-index;
+    pointer-events: none;
+    /* 1 */
+    padding-left: 0;
+    .hook-nestable-dragged;
+}
+
+
+/* Sub-modifier `wk-nestable-placeholder`
+ ========================================================================== */
+
+.wk-nestable-placeholder { position: relative; }
+
+.wk-nestable-placeholder > * { opacity: 0; }
+
+.wk-nestable-placeholder:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 1px dashed @nestable-placeholder-border;
+    opacity: 1;
+    .hook-nestable-placeholder;
+}
+
+
+/* Empty List
+ ========================================================================== */
+
+.wk-nestable-empty {
+    min-height: @nestable-empty-height;
+    .hook-nestable-empty;
+}
+
+
+/* Sub-object `wk-nestable-handle`
+ ========================================================================== */
+
+/*
+ * Deactivate browser touch actions in IE11
+ */
+
+.wk-nestable-handle { touch-action: none; }
+
+/* Hover */
+.wk-nestable-handle:hover { cursor: move; }
+
+
+/* Sub-object `wk-nestable-moving`
+ ========================================================================== */
+
+.wk-nestable-moving,
+/* Needed if moving over links or buttons */
+.wk-nestable-moving * { cursor: move; }
+/* Fixes dragging items over iframes */
+.wk-nestable-moving iframe { pointer-events: none; }
+
+
+/* [data-nestable-action='toggle']
+ ========================================================================== */
+
+/*
+ * 1. Makes text unselectable. Happens if double clicked by mistake
+ */
+
+[data-nestable-action='toggle'] {
+    cursor: pointer;
+    /* 1 */
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* Sub-object `.wk-nestable-toggle`
+ ========================================================================== */
+
+.wk-nestable-toggle {
+    display: inline-block;
+    visibility: hidden;
+    .hook-nestable-toggle;
+}
+
+.wk-nestable-toggle:after {
+    content: @nestable-toggle-icon;
+    font-family: FontAwesome;
+}
+
+.wk-parent > :not(.wk-nestable-list) .wk-nestable-toggle { visibility: visible; }
+
+/*
+ * Collapsed
+ */
+
+.wk-collapsed .wk-nestable-list { display: none; }
+
+.wk-collapsed .wk-nestable-toggle:after { content: @nestable-toggle-collapsed-icon; }
+
+
+/* Sub-object `wk-nestable-panel`
+ ========================================================================== */
+
+.wk-nestable-panel {
+    padding: @nestable-panel-padding;
+    background: @nestable-panel-background;
+    .hook-nestable-panel;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-nestable-misc;
+
+.hook-nestable() {}
+.hook-nestable-item() {}
+.hook-nestable-dragged() {}
+.hook-nestable-placeholder() {}
+.hook-nestable-empty() {}
+.hook-nestable-handle() {}
+.hook-nestable-toggle() {}
+.hook-nestable-panel() {}
+.hook-nestable-misc() {}

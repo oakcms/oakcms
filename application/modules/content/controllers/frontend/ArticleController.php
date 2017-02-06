@@ -83,7 +83,7 @@ class ArticleController extends Controller
             ];
         }
 
-        return $this->render('view', [
+        return $this->render($model->layout, [
             'breadcrumbs' => $breadcrumbs,
             'model' => $model,
             'categoryModel' => $categoryModel

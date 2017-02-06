@@ -2,6 +2,10 @@
 
 namespace app\modules\content\models;
 
+use app\behaviors\NestedSetsBehavior;
+use app\modules\content\models\query\ContentPagesQuery;
+use app\modules\field\behaviors\AttachFields;
+use app\modules\text\api\Text;
 use Yii;
 use app\components\ActiveQuery;
 use app\components\ActiveRecord;
@@ -9,22 +13,46 @@ use app\modules\admin\components\behaviors\SettingModel;
 use dosamigos\translateable\TranslateableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%content_pages}}".
  *
  * @property integer $id
+ * @property integer $parent_id
  * @property string $layout
  * @property string $title
  * @property string $slug
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $ordering
+ * @property integer $lft
+ * @property integer $rgt
+ * @property integer $level
  */
 class ContentPages extends ActiveRecord
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
+
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%content_pages}}';
+    }
+
+    /**
+     * @inheritdoc
+     * @return ContentPagesQuery
+     */
+    public static function find()
+    {
+        return new ContentPagesQuery(get_called_class());
+    }
 
     public function fields()
     {
@@ -51,8 +79,32 @@ class ContentPages extends ActiveRecord
             'meta_description' => function($model) {
                 return $model->meta_description;
             },
+            'background_image' => function($model) {
+                return $model->background_image;
+            },
             'settings' => function($model) {
                 return $model->settings;
+            },
+            'parent' => function($model) {
+                if($model->parent) {
+                    $parent = $model->parent;
+                    return [
+                        'title' => $parent->title,
+                        'link' => Url::to($parent->getFrontendViewLink())
+                    ];
+                }
+                return false;
+            },
+            'fields' => function($model) {
+                $return = [];
+                foreach ($model->getFields() as $field) {
+                    if($field->type == 'textBlock') {
+                        $return[$field->slug] = Text::get((int)$model->getField($field->slug), true);
+                    } else {
+                        $return[$field->slug] = $model->getField($field->slug);
+                    }
+                }
+                return $return;
             }
         ];
     }
@@ -65,19 +117,16 @@ class ContentPages extends ActiveRecord
         return [
             TimestampBehavior::className(),
             SettingModel::className(),
+            NestedSetsBehavior::className(),
+            AttachFields::className(),
             [
-                'class' => SluggableBehavior::className(),
+                'class'     => SluggableBehavior::className(),
                 'attribute' => 'title',
-                'slugAttribute' => 'slug',
             ],
-            [
-                'class'                 => \mongosoft\file\UploadImageBehavior::className(),
-                'attribute'             => 'background_image',
-                'scenarios'             => ['insert', 'update'],
-                'placeholder'           => '@webroot/uploads/user/non_image.png',
-                'createThumbsOnSave'    => true,
-                'path'                  => '@webroot/uploads/background_image/category_{id}',
-                'url'                   => '@web/uploads/background_image/category_{id}',
+            'sortable' => [
+                'class' => \kotchuprik\sortable\behaviors\Sortable::className(),
+                'query' => self::find(),
+                'orderAttribute' => 'ordering'
             ],
             'trans' => [
                 'class' => TranslateableBehavior::className(),
@@ -88,19 +137,6 @@ class ContentPages extends ActiveRecord
         ];
     }
 
-    public function getTranslations()
-    {
-        return $this->hasMany(ContentPagesLang::className(), ['content_pages_id' => 'id']);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function tableName()
-    {
-        return '{{%content_pages}}';
-    }
-
     /**
      * @inheritdoc
      */
@@ -108,9 +144,10 @@ class ContentPages extends ActiveRecord
     {
         return [
             [['content', 'status'], 'required'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'created_at', 'parent_id', 'lft', 'rgt', 'level', 'ordering', 'updated_at'], 'integer'],
             [['meta_title', 'meta_keywords', 'meta_description', 'layout'], 'string', 'max' => 255],
-            [['title', 'description', 'settings'], 'string'],
+            [['title', 'description', 'settings', 'background_image'], 'string'],
+            ['parent_id', 'default', 'value' => 0],
             [['slug'], 'string', 'max' => 150],
             [
                 ['slug'],
@@ -121,11 +158,32 @@ class ContentPages extends ActiveRecord
                     /**
                      * @var $query ActiveQuery
                      */
-                    $query->andWhere('`content_pages_id` <> :a_id', ['a_id' => $this->id]);
+                    $query->joinWith(['page'])
+                        ->andWhere(ContentPagesLang::tableName().'.content_pages_id <> :a_id', ['a_id' => $this->id]);
+
+                    /*
+                    if ($parent = self::findOne($this->parent_id)) {
+                        $query->andWhere(self::tableName().'.lft>=:lft AND '.self::tableName().'.rgt<=:rgt AND '.self::tableName().'.level=:level', [
+                            'lft'      => $parent->lft,
+                            'rgt'      => $parent->rgt,
+                            'level'    => $parent->level + 1
+                        ]);
+                    }
+                    */
+
                     return $query;
                 }
             ],
-            [['background_image'], 'image', 'extensions' => 'jpg, jpeg, gif, png, JPG', 'on' => ['insert', 'update']],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function transactions()
+    {
+        return [
+            self::SCENARIO_DEFAULT => self::OP_ALL,
         ];
     }
 
@@ -136,11 +194,42 @@ class ContentPages extends ActiveRecord
     {
         return [
             'id' => Yii::t('content', 'ID'),
+            'parent_id' => Yii::t('content', 'Parent Category ID'),
             'layout' => Yii::t('content', 'Layout'),
             'status' => Yii::t('content', 'Status'),
             'created_at' => Yii::t('content', 'Created At'),
             'updated_at' => Yii::t('content', 'Updated At'),
         ];
+    }
+
+    public function saveNode($runValidation = true, $attributes = null)
+    {
+        if ($this->getIsNewRecord()) {
+            // если parent_id не задан, то ищем корневой элемент
+            if ($parent = $this->parent_id ? self::findOne($this->parent_id) : self::find()->roots()->one()) {
+                $this->parent_id = $parent->id;
+
+                return $this->appendTo($parent, $runValidation, $attributes);
+            } else {
+                // если рутового элемента не существует, то сохраняем модель как корневую
+                return $this->makeRoot($runValidation, $attributes);
+            }
+        }
+
+        // модель перемещена в другую модель
+        if ($this->getOldAttribute('parent_id') != $this->parent_id && $newParent = $this->parent_id ? self::findOne($this->parent_id) : self::find()->roots()->one()) {
+            $this->parent_id = $newParent->id;
+
+            return $this->appendTo($newParent, $runValidation, $attributes);
+        }
+        // просто апдейт
+        return $this->save($runValidation, $attributes);
+    }
+
+
+    public function getTranslations()
+    {
+        return $this->hasMany(ContentPagesLang::className(), ['content_pages_id' => 'id']);
     }
 
     /**
@@ -163,11 +252,19 @@ class ContentPages extends ActiveRecord
     }
 
     /**
+     * @return ContentPages
+     */
+    public function getParent()
+    {
+        return $this->hasOne(self::className(), ['id' => 'parent_id']);
+    }
+
+    /**
      * @inheritdoc
      */
     public function getFrontendViewLink()
     {
-        return ['content/page/view', 'slug' => $this->slug];
+        return ['/content/page/view', 'slug' => $this->slug];
     }
 
     /**
@@ -175,7 +272,7 @@ class ContentPages extends ActiveRecord
      */
     public static function frontendViewLink($model)
     {
-        return ['content/page/view', 'slug' => $model['slug']];
+        return ['/content/page/view', 'slug' => $model['slug']];
     }
 
     /**
@@ -201,6 +298,15 @@ class ContentPages extends ActiveRecord
         // Видалення перекладу
         foreach ($this->getTranslations()->all() as $translations) {
             $translations->delete();
+        }
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
+
+        if (array_key_exists('ordering', $changedAttributes)) {
+            $this->ordering ? $this->parent->reorderNode('ordering') : $this->parent->reorderNode('lft');
         }
     }
 }

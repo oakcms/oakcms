@@ -7,23 +7,23 @@ $nav_item = '';
 if ($settings['nav'] == 'tabs') {
 
     // Positon
-    $nav = ($settings['position'] != 'top') ? 'uk-tab uk-tab-'. $settings['position'] : 'uk-tab';
+    $nav = ($settings['position'] != 'top') ? '{wk}-tab {wk}-tab-'. $settings['position'] : '{wk}-tab';
 
     // Alignment
     if ($settings['position'] == 'top' || $settings['position'] == 'bottom') {
 
         // Right
-        $nav .= ($settings['alignment'] == 'right') ? ' uk-tab-flip' : '';
+        $nav .= ($settings['alignment'] == 'right') ? ' {wk}-tab-flip' : '';
 
         // Justify
-        $nav .= ($settings['alignment'] == 'justify') ? ' uk-tab-grid' : '';
-        $nav_item = ($settings['alignment'] == 'justify') ? ' class="uk-width-1-' . count($items) . '"' : '';
+        $nav .= ($settings['alignment'] == 'justify') ? ' {wk}-tab-grid' : '';
+        $nav_item = ($settings['alignment'] == 'justify') ? ' class="{wk}-width-1-' . count($items) . '"' : '';
 
         // Center
         if ($settings['alignment'] == 'center') {
-            $tabs_center = 'uk-tab-center';
+            $tabs_center = '{wk}-tab-center';
             if ($settings['position'] == 'bottom') {
-                $tabs_center .= ' uk-tab-center-bottom';
+                $tabs_center .= ' {wk}-tab-center-bottom';
             }
         }
 
@@ -37,43 +37,43 @@ if ($settings['nav'] == 'tabs') {
 
         switch ($settings['nav']) {
             case 'text':
-                $nav = 'uk-subnav';
+                $nav = '{wk}-subnav';
                 break;
             case 'lines':
-                $nav = 'uk-subnav uk-subnav-line';
+                $nav = '{wk}-subnav {wk}-subnav-line';
                 break;
             case 'nav':
-                $nav = 'uk-subnav uk-subnav-pill';
+                $nav = '{wk}-subnav {wk}-subnav-pill';
                 break;
             case 'thumbnails':
-                $nav = 'uk-thumbnav';
-                $nav_item = ($settings['alignment'] == 'justify') ? ' class="uk-width-1-' . count($items) . '"' : '';
+                $nav = '{wk}-thumbnav';
+                $nav_item = ($settings['alignment'] == 'justify') ? ' class="{wk}-width-1-' . count($items) . '"' : '';
                 break;
             case 'dotnav':
-                $nav = 'uk-dotnav';
+                $nav = '{wk}-dotnav';
                 break;
         }
 
         // Alignment
-        $nav .= ($settings['alignment'] != 'justify') ? ' uk-flex-' . $settings['alignment'] : '';
+        $nav .= ($settings['alignment'] != 'justify') ? ' {wk}-flex-' . $settings['alignment'] : '';
 
     } else {
 
         switch ($settings['nav']) {
             case 'text':
-                $nav = 'uk-list uk-list-space';
+                $nav = '{wk}-list {wk}-list-space';
                 break;
             case 'lines':
-                $nav = 'uk-list uk-list-line';
+                $nav = '{wk}-list {wk}-list-line';
                 break;
             case 'nav':
-                $nav = 'uk-nav uk-nav-side';
+                $nav = '{wk}-nav {wk}-nav-side';
                 break;
             case 'thumbnails':
-                $nav = 'uk-thumbnav uk-flex-column';
+                $nav = '{wk}-thumbnav {wk}-flex-column';
                 break;
             case 'dotnav':
-                $nav = 'uk-dotnav uk-flex-column';
+                $nav = '{wk}-dotnav {wk}-flex-column';
                 break;
         }
 
@@ -92,7 +92,7 @@ $animation = ($settings['animation'] != 'none') ? ',animation:\'' . $settings['a
 <div class="<?php echo $tabs_center; ?>">
 <?php endif ?>
 
-<ul class="<?php echo $nav; ?>" data-uk-<?php echo $javascript; ?>="{connect:'#wk-<?php echo $settings['id']; ?>'<?php echo $animation; ?>}">
+<ul class="<?php echo $nav; ?>" data-{wk}-<?php echo $javascript; ?>="{connect:'#wk-<?php echo $settings['id']; ?>'<?php echo $animation; ?>}">
 <?php foreach ($items as $item) : ?>
     <?php
 

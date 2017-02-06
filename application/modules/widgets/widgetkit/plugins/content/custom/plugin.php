@@ -25,7 +25,8 @@ return array(
         ),
         'data'  => array(
             'items' => array(),
-            'random' => false
+            'random' => 0,
+            'parse_shortcodes' => 1
         )
 
     ),
@@ -39,8 +40,12 @@ return array(
                 $content['items'] = $newitems;
             }
 
+            if (!isset($content['parse_shortcodes'])) {
+                $content['parse_shortcodes'] = 1;
+            }
+
             foreach ($content['items'] as $data) {
-                if (isset($data['content'])) {
+                if (isset($data['content']) && $content['parse_shortcodes']) {
                     $data['content'] = $app['filter']->apply($data['content'], 'content');
                 }
                 $items->add($data);
@@ -52,6 +57,11 @@ return array(
     'events' => array(
 
         'init.admin' => function($event, $app) {
+
+            if ($app['config']->get('system_editor')) {
+                $app['scripts']->add('editor', 'WK_SYSTEM_EDITOR = "'.$app['config']->get('system_editor').'";', array(), 'string');
+            }
+
             $app['scripts']->add('widgetkit-custom-controller', 'plugins/content/custom/assets/controller.js');
             $app['angular']->addTemplate('custom.edit', 'plugins/content/custom/views/edit.php', true);
         }

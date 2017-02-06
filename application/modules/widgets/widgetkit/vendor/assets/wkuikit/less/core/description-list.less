@@ -1,0 +1,71 @@
+// Name:            Description list
+// Description:     Defines styles for description lists
+//
+// Component:       `wk-description-list`
+//
+// Modifiers:       `wk-description-list-horizontal`
+//                  `wk-description-list-line`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@description-list-horizontal-width:             160px;
+@description-list-horizontal-margin-left:       180px;
+
+@description-list-line-margin-top:              5px;
+@description-list-line-border-width:            1px;
+@description-list-line-border:                  #ddd;
+@description-list-line-color:                   #999;
+
+@description-list-line-font-weight:             normal;
+
+
+/* ========================================================================
+   Component: Description list
+ ========================================================================== */
+
+
+/* Modifier: `wk-description-list-horizontal`
+ ========================================================================== */
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .wk-description-list-horizontal { overflow: hidden; }
+
+    .wk-description-list-horizontal > dt {
+        width: @description-list-horizontal-width;
+        float: left;
+        clear: both;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .wk-description-list-horizontal > dd { margin-left: @description-list-horizontal-margin-left; }
+}
+
+
+/* Modifier: `wk-description-list-line`
+ ========================================================================== */
+
+.wk-description-list-line > dt { font-weight: @description-list-line-font-weight; }
+
+.wk-description-list-line > dt:nth-child(n+2) {
+    margin-top: @description-list-line-margin-top;
+    padding-top: @description-list-line-margin-top;
+    border-top: @description-list-line-border-width solid @description-list-line-border;
+}
+
+.wk-description-list-line > dd { color: @description-list-line-color; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-description-list-misc;
+
+.hook-description-list-misc() {}

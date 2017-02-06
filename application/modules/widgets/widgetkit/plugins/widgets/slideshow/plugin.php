@@ -41,6 +41,7 @@ return array(
             'overlay'            => 'none',
             'overlay_animation'  => 'fade',
             'overlay_background' => true,
+            'link_media'         => false,
 
             'title'              => true,
             'content'            => true,
@@ -61,8 +62,8 @@ return array(
     'events' => array(
 
         'init.site' => function($event, $app) {
-            $app['scripts']->add('uikit-slideshow', 'vendor/assets/uikit/js/components/slideshow.min.js', array('uikit'));
-            $app['scripts']->add('uikit-slideshow-fx', 'vendor/assets/uikit/js/components/slideshow-fx.min.js', array('uikit'));
+            $app['scripts']->add('uikit2-slideshow', "vendor/assets/uikit/js/components/slideshow.min.js", array('uikit2'));
+            $app['scripts']->add('uikit2-slideshow-fx', "vendor/assets/uikit/js/components/slideshow-fx.min.js", array('uikit2'));
         },
 
         'init.admin' => function($event, $app) {

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'YOOtheme\\Widgetkit\\Framework\\' => array($baseDir . '/src/Framework/src'),
     'YOOtheme\\Widgetkit\\' => array($baseDir . '/src'),
-    'YOOtheme\\Framework\\' => array($vendorDir . '/yootheme/framework/src'),
+    'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
 );

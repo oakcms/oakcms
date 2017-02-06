@@ -10,50 +10,50 @@ $options = '{'.implode(',', array_filter($options)).'}';
 
 // Toggle
 $toggle  = 'wk-popover-toggle';
-$toggle .= $settings['toggle'] ? ' uk-icon-' . $settings['toggle'] . ' uk-icon-button' : '';
+$toggle .= $settings['toggle'] ? ' {wk}-icon-' . $settings['toggle'] . ' {wk}-icon-button' : '';
 
 // Panel
-$panel = 'uk-panel';
+$panel = '{wk}-panel';
 switch ($settings['panel']) {
     case 'box' :
-        $panel .= ' uk-panel-box';
+        $panel .= ' {wk}-panel-box';
         break;
     case 'primary' :
-        $panel .= ' uk-panel-box uk-panel-box-primary';
+        $panel .= ' {wk}-panel-box {wk}-panel-box-primary';
         break;
     case 'secondary' :
-        $panel .= ' uk-panel-box uk-panel-box-secondary';
+        $panel .= ' {wk}-panel-box {wk}-panel-box-secondary';
         break;
 }
 
 // Title Size
 switch ($settings['title_size']) {
     case 'panel':
-        $title_size = 'uk-panel-title';
+        $title_size = '{wk}-panel-title';
         break;
     case 'large':
-        $title_size = 'uk-heading-large uk-margin-top-remove';
+        $title_size = '{wk}-heading-large {wk}-margin-top-remove';
         break;
     default:
-        $title_size = 'uk-' . $settings['title_size'] . ' uk-margin-top-remove';
+        $title_size = '{wk}-' . $settings['title_size'] . ' {wk}-margin-top-remove';
 }
 
 // Link Style
 switch ($settings['link_style']) {
     case 'button':
-        $link_style = 'uk-button';
+        $link_style = '{wk}-button';
         break;
     case 'primary':
-        $link_style = 'uk-button uk-button-primary';
+        $link_style = '{wk}-button {wk}-button-primary';
         break;
     case 'button-large':
-        $link_style = 'uk-button uk-button-large';
+        $link_style = '{wk}-button {wk}-button-large';
         break;
     case 'primary-large':
-        $link_style = 'uk-button uk-button-large uk-button-primary';
+        $link_style = '{wk}-button {wk}-button-large {wk}-button-primary';
         break;
     case 'button-link':
-        $link_style = 'uk-button uk-button-link';
+        $link_style = '{wk}-button {wk}-button-link';
         break;
     default:
         $link_style = '';
@@ -78,7 +78,7 @@ if ($settings['image_hero_width'] != 'auto' || $settings['image_hero_height'] !=
 
 <?php if ($settings['image']) : ?>
 <div class="<?php echo $settings['class']; ?>">
-    <div class="uk-position-relative uk-display-inline-block">
+    <div class="{wk}-position-relative {wk}-display-inline-block">
 
         <img src="<?php echo $image; ?>" alt="">
 
@@ -95,15 +95,15 @@ if ($settings['image_hero_width'] != 'auto' || $settings['image_hero_height'] !=
 
         ?>
 
-        <div class="uk-position-absolute uk-hidden-small" style="left:<?php echo $left; ?>; top:<?php echo $top; ?>;" data-uk-dropdown="<?php echo $options; ?>">
+        <div class="{wk}-position-absolute {wk}-hidden-small" style="left:<?php echo $left; ?>; top:<?php echo $top; ?>;" data-{wk}-dropdown="<?php echo $options; ?>">
 
-            <?php if ($settings['contrast']) echo '<div class="uk-contrast">'; ?>
+            <?php if ($settings['contrast']) echo '<div class="{wk}-contrast">'; ?>
 
             <a class="<?php echo $toggle; ?>"></a>
 
             <?php if ($settings['contrast']) echo '</div>'; ?>
 
-            <div class="uk-dropdown-blank" <?php echo ($settings['width']) ? 'style="width:' . $settings['width'] . 'px;"': ''; ?>>
+            <div class="{wk}-dropdown-blank" <?php echo ($settings['width']) ? 'style="width:' . $settings['width'] . 'px;"': ''; ?>>
 
                <?php echo $this->render('plugins/widgets/' . $widget->getConfig('name')  . '/views/_content.php', compact('item', 'settings', 'panel', 'title_size', 'link_style', 'link_target')); ?>
 
@@ -114,15 +114,15 @@ if ($settings['image_hero_width'] != 'auto' || $settings['image_hero_height'] !=
     <?php endforeach; ?>
     </div>
 
-    <div class="uk-margin uk-visible-small" data-uk-slideset="{default: 1}">
-        <div class="uk-margin">
-            <ul class="uk-slideset uk-grid uk-flex-center">
+    <div class="{wk}-margin {wk}-visible-small" data-{wk}-slideset="{default: 1}">
+        <div class="{wk}-margin">
+            <ul class="{wk}-slideset {wk}-grid {wk}-flex-center">
                 <?php foreach ($items as $i => $item) : ?>
                 <li><?php echo $this->render('plugins/widgets/' . $widget->getConfig('name')  . '/views/_content.php', compact('item', 'settings', 'panel', 'title_size', 'link_style', 'link_target')); ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
-        <ul class="uk-slideset-nav uk-dotnav uk-flex-center"></ul>
+        <ul class="{wk}-slideset-nav {wk}-dotnav {wk}-flex-center"></ul>
     </div>
 
 </div>

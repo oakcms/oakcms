@@ -5,7 +5,7 @@
 
             <div class="wk-panel-marginless">
 
-                <ul id="js-content-items" class="uk-nav uk-nav-side uk-sortable" data-uk-sortable="{dragCustomClass:'wk-sortable'}" ng-show="content.data.items.length">
+                <ul id="js-content-items" class="uk-nav uk-nav-side uk-sortable" data-uk-sortable="{dragCustomClass:'wk-sortable wk-noconflict'}" ng-show="content.data.items.length">
                     <li class="uk-visible-hover" ng-repeat="item in content.data.items" ng-class="(item === $parent.item ? 'uk-active':'')">
                         <div class="wk-subnav-right uk-hidden">
                             <ol class="uk-subnav wk-subnav-icon">
@@ -31,6 +31,9 @@
                     <div class="uk-form-controls uk-form-controls-condensed">
                         <label class="uk-flex uk-flex-middle {{ content.data['random'] ? '':'uk-text-muted'}}"><input class="uk-margin-small-right" type="checkbox" ng-model="content.data['random']" ng-true-value="1" ng-false-value="0"> {{'Random Order' | trans}}</label>
                     </div>
+                    <div class="uk-form-controls uk-form-controls-condensed">
+                        <label class="uk-flex uk-flex-middle {{ content.data['parse_shortcodes'] ? '':'uk-text-muted'}}"><input class="uk-margin-small-right" type="checkbox" ng-model="content.data['parse_shortcodes']" ng-true-value="1" ng-false-value="0"> {{'Parse shortcodes' | trans}}</label>
+                    </div>
                 </div>
 
             </div>
@@ -55,7 +58,7 @@
             <div class="uk-form-row">
                 <label class="uk-form-label" for="wk-content">{{'Content' | trans}}</label>
                 <div class="uk-form-controls">
-                    <field-htmleditor id="wk-content" class="uk-width-1-1" ng-model="item.content" rows="10"></field-htmleditor>
+                    <field type="editor" id="wk-content" class="uk-width-1-1" ng-model="item.content" rows="10"></field>
                 </div>
             </div>
 

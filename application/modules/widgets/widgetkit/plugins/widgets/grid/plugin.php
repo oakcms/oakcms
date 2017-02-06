@@ -68,8 +68,8 @@ return array(
     'events' => array(
 
         'init.site' => function($event, $app) {
-            $app['scripts']->add('uikit-grid', 'vendor/assets/uikit/js/components/grid.min.js', array('uikit'));
-            $app['scripts']->add('uikit-grid-parallax', 'vendor/assets/uikit/js/components/grid-parallax.min.js', array('uikit'));
+            $app['scripts']->add('uikit2-grid', "vendor/assets/uikit/js/components/grid.min.js", array('uikit2'));
+            $app['scripts']->add('uikit2-grid-parallax', "vendor/assets/uikit/js/components/grid-parallax.min.js", array('uikit2'));
         },
 
         'init.admin' => function($event, $app) {

@@ -6,17 +6,17 @@ $nav_item = '';
 
 switch ($settings['nav']) {
     case 'dotnav':
-        $nav  = 'uk-dotnav';
-        $nav .= ($settings['nav_overlay'] && $settings['nav_contrast']) ? ' uk-dotnav-contrast' : '';
+        $nav  = '{wk}-dotnav';
+        $nav .= ($settings['nav_overlay'] && $settings['nav_contrast']) ? ' {wk}-dotnav-contrast' : '';
         break;
     case 'thumbnails':
-        $nav = 'uk-thumbnav';
-        $nav_item = ($settings['nav_align'] == 'justify') ? ' class="uk-width-1-' . count($items) . '"' : '';
+        $nav = '{wk}-thumbnav';
+        $nav_item = ($settings['nav_align'] == 'justify') ? ' class="{wk}-width-1-' . count($items) . '"' : '';
         break;
 }
 
 // Alignment
-$nav .= ($settings['nav_align'] != 'justify') ? ' uk-flex-' . $settings['nav_align'] : '';
+$nav .= ($settings['nav_align'] != 'justify') ? ' {wk}-flex-' . $settings['nav_align'] : '';
 
 ?>
 
@@ -44,7 +44,7 @@ $nav .= ($settings['nav_align'] != 'justify') ? ' uk-flex-' . $settings['nav_ali
         }
 
         ?>
-    <li<?php echo $nav_item; ?> data-uk-slideshow-item="<?php echo $i; ?>"><a href="#"><?php echo ($thumbnail) ? $thumbnail : $item['title']; ?></a></li>
+    <li<?php echo $nav_item; ?> data-{wk}-slideshow-item="<?php echo $i; ?>"><a href="#"><?php echo ($thumbnail) ? $thumbnail : $item['title']; ?></a></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>

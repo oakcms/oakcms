@@ -22,19 +22,19 @@ foreach ($item as $field) {
 
 // Position Relative
 if ($settings['slidenav'] == 'default') {
-    $position_relative = 'uk-slidenav-position';
+    $position_relative = '{wk}-slidenav-position';
 } else {
-    $position_relative = 'uk-position-relative';
+    $position_relative = '{wk}-position-relative';
 }
 
 ?>
 
 <?php if (count($fields) > 1) : ?>
-<div data-uk-slideshow="<?php echo $options; ?>">
+<div data-{wk}-slideshow="<?php echo $options; ?>">
 
     <div class="<?php echo $position_relative; ?>">
 
-        <ul class="uk-slideshow">
+        <ul class="{wk}-slideshow">
         <?php foreach ($fields as $field) :
 
                 // Media Type
@@ -52,7 +52,7 @@ if ($settings['slidenav'] == 'default') {
                     $attrs['autoplay'] = true;
                     $attrs['loop']     = true;
                     $attrs['muted']    = true;
-                    $attrs['class']    = 'uk-cover-object uk-position-absolute';
+                    $attrs['class']    = '{wk}-cover-object {wk}-position-absolute';
                 }
 
                 $attrs['width']  = ($width) ? $width : '';
@@ -82,23 +82,23 @@ if ($settings['slidenav'] == 'default') {
         </ul>
 
         <?php if ($item['link'] && $settings['link']) : ?>
-        <a class="uk-position-cover" href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>></a>
+        <a class="{wk}-position-cover" href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>></a>
         <?php endif ?>
 
         <?php if (in_array($settings['slidenav'], array('top-left', 'top-right', 'bottom-left', 'bottom-right'))) : ?>
-        <div class="uk-position-<?php echo $settings['slidenav']; ?> uk-margin uk-margin-left uk-margin-right">
-            <div class="uk-grid uk-grid-small">
-                <div><a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-previous" data-uk-slideshow-item="previous"></a></div>
-                <div><a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-next" data-uk-slideshow-item="next"></a></div>
+        <div class="{wk}-position-<?php echo $settings['slidenav']; ?> {wk}-margin {wk}-margin-left {wk}-margin-right">
+            <div class="{wk}-grid {wk}-grid-small">
+                <div><a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-previous" data-{wk}-slideshow-item="previous"></a></div>
+                <div><a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-next" data-{wk}-slideshow-item="next"></a></div>
             </div>
         </div>
         <?php elseif ($settings['slidenav'] == 'default') : ?>
-        <a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-previous uk-hidden-touch" data-uk-slideshow-item="previous"></a>
-        <a href="#" class="uk-slidenav <?php if ($settings['nav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-next uk-hidden-touch" data-uk-slideshow-item="next"></a>
+        <a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-previous {wk}-hidden-touch" data-{wk}-slideshow-item="previous"></a>
+        <a href="#" class="{wk}-slidenav <?php if ($settings['nav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-next {wk}-hidden-touch" data-{wk}-slideshow-item="next"></a>
         <?php endif ?>
 
         <?php if ($settings['nav_overlay']) : ?>
-        <div class="uk-overlay-panel uk-overlay-bottom">
+        <div class="{wk}-overlay-panel {wk}-overlay-bottom">
             <?php echo $this->render('plugins/widgets/' . $widget->getConfig('name')  . '/views/_nav.php', compact('item', 'fields', 'settings')); ?>
         </div>
         <?php endif ?>
@@ -106,7 +106,7 @@ if ($settings['slidenav'] == 'default') {
     </div>
 
     <?php if (!$settings['nav_overlay']) : ?>
-    <div class="uk-margin">
+    <div class="{wk}-margin">
         <?php echo $this->render('plugins/widgets/' . $widget->getConfig('name')  . '/views/_nav.php', compact('item', 'fields', 'settings')); ?>
     </div>
     <?php endif ?>
@@ -129,12 +129,12 @@ if ($settings['slidenav'] == 'default') {
     }
 
     if ($item->type($field) == 'video') {
-        $attrs['class'] = 'uk-responsive-width';
+        $attrs['class'] = '{wk}-responsive-width';
         $attrs['controls'] = true;
     }
 
     if ($item->type($field) == 'iframe') {
-        $attrs['class'] = 'uk-responsive-width';
+        $attrs['class'] = '{wk}-responsive-width';
     }
 
     $attrs['width']  = ($width) ? $width : '';

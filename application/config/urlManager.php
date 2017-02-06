@@ -10,10 +10,9 @@
 return [
     'class'                             => 'app\components\UrlManager',
     'enablePrettyUrl'                   => true,
-    'cache'                             => false,
     'showScriptName'                    => false,
     'enableStrictParsing'               => true,
-    //'enableDefaultLanguageUrlCode'      => false,
+    'enableDefaultLanguageUrlCode'      => false,
     'normalizer' => [
         'class' => 'yii\web\UrlNormalizer',
     ],
@@ -21,7 +20,7 @@ return [
         '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>/<id:\d+>'   => '<_m>/<_c>/<_a>',
         '<_m:[\w\-]+>/<_c:[\w\-]+>/<_a:[\w\-]+>'            => '<_m>/<_c>/<_a>',
     ],
-    /*'ignoreLanguageUrlPatterns' => [
+    'ignoreLanguageUrlPatterns' => [
         '#^admin#' => '#^admin#',
-    ],*/
+    ],
 ];

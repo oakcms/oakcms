@@ -1,0 +1,343 @@
+// Name:            Modal
+// Description:     Defines styles for modal dialogs
+//
+// Component:       `wk-modal`
+//
+// Sub-objects:     `wk-modal-dialog`
+//                  `wk-modal-close`
+//                  `wk-modal-header`
+//                  `wk-modal-footer`
+//                  `wk-modal-caption`
+//                  `wk-modal-spinner`
+//
+// Modifiers:       `wk-modal-dialog-lightbox`
+//                  `wk-modal-dialog-blank`
+//                  `wk-modal-dialog-large`
+//
+// States:          `wk-open`
+//
+// Uses:            Close: `wk-close`
+//
+// Markup:
+//
+// <!-- wk-modal -->
+// <a href="#modal" data-wk-modal=""></a>
+// <div id="modal" class="wk-modal">
+//     <div class="wk-modal-dialog">
+//         <a href="" class="wk-modal-close wk-close"></a>
+//         <p></p>
+//     </div>
+// </div>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@modal-z-index:                                 1010;
+@modal-background:                              rgba(0,0,0,0.6);
+
+@modal-dialog-margin-vertical:                  50px;
+@modal-dialog-padding:                          20px;
+@modal-dialog-width:                            600px;
+@modal-dialog-background:                       #fff;
+
+@modal-dialog-large-width:                      930px;
+@modal-dialog-large-width-large:                1130px;
+
+@modal-header-margin-bottom:                    15px;
+
+@modal-footer-margin-top:                       15px;
+
+@modal-caption-margin-bottom:                   -10px;
+@modal-caption-color:                           #fff;
+
+
+/* ========================================================================
+   Component: Modal
+ ========================================================================== */
+
+/*
+ * This is the modal overlay and modal dialog container
+ * 1. Hide by default
+ * 2. Set fixed position
+ * 3. Allow scrolling for the modal dialog
+ * 4. Mask the background page
+ * 5. Fade-in transition
+ * 6. Deactivate browser history navigation in IE11
+ * 7. force hardware acceleration to prevent browser rendering hiccups
+ */
+
+.wk-modal {
+    /* 1 */
+    display: none;
+    /* 2 */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: @modal-z-index;
+    /* 3 */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* 4 */
+    background: @modal-background;
+    /* 5 */
+    opacity: 0;
+    -webkit-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
+    /* 6 */
+    touch-action: cross-slide-y pinch-zoom double-tap-zoom;
+    /* 7 */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    .hook-modal;
+}
+
+/*
+ * Open state
+ */
+
+.wk-modal.wk-open { opacity: 1; }
+
+/*
+ * Prevents duplicated scrollbar caused by 4.
+ */
+
+.wk-modal-page,
+.wk-modal-page body { overflow: hidden; }
+
+
+/* Sub-object: `wk-modal-dialog`
+ ========================================================================== */
+
+/*
+ * 1. Create position context for caption, spinner and close button
+ * 2. Set box sizing
+ * 3. Set style
+ * 4. Slide-in transition
+ */
+
+.wk-modal-dialog {
+    /* 1 */
+    position: relative;
+    /* 2 */
+    box-sizing: border-box;
+    margin: @modal-dialog-margin-vertical auto;
+    padding: @modal-dialog-padding;
+    width: @modal-dialog-width;
+    max-width: 100%;
+    max-width: ~"calc(100% - 20px)";
+    /* 3 */
+    background: @modal-dialog-background;
+    /* 4 */
+    opacity: 0;
+    -webkit-transform: translateY(-100px);
+    transform: translateY(-100px);
+    -webkit-transition: opacity 0.3s linear, -webkit-transform 0.3s ease-out;
+    transition: opacity 0.3s linear, transform 0.3s ease-out;
+    .hook-modal-dialog;
+}
+
+/* Phone landscape and smaller */
+@media (max-width: @breakpoint-small-max) {
+
+    /*
+     * Fit in small screen
+     */
+
+    .wk-modal-dialog {
+        width: auto;
+        margin: 10px auto;
+    }
+
+}
+
+/*
+ * Open state
+ */
+
+.wk-open .wk-modal-dialog {
+    /* 4 */
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+}
+
+/*
+ * Remove margin from the last-child
+ */
+
+.wk-modal-dialog > :not([class*='wk-modal-']):last-child { margin-bottom: 0; }
+
+
+/* Close in modal
+ ========================================================================== */
+
+.wk-modal-dialog > .wk-close:first-child {
+    margin: -10px -10px 0 0;
+    float: right;
+}
+
+/*
+ * Remove margin from adjacent element
+ */
+
+ .wk-modal-dialog > .wk-close:first-child + :not([class*='wk-modal-']) { margin-top: 0; }
+
+
+/* Modifier: `wk-modal-dialog-lightbox`
+ ========================================================================== */
+
+.wk-modal-dialog-lightbox {
+    margin: 15px auto;
+    padding: 0;
+    max-width: 95%;
+    max-width: ~"calc(100% - 30px)";
+    min-height: 50px;
+    .hook-modal-dialog-lightbox;
+}
+
+/*
+ * Close button
+ */
+
+.wk-modal-dialog-lightbox > .wk-close:first-child {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    margin: 0;
+    float: none;
+}
+
+/* Phone landscape and smaller */
+@media (max-width: @breakpoint-small-max) {
+
+    .wk-modal-dialog-lightbox > .wk-close:first-child {
+        top: -7px;
+        right: -7px;
+    }
+
+}
+
+/* Modifier: `wk-modal-dialog-blank`
+ ========================================================================== */
+
+.wk-modal-dialog-blank {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    -webkit-transition: opacity 0.3s linear;
+    transition: opacity 0.3s linear;
+}
+
+/*
+* Close button
+*/
+
+.wk-modal-dialog-blank > .wk-close:first-child {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+    margin: 0;
+    float: none;
+}
+
+
+/* Modifier: `wk-modal-dialog-large`
+ ========================================================================== */
+
+/* Tablet and bigger */
+@media (min-width: @breakpoint-medium) {
+
+    .wk-modal-dialog-large { width: @modal-dialog-large-width; }
+
+}
+
+/* Large screen and bigger */
+@media (min-width: @breakpoint-xlarge) {
+
+    .wk-modal-dialog-large { width: @modal-dialog-large-width-large; }
+
+}
+
+
+/* Sub-Object: `wk-modal-header` and `wk-modal-footer`
+ ========================================================================== */
+
+.wk-modal-header {
+    margin-bottom: @modal-header-margin-bottom;
+    .hook-modal-header;
+}
+
+.wk-modal-footer {
+    margin-top: @modal-footer-margin-top;
+    .hook-modal-footer;
+}
+
+/*
+ * Remove margin from the last-child
+ */
+
+.wk-modal-header  > :last-child,
+.wk-modal-footer  > :last-child { margin-bottom: 0; }
+
+
+/* Sub-Object: `wk-modal-caption`
+ ========================================================================== */
+
+.wk-modal-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: (-@modal-dialog-padding);
+    margin-bottom: @modal-caption-margin-bottom;
+    color: @modal-caption-color;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    .hook-modal-caption;
+}
+
+
+/* Sub-Object: `wk-modal-spinner`
+ ========================================================================== */
+
+.wk-modal-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    font-size: 25px;
+    color: #ddd;
+    .hook-modal-spinner;
+}
+
+.wk-modal-spinner:after {
+    content: "\f110";
+    display: block;
+    font-family: FontAwesome;
+    -webkit-animation: wk-rotate 2s infinite linear;
+    animation: wk-rotate 2s infinite linear;
+}
+
+
+// Hooks
+// ========================================================================
+
+.hook-modal-misc;
+
+.hook-modal() {}
+.hook-modal-dialog() {}
+.hook-modal-dialog-lightbox() {}
+.hook-modal-header() {}
+.hook-modal-footer() {}
+.hook-modal-caption() {}
+.hook-modal-spinner() {}
+.hook-modal-misc() {}

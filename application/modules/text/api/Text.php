@@ -61,11 +61,9 @@ class Text extends API
             return $this->notFound($id_slug);
         }
 
-
+        $return = '';
+        $blocks = '';
         foreach ($texts as $text) {
-            $return = '';
-            $blocks = '';
-
             if(isset($text->where_to_place)) {
                 switch ($text->where_to_place) {
                     case '0':
@@ -76,6 +74,7 @@ class Text extends API
                         break;
                     case '1':
                         if(
+                            isset(Yii::$app->menuManager->activeMenu) &&
                             ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
                             in_array(Yii::$app->menuManager->activeMenu->id, $text->links)
                         ) {
@@ -86,6 +85,7 @@ class Text extends API
                         break;
                     case '-1':
                         if(
+                            isset(Yii::$app->menuManager->activeMenu) &&
                             ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
                             !in_array(Yii::$app->menuManager->activeMenu->id, $text->links)
                         ) {
@@ -118,7 +118,7 @@ class Text extends API
     private function findText($id_slug, $id)
     {
         if($id) {
-            $return = \app\modules\text\models\Text::find()->where(['status'=>1, 'id'=>$id])->all();
+            $return = \app\modules\text\models\Text::find()->where(['status'=>1, 'id'=>$id_slug])->all();
         } else {
             $return = (isset($this->_texts[$id_slug.'_'.\Yii::$app->language])) ? $this->_texts[$id_slug.'_'.\Yii::$app->language] : null;
         }

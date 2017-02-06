@@ -8,6 +8,7 @@
 
 namespace app\modules\gallery\models;
 
+use abeautifulsite\SimpleImage;
 use app\modules\gallery\ModuleTrait;
 use Yii;
 use yii\base\Exception;
@@ -19,6 +20,15 @@ class Image extends \yii\db\ActiveRecord
     use ModuleTrait;
 
     private $helper = false;
+
+    public function fields()
+    {
+        return parent::fields() + [
+            'imageUrl' => function($model) {
+                return $model->getUrl();
+            }
+        ];
+    }
 
     public function clearCache()
     {
@@ -43,7 +53,6 @@ class Image extends \yii\db\ActiveRecord
 
     public function getUrl($size = false, $main = false)
     {
-
         if($main && (!$size || $size == '')) {
             $url = $this->getModule()->getStoreUrl().'/' . $this->filePath;
         } else {
@@ -103,7 +112,7 @@ class Image extends \yii\db\ActiveRecord
             $image = new \Imagick($this->getPathToOrigin());
             $sizes = $image->getImageGeometry();
         } else {
-            $image = new \abeautifulsite\SimpleImage($this->getPathToOrigin());
+            $image = new SimpleImage($this->getPathToOrigin());
             $sizes['width'] = $image->get_width();
             $sizes['height'] = $image->get_height();
         }
@@ -181,7 +190,7 @@ class Image extends \yii\db\ActiveRecord
 
             $image->writeImage($pathToSave);
         } else {
-            $image = new \abeautifulsite\SimpleImage($imagePath);
+            $image = new SimpleImage($imagePath);
 
             if ($size) {
                 if ($size['height'] && $size['width']) {
@@ -205,7 +214,7 @@ class Image extends \yii\db\ActiveRecord
 
                 $waterMarkPath = Yii::getAlias($this->getModule()->waterMark);
 
-                $waterMark = new \abeautifulsite\SimpleImage($waterMarkPath);
+                $waterMark = new SimpleImage($waterMarkPath);
 
                 if ($waterMark->get_height() > $wmMaxHeight or $waterMark->get_width() > $wmMaxWidth) {
                     $waterMarkPath = $this

@@ -1,0 +1,139 @@
+// Name:            Article
+// Description:     Defines styles for articles within your page
+//
+// Component:       `wk-article`
+//
+// Sub-objects:     `wk-article-title`
+//                  `wk-article-meta`
+//                  `wk-article-lead`
+//                  `wk-article-divider`
+//
+// Markup:
+//
+// <!-- wk-article -->
+// <div class="wk-article">
+//     <h1 class="wk-article-title"></h1>
+//     <p class="wk-article-meta"></p>
+//     <p class="wk-article-lead"></p>
+//     <p></p>
+//     <hr class="wk-article-divider">
+//     <p></p>
+// </div>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@article-margin-top:                            25px;
+
+@article-title-font-size:                       36px;
+@article-title-line-height:                     42px;
+@article-title-font-weight:                     normal;
+@article-title-text-transform:                  none;
+
+@article-meta-font-size:                        12px;
+@article-meta-line-height:                      18px;
+@article-meta-color:                            #999;
+
+@article-lead-color:                            #444;
+@article-lead-font-size:                        18px;
+@article-lead-line-height:                      24px;
+@article-lead-font-weight:                      normal;
+
+@article-divider-margin:                        25px;
+@article-divider-border:                        #ddd;
+
+
+/* ========================================================================
+   Component: Article
+ ========================================================================== */
+
+/*
+ * Micro clearfix to make articles more robust
+ */
+
+.wk-article:before,
+.wk-article:after {
+    content: "";
+    display: table;
+}
+
+.wk-article:after { clear: both; }
+
+/*
+ * Remove margin from the last-child
+ */
+
+.wk-article > :last-child { margin-bottom: 0; }
+
+/*
+ * Vertical gutter for articles
+ */
+
+.wk-article + .wk-article { margin-top: @article-margin-top; }
+
+
+/* Sub-object `wk-article-title`
+ ========================================================================== */
+
+.wk-article-title {
+    font-size: @article-title-font-size;
+    line-height: @article-title-line-height;
+    font-weight: @article-title-font-weight;
+    text-transform: @article-title-text-transform;
+    .hook-article-title;
+}
+
+.wk-article-title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+/* Sub-object `wk-article-meta`
+ ========================================================================== */
+
+.wk-article-meta {
+    font-size: @article-meta-font-size;
+    line-height: @article-meta-line-height;
+    color: @article-meta-color;
+    .hook-article-meta;
+}
+
+
+/* Sub-object `wk-article-lead`
+ ========================================================================== */
+
+.wk-article-lead {
+    color: @article-lead-color;
+    font-size: @article-lead-font-size;
+    line-height: @article-lead-line-height;
+    font-weight: @article-lead-font-weight;
+    .hook-article-lead;
+}
+
+
+/* Sub-object `wk-article-divider`
+ ========================================================================== */
+
+.wk-article-divider {
+    margin-bottom: @article-divider-margin;
+    border-color: @article-divider-border;
+    .hook-article-divider;
+}
+
+* + .wk-article-divider { margin-top: @article-divider-margin; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-article-misc;
+
+.hook-article-title() {}
+.hook-article-meta() {}
+.hook-article-lead() {}
+.hook-article-divider() {}
+.hook-article-misc() {}

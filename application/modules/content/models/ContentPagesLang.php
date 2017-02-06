@@ -36,10 +36,14 @@ class ContentPagesLang extends \yii\db\ActiveRecord
         return [
             [['content_pages_id', 'content', 'language'], 'required'],
             [['content_pages_id'], 'integer'],
-            [['content', 'subtitle', 'title_h1'], 'string'],
+            [['content'], 'string'],
             [['title', 'slug', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 255],
             [['language'], 'string', 'max' => 10],
         ];
+    }
+
+    public function getPage() {
+        return $this->hasOne(ContentPages::className(), ['id' => 'content_pages_id']);
     }
 
     /**

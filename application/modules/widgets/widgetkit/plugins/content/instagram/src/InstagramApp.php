@@ -2,8 +2,8 @@
 
 namespace YOOtheme\Widgetkit\Content\instagram;
 
-use YOOtheme\Framework\Application;
-use YOOtheme\Framework\ApplicationAware;
+use YOOtheme\Widgetkit\Framework\Application;
+use YOOtheme\Widgetkit\Framework\ApplicationAware;
 
 
 class InstagramApp extends ApplicationAware
@@ -33,7 +33,7 @@ class InstagramApp extends ApplicationAware
         {
 
             $max_id = '';
-            $url    = "http://instagram.com/%s/media?max_id=%s";
+            $url    = "http://www.instagram.com/%s/media?max_id=%s";
 
             do {
 

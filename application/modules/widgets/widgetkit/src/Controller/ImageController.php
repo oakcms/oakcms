@@ -2,8 +2,8 @@
 
 namespace YOOtheme\Widgetkit\Controller;
 
-use YOOtheme\Framework\Routing\Controller;
-use YOOtheme\Framework\Routing\Exception\HttpException;
+use YOOtheme\Widgetkit\Framework\Routing\Controller;
+use YOOtheme\Widgetkit\Framework\Routing\Exception\HttpException;
 
 class ImageController extends Controller
 {

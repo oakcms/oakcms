@@ -31,7 +31,7 @@ class TextsLang extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['texts_id', 'title', 'text', 'language'], 'required'],
+            [['texts_id', 'title', 'language'], 'required'],
             [['texts_id'], 'integer'],
             [['text'], 'string'],
             [['title'], 'string', 'max' => 255],

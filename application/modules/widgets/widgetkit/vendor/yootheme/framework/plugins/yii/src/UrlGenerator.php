@@ -46,8 +46,8 @@ class UrlGenerator extends BaseGenerator
         }
 
         $route = array_merge($this->action, $parameters);
-
-        return Url::to(['/admin/widgets/'.$route['action'], $parameters], $referenceType);
+        $parameters[0] = '/admin/widgets/'.$route['action'];
+        return $this->to(Url::to($parameters), [], $referenceType);
     }
 
 

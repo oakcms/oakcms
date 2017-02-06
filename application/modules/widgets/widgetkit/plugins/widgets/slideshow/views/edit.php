@@ -167,7 +167,7 @@
                 <h3 class="wk-form-heading">{{'Media' | trans}}</h3>
 
                 <div class="uk-form-row">
-                    <span class="uk-form-label">{{'Display' | trans}}</span>
+                    <label class="uk-form-label">{{'Display' | trans}}</label>
                     <div class="uk-form-controls uk-form-controls-text">
                         <label><input type="checkbox" ng-model="widget.data['media']"> {{'Show media' | trans}}</label>
                     </div>
@@ -180,6 +180,13 @@
                         <p class="uk-form-controls-condensed">
                             <label><input class="uk-form-width-small" type="text" ng-model="widget.data['image_height']"> {{'Height (px)' | trans}}</label>
                         </p>
+                    </div>
+                </div>
+
+                <div class="uk-form-row">
+                    <label class="uk-form-label">{{'Link' || trans}}</label>
+                    <div class="uk-form-controls uk-form-controls-text">
+                        <label><input type="checkbox" ng-model="widget.data['link_media']"> {{'Link Media' || trans}}</label>
                     </div>
                 </div>
 

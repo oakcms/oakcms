@@ -7,6 +7,6 @@
 
 use \yii\helpers\Url;
 use app\modules\text\api\Text;
-$this->setSeoData('Osnova', '', '', '/');
+$this->setSeoData(Yii::$app->keyStorage->get('siteName'), '', '', '/');
 
 ?>

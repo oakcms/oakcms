@@ -1,0 +1,141 @@
+// Name:            Alert
+// Description:     Defines styles for alert messages
+//
+// Component:       `wk-alert`
+//
+// Sub-objects:     `wk-alert-close`
+//
+// Modifiers:       `wk-alert-success`
+//                  `wk-alert-warning`
+//                  `wk-alert-danger`
+//                  `wk-alert-large`
+//
+// Uses:            Close: `wk-close`
+//
+// Markup:
+//
+// <!-- wk-alert -->
+// <div class="wk-alert" data-wk-alert>
+//     <a href="#" class="wk-alert-close wk-close"></a>
+//     <p></p>
+// </div>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@alert-margin-vertical:                         15px;
+@alert-padding:                                 10px;
+@alert-background:                              #ebf7fd;
+@alert-color:                                   #2d7091;
+
+@alert-success-background:                      #f2fae3;
+@alert-success-color:                           #659f13;
+
+@alert-warning-background:                      #fffceb;
+@alert-warning-color:                           #e28327;
+
+@alert-danger-background:                       #fff1f0;
+@alert-danger-color:                            #d85030;
+
+@alert-large-padding:                           20px;
+
+
+/* ========================================================================
+   Component: Alert
+ ========================================================================== */
+
+.wk-alert {
+    margin-bottom: @alert-margin-vertical;
+    padding: @alert-padding;
+    background: @alert-background;
+    color: @alert-color;
+    .hook-alert;
+}
+
+/*
+ * Add margin if adjacent element
+ */
+
+* + .wk-alert { margin-top: @alert-margin-vertical; }
+
+/*
+ * Remove margin from the last-child
+ */
+
+.wk-alert > :last-child { margin-bottom: 0; }
+
+/*
+ * Keep color for headings if the default heading color is changed
+ */
+
+.wk-alert h1,
+.wk-alert h2,
+.wk-alert h3,
+.wk-alert h4,
+.wk-alert h5,
+.wk-alert h6 { color: inherit; }
+
+
+/* Close in alert
+ ========================================================================== */
+
+.wk-alert > .wk-close:first-child { float: right; }
+
+/*
+ * Remove margin from adjacent element
+ */
+
+.wk-alert > .wk-close:first-child + * { margin-top: 0; }
+
+
+/* Modifier: `wk-alert-success`
+ ========================================================================== */
+
+.wk-alert-success {
+    background: @alert-success-background;
+    color: @alert-success-color;
+    .hook-alert-success;
+}
+
+
+/* Modifier: `wk-alert-warning`
+ ========================================================================== */
+
+.wk-alert-warning {
+    background: @alert-warning-background;
+    color: @alert-warning-color;
+    .hook-alert-warning;
+}
+
+
+/* Modifier: `wk-alert-danger`
+ ========================================================================== */
+
+.wk-alert-danger {
+    background: @alert-danger-background;
+    color: @alert-danger-color;
+    .hook-alert-danger;
+}
+
+
+/* Modifier: `wk-alert-large`
+ ========================================================================== */
+
+.wk-alert-large { padding: @alert-large-padding; }
+
+.wk-alert-large > .wk-close:first-child { margin: -10px -10px 0 0; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-alert-misc;
+
+.hook-alert() {}
+.hook-alert-success() {}
+.hook-alert-warning() {}
+.hook-alert-danger() {}
+.hook-alert-misc() {}

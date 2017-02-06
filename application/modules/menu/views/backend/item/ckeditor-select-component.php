@@ -9,17 +9,20 @@
 
 $iframeId = 'iframe-select';
 
-$this->registerAssetBundle(\gromver\widgets\ModalIFrameAsset::className());
+$this->registerAssetBundle(\app\widgets\ModalIFrameAsset::className());
 
 $this->registerJs("yii.gromverIframe.dataHandler = function(data){
     window.opener.CKEDITOR.tools.callFunction({$CKEditorFuncNum}, data.link);
-    window.close();
+    window.close(); 
 }");
 ?>
 <style>
+    body,
+    html {
+        height: 100%!important;
+    }
     body {
         padding: 15px 0;
-        height: 100%;
     }
     body > .container-fluid {
         height: 100%;

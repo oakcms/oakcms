@@ -17,8 +17,8 @@ class ButtonDropdown extends \yii\bootstrap\ButtonDropdown
         $view = $this->getView();
 
         if ($this->clientOptions !== false) {
-            $js = "$.widget.bridge('uibutton', $.ui.button);";
-            $view->registerJs($js);
+            // $js = "$.widget.bridge('uibutton', $.ui.button);";
+            // $view->registerJs($js);
         }
 
         return parent::run();

@@ -11,27 +11,27 @@ $options[] = ($settings['autoplay_pause']) ? '' : 'pauseOnHover: false';
 $options = '{'.implode(',', array_filter($options)).'}';
 
 // Grid
-$grid  = 'uk-grid uk-grid-match uk-flex-center uk-grid-width-1-'.$settings['columns'];
-$grid .= $settings['columns_small'] ? ' uk-grid-width-small-1-'.$settings['columns_small'] : '';
-$grid .= $settings['columns_medium'] ? ' uk-grid-width-medium-1-'.$settings['columns_medium'] : '';
-$grid .= $settings['columns_large'] ? ' uk-grid-width-large-1-'.$settings['columns_large'] : '';
-$grid .= $settings['columns_xlarge'] ? ' uk-grid-width-xlarge-1-'.$settings['columns_xlarge'] : '';
+$grid  = '{wk}-grid {wk}-grid-match {wk}-flex-center {wk}-grid-width-1-'.$settings['columns'];
+$grid .= $settings['columns_small'] ? ' {wk}-grid-width-small-1-'.$settings['columns_small'] : '';
+$grid .= $settings['columns_medium'] ? ' {wk}-grid-width-medium-1-'.$settings['columns_medium'] : '';
+$grid .= $settings['columns_large'] ? ' {wk}-grid-width-large-1-'.$settings['columns_large'] : '';
+$grid .= $settings['columns_xlarge'] ? ' {wk}-grid-width-xlarge-1-'.$settings['columns_xlarge'] : '';
 
-$grid .= in_array($settings['gutter'], array('collapse','large','medium','small')) ? ' uk-grid-'.$settings['gutter'] : '' ;
+$grid .= in_array($settings['gutter'], array('collapse','large','medium','small')) ? ' {wk}-grid-'.$settings['gutter'] : '' ;
 
 // Title Size
 switch ($settings['title_size']) {
     case 'large':
-        $title_size = 'uk-heading-large uk-margin-top-remove';
+        $title_size = '{wk}-heading-large {wk}-margin-top-remove';
         break;
     default:
-        $title_size = 'uk-' . $settings['title_size'] . ' uk-margin-top-remove';
+        $title_size = '{wk}-' . $settings['title_size'] . ' {wk}-margin-top-remove';
 }
 
 // Content Size
 switch ($settings['content_size']) {
     case 'large':
-        $content_size = 'uk-text-large';
+        $content_size = '{wk}-text-large';
         break;
     case 'h1':
     case 'h2':
@@ -39,7 +39,7 @@ switch ($settings['content_size']) {
     case 'h4':
     case 'h5':
     case 'h6':
-        $content_size = 'uk-' . $settings['content_size'];
+        $content_size = '{wk}-' . $settings['content_size'];
         break;
     default:
         $content_size = '';
@@ -48,19 +48,19 @@ switch ($settings['content_size']) {
 // Link Style
 switch ($settings['link_style']) {
     case 'button':
-        $link_style = 'uk-button';
+        $link_style = '{wk}-button';
         break;
     case 'primary':
-        $link_style = 'uk-button uk-button-primary';
+        $link_style = '{wk}-button {wk}-button-primary';
         break;
     case 'button-large':
-        $link_style = 'uk-button uk-button-large';
+        $link_style = '{wk}-button {wk}-button-large';
         break;
     case 'primary-large':
-        $link_style = 'uk-button uk-button-large uk-button-primary';
+        $link_style = '{wk}-button {wk}-button-large {wk}-button-primary';
         break;
     case 'button-link':
-        $link_style = 'uk-button uk-button-link';
+        $link_style = '{wk}-button {wk}-button-link';
         break;
     default:
         $link_style = '';
@@ -71,21 +71,21 @@ $link_target = ($settings['link_target']) ? ' target="_blank"' : '';
 
 // Position Relative
 if ($settings['slidenav'] == 'default') {
-    $position_relative = 'uk-slidenav-position';
+    $position_relative = '{wk}-slidenav-position';
 } else {
-    $position_relative = 'uk-position-relative';
+    $position_relative = '{wk}-position-relative';
 }
 
 // Overlays
-$overlay_hover = ($settings['overlay_hover']) ? 'uk-overlay-' . $settings['overlay_animation'] : 'uk-ignore';
-$background = ($settings['overlay_background'] == 'hover') ? 'uk-overlay-' . $settings['overlay_animation'] : 'uk-ignore';
+$overlay_hover = ($settings['overlay_hover']) ? '{wk}-overlay-' . $settings['overlay_animation'] : '{wk}-ignore';
+$background = ($settings['overlay_background'] == 'hover') ? '{wk}-overlay-' . $settings['overlay_animation'] : '{wk}-ignore';
 
 ?>
 
-<div class="<?php echo $position_relative; ?> <?php echo $settings['class']; ?>" data-uk-slider="<?php echo $options; ?>">
+<div class="<?php echo $position_relative; ?> <?php echo $settings['class']; ?>" data-{wk}-slider="<?php echo $options; ?>">
 
-    <div class="uk-slider-container">
-        <ul class="uk-slider<?php if ($settings['fullscreen']) echo ' uk-slider-fullscreen'; ?> <?php echo $grid; ?>">
+    <div class="{wk}-slider-container">
+        <ul class="{wk}-slider<?php if ($settings['fullscreen']) echo ' {wk}-slider-fullscreen'; ?> <?php echo $grid; ?>">
         <?php foreach ($items as $item) :
 
                 // Media Type
@@ -141,24 +141,24 @@ $background = ($settings['overlay_background'] == 'hover') ? 'uk-overlay-' . $se
 
             <li>
 
-                <div class="uk-panel uk-overlay uk-overlay-hover uk-cover-background" <?php echo $media; ?>>
+                <div class="{wk}-panel {wk}-overlay {wk}-overlay-hover {wk}-cover-background" <?php echo $media; ?>>
 
                     <?php if ($media2) : ?>
-                    <div class="uk-overlay-panel uk-cover-background <?php if ($settings['image_animation'] != 'none') echo 'uk-overlay-' . $settings['image_animation']; ?>" <?php echo $media2; ?>></div>
+                    <div class="{wk}-overlay-panel {wk}-cover-background <?php if ($settings['image_animation'] != 'none') echo '{wk}-overlay-' . $settings['image_animation']; ?>" <?php echo $media2; ?>></div>
                     <?php endif; ?>
 
                     <?php if ($settings['overlay_background'] != 'none') : ?>
-                    <div class="uk-overlay-panel uk-overlay-background <?php echo $background; ?>"></div>
+                    <div class="{wk}-overlay-panel {wk}-overlay-background <?php echo $background; ?>"></div>
                     <?php endif; ?>
 
-                    <div class="uk-overlay-panel <?php echo $overlay_hover; ?> uk-flex uk-flex-center uk-flex-middle uk-text-<?php echo $settings['text_align']; ?>">
+                    <div class="{wk}-overlay-panel <?php echo $overlay_hover; ?> {wk}-flex {wk}-flex-center {wk}-flex-middle {wk}-text-<?php echo $settings['text_align']; ?>">
                         <div>
 
                             <?php if ($item['title'] && $settings['title']) : ?>
-                            <h3 class="<?php echo $title_size; ?> uk-margin-top-remove">
+                            <h3 class="<?php echo $title_size; ?> {wk}-margin-top-remove">
 
                                 <?php if ($item['link']) : ?>
-                                    <a class="uk-link-reset" href="<?php echo $item->escape('link') ?>"<?php echo $link_target; ?>><?php echo $item['title']; ?></a>
+                                    <a class="{wk}-link-reset" href="<?php echo $item->escape('link') ?>"<?php echo $link_target; ?>><?php echo $item['title']; ?></a>
                                 <?php else : ?>
                                     <?php echo $item['title']; ?>
                                 <?php endif; ?>
@@ -167,7 +167,7 @@ $background = ($settings['overlay_background'] == 'hover') ? 'uk-overlay-' . $se
                             <?php endif; ?>
 
                             <?php if ($item['content'] && $settings['content']) : ?>
-                            <div class="<?php echo $content_size; ?> uk-margin"><?php echo $item['content']; ?></div>
+                            <div class="<?php echo $content_size; ?> {wk}-margin"><?php echo $item['content']; ?></div>
                             <?php endif; ?>
 
                             <?php if ($item['link'] && $settings['link']) : ?>
@@ -178,7 +178,7 @@ $background = ($settings['overlay_background'] == 'hover') ? 'uk-overlay-' . $se
                     </div>
 
                     <?php if ($item['link'] && $settings['overlay_link']) : ?>
-                    <a class="uk-position-cover" href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>></a>
+                    <a class="{wk}-position-cover" href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>></a>
                     <?php endif; ?>
 
                 </div>
@@ -190,15 +190,15 @@ $background = ($settings['overlay_background'] == 'hover') ? 'uk-overlay-' . $se
     </div>
 
     <?php if (in_array($settings['slidenav'], array('top-left', 'top-right', 'bottom-left', 'bottom-right'))) : ?>
-    <div class="uk-position-<?php echo $settings['slidenav']; ?> uk-margin uk-margin-left uk-margin-right">
-        <div class="uk-grid uk-grid-small">
-            <div><a href="#" class="uk-slidenav <?php if ($settings['slidenav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-previous" data-uk-slider-item="previous"></a></div>
-            <div><a href="#" class="uk-slidenav <?php if ($settings['slidenav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-next" data-uk-slider-item="next"></a></div>
+    <div class="{wk}-position-<?php echo $settings['slidenav']; ?> {wk}-margin {wk}-margin-left {wk}-margin-right">
+        <div class="{wk}-grid {wk}-grid-small">
+            <div><a href="#" class="{wk}-slidenav <?php if ($settings['slidenav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-previous" data-{wk}-slider-item="previous"></a></div>
+            <div><a href="#" class="{wk}-slidenav <?php if ($settings['slidenav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-next" data-{wk}-slider-item="next"></a></div>
         </div>
     </div>
     <?php elseif ($settings['slidenav'] == 'default') : ?>
-    <a href="#" class="uk-slidenav <?php if ($settings['slidenav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-previous uk-hidden-touch" data-uk-slider-item="previous"></a>
-    <a href="#" class="uk-slidenav <?php if ($settings['slidenav_contrast']) echo 'uk-slidenav-contrast'; ?> uk-slidenav-next uk-hidden-touch" data-uk-slider-item="next"></a>
+    <a href="#" class="{wk}-slidenav <?php if ($settings['slidenav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-previous {wk}-hidden-touch" data-{wk}-slider-item="previous"></a>
+    <a href="#" class="{wk}-slidenav <?php if ($settings['slidenav_contrast']) echo '{wk}-slidenav-contrast'; ?> {wk}-slidenav-next {wk}-hidden-touch" data-{wk}-slider-item="next"></a>
     <?php endif ?>
 
 </div>

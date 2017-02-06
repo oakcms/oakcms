@@ -3,27 +3,18 @@
 namespace app\modules\system\controllers\frontend;
 
 use app\components\Controller;
+use app\modules\content\models\ContentArticles;
+use app\modules\content\models\ContentPages;
+use app\modules\system\models\RecruitmentForm;
 use app\modules\system\models\SystemBackCall;
 use yii\helpers\VarDumper;
+use yii\web\UploadedFile;
 
 /**
  * Default controller for the `system` module
  */
 class DefaultController extends Controller
 {
-
-    public function beforeAction($action)
-    {
-        if (parent::beforeAction($action)) {
-            // change layout for error action
-            if ($action->id == 'error')
-                $this->layout = '//_clear';
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function actions()
     {
         return [
@@ -48,51 +39,55 @@ class DefaultController extends Controller
         $model      = new SystemBackCall();
         $settings   = \Yii::$app->getModule('admin')->getSettings($this->module->id);
 
-        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
-            if ($model->contact($settings['BackCallEmail']['value'], $settings['BackCallSubject']['value'])) {
+        if (
+            $model->load(\Yii::$app->request->post()) &&
+            $model->contact($settings['BackCallEmail']['value'], $settings['BackCallSubject']['value'])
+        ) {
+            $success = [
+                'success' => \Yii::t('system', $settings['BackCallSuccessText']['value'])
+            ];
+        } else {
+            $this->error =\Yii::t('system', 'Error');
+        }
 
+        return $this->response($success);
+    }
+
+    public function actionSendRecruitment()
+    {
+        $success    = null;
+        $model      = new RecruitmentForm();
+        $settings   = \Yii::$app->getModule('admin')->getSettings($this->module->id);
+
+        if ($model->load(\Yii::$app->request->post())) {
+
+            $model->resume = UploadedFile::getInstance($model, 'resume');
+
+            if($model->resume) {
+                $filename = \Yii::getAlias('@webroot').'/uploads/emailattachments/' . uniqid() . '.' . $model->resume->extension;
+                $model->resume->saveAs($filename);
+            } else {
+                $filename = false;
+            }
+
+            if($model->contact($settings['BackCallEmail']['value'], $filename)) {
                 $success = [
                     'success' => \Yii::t('system', $settings['BackCallSuccessText']['value'])
                 ];
+            } else {
+                var_dump($model->resume);
+                exit;
             }
+
         }
 
-        return $this->formatResponse($success);
+        return $this->response($success);
     }
 
     public function actionLiveEdit($id)
     {
         \Yii::$app->session->set('oak_live_edit', $id);
         $this->back();
-    }
-
-    public function actionMenuRules()
-    {
-        if (\Yii::$app->hasModule('menu')) {
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $arr = [];
-            foreach (\Yii::$app->menuManager->menuMap->routes as $id => $item) {
-
-                $url = parse_url($item);
-
-                $arrC = explode('/', $url['path']);
-                $arrCR = [];
-                foreach ($arrC as $i) {
-                    $arrCR[] = ucfirst($i);
-                }
-                $controller = implode('', $arrCR);
-
-                $arr[$id] = [
-                    "tempUrls"   => $item,
-                    "controller" => $controller,
-                ];
-            }
-            foreach (\Yii::$app->menuManager->menuMap->paths as $id => $item) {
-                $arr[$id]['link'] = $id == \Yii::$app->menuManager->menuMap->mainMenu->id ? '' : $item;
-            }
-
-            return $arr;
-        }
     }
 
     public function actionGetTemplate() {
@@ -103,15 +98,41 @@ class DefaultController extends Controller
             // Парсимо УРЛ
             $request = parse_url($url);
 
-            return \Yii::$app->controller->renderPartial('//angular/'.$request['path']);
+            $view = '';
+            if($request['path'] == 'content/page/view') {
+                parse_str($request['query'], $where);
+
+                $page = ContentPages::find()
+                    ->joinWith(['translations'])
+                    ->andWhere(['{{%content_pages_lang}}.slug' => $where['slug'], 'status' => ContentPages::STATUS_PUBLISHED])
+                    ->one();
+
+                $layout = $page->layout;
+                $view = 'content/page/'.$layout;
+            } elseif($request['path'] == 'content/article/view') {
+                parse_str($request['query'], $where);
+
+                $page = ContentArticles::find()
+                    ->joinWith(['translations'])
+                    ->andWhere(['{{%content_articles_lang}}.slug' => $where['slug'], 'status' => ContentArticles::STATUS_PUBLISHED])
+                    ->one();
+
+                $layout = $page->layout;
+                $view = 'content/article/'.$layout;
+            } else {
+                $view = $request['path'];
+            }
+
+            return \Yii::$app->controller->renderPartial('//angular/'.$view);
         }
     }
 
     public function actionError()
     {
         $exception = \Yii::$app->errorHandler->exception;
+
         if ($exception !== null) {
-            //$this->layout = 'error';
+
             return $this->render('error', ['exception' => $exception]);
         }
     }

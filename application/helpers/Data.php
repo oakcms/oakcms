@@ -2,12 +2,10 @@
 namespace app\helpers;
 
 use Yii;
-use yii\helpers\Inflector;
-use yii\helpers\StringHelper;
 
 class Data
 {
-    public static function cache($key, $duration, $callable)
+    public static function cache($key, $duration, $callable, $dependency = null)
     {
         $cache = Yii::$app->cache;
         if($cache->exists($key)){
@@ -17,7 +15,7 @@ class Data
             $data = $callable();
 
             if($data) {
-                $cache->set($key, $data, $duration);
+                $cache->set($key, $data, $duration, $dependency);
             }
         }
         return $data;

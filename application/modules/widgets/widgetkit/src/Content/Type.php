@@ -2,8 +2,8 @@
 
 namespace YOOtheme\Widgetkit\Content;
 
-use YOOtheme\Framework\Application;
-use YOOtheme\Framework\Plugin\Plugin;
+use YOOtheme\Widgetkit\Framework\Application;
+use YOOtheme\Widgetkit\Framework\Plugin\Plugin;
 
 class Type extends Plugin implements TypeInterface
 {

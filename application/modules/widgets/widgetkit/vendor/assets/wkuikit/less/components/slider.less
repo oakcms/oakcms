@@ -1,0 +1,139 @@
+// Name:            Slider
+// Description:     Defines styles for a horizontal slider
+//
+// Component:       `wk-slider`
+//
+// Sub-objects:     `wk-slider-container`
+//
+// Modifier:        `wk-slider-fullscreen`
+//
+// States:          `wk-drag`
+//
+// Markup:
+//
+// <!-- wk-slider -->
+// <div data-wk-slider>
+//     <div class="wk-slider-container">
+//         <ul class="wk-slider">
+//             <li></li>
+//             <li></li>
+//         </ul>
+//     </div>
+// </div>
+//
+// ========================================================================
+
+
+/* ========================================================================
+   Component: Slider
+ ========================================================================== */
+
+/*
+ * RTL Compatibility
+ */
+ 
+[data-wk-slider] { direction: ltr; }
+
+html[dir="rtl"] .wk-slider > * { direction: rtl; }
+
+/*
+ * 1. Create position context
+ * 2. Create stacking context to prevent z-index issues with other components
+ * 3. Deactivate browser history navigation in IE11
+ */
+
+.wk-slider {
+    /* 1 */
+    position: relative;
+    /* 2 */
+    z-index: 0;
+    /* 3 */
+    touch-action: pan-y;
+}
+
+/*
+ * 1. Reset list style without interfering with grid
+ */
+
+.wk-slider:not(.wk-grid) {
+    /* 1 */
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/*
+ * Sub-object item
+ * 1. Position items above each other
+ */
+
+.wk-slider > * {
+    /* 1 */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/*
+ * Clip child elements
+ */
+
+.wk-slider-container { overflow: hidden; }
+
+/*
+ * Dragged
+ */
+
+.wk-slider:not(.wk-drag) {
+    -webkit-transition: -webkit-transform 200ms linear;
+    transition: transform 200ms linear;
+}
+
+/*
+ * 1. Makes text unselectable
+ */
+
+.wk-slider.wk-drag {
+    cursor: col-resize;
+    /* 1 */
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*
+ * 1. Prevents images and links from being dragged (default browser behavior)
+ * 2. Disables the default callout shown when you touch and hold a touch target
+ * Currently only works in Webkit
+ */
+
+.wk-slider a,
+.wk-slider img {
+    /* 1 */
+    -webkit-user-drag: none;
+    user-drag: none;
+    /* 2 */
+    -webkit-touch-callout: none;
+}
+
+/*
+ * 1. Prevents images and links from being dragged in Firefox
+ */
+
+.wk-slider img { pointer-events: none; }
+
+
+/* Modifier: `wk-slider-fullscreen`
+ ========================================================================== */
+
+.wk-slider-fullscreen,
+.wk-slider-fullscreen > li { height: 100vh; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-slider-misc;
+
+.hook-slider-misc() {}

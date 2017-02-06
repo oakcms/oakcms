@@ -16,7 +16,7 @@ return array(
         'item'  => array('title', 'content', 'media'),
         'fields' => array(
             array(
-                'type' => 'htmleditor',
+                'type' => 'editor',
                 'name' => 'lightbox_content',
                 'label' => 'Lightbox Content'
             )
@@ -60,7 +60,7 @@ return array(
             'link_text'              => 'View',
 
             'lightbox'               => 'default',
-            'lightbox_caption'       => 'content',
+            'lightbox_caption'       => 'title',
             'lightbox_nav_width'     => '70',
             'lightbox_nav_height'    => '70',
             'lightbox_nav_contrast'  => true,
@@ -85,10 +85,10 @@ return array(
     'events' => array(
 
         'init.site' => function($event, $app) {
-            $app['scripts']->add('uikit-grid', 'vendor/assets/uikit/js/components/grid.min.js', array('uikit'));
-            $app['scripts']->add('uikit-lightbox', 'vendor/assets/uikit/js/components/lightbox.min.js', array('uikit'));
-            $app['scripts']->add('uikit-slideshow', 'vendor/assets/uikit/js/components/slideshow.min.js', array('uikit'));
-            $app['scripts']->add('uikit-grid-parallax', 'vendor/assets/uikit/js/components/grid-parallax.min.js', array('uikit'));
+            $app['scripts']->add('uikit2-grid', "vendor/assets/uikit/js/components/grid.min.js", array('uikit2'));
+            $app['scripts']->add('uikit2-lightbox', "vendor/assets/uikit/js/components/lightbox.min.js", array('uikit2'));
+            $app['scripts']->add('uikit2-slideshow', "vendor/assets/uikit/js/components/slideshow.min.js", array('uikit2'));
+            $app['scripts']->add('uikit2-grid-parallax', "vendor/assets/uikit/js/components/grid-parallax.min.js", array('uikit2'));
         },
 
         'init.admin' => function($event, $app) {

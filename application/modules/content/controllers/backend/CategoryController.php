@@ -2,7 +2,9 @@
 
 namespace app\modules\content\controllers\backend;
 
+use app\modules\admin\components\behaviors\SortableModel;
 use app\modules\admin\components\behaviors\StatusController;
+use app\modules\admin\widgets\ActiveForm;
 use app\modules\content\models\search\ContentCategorySearch;
 use Yii;
 use app\modules\content\models\ContentCategory;
@@ -27,6 +29,109 @@ class CategoryController extends \app\components\CategoryController
                 'model' => ContentCategory::className()
             ]
         ];
+    }
+
+    /**
+     * Create form
+     *
+     * @param null $parent
+     * @return array|string|\yii\web\Response
+     * @throws \yii\web\HttpException
+     */
+    public function actionCreate($parent = null)
+    {
+
+        $lang = $this->getDefaultLanguage();
+        $class = $this->categoryClass;
+        $model = new $class;
+        $model->language = $lang->language_id;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if(Yii::$app->request->isAjax)
+            {
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+            else
+            {
+                $model->status = $class::STATUS_ON;
+
+
+                $ContentCategory = Yii::$app->request->post('ContentCategory', null);
+                if(isset($ContentCategory) && isset($ContentCategory['parent'])) {
+                    $parent = (int)$ContentCategory['parent'];
+                } else {
+                    $parent = null;
+                }
+
+                if($parent > 0 && ($parentCategory = $class::findOne($parent))){
+                    $model->order = $parentCategory->order;
+                    $model->appendTo($parentCategory);
+                } else {
+                    $model->attachBehavior('sortable', SortableModel::className());
+                    $model->makeRoot();
+                }
+
+                if(!$model->hasErrors()){
+                    $this->flash('success', Yii::t('admin', 'Category created'));
+                    return $this->redirect(['/admin/'.$this->moduleName.$this->returnUrl, 'id' => $model->primaryKey]);
+                }
+                else {
+                    $this->flash('error', Yii::t('admin', 'Create error. {0}', $model->formatErrors()));
+                    return $this->refresh();
+                }
+            }
+        }
+        else {
+            return $this->render('create', [
+                'model' => $model,
+                'parent' => $parent,
+                'lang'  => $lang,
+                'layouts' => self::getLayouts()
+            ]);
+        }
+    }
+
+
+    /**
+     * Edit form
+     *
+     * @param $id
+     * @return array|string|\yii\web\Response
+     * @throws \yii\web\HttpException
+     */
+    public function actionUpdate($id, $language)
+    {
+        $lang = $this->getDefaultLanguage($language);
+        $class = $this->categoryClass;
+
+        if(!($model = $class::findOne($id))) {
+            return $this->redirect(['/admin/' . $this->moduleName]);
+        }
+        $model->language = $lang->language_id;
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            if(Yii::$app->request->isAjax){
+                Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            } else {
+                if($model->save()) {
+                    $this->flash('success', Yii::t('admin', 'Category updated'));
+                }
+                else{
+                    $this->flash('error', Yii::t('admin', 'Update error. {0}', $model->formatErrors()));
+                }
+                return $this->refresh();
+            }
+        }
+        else {
+            return $this->render('update', [
+                'model' => $model,
+                'lang' => $lang,
+                'layouts' => self::getLayouts()
+            ]);
+        }
     }
 
     /**
@@ -97,7 +202,31 @@ class CategoryController extends \app\components\CategoryController
         return $this->changeStatus($id, ContentCategory::STATUS_DRAFT);
     }
 
-/**
+    /**
+     * Get All layouts
+     */
+    protected static function getLayouts()
+    {
+        $layouts = [];
+        $core = glob(Yii::getAlias('@app/modules/content/views/frontend/category/[^_]*.php'));
+        $template = glob(Yii::getAlias('@frontendTemplate/modules/content/category/[^_]*.php'));
+
+        foreach ($core as $layout) {
+            if(is_file($layout)) {
+                $layouts[basename($layout, ".php")] = \yii\helpers\Inflector::camel2words(basename($layout, ".php"));
+            }
+        }
+
+        foreach ($template as $layout) {
+            if(is_file($layout)) {
+                $layouts[basename($layout, ".php")] = \yii\helpers\Inflector::camel2words(basename($layout, ".php"));
+            }
+        }
+
+        return $layouts;
+    }
+
+    /**
      * Finds the ContentCategory model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id

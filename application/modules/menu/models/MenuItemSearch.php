@@ -58,9 +58,13 @@ class MenuItemSearch extends MenuItem
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 100,
+            ],
             'sort' => [
                 'defaultOrder' => [
-                    'lft' => SORT_ASC
+                    'lft' => SORT_ASC,
+                    'ordering' => SORT_ASC
                 ]
             ]
         ]);

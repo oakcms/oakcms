@@ -2,8 +2,8 @@
 
 namespace YOOtheme\Widgetkit\Image;
 
-use YOOtheme\Framework\Application;
-use YOOtheme\Framework\ApplicationAware;
+use YOOtheme\Widgetkit\Framework\Application;
+use YOOtheme\Widgetkit\Framework\ApplicationAware;
 
 class ImageProvider extends ApplicationAware
 {

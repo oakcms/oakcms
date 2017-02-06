@@ -123,7 +123,7 @@ $this->params['actions_buttons'] = [
 
                 <?= $form->field($model, 'subtitle')->textInput(['maxlength' => true])->translatable() ?>
 
-                <?= $form->field($model, 'slug')->dropDownList($positions) ?>
+                <?= $form->field($model, 'slug')->dropDownList($positions, ['prompt' => Yii::t('text', 'Select position')]) ?>
 
                 <?= $form->field($model, 'published_at')->widget(\kartik\datetime\DateTimePicker::className()) ?>
 
@@ -150,11 +150,13 @@ $this->params['actions_buttons'] = [
                                         <div class="col-xs-12 col-sm-6">
                                             <b><?= $menu->title ?></b><br>
                                             <?php foreach($menu->items as $cat) : ?>
+                                                <?if($cat->link_type == \app\modules\menu\models\MenuItem::LINK_ROUTE):?>
                                                 <label style="padding-left:  <?= $cat->level * 20 ?>px;">
                                                     <input type="checkbox" name="Text[links][]" <?=($model->links !== null && in_array($cat->id, $model->links))?"checked":""?> value="<?= $cat->id ?>">
                                                     <?= $cat->title ?>
                                                 </label>
                                                 <br>
+                                                <?endif;?>
                                             <?php endforeach;?>
                                         </div>
                                         <?= $i % 2  ? '<div class="clearfix"></div>' : '' ?>

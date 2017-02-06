@@ -4,7 +4,7 @@
 $settings['id'] = substr(uniqid(), -3);
 
 // Width
-$nav_width = 'uk-width-medium-' . $settings['width'];
+$nav_width = '{wk}-width-medium-' . $settings['width'];
 
 switch ($settings['width']) {
     case '1-5':
@@ -27,7 +27,7 @@ switch ($settings['width']) {
         break;
 }
 
-$content_width = 'uk-width-medium-' . $content_width;
+$content_width = '{wk}-width-medium-' . $content_width;
 
 ?>
 
@@ -49,8 +49,8 @@ $content_width = 'uk-width-medium-' . $content_width;
 
 <?php else : ?>
 
-<div class="uk-grid uk-grid-match <?php echo $settings['class']; ?>" data-uk-grid-match="{target:'> div > ul'}" data-uk-grid-margin>
-    <div class="<?php echo $nav_width ?><?php if ($settings['position'] == 'right') echo ' uk-float-right uk-flex-order-last-medium' ?>">
+<div class="{wk}-grid {wk}-grid-match <?php echo $settings['class']; ?>" data-{wk}-grid-match="{target:'> div > ul'}" data-{wk}-grid-margin>
+    <div class="<?php echo $nav_width ?><?php if ($settings['position'] == 'right') echo ' {wk}-float-right {wk}-flex-order-last-medium' ?>">
         <?php echo $this->render('plugins/widgets/' . $widget->getConfig('name')  . '/views/_nav.php', compact('items', 'settings')); ?>
     </div>
     <div class="<?php echo $content_width ?>">

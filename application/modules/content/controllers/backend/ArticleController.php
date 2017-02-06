@@ -99,7 +99,8 @@ class ArticleController extends BackendController
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'lang'  => $lang
+                'lang'  => $lang,
+                'layouts' => self::getLayouts()
             ]);
         }
     }
@@ -122,6 +123,7 @@ class ArticleController extends BackendController
 
         if ($model->load(Yii::$app->request->post())) {
             $model->setSetting(Yii::$app->request->post('Settings'));
+
             if($model->save()) {
                 if(Yii::$app->request->post('submit-type') == 'continue') {
                     return $this->redirect(['update', 'id' => $model->id, 'language' => $lang->url]);
@@ -129,12 +131,12 @@ class ArticleController extends BackendController
                     return $this->redirect(['index']);
                 }
             }
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'lang' => $lang,
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+            'lang' => $lang,
+            'layouts' => self::getLayouts()
+        ]);
     }
 
     /**
@@ -217,6 +219,30 @@ class ArticleController extends BackendController
     public function actionOff($id)
     {
         return $this->changeStatus($id, ContentArticles::STATUS_DRAFT);
+    }
+
+    /**
+     * Get All layouts
+     */
+    protected static function getLayouts()
+    {
+        $layouts = [];
+        $core = glob(Yii::getAlias('@app/modules/content/views/frontend/article/[^_]*.php'));
+        $template = glob(Yii::getAlias('@frontendTemplate/modules/content/article/[^_]*.php'));
+
+        foreach ($core as $layout) {
+            if(is_file($layout)) {
+                $layouts[basename($layout, ".php")] = \yii\helpers\Inflector::camel2words(basename($layout, ".php"));
+            }
+        }
+
+        foreach ($template as $layout) {
+            if(is_file($layout)) {
+                $layouts[basename($layout, ".php")] = \yii\helpers\Inflector::camel2words(basename($layout, ".php"));
+            }
+        }
+
+        return $layouts;
     }
 
     /**

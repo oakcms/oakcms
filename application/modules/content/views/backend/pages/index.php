@@ -69,7 +69,20 @@ $this->params['actions_buttons'] = [
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+            'options' => [
+                'class' => 'grid-view',
+                'data' => [
+                    'sortable-widget' => 1,
+                    'sortable-url' => \yii\helpers\Url::toRoute(['sorting']),
+                ],
+            ],
+            'rowOptions' => function ($model, $key, $index, $grid) {
+                return ['data-sortable-id' => $model->id];
+            },
             'columns' => [
+                [
+                    'class' => \kotchuprik\sortable\grid\Column::className(),
+                ],
                 [
                     'class' => 'yii\grid\CheckboxColumn',
                     'options' => ['style' => 'width:36px']
@@ -78,8 +91,28 @@ $this->params['actions_buttons'] = [
                     'attribute' => 'id',
                     'options' => ['style' => 'width:100px']
                 ],
-                'title',
+                [
+                    'attribute' => 'title',
+                    'value'     => function ($model) {
+                        /** @var $model \app\modules\content\models\ContentPages */
+                        return str_repeat("&ndash;&nbsp; ", max($model->level - 1, 0)) . $model->title;
+                    },
+                    'format'    => 'raw',
+                ],
                 'slug',
+                [
+                    'attribute' => 'layout',
+                    'value'     => function ($model) {
+                        /** @var $model \app\modules\content\models\ContentPages */
+                        return \yii\helpers\Inflector::camel2words($model->layout);
+                    },
+                    'filter'    => \yii\helpers\ArrayHelper::map(ContentPages::find()->excludeRoots()->select(['layout'])->orderBy('lft')->all(), 'layout', function (
+                        $model
+                    ) {
+                        /** @var $model \app\modules\content\models\ContentPages */
+                        return \yii\helpers\Inflector::camel2words($model->layout);
+                    }),
+                ],
                 [
                     'class' => \app\modules\admin\components\grid\EnumColumn::className(),
                     'attribute' => 'status',

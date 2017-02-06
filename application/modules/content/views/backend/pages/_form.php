@@ -95,38 +95,89 @@ $this->params['actions_buttons'] = [
             'enctype' => 'multipart/form-data'
         ],
     ]); ?>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab_1" data-toggle="tab" aria-expanded="true">
+                    <i class="fa fa-file-text-o"></i> <?= Yii::t('content', 'Content') ?>
+                </a>
+            </li>
+            <li class="">
+                <a href="#tab_2" data-toggle="tab" aria-expanded="false">
+                    <i class="fa fa-newspaper-o"></i> <?= Yii::t('content', 'Publication') ?>
+                </a>
+            </li>
+            <li class="">
+                <a href="#seoTab" data-toggle="tab" aria-expanded="false">
+                    <i class="fa fa-star"></i> <?= Yii::t('content', 'SEO') ?>
+                </a>
+            </li>
+            <li class="">
+                <a href="#fields" data-toggle="tab" aria-expanded="false">
+                    <i class="fa fa-plus-square"></i> <?= Yii::t('content', 'Relation Fields') ?>
+                </a>
+            </li>
+        </ul>
+    </div>
 
-    <?php echo $form->field($model, 'title')->textInput(['maxlength' => true])->translatable() ?>
-    <?php echo $form->field($model, 'slug')
-        ->hint(Yii::t('admin', 'If you\'ll leave this field empty, slug will be generated automatically'))
-        ->textInput(['maxlength' => true])->translatable() ?>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_1">
+            <?php echo $form->field($model, 'title')->textInput(['maxlength' => true])->translatable() ?>
+            <?php echo $form->field($model, 'slug')
+                ->hint(Yii::t('admin', 'If you\'ll leave this field empty, slug will be generated automatically'))
+                ->textInput(['maxlength' => true])->translatable() ?>
 
-    <?= $form->field($model, 'content')->widget(\app\widgets\Editor::className())->translatable() ?>
-    <?= $form->field($model, 'description')->widget(\app\widgets\Editor::className())->translatable() ?>
+            <?php
+            $parents = \app\modules\content\models\ContentPages::find()->excludeRoots();
+            if(!$model->isNewRecord) {
+                $parents->andWhere(['<>', 'id', $model->id]);
+            }
+            ?>
 
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-3">
+            <?php echo $form->field($model, 'parent_id')->widget(\kartik\select2\Select2::className(), [
+                'initValueText' => $model->parent ? ($model->parent->isRoot() ? Yii::t('content', 'Top Level') : $model->parent->title) : null,
+                'theme'         => \kartik\select2\Select2::THEME_BOOTSTRAP,
+                'data'          => \yii\helpers\ArrayHelper::map($parents->orderBy('lft')->all(), 'id', function (
+                    $model
+                ) {
+                    /** @var $model \app\modules\menu\models\MenuItem */
+                    return str_repeat("- ", max($model->level - 1, 0)) .
+                        $model->title;
+                }),
+                'pluginOptions' => [
+                    'allowClear'  => true,
+                    'placeholder' => Yii::t('content', 'Top Level'),
+                ],
+            ]) ?>
 
-            </div>
-            <div class="col-md-9">
-                <?= Html::img($model->getUploadUrl('background_image')?:'/uploads/user/non_image.png', ['class' => 'img-thumbnail', 'style'=>'max-width:300px']) ?>
-                <br>
-                <?= $model->getUploadUrl('background_image') ? Html::a(Yii::t('content', 'Delete Image'), ['delete-image', 'id' => $model->id], ['class' => 'label-danger']) : '' ?>
-            </div>
+            <?= $form->field($model, 'content')->widget(\app\widgets\Editor::className())->translatable() ?>
+            <?= $form->field($model, 'description')->widget(\app\widgets\Editor::className())->translatable() ?>
+            <?= $form->field($model, 'background_image')->widget(\app\modules\admin\widgets\InputFile::className()) ?>
+
+            <?= $form->field($model, 'layout')->dropDownList($layouts) ?>
+        </div>
+        <div class="tab-pane" id="tab_2">
+            <?= $form->field($model, 'status')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
+            <?= $form->field($model, 'created_at')->staticField(date('d.m.Y H:i', $model->created_at)) ?>
+            <?= $form->field($model, 'updated_at')->staticField(date('d.m.Y H:i', $model->updated_at)) ?>
+        </div>
+        <div class="tab-pane" id="seoTab">
+            <?php echo $form->field($model, 'meta_title')->textInput(['maxlength' => true])->translatable() ?>
+            <?php echo $form->field($model, 'meta_keywords')->textInput(['maxlength' => true])->translatable() ?>
+            <?php echo $form->field($model, 'meta_description')->textInput(['maxlength' => true])->translatable() ?>
+        </div>
+        <div class="tab-pane" id="fields">
+            <?php if (!$model->isNewRecord) { ?>
+                <?php if ($fieldPanel = \app\modules\field\widgets\Choice::widget(['model' => $model])) { ?>
+                    <?= $fieldPanel; ?>
+                <?php } else { ?>
+                    <?= Yii::t('field', 'The fields are not set. Ask can <a href="{url}">here</a>', ['url' => \yii\helpers\Url::to(['/admin/field/field/index'])]) ?>
+                <?php } ?>
+            <?php } else {?>
+                <?= Yii::t('content', 'First you need to save the item, and then the form appears with relation fields') ?>
+            <?php } ?>
         </div>
     </div>
-    <?= $form->field($model, 'background_image')->fileInput(['accept' => 'image/*']) ?>
-
-    <?= $form->field($model, 'layout')->dropDownList($layouts) ?>
-    <?= $form->field($model, 'status')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
-    <?= $form->field($model, 'created_at')->staticField(date('d.m.Y H:i', $model->created_at)) ?>
-    <?= $form->field($model, 'updated_at')->staticField(date('d.m.Y H:i', $model->updated_at)) ?>
-
-    <?php echo $form->field($model, 'meta_title')->textInput(['maxlength' => true])->translatable() ?>
-    <?php echo $form->field($model, 'meta_keywords')->textInput(['maxlength' => true])->translatable() ?>
-    <?php echo $form->field($model, 'meta_description')->textInput(['maxlength' => true])->translatable() ?>
-
     <?php ActiveForm::end(); ?>
 
 </div>

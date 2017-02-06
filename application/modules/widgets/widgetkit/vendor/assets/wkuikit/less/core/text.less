@@ -1,0 +1,136 @@
+// Name:            Text
+// Description:     Collection of useful text utility classes to style your content
+//
+// Component:       `wk-text-*`
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@text-small-font-size:                          11px;
+@text-small-line-height:                        16px;
+@text-large-font-size:                          18px;
+@text-large-line-height:                        24px;
+@text-large-font-weight:                        normal;
+
+@text-muted-color:                              #999;
+@text-primary-color:                            #2d7091;
+@text-success-color:                            #659f13;
+@text-warning-color:                            #e28327;
+@text-danger-color:                             #d85030;
+@text-contrast-color:                           #fff;
+
+
+/* ========================================================================
+   Component: Text
+ ========================================================================== */
+
+/* Size modifiers
+ ========================================================================== */
+
+.wk-text-small {
+    font-size: @text-small-font-size;
+    line-height: @text-small-line-height;
+}
+
+.wk-text-large {
+    font-size: @text-large-font-size;
+    line-height: @text-large-line-height;
+    font-weight: @text-large-font-weight;
+}
+
+
+/* Weight modifiers
+ ========================================================================== */
+
+.wk-text-bold { font-weight: bold; }
+
+
+/* Color modifiers
+ ========================================================================== */
+
+.wk-text-muted { color: @text-muted-color !important; }
+.wk-text-primary { color: @text-primary-color !important; }
+.wk-text-success { color: @text-success-color !important; }
+.wk-text-warning { color: @text-warning-color !important; }
+.wk-text-danger { color: @text-danger-color !important; }
+.wk-text-contrast { color: @text-contrast-color !important; }
+
+
+/* Alignment modifiers
+ ========================================================================== */
+
+.wk-text-left { text-align: left !important; }
+.wk-text-right { text-align: right !important; }
+.wk-text-center { text-align: center !important; }
+.wk-text-justify { text-align: justify !important; }
+
+.wk-text-top { vertical-align: top !important; }
+.wk-text-middle { vertical-align: middle !important; }
+.wk-text-bottom { vertical-align: bottom !important; }
+
+/* Only tablets portrait and smaller */
+@media (max-width: @breakpoint-medium-max) {
+
+    .wk-text-center-medium { text-align: center !important; }
+    .wk-text-left-medium { text-align: left !important; }
+
+}
+
+/* Phone landscape and smaller */
+@media (max-width: @breakpoint-small-max) {
+
+    .wk-text-center-small { text-align: center !important; }
+    .wk-text-left-small { text-align: left !important; }
+
+}
+
+
+/* Wrap modifiers
+ ========================================================================== */
+
+/*
+ * Prevent text from wrapping onto multiple lines
+ */
+
+.wk-text-nowrap { white-space: nowrap; }
+
+/*
+ * Prevent text from wrapping onto multiple lines, and truncate with an ellipsis
+ */
+
+.wk-text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/*
+ * Break strings if their length exceeds the width of their container
+ */
+
+.wk-text-break {
+    word-wrap: break-word;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+
+/* Transform modifiers
+ ========================================================================== */
+
+.wk-text-capitalize { text-transform: capitalize !important; }
+.wk-text-lowercase { text-transform: lowercase !important; }
+.wk-text-uppercase { text-transform: uppercase !important; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-text-misc;
+
+.hook-text-misc() {}

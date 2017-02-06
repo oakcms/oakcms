@@ -54,12 +54,17 @@ class User extends \app\modules\user\models\User
                 $this->setPassword($this->newPassword);
             }
 
-            $auth = \Yii::$app->authManager;
-            $auth->revokeAll($this->id);
-            $auth->assign($auth->getRole($this->role), $this->id);
-
             return true;
         }
         return false;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+
+        $auth = \Yii::$app->authManager;
+        $auth->revokeAll($this->id);
+        $auth->assign($auth->getRole($this->role), $this->id);
     }
 }

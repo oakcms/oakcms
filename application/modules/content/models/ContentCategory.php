@@ -3,6 +3,7 @@
 namespace app\modules\content\models;
 
 use app\components\CategoryModel;
+use app\modules\field\behaviors\AttachFields;
 use creocoder\nestedsets\NestedSetsBehavior;
 use Yii;
 use yii\behaviors\SluggableBehavior;
@@ -16,6 +17,7 @@ use dosamigos\translateable\TranslateableBehavior;
  * @property string $title
  * @property string $description
  * @property integer $status
+ * @property string $layout
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $tree
@@ -44,12 +46,41 @@ class ContentCategory extends CategoryModel
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
 
+    public function fields()
+    {
+        return [
+            'id',
+            'title' => function($model) {
+                return $model->title;
+            },
+            'slug' => function($model) {
+                return $model->slug;
+            },
+            'content' => function($model) {
+                return $model->content;
+            },
+            'meta_title' => function($model) {
+                return $model->meta_title;
+            },
+            'meta_keywords' => function($model) {
+                return $model->meta_keywords;
+            },
+            'meta_description' => function($model) {
+                return $model->meta_description;
+            },
+            'settings' => function($model) {
+                return $model->settings;
+            }
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function behaviors()
     {
         return parent::behaviors() + [
+            AttachFields::className(),
             TimestampBehavior::className(),
             [
                 'class' => SluggableBehavior::className(),
@@ -91,7 +122,8 @@ class ContentCategory extends CategoryModel
             ['title', 'string', 'max' => 128],
             //['image', 'image'],
             [['slug'], 'string', 'max' => 150],
-            [['meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 500],
+            [['content'], 'string'],
+            [['layout', 'meta_title', 'meta_keywords', 'meta_description'], 'string', 'max' => 500],
             [
                 ['slug'],
                 'unique',

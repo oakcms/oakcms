@@ -1,0 +1,122 @@
+// Name:            Thumbnav
+// Description:     Defines styles for a thumbnail navigation
+//
+// Component:       `wk-thumbnav`
+//
+// States:          `wk-active`
+//
+// Markup:
+//
+// <!-- wk-thumbnav -->
+// <ul class="wk-thumbnav">
+//     <li class="wk-active"><a href=""></a></li>
+//     <li><a href=""></a></li>
+// </ul>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@thumbnav-margin-horizontal:                    10px;
+@thumbnav-margin-vertical:                      @thumbnav-margin-horizontal;
+
+@thumbnav-background:                           #fff;
+
+@thumbnav-opacity:                              0.7;
+@thumbnav-hover-opacity:                        1;
+@thumbnav-active-opacity:                       1;
+
+
+/* ========================================================================
+   Component: Thumbnav
+ ========================================================================== */
+
+/*
+ * 1. Gutter
+ * 2. Remove default list style
+ */
+
+.wk-thumbnav {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    /* 1 */
+    margin-left: -@thumbnav-margin-horizontal;
+    margin-top: -@thumbnav-margin-vertical;
+    /* 2 */
+    padding: 0;
+    list-style: none;
+}
+
+/*
+ * 1. Space is allocated solely based on content dimensions
+ * 2. Horizontal gutter is using `padding` so `wk-width-*` classes can be applied
+ */
+
+.wk-thumbnav > * {
+    /* 1 */
+    -ms-flex: none;
+    -webkit-flex: none;
+    flex: none;
+    /* 2 */
+    padding-left: @thumbnav-margin-horizontal;
+    margin-top: @thumbnav-margin-vertical;
+}
+
+/*
+ * DEPRECATED IE9 Support
+ */
+
+.wk-thumbnav:before,
+.wk-thumbnav:after {
+    content: "";
+    display: block;
+    overflow: hidden;
+}
+
+.wk-thumbnav:after { clear: both; }
+
+.wk-thumbnav > * { float: left; }
+
+
+/* Items
+ ========================================================================== */
+
+.wk-thumbnav > * > * {
+    display: block;
+    background: @thumbnav-background;
+    .hook-thumbnav;
+}
+
+.wk-thumbnav > * > * > img {
+    opacity: @thumbnav-opacity;
+    -webkit-transition: opacity 0.15s linear;
+    transition: opacity 0.15s linear;
+}
+
+/*
+ * Hover
+ */
+
+.wk-thumbnav > * > :hover > img,
+.wk-thumbnav > * > :focus > img { opacity: @thumbnav-hover-opacity; }
+
+/*
+ * Active
+ */
+
+.wk-thumbnav > .wk-active > * > img { opacity: @thumbnav-active-opacity; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-thumbnav-misc;
+
+.hook-thumbnav() {}
+.hook-thumbnav-misc() {}

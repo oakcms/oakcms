@@ -1,15 +1,14 @@
 <?php
-
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 namespace app\components;
 
 use Yii;
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 08.04.2016
- * Project: oakcms
- * File name: Controller.php
- */
+
 class Controller extends CoreController
 {
     public $error;
@@ -82,32 +81,28 @@ class Controller extends CoreController
      */
     public function response($success = '', $back = true)
     {
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            if ($this->error) {
-                return ['result' => 'error', 'error' => $this->error];
-            } else {
-                $response = ['result' => 'success'];
-                if ($success) {
-                    if (is_array($success)) {
-                        $response = array_merge(['result' => 'success'], $success);
-                    } else {
-                        $response = array_merge(['result' => 'success'], ['message' => $success]);
-                    }
-                }
-                return $response;
-            }
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if ($this->error) {
+            return ['result' => 'error', 'error' => $this->error];
         } else {
-            if ($this->error) {
-                $this->flash('error', $this->error);
-            } else {
-                if (is_array($success) && isset($success['message'])) {
-                    $this->flash('success', $success['message']);
-                } elseif (is_string($success)) {
-                    $this->flash('success', $success);
+            $response = ['result' => 'success'];
+            if ($success) {
+                if (is_array($success)) {
+                    $response = array_merge(['result' => 'success'], $success);
+                } else {
+                    $response = array_merge(['result' => 'success'], ['message' => $success]);
                 }
             }
-            return $back ? $this->back() : $this->refresh();
+            return $response;
         }
+    }
+
+    public function render($view, $params = [])
+    {
+        if(Yii::$app->request->post('format') == 'angular') {
+            return $view;
+        }
+
+        return parent::render($view, $params);
     }
 }

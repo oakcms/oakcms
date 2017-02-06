@@ -8,7 +8,23 @@
 namespace app\modules\content\controllers\frontend;
 
 
-class ApiCategoryController
+use app\components\ApiController;
+use app\modules\content\models\ContentCategory;
+use yii\web\NotFoundHttpException;
+
+class ApiCategoryController extends ApiController
 {
 
+    public function actionView($slug) {
+        return $this->renderWidgets($this->findModel($slug), 'content');
+    }
+
+    protected function findModel($slug)
+    {
+        if (($model = ContentCategory::find()->published()->joinWith(['translations'])->andWhere(['{{%content_category_lang}}.slug'=>$slug])->one()) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
 }

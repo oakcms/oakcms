@@ -25,6 +25,9 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
         'api/page/<slug:[\w\-]+>'                      => 'content/api-page/view',
         'api/content/<catslug:[\w\-]+>/<slug:[\w\-]+>' => 'content/api-article/view',
         'api/content/<slug:[\w\-]+>'                   => 'content/api-category/view',
+
+        'content/tag/<tag:(.*)>'                       => 'content/article/tag',
+        'content/search'                               => 'content/search/search',
         'content/<slug:[\w\-]+>'                       => 'content/category/view',
         'content/<catslug:[\w\-]+>/<slug:[\w\-]+>'     => 'content/article/view',
         'page/<slug:[\w\-]+>'                          => 'content/page/view',
@@ -118,6 +121,16 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     }
 
     /**
+     * @param $event
+     */
+    public function addFieldRelationModel($event)
+    {
+        $event->items['app\modules\content\models\ContentArticles'] = Yii::t('content', 'Content Articles');
+        $event->items['app\modules\content\models\ContentPages'] = Yii::t('content', 'Content Pages');
+        $event->items['app\modules\content\models\ContentCategory'] = Yii::t('content', 'Content Category');
+    }
+
+    /**
      * @param $event MenuItemRoutesEvent
      */
     public function addMenuItemRoutes($event)
@@ -164,6 +177,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
             Menu::EVENT_FETCH_ITEMS                 => 'addAdminMenuItem',
             MenuItemRoutes::EVENT_FETCH_ITEMS       => 'addMenuItemRoutes',
             MenuUrlRule::EVENT_FETCH_MODULE_ROUTERS => 'addMenuRouter',
+            \app\modules\field\Module::EVENT_RELATION_MODELS => 'addFieldRelationModel',
         ];
     }
 

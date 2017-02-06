@@ -4,13 +4,13 @@
 
 namespace YOOtheme\Autoload;
 
-class ComposerStaticInit9d6570cfe0f7bd6e82e86f3d54822a4b
+class ComposerStaticInitdee733c1ef97869c5f5bd098f0fe1cb9
 {
     public static $prefixLengthsPsr4 = array (
         'Y' => 
         array (
+            'YOOtheme\\Widgetkit\\Framework\\' => 29,
             'YOOtheme\\Widgetkit\\' => 19,
-            'YOOtheme\\Framework\\' => 19,
         ),
         'C' => 
         array (
@@ -19,13 +19,13 @@ class ComposerStaticInit9d6570cfe0f7bd6e82e86f3d54822a4b
     );
 
     public static $prefixDirsPsr4 = array (
+        'YOOtheme\\Widgetkit\\Framework\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Framework/src',
+        ),
         'YOOtheme\\Widgetkit\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
-        ),
-        'YOOtheme\\Framework\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/yootheme/framework/src',
         ),
         'Composer\\Installers\\' => 
         array (
@@ -50,10 +50,10 @@ class ComposerStaticInit9d6570cfe0f7bd6e82e86f3d54822a4b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit9d6570cfe0f7bd6e82e86f3d54822a4b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit9d6570cfe0f7bd6e82e86f3d54822a4b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit9d6570cfe0f7bd6e82e86f3d54822a4b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit9d6570cfe0f7bd6e82e86f3d54822a4b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitdee733c1ef97869c5f5bd098f0fe1cb9::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitdee733c1ef97869c5f5bd098f0fe1cb9::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitdee733c1ef97869c5f5bd098f0fe1cb9::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitdee733c1ef97869c5f5bd098f0fe1cb9::$classMap;
 
         }, null, ClassLoader::class);
     }

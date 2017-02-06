@@ -48,7 +48,7 @@ return array(
     'events' => array(
 
         'init.site' => function($event, $app) {
-            $app['scripts']->add('uikit-accordion', 'vendor/assets/uikit/js/components/accordion.min.js', array('uikit'));
+            $app['scripts']->add('uikit2-accordion', "vendor/assets/uikit/js/components/accordion.min.js", array('uikit2'));
         },
 
         'init.admin' => function($event, $app) {

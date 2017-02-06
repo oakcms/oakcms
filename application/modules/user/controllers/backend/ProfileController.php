@@ -3,8 +3,8 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\user\controllers\backend;
@@ -25,7 +25,14 @@ class ProfileController extends BackendController
     public function actionIndex() {
 
         $model = UserProfile::findOne(\Yii::$app->getUser()->getId());
-        $model->setScenario('update');
+        if($model) {
+            $model->setScenario('update');
+        } else {
+            $model = new UserProfile();
+            $model->user_id = \Yii::$app->getUser()->getId();
+            $model->setScenario('insert');
+        }
+
         if ($model->load(Yii::$app->request->post())) {
 
             if(!$model->save()) {

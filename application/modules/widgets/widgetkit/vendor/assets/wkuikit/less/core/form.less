@@ -1,0 +1,629 @@
+// Name:            Form
+// Description:     Defines styles for forms
+//
+// Component:       `wk-form`
+//
+// Sub-objects:     `wk-form-row`
+//                  `wk-form-help-inline`
+//                  `wk-form-help-block`
+//                  `wk-form-label`
+//                  `wk-form-controls`
+//                  `wk-form-controls-condensed`
+//                  `wk-form-icon`
+//
+// Modifiers:       `wk-form-stacked`
+//                  `wk-form-horizontal`
+//
+// Sub-modifiers:   `wk-form-danger`
+//                  `wk-form-success`
+//                  `wk-form-small`
+//                  `wk-form-large`
+//                  `wk-form-blank`
+//                  `wk-form-width-mini`
+//                  `wk-form-width-small`
+//                  `wk-form-width-medium`
+//                  `wk-form-width-large`
+//                  `wk-form-controls-text`
+//
+// Markup:
+//
+// <!-- wk-form -->
+// <form class="wk-form">
+//     <div class="wk-form-row">
+//         <label class="wk-form-label" for="form-input-1"></label>
+//         <div class="wk-form-controls">
+//             <input type="text" id="form-input-1" placeholder="Text">
+//         </div>
+//     </div>
+// </form>
+//
+// ========================================================================
+
+
+// Variables
+// ========================================================================
+
+@form-height:                                   30px;
+@form-padding:                                  4px 6px;
+@form-border:                                   #ddd;
+@form-border-width:                             1px;
+@form-background:                               #fff;
+@form-color:                                    #444;
+
+@form-focus-border:                             #99baca;
+@form-focus-background:                         #f5fbfe;
+@form-focus-color:                              #444;
+
+@form-disabled-border:                          #ddd;
+@form-disabled-background:                      #f5f5f5;
+@form-disabled-color:                           #999;
+
+@form-placeholder-color:                        #999;
+
+@form-gutter:                                   15px;
+
+@form-legend-border:                            #ddd;
+@form-legend-border-width:                      1px;
+@form-legend-font-size:                         18px;
+@form-legend-line-height:                       30px;
+
+@form-small-height:                             25px;
+@form-large-height:                             40px;
+@form-small-padding:                            3px 3px;
+@form-large-padding:                            8px 6px;
+@form-small-font-size:                          12px;
+@form-large-font-size:                          16px;
+
+@form-danger-border:                            #dc8d99;
+@form-danger-background:                        #fff7f8;
+@form-danger-color:                             #d85030;
+
+@form-success-border:                           #8ec73b;
+@form-success-background:                       #fafff2;
+@form-success-color:                            #659f13;
+
+@form-blank-border:                             #ddd;
+@form-blank-border-style:                       dashed;
+
+@form-mini-width:                               40px;
+@form-small-width:                              130px;
+@form-medium-width:                             200px;
+@form-large-width:                              500px;
+
+@form-help-inline-margin-left:                  10px;
+@form-help-block-margin-top:                    5px;
+
+@form-controls-condensed-margin-vertical:       5px;
+
+@form-stacked-margin-bottom:                    5px;
+@form-stacked-font-weight:                      bold;
+
+@form-horizontal-label-width:                   200px;
+@form-horizontal-label-margin-top:              5px;
+@form-horizontal-controls-margin-left:          215px;
+@form-horizontal-controls-text-padding-top:     5px;
+
+@form-icon-width:                               30px;
+@form-icon-font-size:                           14px;
+@form-icon-color:                               #999;
+
+
+/* ========================================================================
+   Component: Form
+ ========================================================================== */
+
+/*
+ * 1. Define consistent box sizing.
+ *    Default is `content-box` with following exceptions set to `border-box`
+ *    `button`, `select`, `input[type="checkbox"]` and `input[type="radio"]`
+ *    `input[type="search"]` in Chrome, Safari and Opera
+ *    `input[type="color"]` in Firefox
+ * 2. Address margins set differently in Firefox/IE and Chrome/Safari/Opera.
+ * 3. Remove `border-radius` in iOS.
+ * 4. Correct `font` properties and `color` not being inherited.
+ */
+
+.wk-form input,
+.wk-form select,
+.wk-form textarea {
+    /* 1 */
+    box-sizing: border-box;
+    /* 2 */
+    margin: 0;
+    /* 3 */
+    border-radius: 0;
+    /* 4 */
+    font: inherit;
+    color: inherit;
+}
+
+/*
+ * Address inconsistent `text-transform` inheritance which is only inherit in Firefox
+ */
+
+.wk-form select { text-transform: none; }
+
+/*
+ * 1. Correct `font` properties not being inherited.
+ * 2. Don't inherit the `font-weight` and use `bold` instead.
+ * NOTE: Both declarations don't work in Chrome, Safari and Opera.
+ */
+
+.wk-form optgroup {
+    /* 1 */
+    font: inherit;
+    /* 2 */
+    font-weight: bold;
+}
+
+/*
+ * Removes inner padding and border in Firefox 4+.
+ */
+
+.wk-form input::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+/*
+ * Removes excess padding in IE 8/9/10.
+ */
+
+.wk-form input[type="checkbox"],
+.wk-form input[type="radio"] { padding: 0; }
+
+/*
+ * Improves consistency of cursor style for clickable elements
+ */
+
+.wk-form input[type="checkbox"]:not(:disabled),
+.wk-form input[type="radio"]:not(:disabled) { cursor: pointer; }
+
+/*
+ * Remove default style in iOS.
+ */
+
+.wk-form textarea,
+.wk-form input:not([type]),
+.wk-form input[type="text"],
+.wk-form input[type="password"],
+.wk-form input[type="email"],
+.wk-form input[type="url"],
+.wk-form input[type="search"],
+.wk-form input[type="tel"],
+.wk-form input[type="number"],
+.wk-form input[type="datetime"] { -webkit-appearance: none; }
+
+/*
+ * Remove inner padding and search cancel button in Chrome, Safari and Opera on OS X.
+ */
+
+.wk-form input[type="search"]::-webkit-search-cancel-button,
+.wk-form input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+
+/*
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+
+.wk-form input[type="number"]::-webkit-inner-spin-button,
+.wk-form input[type="number"]::-webkit-outer-spin-button { height: auto; }
+
+/*
+ * Define consistent border, margin, and padding.
+ */
+
+.wk-form fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * 1. Remove default vertical scrollbar in IE 8/9/10/11.
+ * 2. Improve readability and alignment in all browsers.
+ */
+
+.wk-form textarea {
+    /* 1 */
+    overflow: auto;
+    /* 2 */
+    vertical-align: top;
+}
+
+/*
+ * Removes placeholder transparency in Firefox.
+ */
+
+.wk-form ::-moz-placeholder { opacity: 1; }
+
+/*
+ * Removes `box-shadow` for invalid controls in Firefox.
+ */
+
+.wk-form :invalid { box-shadow: none; }
+
+/*
+ * Vertical alignment
+ */
+
+.wk-form input:not([type="radio"]):not([type="checkbox"]),
+.wk-form select { vertical-align: middle; }
+
+
+/* Style
+ ========================================================================== */
+
+/*
+ * Remove margin from the last-child
+ */
+
+.wk-form > :last-child { margin-bottom: 0; }
+
+/*
+ * Controls
+ * Except for `range`, `radio`, `checkbox`, `file`, `submit`, `reset`, `button` and `image`
+ * 1. Must be `height` because `min-height` is not working in OSX
+ * 2. Responsiveness: Sets a maximum width relative to the parent to scale on narrower viewports
+ * 3. Vertical `padding` needed for `select` elements in Firefox
+ * 4. Style
+ */
+
+.wk-form select,
+.wk-form textarea,
+.wk-form input:not([type]),
+.wk-form input[type="text"],
+.wk-form input[type="password"],
+.wk-form input[type="datetime"],
+.wk-form input[type="datetime-local"],
+.wk-form input[type="date"],
+.wk-form input[type="month"],
+.wk-form input[type="time"],
+.wk-form input[type="week"],
+.wk-form input[type="number"],
+.wk-form input[type="email"],
+.wk-form input[type="url"],
+.wk-form input[type="search"],
+.wk-form input[type="tel"],
+.wk-form input[type="color"] {
+    /* 1 */
+    height: @form-height;
+    /* 2 */
+    max-width: 100%;
+    /* 3 */
+    padding: @form-padding;
+    /* 4 */
+    border: @form-border-width solid @form-border;
+    background: @form-background;
+    color: @form-color;
+    -webkit-transition: all 0.2s linear;
+    -webkit-transition-property: border, background, color, box-shadow, padding;
+    transition: all 0.2s linear;
+    transition-property: border, background, color, box-shadow, padding;
+    .hook-form;
+
+    // Focus state
+    &:focus {
+        border-color: @form-focus-border;
+        outline: 0;
+        background: @form-focus-background;
+        color: @form-focus-color;
+        .hook-form-focus;
+    }
+
+    // Disabled state
+    &:disabled {
+        border-color: @form-disabled-border;
+        background-color: @form-disabled-background;
+        color: @form-disabled-color;
+        .hook-form-disabled;
+    }
+}
+
+/*
+ * Placeholder
+ */
+
+.wk-form :-ms-input-placeholder { color: @form-placeholder-color !important; }
+.wk-form ::-moz-placeholder { color: @form-placeholder-color; }
+.wk-form ::-webkit-input-placeholder { color: @form-placeholder-color; }
+
+.wk-form :disabled:-ms-input-placeholder { color: @form-disabled-color !important; }
+.wk-form :disabled::-moz-placeholder { color: @form-disabled-color; }
+.wk-form :disabled::-webkit-input-placeholder { color: @form-disabled-color; }
+
+/*
+ * Legend
+ * 1. Behave like block element
+ * 2. Correct `color` not being inherited in IE 8/9/10/11.
+ * 3. Remove padding
+ * 4. `margin-bottom` is not working in Safari and Opera.
+ *    Using `padding` and :after instead to create the border
+ * 5. Style
+ */
+
+.wk-form legend {
+    /* 1 */
+    width: 100%;
+    /* 2 */
+    border: 0;
+    /* 3 */
+    padding: 0;
+    /* 4 */
+    padding-bottom: @form-gutter;
+    /* 5 */
+    font-size: @form-legend-font-size;
+    line-height: @form-legend-line-height;
+    .hook-form-legend;
+}
+
+/*
+ * 1. Fixes IE9
+ */
+
+.wk-form legend:after {
+    content: "";
+    display: block;
+    border-bottom: @form-legend-border-width solid @form-legend-border;
+    /* 1 */
+    width: 100%;
+}
+
+
+/* Size modifiers
+ * Higher specificity needed to override defaults
+ ========================================================================== */
+
+select.wk-form-small,
+textarea.wk-form-small,
+input[type].wk-form-small,
+input:not([type]).wk-form-small {
+    height: @form-small-height;
+    padding: @form-small-padding;
+    font-size: @form-small-font-size;
+}
+
+select.wk-form-large,
+textarea.wk-form-large,
+input[type].wk-form-large,
+input:not([type]).wk-form-large  {
+    height: @form-large-height;
+    padding: @form-large-padding;
+    font-size: @form-large-font-size;
+}
+
+
+/* Reset height
+ * Must be after size modifiers
+ ========================================================================== */
+
+.wk-form textarea,
+.wk-form select[multiple],
+.wk-form select[size] { height: auto; }
+
+
+/* Validation states
+ * Using !important to keep the selector simple
+ ========================================================================== */
+
+/*
+ * Error state
+ */
+
+.wk-form-danger {
+    border-color: @form-danger-border !important;
+    background: @form-danger-background !important;
+    color: @form-danger-color !important;
+    .hook-form-danger;
+}
+
+/*
+ * Success state
+ */
+
+.wk-form-success  {
+    border-color: @form-success-border !important;
+    background: @form-success-background !important;
+    color: @form-success-color !important;
+    .hook-form-success;
+}
+
+
+/* Style modifiers
+ * Using !important to keep the selector simple
+ ========================================================================== */
+
+/*
+ * Blank form
+ */
+
+.wk-form-blank {
+    border-color: transparent !important;
+    border-style: @form-blank-border-style !important;
+    background: none !important;
+    .hook-form-blank;
+}
+
+.wk-form-blank:focus {
+    border-color: @form-blank-border !important;
+    .hook-form-blank-focus;
+}
+
+
+/* Size sub-modifiers
+ ========================================================================== */
+
+/*
+ * Fixed widths
+ * Different widths for mini sized `input` and `select` elements
+ */
+
+input.wk-form-width-mini { width: @form-mini-width; }
+select.wk-form-width-mini { width: (@form-mini-width + 25px); }
+.wk-form-width-small { width: @form-small-width; }
+.wk-form-width-medium { width: @form-medium-width; }
+.wk-form-width-large { width: @form-large-width; }
+
+
+/* Sub-objects: `wk-form-row`
+ * Groups labels and controls in rows
+ ========================================================================== */
+
+/*
+ * Micro clearfix
+ * Needed for `wk-form-horizontal` modifier
+ */
+
+.wk-form-row:before,
+.wk-form-row:after {
+    content: "";
+    display: table;
+}
+
+.wk-form-row:after { clear: both; }
+
+/*
+ * Vertical gutter
+ */
+
+.wk-form-row + .wk-form-row { margin-top: @form-gutter; }
+
+
+/* Help text
+ * Sub-object: `wk-form-help-inline`, `wk-form-help-block`
+ ========================================================================== */
+
+.wk-form-help-inline {
+    display: inline-block;
+    margin: 0 0 0 @form-help-inline-margin-left;
+}
+
+.wk-form-help-block { margin: @form-help-block-margin-top 0 0 0; }
+
+
+/* Controls content
+ * Sub-object: `wk-form-controls`, `wk-form-controls-condensed`
+ ========================================================================== */
+
+/*
+ * Remove margins
+ */
+
+.wk-form-controls > :first-child { margin-top: 0; }
+.wk-form-controls > :last-child { margin-bottom: 0; }
+
+/*
+ * Group controls and text into blocks with a small spacing between blocks
+ */
+
+.wk-form-controls-condensed { margin: @form-controls-condensed-margin-vertical 0; }
+
+
+/* Modifier: `wk-form-stacked`
+ * Requires sub-object: `wk-form-label`
+ ========================================================================== */
+
+.wk-form-stacked .wk-form-label {
+    display: block;
+    margin-bottom: @form-stacked-margin-bottom;
+    font-weight: @form-stacked-font-weight;
+    .hook-form-stacked-label;
+}
+
+
+/* Modifier: `wk-form-horizontal`
+ * Requires sub-objects: `wk-form-label`, `wk-form-controls`
+ ========================================================================== */
+
+/* Tablet portrait and smaller */
+@media (max-width: @breakpoint-medium-max) {
+
+    /* Behave like `wk-form-stacked` */
+    .wk-form-horizontal .wk-form-label {
+        display: block;
+        margin-bottom: @form-stacked-margin-bottom;
+        font-weight: @form-stacked-font-weight;
+        .hook-form-stacked-label;
+    }
+
+}
+
+/* Desktop and bigger */
+@media (min-width: @breakpoint-large) {
+
+    .wk-form-horizontal .wk-form-label {
+        width: @form-horizontal-label-width;
+        margin-top: @form-horizontal-label-margin-top;
+        float: left;
+        .hook-form-horizontal-label;
+    }
+
+    .wk-form-horizontal .wk-form-controls { margin-left: @form-horizontal-controls-margin-left; }
+
+    /* Better vertical alignment if controls are checkboxes and radio buttons with text */
+    .wk-form-horizontal .wk-form-controls-text { padding-top: @form-horizontal-controls-text-padding-top; }
+
+}
+
+
+/* Sub-object: `wk-form-icon`
+ ========================================================================== */
+
+/*
+ * 1. Container width fits its content
+ * 2. Create position context
+ * 3. Prevent `inline-block` consequences
+ */
+
+.wk-form-icon {
+    /* 1 */
+    display: inline-block;
+    /* 2 */
+    position: relative;
+    /* 3 */
+    max-width: 100%;
+}
+
+/*
+ * 1. Make form element clickable through icon
+ */
+
+.wk-form-icon > [class*='wk-icon-'] {
+    position: absolute;
+    top: 50%;
+    width: @form-icon-width;
+    margin-top: round(@form-icon-font-size / -2);
+    font-size: @form-icon-font-size;
+    color: @form-icon-color;
+    text-align: center;
+    /* 1 */
+    pointer-events: none;
+}
+
+.wk-form-icon:not(.wk-form-icon-flip) > input { padding-left: @form-icon-width !important; }
+
+/*
+ * Sub-modifier: `wk-form-icon-flip`
+ */
+
+.wk-form-icon-flip > [class*='wk-icon-'] { right: 0; }
+.wk-form-icon-flip > input { padding-right: @form-icon-width !important; }
+
+
+// Hooks
+// ========================================================================
+
+.hook-form-misc;
+
+.hook-form() {}
+.hook-form-focus() {}
+.hook-form-disabled() {}
+.hook-form-legend() {}
+.hook-form-danger() {}
+.hook-form-success() {}
+.hook-form-blank() {}
+.hook-form-blank-focus() {}
+.hook-form-stacked-label() {}
+.hook-form-horizontal-label() {}
+.hook-form-misc() {}

@@ -90,7 +90,9 @@ $this->params['actions_buttons'] = [
                         'title'
                     ), ['class'=>'form-control', 'prompt' => Yii::t('admin', 'Select Category')]),
                     'value' => function($model, $index, $widget) {
-                        return $model->category->title;
+                        if(isset($model->category->title)) {
+                            return $model->category->title;
+                        }
                     }
                 ],
                 'published_at:datetime',

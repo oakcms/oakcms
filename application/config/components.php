@@ -37,7 +37,7 @@ return [
     ],
     'view'         => [
         'class'            => 'app\components\CoreView',
-        'enableMinify'     => !YII_DEBUG,
+        'enableMinify'     => false,
         'concatCss'        => true,                                     // concatenate css
         'minifyCss'        => true,                                     // minificate css
         'concatJs'         => true,                                     // concatenate js
@@ -63,7 +63,7 @@ return [
         // send all mails to a file by default. You have to set
         // 'useFileTransport' to false and configure a transport
         // for the mailer to send real emails.
-        'useFileTransport' => true,
+        // 'useFileTransport' => true,
     ],
     'assetManager' => [
         'class'           => 'yii\web\AssetManager',

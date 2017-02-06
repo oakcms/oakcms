@@ -146,6 +146,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         if (!($pathInfo = $request->getPathInfo() or $pathInfo = ($mainMenu = $menuMap->getMainMenu()) ? $mainMenu->path : null)) {
             return false;
         }
+
         // помечаем как активные все пункты меню которые ссылаются на тотже урл что в запросе
         $this->menuManager->setActiveMenuIds($menuMap->getMenuIdsByLink($request->getUrl()));
 

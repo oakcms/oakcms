@@ -83,6 +83,9 @@ class Choice extends \yii\base\Widget
             case 'checkbox':
                 $variants[] = types\Checkbox::widget(['field' => $field, 'model' => $this->model, 'options' => $options]);
                 break;
+            case 'textBlock':
+                $variants[] = types\TextBlock::widget(['field' => $field, 'model' => $this->model, 'options' => $options]);
+                break;
             default:
                 if(class_exists($field->type)) {
                     $class = $field->type;
@@ -93,7 +96,7 @@ class Choice extends \yii\base\Widget
                 break;
         }
 
-        $row[] = Html::tag('div', implode('', $variants), ['class' => 'panel-body']);
+        $row[] = Html::tag('div', Html::tag('div', implode('', $variants), ['class' => 'container-fluid']), ['class' => 'panel-body']);
 
         return $row;
     }

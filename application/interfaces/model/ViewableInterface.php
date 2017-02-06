@@ -5,11 +5,6 @@
 
 namespace app\interfaces\model;
 
-/**
- * Interface ViewableInterface
- * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
- */
 interface ViewableInterface
 {
     /**

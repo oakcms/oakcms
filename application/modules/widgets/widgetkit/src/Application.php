@@ -2,9 +2,8 @@
 
 namespace YOOtheme\Widgetkit;
 
-use yii\helpers\VarDumper;
-use YOOtheme\Framework\Application as BaseApplication;
-use YOOtheme\Framework\Event\EventSubscriberInterface;
+use YOOtheme\Widgetkit\Framework\Application as BaseApplication;
+use YOOtheme\Widgetkit\Framework\Event\EventSubscriberInterface;
 use YOOtheme\Widgetkit\Content\ContentProvider;
 use YOOtheme\Widgetkit\Image\ImageProvider;
 use YOOtheme\Widgetkit\Helper\Shortcode;
@@ -38,11 +37,12 @@ class Application extends BaseApplication implements EventSubscriberInterface
             return $locator->addPath('', $app['path']);
         });
 
-            $this->extend('translator', function ($translator, $app) {
+        $this->extend('translator', function ($translator, $app) {
             return $translator->addResource('languages/'.$app['locale'].'.json');
         });
 
         $this->on('boot', function ($event, $app) {
+
             $app['plugins']->addPath($app['path'].'/plugins/*/*/plugin.php');
             $app['locator']->addPath('widgetkit', dirname(__DIR__));
 
@@ -57,14 +57,19 @@ class Application extends BaseApplication implements EventSubscriberInterface
 
     public function init()
     {
+        if ($prefix = $this['config']->get('theme.support') === 'noconflict' ? 'wk' : '') {
+            $this['locator']->addPath('vendor/assets/uikit', dirname(__DIR__)."/vendor/assets/{$prefix}uikit");
+        }
+
         // controller
         $this['controllers']->add('YOOtheme\Widgetkit\Controller\ContentController');
         $this['controllers']->add('YOOtheme\Widgetkit\Controller\ImageController');
+        $this['controllers']->add('YOOtheme\Widgetkit\Controller\CacheController');
 
         // combine assets
         if (!$this['debug']) {
             $this['styles']->combine('wk-styles', 'widgetkit-*' , array('CssImportResolver', 'CssRewriteUrl', 'CssImageBase64'));
-            $this['scripts']->combine('wk-scripts', 'widgetkit-*')->combine('uikit', 'uikit*')->combine('angular', 'angular*')->combine('application', 'application{,-translator,-templates}');
+            $this['scripts']->combine('wk-scripts', 'widgetkit-*')->combine('uikit2', 'uikit*')->combine('angular', 'angular*')->combine('application', 'application{,-translator,-templates}');
         }
 
         // site event
@@ -77,13 +82,19 @@ class Application extends BaseApplication implements EventSubscriberInterface
     {
         // styles
         $this->on('view', function($event, $app) {
-            if (!$app['config']->get('theme.support')) {
+
+            $support = $app['config']->get('theme.support');
+
+            if ($support === 'noconflict') {
+                $app['styles']->add('widgetkit-site', 'assets/css/site.wk.css');
+            } elseif (!$support) {
                 $app['styles']->add('widgetkit-site', 'assets/css/site.css');
             }
+
         });
 
         // scripts
-        $this['scripts']->register('uikit', 'vendor/assets/uikit/js/uikit.min.js');
+        $this['scripts']->register('uikit2', "vendor/assets/uikit/js/uikit.min.js");
     }
 
     public function initAdmin()
@@ -107,7 +118,7 @@ class Application extends BaseApplication implements EventSubscriberInterface
         $this['styles']->add('uieditor-codemirr-css', 'assets/lib/codemirror/codemirror.css');
         $this['styles']->add('uieditor-hint', 'assets/lib/codemirror/hint.css');
         $this['scripts']->add('widgetkit-fields', 'assets/js/fields.js', array('angular'));
-        $this['scripts']->add('widgetkit-application', 'assets/js/application.js', array('uikit', 'uikit-notify', 'uikit-nestable', 'uikit-sortable', 'application-translator', 'angular-resource', 'angular-touch', 'widgetkit-fields'));
+        $this['scripts']->add('widgetkit-application', 'assets/js/application.js', array('uikit2', 'uikit2-notify', 'uikit2-nestable', 'uikit2-sortable', 'application-translator', 'angular-resource', 'angular-touch', 'widgetkit-fields'));
         $this['scripts']->add('widgetkit-controllers', 'assets/js/controllers.js', array('widgetkit-application'));
         $this['scripts']->add('widgetkit-directives', 'assets/js/directives.js', array('widgetkit-application'));
         $this['scripts']->add('widgetkit-environment', 'assets/js/environment.js', array('widgetkit-application'));
@@ -142,7 +153,9 @@ class Application extends BaseApplication implements EventSubscriberInterface
             return in_array($value, array('true', 'false'), true) ? $value == 'true' : $value;
         }, $data['data']);
 
-        return $this->convertUrls($widget->render($content, $data));
+        $content = $this->convertUrls($widget->render($content, $data));
+
+        return str_replace('{wk}', $this['config']->get('theme.support') === 'noconflict' ? 'wk' : 'uk', $content);
     }
 
     public function install()
