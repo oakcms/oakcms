@@ -29,7 +29,6 @@ class ModulesModules extends ActiveRecord
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
 
-
     /**
      * @inheritdoc
      */
@@ -94,6 +93,9 @@ class ModulesModules extends ActiveRecord
         return new \app\modules\admin\models\query\ModulesModulesQuery(get_called_class());
     }
 
+    public function getId() {
+        return $this->module_id;
+    }
 
     public function afterFind()
     {
@@ -107,17 +109,6 @@ class ModulesModules extends ActiveRecord
             $this->addError($attribute, Yii::t('admin', 'Class does not exist'));
         }
     }
-
-    /*public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            $this->settings = json_encode($this->settings);
-            Yii::$app->cache->flush();
-            return true;
-        } else {
-            return false;
-        }
-    }*/
 
     public function beforeSave($insert)
     {
@@ -171,9 +162,11 @@ class ModulesModules extends ActiveRecord
     public function setSettings($settings)
     {
         $newSettings = [];
-        foreach ($this->settings as $key => $value) {
-            $newSettings[$key]['value'] = is_bool($value['value']) ? ($settings[$key]  ? true : false) : ((isset($settings[$key])) ? $settings[$key]  : '');
-            $newSettings[$key]['type'] = $value['type'];
+        if(is_array($this->settings)) {
+            foreach ($this->settings as $key => $value) {
+                $newSettings[$key]['value'] = is_bool($value['value']) ? ($settings[$key]  ? true : false) : ((isset($settings[$key])) ? $settings[$key]  : '');
+                $newSettings[$key]['type'] = $value['type'];
+            }
         }
         $this->settings = $newSettings;
     }

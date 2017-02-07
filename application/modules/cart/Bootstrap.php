@@ -15,9 +15,8 @@ class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app)
     {
-        yii::$container->set('app\modules\cart\interfaces\CartService', 'app\modules\cart\models\Cart');
-        yii::$container->set('app\modules\cart\interfaces\ElementService', 'app\modules\cart\models\CartElement');
-        yii::$container->set('cartElement', 'app\modules\cart\models\CartElement');
-
+        Yii::$container->set('app\modules\cart\interfaces\CartService', 'app\modules\cart\models\Cart');
+        Yii::$container->set('app\modules\cart\interfaces\ElementService', 'app\modules\cart\models\CartElement');
+        Yii::$container->set('cartElement', 'app\modules\cart\models\CartElement');
     }
 }

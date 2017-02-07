@@ -63,7 +63,6 @@ class ProductController extends Controller
     protected function findModel($id)
     {
         $model = $this->module->getService('product');
-
         if (($model = $model::findOne($id)) !== null) {
             return $model;
         } else {

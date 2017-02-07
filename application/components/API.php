@@ -12,7 +12,7 @@ use yii\web\HttpException;
 class API extends \yii\base\Object
 {
     /** @var array */
-    static $classes;
+    static private $classes;
 
     /** @var string module name */
     public $module;

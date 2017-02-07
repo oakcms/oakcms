@@ -32,8 +32,8 @@ return [
     ],
     'errorHandler' => [
         'errorAction'       => 'system/default/error',
-        'exceptionView'     => '@app/templates/frontend/base/views/layouts/exception.php',
-        'callStackItemView' => '@app/templates/frontend/base/views/layouts/callStackItem.php',
+        'exceptionView'     => '@app/views/layouts/exception.php',
+        'callStackItemView' => '@app/views/layouts/callStackItem.php',
     ],
     'view'         => [
         'class'            => 'app\components\CoreView',

@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 14.05.2016
- * Project: oakcms
- * File name: AdminController.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\components;
@@ -12,7 +11,6 @@ namespace app\components;
 use app\modules\language\models\Language;
 use Yii;
 use yii\helpers\Url;
-use yii\web\Controller;
 
 class BackendController extends CoreController
 {

@@ -9,6 +9,8 @@ use app\modules\filter\behaviors\AttachFilterValues;
 use app\modules\shop\models\product\ProductQuery;
 use app\modules\field\behaviors\AttachFields;
 use app\modules\gallery\behaviors\AttachImages;
+use dosamigos\transliterator\TransliteratorHelper;
+use yii\helpers\Inflector;
 use yii\helpers\Url;
 use yii\helpers\VarDumper;
 
@@ -52,9 +54,6 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                 'class' => AttachImages::className(),
                 'mode'  => 'gallery',
             ],
-            'slug'       => [
-                'class' => 'Zelenin\yii\behaviors\Slug',
-            ],
             'relations'  => [
                 'class'        => 'app\modules\relations\behaviors\AttachRelations',
                 'relatedModel' => 'app\modules\shop\models\Product',
@@ -66,10 +65,6 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                     'category_ids' => 'categories',
                 ],
             ],
-            /*
-            'seo' => [
-                'class' => 'app\modules\seo\behaviors\SeoFields',
-            ],*/
             'filter'     => [
                 'class' => AttachFilterValues::className(),
             ],
@@ -96,6 +91,16 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
             [['category_ids'], 'each', 'rule' => ['integer']],
             [['name'], 'string', 'max' => 200],
             [['short_text', 'slug'], 'string', 'max' => 255],
+
+            [['alias'], 'filter', 'filter' => 'trim'],
+            [['alias'], 'filter', 'filter' => function ($value) {
+                if (empty($value)) {
+                    return Inflector::slug(TransliteratorHelper::process($this->title));
+                } else {
+                    return Inflector::slug($value);
+                }
+            }],
+            [['alias'], 'unique'],
         ];
     }
 

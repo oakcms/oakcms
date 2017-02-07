@@ -9,7 +9,6 @@
 
 namespace app\components;
 
-
 use app\modules\system\components\SeoViewBehavior;
 use yii\helpers\Url;
 
