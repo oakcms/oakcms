@@ -14,11 +14,7 @@ class Module extends \app\components\module\Module implements \app\components\mo
 {
 
     /** @var \app\components\UrlManager The rules to be used in Backend Url management. */
-    public static $urlRulesBackend = [
-        '/admin/text/default/<_a:[\w\-]+>/<id:\d+>'                => '/admin/text/default/<_a>',
-        '/admin/text/default/<_a:[\w\-]+>/<id:\d+>/<file:[\w\-]+>' => '/admin/text/default/<_a>',
-        '/admin/text/default/<_a:[\w\-]+>/<file:[\w\-]+>'          => '/admin/text/default/<_a>',
-    ];
+    public static $urlRulesBackend = [];
 
     /**
      * @param $event \app\modules\admin\widgets\events\MenuItemsEvent

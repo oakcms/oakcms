@@ -85,8 +85,5 @@
     "require-dev": {
         "composer/composer": "1.0.*@dev",
         "phpunit/phpunit": "4.1.*"
-    },
-    "scripts": {
-        "test": "phpunit"
     }
 }

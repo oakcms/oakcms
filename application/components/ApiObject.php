@@ -51,7 +51,7 @@ class ApiObject extends \yii\base\Object
      */
     public function thumb($width = null, $height = null, $crop = true)
     {
-        if($this->image && ($width || $height)){
+        if($this->image && ($width !== null || $height !== null)){
             return Image::thumbnail($this->image, $width, $height, $crop);
         }
         return '';
