@@ -5,13 +5,9 @@
 
 namespace app\modules\menu;
 
-
-use app\components\module\ModuleEvent;
 use app\components\module\ModuleEventsInterface;
 use app\modules\admin\widgets\events\MenuItemsEvent;
 use app\modules\admin\widgets\Menu;
-use app\modules\menu\events\MenuItemLayoutsModuleEvent;
-use app\templates\frontend\KNGroup\Theme;
 use Yii;
 
 /**

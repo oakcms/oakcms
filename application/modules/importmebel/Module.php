@@ -1,5 +1,8 @@
 <?php
 
+namespace app\modules\importmebel;
+
+
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
@@ -7,7 +10,7 @@
  * @version    0.0.1-alpha.0.4
  */
 
-class Module extends \app\components\module\Module
+class Module extends \app\components\module\Module implements \app\components\module\ModuleEventsInterface
 {
 
     /** @var \app\components\UrlManager The rules to be used in Backend Url management. */
@@ -22,10 +25,20 @@ class Module extends \app\components\module\Module
      */
     public function addAdminMenuItem($event)
     {
-        $event->items['text'] = [
-            'label' => \Yii::t('text', 'Text Block'),
-            'icon'  => '<i class="fa fa-font"></i>',
-            'url'   => ['/admin/text'],
+        $event->items['importmebel'] = [
+            'label' => \Yii::t('importmebel', 'Import Mebel'),
+            'icon'  => '<i class="fa fa-upload"></i>',
+            'url'   => ['/admin/importmebel'],
         ];
+    }
+
+    public function events()
+    {
+        // TODO: Implement events() method.
+
+        return [
+            \app\modules\admin\widgets\Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem',
+        ];
+
     }
 }
