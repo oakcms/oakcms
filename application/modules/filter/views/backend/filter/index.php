@@ -1,18 +1,32 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
+use app\modules\admin\widgets\Button;
 
-$this->title = 'Фильтры';
+$this->title = Yii::t('filter', 'Filters');
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->params['actions_buttons'] = [
+    [
+        'tagName' => 'a',
+        'label' => Yii::t('content', 'Create'),
+        'options' => [
+            'href' => Url::to(['create'])
+        ],
+        'icon' => 'fa fa-plus',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size' => Button::SIZE_SMALL,
+        'disabled' => false,
+        'block' => false,
+        'type' => Button::TYPE_CIRCLE,
+    ]
+];
+
 ?>
 <div class="filter-index">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Добавить фильтр', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
+        'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -30,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             $return[] = $fieldValues[$category];
                         }
                     }
-                    
+
                     return implode(', ', $return);
                 },
                 'filter' => false,

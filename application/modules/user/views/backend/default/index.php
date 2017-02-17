@@ -38,8 +38,12 @@ $this->params['actions_buttons'] = [
         <?= GridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+            'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
             'columns' => [
-                'id',
+                [
+                    'attribute' => 'id',
+                    'options' => ['style' => 'width:150px']
+                ],
                 [
                     'filter' => DatePicker::widget([
                         'model' => $searchModel,

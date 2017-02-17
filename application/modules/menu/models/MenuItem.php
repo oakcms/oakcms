@@ -41,6 +41,7 @@ use yii\helpers\VarDumper;
  * @property string     $link_params
  * @property string     $layout_path
  * @property string     $access_rule
+ * @property string     $metatitle
  * @property string     $metakey
  * @property string     $metadesc
  * @property string     $robots
@@ -179,7 +180,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
                 return is_array($value) ? reset($value) : $value;
             }],
             [['title', 'link', 'layout_path'], 'string', 'max' => 1024],
-            [['alias', 'note', 'metakey'], 'string', 'max' => 255],
+            [['alias', 'note', 'metakey', 'metatitle'], 'string', 'max' => 255],
             [['metadesc'], 'string', 'max' => 2048],
             [['access_rule', 'robots'], 'string', 'max' => 50],
 
@@ -245,6 +246,7 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
             'link_params'    => Yii::t('menu', 'Link Params'),
             'layout_path'    => Yii::t('menu', 'Layout Path'),
             'access_rule'    => Yii::t('menu', 'Access Rule'),
+            'metatitle'      => Yii::t('menu', 'Meta Title'),
             'metakey'        => Yii::t('menu', 'Meta keywords'),
             'metadesc'       => Yii::t('menu', 'Meta description'),
             'robots'         => Yii::t('menu', 'Robots'),

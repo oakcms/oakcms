@@ -231,8 +231,8 @@ JS
             </div>
 
             <div id="meta-options" class="tab-pane">
+                <?= $form->field($model, 'metatitle')->textInput(['maxlength' => 255]) ?>
                 <?= $form->field($model, 'metakey')->textInput(['maxlength' => 255]) ?>
-
                 <?= $form->field($model, 'metadesc')->textarea(['maxlength' => 2048]) ?>
 
                 <?= $form->field($model, 'robots')->dropDownList([

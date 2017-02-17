@@ -15,6 +15,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
         '/admin/text/default/<_a:[\w\-]+>/<id:\d+>/<file:[\w\-]+>' => '/admin/text/default/<_a>',
         '/admin/text/default/<_a:[\w\-]+>/<file:[\w\-]+>'          => '/admin/text/default/<_a>',
     ];
+
     public $settings = [];
 
     /**

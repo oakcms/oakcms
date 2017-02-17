@@ -3,13 +3,13 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
-namespace app\components\menu;
+namespace app\modules\menu\behaviors;
 
 
 /**
  * Class MenuRouter
  * Базовый класс для описания правил маршрутизации
- * используется на уровне модулей в связке с \app\components\menu\interfaces\module\MenuRouterInterface
+ * используется на уровне модулей в связке с \app\modules\menu\behaviors\interfaces\module\MenuRouterInterface
  * @package yii2-platform-basic
  * @author Gayazov Roman <gromver5@gmail.com>
  */

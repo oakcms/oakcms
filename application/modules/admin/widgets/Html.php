@@ -108,6 +108,17 @@ class Html extends \yii\bootstrap\Html
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;
+            case 'select':
+                $return =
+                    parent::beginTag('div', ['class' => 'form-group']) .
+                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
+                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
+                    parent::endTag('label') .
+                    parent::beginTag('div', ['class' => 'col-md-9']) .
+                    parent::dropDownList('Settings['.$key.']', $item['value'], $item['items'], ['class' => 'form-control']).
+                    parent::endTag('div') .
+                    parent::endTag('div');
+                break;
             default:
                 $return = '';
                 break;

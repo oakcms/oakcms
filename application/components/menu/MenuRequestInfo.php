@@ -3,7 +3,7 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
-namespace app\components\menu;
+namespace app\modules\menu\behaviors;
 
 
 /**
@@ -20,18 +20,18 @@ class MenuRequestInfo extends \yii\base\Object
      */
     public $menuMap;
     /**
-     * Роут на который ссылается активный пункт меню, см. \app\components\menu\components\MenuUrlRule::parseRequest
+     * Роут на который ссылается активный пункт меню, см. \app\modules\menu\behaviors\components\MenuUrlRule::parseRequest
      * @var string
      */
     public $menuRoute;
     /**
-     * Параметры меню, извлекаются из ссылки на которую ссылается пункт меню, см. \app\components\menu\components\MenuUrlRule::parseRequest и \app\modules\menu\models\MenuItem::parseUrl
+     * Параметры меню, извлекаются из ссылки на которую ссылается пункт меню, см. \app\modules\menu\behaviors\components\MenuUrlRule::parseRequest и \app\modules\menu\models\MenuItem::parseUrl
      * @var array
      */
     public $menuParams;
     /**
-     * Роут запроса (в контексте \app\components\menu\components\MenuUrlRule::createUrl) либо
-     * необработаный роут запроса (в контексте \app\components\menu\components\MenuUrlRule::parseRequest)
+     * Роут запроса (в контексте \app\modules\menu\behaviors\components\MenuUrlRule::createUrl) либо
+     * необработаный роут запроса (в контексте \app\modules\menu\behaviors\components\MenuUrlRule::parseRequest)
      * необработанный роут = роут запроса - путь "подходящего" пункта меню
      * @var string
      */

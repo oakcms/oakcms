@@ -19,6 +19,10 @@ namespace app\components;
 
 use app\modules\text\api\Text;
 
+/**
+ * Class ApiController
+ * @package app\components
+ */
 class ApiController extends Controller
 {
     public function behaviors()
@@ -28,13 +32,16 @@ class ApiController extends Controller
                 'class' => \yii\filters\ContentNegotiator::className(),
                 'formatParam' => '_format',
                 'formats' => [
-                    //'application/xml'  => \yii\web\Response::FORMAT_XML,
                     'application/json' => \yii\web\Response::FORMAT_JSON,
                 ],
             ],
         ];
     }
 
+    /**
+     * @param $model
+     * @param $attribute
+     */
     public function renderWidgets($model, $attribute)
     {
         if(isset($model->{$attribute})){

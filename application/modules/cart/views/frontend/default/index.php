@@ -1,30 +1,39 @@
 <?php
-use app\modules\cart\widgets\DeleteButton;
-use app\modules\cart\widgets\TruncateButton;
-use app\modules\cart\widgets\ChangeCount;
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ *
+ * @var $this \app\components\View
+ * @var $elements \app\modules\cart\models\CartElement
+ */
+
 use app\modules\cart\widgets\CartInformer;
-use app\modules\cart\widgets\ChangeOptions;
 
 $this->title = yii::t('cart', 'Cart');
+
+$this->params['breadcrumb'][] = "Корзина";
+
 ?>
 
+
 <div class="cart">
-    <h1><?= yii::t('cart', 'Cart'); ?></h1>
-    <?php foreach($elements as $element) { ?>
-        <div class="row">
-            <div class="col-lg-6 col-xs-6">
-                <strong><?=$element->getModel()->getCartName();?> (<?=$element->getModel()->getCartPrice();?> р.)</strong>
-                <?=ChangeOptions::widget(['model' => $element, 'type' => 'radio']); ?>
-            </div>
-            <div class="col-lg-4 col-xs-4">
-                <?=ChangeCount::widget(['model' => $element]);?>
-            </div>
-            <div class="col-lg-2 col-xs-2">
-                <?=DeleteButton::widget(['model' => $element, 'lineSelector' => '.row']);?>
+    <h2><?= yii::t('cart', 'Cart'); ?></h2>
+    <div class="cart__items">
+
+    </div>
+    <?php foreach($elements as $element): ?>
+        <div class="cart__items cart__items-<?= $element->getModel()->id ?>">
+            <div class="cart__item">
+                <div class="image">
+                    <?= \yii\bootstrap\Html::img($element->getModel()->getImage()->getUrl('200x125')) ?>
+                </div>
+
             </div>
         </div>
-    <?php } ?>
+    <?php endforeach; ?>
     <div class="total">
-        <?=CartInformer::widget(['htmlTag' => 'h3']); ?>
+        <?= CartInformer::widget(['htmlTag' => 'h3']); ?>
     </div>
 </div>

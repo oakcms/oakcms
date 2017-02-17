@@ -14,7 +14,7 @@ use app\components\module\Event;
  * @package yii2-platform-basic
  * @author Gayazov Roman <gromver5@gmail.com>
  *
- * @property \app\components\menu\MenuUrlRule $sender
+ * @property \app\modules\menu\behaviors\MenuUrlRule $sender
  */
 class FetchRoutersEvent extends Event {
     /**

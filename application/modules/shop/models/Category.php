@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 
 namespace app\modules\shop\models;
 
+use dosamigos\transliterator\TransliteratorHelper;
 use Yii;
 use app\modules\shop\models\category\CategoryQuery;
+use yii\helpers\Inflector;
 use yii\helpers\Url;
 
 /**
@@ -29,9 +34,6 @@ class Category extends \yii\db\ActiveRecord
             'images' => [
                 'class' => 'app\modules\gallery\behaviors\AttachImages',
                 'mode' => 'single',
-            ],
-            'slug' => [
-                'class' => 'Zelenin\yii\behaviors\Slug',
             ],
             'field' => [
                 'class' => 'app\modules\field\behaviors\AttachFields',
@@ -56,6 +58,15 @@ class Category extends \yii\db\ActiveRecord
             [['name'], 'required'],
             [['text', 'code'], 'string'],
             [['name', 'code', 'slug'], 'string', 'max' => 55],
+            [['slug'], 'filter', 'filter' => 'trim'],
+            [['slug'], 'filter', 'filter' => function ($value) {
+                if (empty($value)) {
+                    return Inflector::slug(TransliteratorHelper::process($this->name));
+                } else {
+                    return Inflector::slug($value);
+                }
+            }],
+            [['slug'], 'unique'],
         ];
     }
 

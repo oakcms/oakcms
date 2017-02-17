@@ -79,7 +79,7 @@ class Text extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'order'], 'number', 'integerOnly' => true],
+            [['id', 'order', 'status'], 'number', 'integerOnly' => true],
             [['title'], 'required'],
             [['title', 'subtitle', 'layout', 'links', 'text'], 'string'],
             ['text', 'trim'],

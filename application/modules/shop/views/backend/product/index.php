@@ -77,26 +77,29 @@ $this->params['actions_buttons'] = [
 <?php } ?>
 <?php
 echo \yii\grid\GridView::widget([
+    'id' => 'grid',
     'dataProvider' => $dataProvider,
-    'filterModel'  => $searchModel,
-    'tableOptions' => ['class' => 'table table-striped table-bordered table-advance table-hover'],
+    'tableOptions' => ['class' => 'table-mt table-mt-striped table-mt-hover table-mt-card'],
     'columns'      => [
-        ['class' => 'yii\grid\SerialColumn'],
         [
-            'attribute' => 'id',
-            'options'   => ['style' => 'width: 55px;'],
+            'class' => 'yii\grid\CheckboxColumn',
+            'options' => ['style' => 'width:36px']
         ],
         [
-            'attribute' => 'images',
-            'format'    => 'images',
-            'filter'    => false,
-            'content'   => function ($image) {
-                if ($image = $image->getImage()->getUrl('50x50', true)) {
-                    return "<img src=\"{$image}\" class=\"thumb\" />";
+            'attribute' => 'name',
+            'format'    => 'raw',
+            'content'   => function ($model) {
+                /** @var  $model \app\modules\shop\models\Product */
+                if ($image = $model->getImage()->getUrl('50x50', true)) {
+                    return Html::a(
+                        "<img src=\"{$image}\" class=\"img-thumbnail pull-left img-circle\" style='margin-right: 10px' /> " .
+                        $model->name . ' ' .
+                        Html::a('<i class="fa fa-external-link"></i>', $model->getFrontendViewLink(), ['target' => '_blank']),
+                        ['update', 'id' => $model->id]
+                    );
                 }
             },
         ],
-        'name',
         'code',
         [
             'label'   => 'Остаток',
@@ -132,10 +135,20 @@ echo \yii\grid\GridView::widget([
             'value'     => 'producer.name',
         ],
         [
-            'class'        => 'app\modules\admin\components\grid\ActionColumn',
-            'translatable' => true,
+            'attribute' => 'id',
+            'options'   => ['style' => 'width: 100px;'],
+        ],
+        [
+            'class'        => app\modules\admin\components\grid\DeleteColumn::className()
         ],
     ],
 ]); ?>
 
 </div>
+
+<script>
+    function deleteA() {
+        var keys = $('#grid').yiiGridView('getSelectedRows');
+        window.location.href = <?= Url::to(['delete-ids']) ?>?id=' + keys.join();
+    }
+</script>

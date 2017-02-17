@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e27ab6cae17a2eeb46c00f9e859f1a1a",
-    "content-hash": "b0f5bece73395db84933a8f825628b0e",
+    "hash": "650f94e4544ad7429cdb39b8277b2719",
+    "content-hash": "d6af81d501aeed46387914210187e393",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -141,22 +141,6 @@
             ]
         },
         {
-            "name": "bower-asset/jquery.terminal",
-            "version": "0.8.8",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jcubic/jquery.terminal.git",
-                "reference": "8f5407975498807076a76b83424d295091cf9600"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jcubic/jquery.terminal/zipball/8f5407975498807076a76b83424d295091cf9600",
-                "reference": "8f5407975498807076a76b83424d295091cf9600",
-                "shasum": ""
-            },
-            "type": "bower-asset-library"
-        },
-        {
             "name": "bower-asset/punycode",
             "version": "v1.3.2",
             "source": {
@@ -279,47 +263,6 @@
             "time": "2016-09-14 20:40:20"
         },
         {
-            "name": "codemix/yii2-localeurls",
-            "version": "1.4.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/codemix/yii2-localeurls.git",
-                "reference": "f080c39eec2e989173f3c10f3fba36f3043bdd2f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/codemix/yii2-localeurls/zipball/f080c39eec2e989173f3c10f3fba36f3043bdd2f",
-                "reference": "f080c39eec2e989173f3c10f3fba36f3043bdd2f",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "codemix\\localeurls\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Michael Härtl",
-                    "email": "haertl.mike@gmail.com"
-                }
-            ],
-            "description": "Automatic locale/language management for URLs.",
-            "keywords": [
-                "i18n",
-                "locale",
-                "yii2"
-            ],
-            "time": "2017-01-09 12:26:05"
-        },
-        {
             "name": "ezyang/htmlpurifier",
             "version": "v4.8.0",
             "source": {
@@ -362,50 +305,6 @@
                 "html"
             ],
             "time": "2016-07-16 12:58:58"
-        },
-        {
-            "name": "samdark/yii2-webshell",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/samdark/yii2-webshell.git",
-                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/samdark/yii2-webshell/zipball/b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
-                "reference": "b55c1d3ae1fb70138e52b2820b831e7c2d4c3116",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/jquery.terminal": "~0.8.8",
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "samdark\\webshell\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Alexander Makarov",
-                    "email": "sam@rmcreative.ru"
-                }
-            ],
-            "description": "A web shell that allows to run yii console commands and create your own commands.",
-            "keywords": [
-                "console",
-                "extension",
-                "shell",
-                "webshell",
-                "yii2"
-            ],
-            "time": "2015-08-26 09:27:42"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -463,16 +362,16 @@
         },
         {
             "name": "yiisoft/yii2",
-            "version": "2.0.11.1",
+            "version": "2.0.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "5c9c894b1d20bc1a39814063adf8a1aeb7c86f77"
+                "reference": "ee996adec1dfd7babb67bd0c604f5bd6425fe5ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/5c9c894b1d20bc1a39814063adf8a1aeb7c86f77",
-                "reference": "5c9c894b1d20bc1a39814063adf8a1aeb7c86f77",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/ee996adec1dfd7babb67bd0c604f5bd6425fe5ab",
+                "reference": "ee996adec1dfd7babb67bd0c604f5bd6425fe5ab",
                 "shasum": ""
             },
             "require": {
@@ -559,7 +458,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2017-02-02 18:53:16"
+            "time": "2017-02-08 09:04:32"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -1521,48 +1420,6 @@
             "description": "Font Awesome"
         },
         {
-            "name": "bower-asset/ionrangeslider",
-            "version": "2.1.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/IonDen/ion.rangeSlider.git",
-                "reference": "6c7c96ba1201b86d5119423360684bb914a09ce1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/IonDen/ion.rangeSlider/zipball/6c7c96ba1201b86d5119423360684bb914a09ce1",
-                "reference": "6c7c96ba1201b86d5119423360684bb914a09ce1",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/jquery": ">=1.8"
-            },
-            "type": "bower-asset-library",
-            "extra": {
-                "bower-asset-main": [
-                    "js/ion.rangeSlider.js",
-                    "css/ion.rangeSlider.css",
-                    "css/ion.rangeSlider.skinFlat.css",
-                    "img/sprite-skin-flat.png"
-                ],
-                "bower-asset-ignore": [
-                    "PSD",
-                    "ion-rangeSlider.jquery.json"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "description": "Powerful range slider with skin support",
-            "keywords": [
-                "diapason",
-                "ion",
-                "jquery-plugin",
-                "range",
-                "slider"
-            ]
-        },
-        {
             "name": "bower-asset/jquery-locationpicker-plugin",
             "version": "0.1.15",
             "source": {
@@ -2148,6 +2005,47 @@
             "time": "2017-01-06 16:38:10"
         },
         {
+            "name": "codemix/yii2-localeurls",
+            "version": "1.4.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codemix/yii2-localeurls.git",
+                "reference": "f080c39eec2e989173f3c10f3fba36f3043bdd2f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codemix/yii2-localeurls/zipball/f080c39eec2e989173f3c10f3fba36f3043bdd2f",
+                "reference": "f080c39eec2e989173f3c10f3fba36f3043bdd2f",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "codemix\\localeurls\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Härtl",
+                    "email": "haertl.mike@gmail.com"
+                }
+            ],
+            "description": "Automatic locale/language management for URLs.",
+            "keywords": [
+                "i18n",
+                "locale",
+                "yii2"
+            ],
+            "time": "2017-01-09 12:26:05"
+        },
+        {
             "name": "components/flag-icon-css",
             "version": "2.8.0",
             "source": {
@@ -2228,6 +2126,47 @@
                 "yii2"
             ],
             "time": "2017-01-31 09:48:06"
+        },
+        {
+            "name": "developeruz/yii2-db-rbac",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/developeruz/yii2-db-rbac.git",
+                "reference": "ef181cbb2d80a9a68d65c42d54bcd113260729ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/developeruz/yii2-db-rbac/zipball/ef181cbb2d80a9a68d65c42d54bcd113260729ec",
+                "reference": "ef181cbb2d80a9a68d65c42d54bcd113260729ec",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "developeruz\\db_rbac\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Elvira Sheina",
+                    "email": "elleuz@gmail.com",
+                    "homepage": "http://developer.uz"
+                }
+            ],
+            "description": "Dynamic control of access rights in YII2",
+            "keywords": [
+                "rbac",
+                "yii"
+            ],
+            "time": "2016-12-09 13:28:47"
         },
         {
             "name": "dragonjet/yii2-opengraph",
@@ -2572,16 +2511,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v4.3.6",
+            "version": "v4.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "ad0ddced480efdd38051d02b1ef28a2749bcc48a"
+                "reference": "5977b3cbf2f0010b54ebad6b7e52d1ad62d19c3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/ad0ddced480efdd38051d02b1ef28a2749bcc48a",
-                "reference": "ad0ddced480efdd38051d02b1ef28a2749bcc48a",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/5977b3cbf2f0010b54ebad6b7e52d1ad62d19c3e",
+                "reference": "5977b3cbf2f0010b54ebad6b7e52d1ad62d19c3e",
                 "shasum": ""
             },
             "type": "library",
@@ -2621,7 +2560,7 @@
                 "progress",
                 "upload"
             ],
-            "time": "2016-12-17 16:49:33"
+            "time": "2017-02-12 02:31:28"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -4755,48 +4694,6 @@
             "time": "2016-06-01 14:47:10"
         },
         {
-            "name": "oakcms/yii2-carousel",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/oakcms/yii2-carousel.git",
-                "reference": "9c8c5887820e2fd175f23f24a76e6b02d3084ceb"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/oakcms/yii2-carousel/zipball/9c8c5887820e2fd175f23f24a76e6b02d3084ceb",
-                "reference": "9c8c5887820e2fd175f23f24a76e6b02d3084ceb",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "oakcms\\yii2carousel\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "scriptua",
-                    "email": "script@email.ua"
-                }
-            ],
-            "description": "Yii2 Carousel bootstrap 3 for oakcms",
-            "keywords": [
-                " bootstrap carousel",
-                " carousel",
-                "extension",
-                "yii2"
-            ],
-            "time": "2016-08-26 10:22:21"
-        },
-        {
             "name": "oakcms/yii2-datetimepicker",
             "version": "v1.0.0",
             "source": {
@@ -5235,16 +5132,16 @@
         },
         {
             "name": "studio-42/elfinder",
-            "version": "2.1.20",
+            "version": "2.1.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Studio-42/elFinder.git",
-                "reference": "7ccdfb3e4f2c7cb015a6c2efd7779d4bbca8b7cd"
+                "reference": "a6a534ffe558b203f46511dc927054ccc9d006e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/7ccdfb3e4f2c7cb015a6c2efd7779d4bbca8b7cd",
-                "reference": "7ccdfb3e4f2c7cb015a6c2efd7779d4bbca8b7cd",
+                "url": "https://api.github.com/repos/Studio-42/elFinder/zipball/a6a534ffe558b203f46511dc927054ccc9d006e0",
+                "reference": "a6a534ffe558b203f46511dc927054ccc9d006e0",
                 "shasum": ""
             },
             "require": {
@@ -5289,7 +5186,7 @@
             ],
             "description": "File manager for web",
             "homepage": "http://elfinder.org",
-            "time": "2017-01-11 14:33:46"
+            "time": "2017-02-08 13:49:35"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -5527,54 +5424,6 @@
                 "scrolling"
             ],
             "time": "2016-08-26 10:37:37"
-        },
-        {
-            "name": "yii2mod/yii2-ion-slider",
-            "version": "1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yii2mod/yii2-ion-slider.git",
-                "reference": "28446d705e8f46d12d910691f4675762071b31ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yii2mod/yii2-ion-slider/zipball/28446d705e8f46d12d910691f4675762071b31ba",
-                "reference": "28446d705e8f46d12d910691f4675762071b31ba",
-                "shasum": ""
-            },
-            "require": {
-                "bower-asset/ionrangeslider": "*",
-                "yiisoft/yii2": "*"
-            },
-            "type": "yii2-extension",
-            "extra": {
-                "asset-installer-paths": {
-                    "bower-asset-library": "vendor/bower"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "yii2mod\\slider\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Igor Chepurnoy",
-                    "email": "igorzfort@gmail.com"
-                }
-            ],
-            "description": "Ion.RangeSlider Widget for Yii 2",
-            "keywords": [
-                "yii2",
-                "yii2 ion slider",
-                "yii2 range slider",
-                "yii2 slider"
-            ],
-            "time": "2016-07-27 10:54:09"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -5996,103 +5845,11 @@
             "description": "Compass for scssphp",
             "homepage": "http://leafo.net/scssphp/",
             "time": "2015-12-14 10:54:53"
-        },
-        {
-            "name": "zelenin/string",
-            "version": "0.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zelenin/string.git",
-                "reference": "d57f21f32d2b2eb52e96e892500afaeb0b3fac19"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zelenin/string/zipball/d57f21f32d2b2eb52e96e892500afaeb0b3fac19",
-                "reference": "d57f21f32d2b2eb52e96e892500afaeb0b3fac19",
-                "shasum": ""
-            },
-            "require": {
-                "ext-intl": "*",
-                "php": ">=5.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Zelenin\\Ddd\\String\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Aleksandr Zelenin",
-                    "email": "aleksandr@zelenin.me",
-                    "homepage": "http://zelenin.me",
-                    "role": "Developer"
-                }
-            ],
-            "description": "String transformers collection",
-            "homepage": "https://github.com/zelenin/string",
-            "keywords": [
-                "ddd",
-                "slug",
-                "string",
-                "translit"
-            ],
-            "time": "2015-12-23 00:06:30"
-        },
-        {
-            "name": "zelenin/yii2-slug-behavior",
-            "version": "1.5.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zelenin/yii2-slug-behavior.git",
-                "reference": "e40f370c55825a2ea65ef0e47c6f7c46b7703485"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zelenin/yii2-slug-behavior/zipball/e40f370c55825a2ea65ef0e47c6f7c46b7703485",
-                "reference": "e40f370c55825a2ea65ef0e47c6f7c46b7703485",
-                "shasum": ""
-            },
-            "require": {
-                "yiisoft/yii2": "~2.0.7",
-                "zelenin/string": "~0.0.0"
-            },
-            "type": "yii2-extension",
-            "autoload": {
-                "psr-4": {
-                    "Zelenin\\yii\\behaviors\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Aleksandr Zelenin",
-                    "email": "aleksandr@zelenin.me",
-                    "homepage": "http://zelenin.me",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Yii2 slug behavior",
-            "homepage": "https://github.com/zelenin/yii2-slug-behavior",
-            "keywords": [
-                "Behavior",
-                "slug",
-                "yii2"
-            ],
-            "time": "2016-02-14 21:37:51"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "oakcms/yii2-carousel": 20,
         "dragonjet/yii2-opengraph": 20,
         "creocoder/yii2-nested-sets": 20,
         "newerton/yii2-fancybox": 20,

@@ -5,6 +5,8 @@
 
 namespace app\modules\shop\models;
 
+use dosamigos\transliterator\TransliteratorHelper;
+use yii\helpers\Inflector;
 use yii\helpers\Url;
 use Yii;
 
@@ -16,12 +18,6 @@ class Producer extends \yii\db\ActiveRecord
                 'class' => 'app\modules\gallery\behaviors\AttachImages',
                 'mode' => 'single',
             ],
-            'slug' => [
-                'class' => 'Zelenin\yii\behaviors\Slug',
-            ],
-            /*'seo' => [
-                'class' => 'app\modules\seo\behaviors\SeoFields',
-            ],*/
             'field' => [
                 'class' => 'app\modules\field\behaviors\AttachFields',
             ],
@@ -43,7 +39,16 @@ class Producer extends \yii\db\ActiveRecord
         return [
             [['name'], 'required'],
             [['image', 'text'], 'string'],
-            [['name', 'slug'], 'string', 'max' => 255]
+            [['name', 'slug'], 'string', 'max' => 255],
+            [['slug'], 'filter', 'filter' => 'trim'],
+            [['slug'], 'filter', 'filter' => function ($value) {
+                if (empty($value)) {
+                    return Inflector::slug(TransliteratorHelper::process($this->name));
+                } else {
+                    return Inflector::slug($value);
+                }
+            }],
+            [['slug'], 'unique'],
         ];
     }
 

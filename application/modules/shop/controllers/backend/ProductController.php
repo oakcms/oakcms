@@ -76,7 +76,7 @@ class ProductController extends Controller
 
         $priceModel = $this->module->getService('price');
 
-        $priceTypes = PriceType::find()->orderBy('sort DESC')->all();
+        $priceTypes = PriceType::findOne()->orderBy('sort DESC')->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
@@ -176,6 +176,26 @@ class ProductController extends Controller
         }
 
         return $this->redirect(['index']);
+    }
+
+    /**
+     * Deletes items an existing SeoItems model.
+     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * @return mixed
+     */
+    public function actionDeleteIds()
+    {
+        $ids = Yii::$app->request->get('id');
+        $id_arr = explode(',', $ids);
+        foreach ($id_arr as $id) {
+            $model = $this->findModel($id);
+            $model->delete();
+
+            $module = $this->module;
+            $productEvent = new ProductEvent(['model' => $model]);
+            $this->module->trigger($module::EVENT_PRODUCT_DELETE, $productEvent);
+        }
+        return $this->back();
     }
 
     public function actionProductInfo()

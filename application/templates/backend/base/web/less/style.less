@@ -9,8 +9,24 @@
 @import 'global/fonts';
 @import 'global/margin';
 
+html {
+  font-size: initial;
+}
+
+body {
+  font-family: "Roboto", "Helvetica Neue", sans-serif !important;
+}
+
 .w55 {
   width: 55px;
+}
+
+.disabled {
+
+  cursor: not-allowed;
+  pointer-events: none;
+  background-color: #eee;
+  opacity: 1;
 }
 
 .error {
@@ -26,7 +42,7 @@
   border-radius: 0;
 }
 
-.table-advance {
+.table-mt-advance {
   thead {
     tr {
       th {
@@ -87,7 +103,7 @@
   white-space: normal;
 }
 
-.table-responsive {
+.table-mt-responsive {
   //overflow-x: visible;
 }
 
@@ -225,7 +241,7 @@ div.checker {
   position: relative;
 
   > li {
-    >.oak-tree-right-col {
+    > .oak-tree-right-col {
       display: none;
     }
     &:hover {
@@ -301,4 +317,223 @@ div.checker {
   &--active {
     color: #fd7b12;
   }
+}
+
+// Material
+.table-mt {
+  border: 0;
+  margin-bottom: 1rem;
+  max-width: 100%;
+  width: 100%
+}
+
+.table-mt td, .table-mt th {
+  border-top: 1px solid rgba(0, 0, 0, .12);
+  padding-right: 1.75rem;
+  padding-left: 1.75rem;
+  vertical-align: top
+}
+
+.table-mt td:first-child, .table-mt th:first-child {
+  padding-left: 1.5rem
+}
+
+.table-mt td:last-child, .table-mt th:last-child {
+  padding-right: 1.5rem
+}
+
+.table-mt tbody td, .table-mt tbody th {
+  color: rgba(0, 0, 0, .87);
+  font-size: .8125rem;
+  font-weight: 400;
+  height: 3rem;
+  padding-top: .91964rem;
+  padding-bottom: .91964rem
+}
+
+.table-mt tfoot td, .table-mt tfoot th {
+  color: rgba(0, 0, 0, .54);
+  font-size: .75rem;
+  font-weight: 400;
+  height: 3.5rem;
+  padding-top: 1.21429rem;
+  padding-bottom: 1.21429rem
+}
+
+.table-mt thead td, .table-mt thead th {
+  color: rgba(0, 0, 0, .87);
+  font-size: .75rem;
+  font-weight: 600;
+  height: 3.5rem;
+  padding-top: 1.21429rem;
+  padding-bottom: 1.21429rem
+}
+
+.table-mt > tbody:first-child > tr:first-child td, .table-mt > tbody:first-child > tr:first-child th, .table-mt > tfoot:first-child > tr:first-child td, .table-mt > tfoot:first-child > tr:first-child th, .table-mt > thead:first-child > tr:first-child td, .table-mt > thead:first-child > tr:first-child th {
+  border-top: 0
+}
+
+.table-mt .table-mt {
+  border-top: 1px solid rgba(0, 0, 0, .12)
+}
+
+.table-mt-bordered {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2)
+}
+
+.table-mt-striped tbody tr:nth-of-type(odd) {
+  background-color: #fafafa
+}
+
+.table-mt-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, .04)
+}
+
+.table-mt .table-mt-primary, .table-mt .table-mt-primary > td, .table-mt .table-mt-primary > th {
+  background-color: #009688;
+  color: rgba(0, 0, 0, .87)
+}
+
+.table-mt-hover .table-mt-primary:hover, .table-mt-hover .table-mt-primary:hover > td, .table-mt-hover .table-mt-primary:hover > th {
+  background-color: #00bfa5;
+  color: rgba(0, 0, 0, .87)
+}
+
+.table-mt .table-mt-secondary, .table-mt .table-mt-secondary > td, .table-mt .table-mt-secondary > th {
+  background-color: #ffd740;
+  color: rgba(0, 0, 0, .87)
+}
+
+.table-mt-hover .table-mt-secondary:hover, .table-mt-hover .table-mt-secondary:hover > td, .table-mt-hover .table-mt-secondary:hover > th {
+  background-color: #ffc400;
+  color: rgba(0, 0, 0, .87)
+}
+
+.table-mt .table-mt-danger, .table-mt .table-mt-danger > td, .table-mt .table-mt-danger > th {
+  background-color: #f44336;
+  color: #fff
+}
+
+.table-mt-hover .table-mt-danger:hover, .table-mt-hover .table-mt-danger:hover > td, .table-mt-hover .table-mt-danger:hover > th {
+  background-color: #d32f2f;
+  color: #fff
+}
+
+.table-mt .table-mt-info, .table-mt .table-mt-info > td, .table-mt .table-mt-info > th {
+  background-color: #2196f3;
+  color: #fff
+}
+
+.table-mt-hover .table-mt-info:hover, .table-mt-hover .table-mt-info:hover > td, .table-mt-hover .table-mt-info:hover > th {
+  background-color: #1976d2;
+  color: #fff
+}
+
+.table-mt .table-mt-success, .table-mt .table-mt-success > td, .table-mt .table-mt-success > th {
+  background-color: #4caf50;
+  color: rgba(0, 0, 0, .87)
+}
+
+.table-mt-hover .table-mt-success:hover, .table-mt-hover .table-mt-success:hover > td, .table-mt-hover .table-mt-success:hover > th {
+  background-color: #388e3c;
+  color: #fff
+}
+
+.table-mt .table-mt-warning, .table-mt .table-mt-warning > td, .table-mt .table-mt-warning > th {
+  background-color: #ff9800;
+  color: rgba(0, 0, 0, .87)
+}
+
+.table-mt-hover .table-mt-warning:hover, .table-mt-hover .table-mt-warning:hover > td, .table-mt-hover .table-mt-warning:hover > th {
+  background-color: #f57c00;
+  color: rgba(0, 0, 0, .87)
+}
+
+.table-responsive {
+  display: block;
+  min-height: .01%;
+  overflow-x: auto;
+  width: 100%
+}
+
+.table-mt > tbody:first-child > tr:first-child td,
+.table-mt > tbody:first-child > tr:first-child th,
+.table-mt > tfoot:first-child > tr:first-child td,
+.table-mt > tfoot:first-child > tr:first-child th,
+.table-mt thead tr:first-child td,
+.table-mt thead tr:first-child th {
+  border-top: 0;
+}
+
+.table-mt tbody tr td.cell-detail .cell-detail-description {
+  display: block;
+  font-size: 11px;
+  color: rgba(0, 0, 0, .54);
+}
+
+.md-ripple-background {
+  background-color: rgba(0, 0, 0, .0588);
+  opacity: 0;
+  -webkit-transition: opacity .3s linear;
+  transition: opacity .3s linear;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0
+}
+
+.md-icon-button {
+  width: 40px;
+  height: 40px;
+  display: block;
+  position: relative;
+  color: #333;
+  text-align: center;
+
+  padding: 0;
+  min-width: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  line-height: 40px;
+  border-radius: 50%;
+
+  .fa {
+    font-size: 24px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+  }
+
+  .md-button-focus-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    background-color: rgba(0,0,0,.12);
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  &:hover {
+    .fa {
+      color: red;
+    }
+
+    .md-button-focus-overlay {
+      opacity: 1;
+    }
+  }
+}
+
+
+.mdRippleUnbounded .md-ripple-background {
+  display: none
+}
+
+.md-ripple-background.md-ripple-active, .mdRippleFocused .md-ripple-background {
+  opacity: 1
 }

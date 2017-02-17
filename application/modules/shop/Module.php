@@ -6,7 +6,7 @@
 namespace app\modules\shop;
 
 use app\components\events\FetchRoutersEvent;
-use app\components\menu\MenuUrlRule;
+use app\modules\menu\behaviors\MenuUrlRule;
 use app\components\module\ModuleEventsInterface;
 use app\modules\admin\rbac\Rbac;
 use app\modules\admin\widgets\events\MenuItemsEvent;

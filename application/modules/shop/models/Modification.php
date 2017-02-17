@@ -5,7 +5,9 @@
 
 namespace app\modules\shop\models;
 
+use dosamigos\transliterator\TransliteratorHelper;
 use Yii;
+use yii\helpers\Inflector;
 use yii\helpers\Url;
 use app\modules\shop\models\Category;
 use app\modules\shop\models\Price;
@@ -23,17 +25,11 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
                 'class' => 'app\modules\gallery\behaviors\AttachImages',
                 'mode' => 'gallery',
             ],
-            'slug' => [
-                'class' => 'Zelenin\yii\behaviors\Slug',
-            ],
             'relations' => [
                 'class' => 'app\modules\relations\behaviors\AttachRelations',
                 'relatedModel' => 'app\modules\shop\models\Product',
                 'inAttribute' => 'related_ids',
             ],
-            /*'seo' => [
-                'class' => 'app\modules\seo\behaviors\SeoFields',
-            ],*/
             'time' => [
                 'class' => TimestampBehavior::className(),
                 'createdAtAttribute' => 'create_time',
@@ -56,7 +52,15 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
             [['price'], 'number'],
             [['name', 'available', 'code', 'create_time', 'update_time', 'filter_values'], 'string'],
             [['name'], 'string', 'max' => 55],
-            [['slug'], 'string', 'max' => 88]
+            [['slug'], 'filter', 'filter' => 'trim'],
+            [['slug'], 'filter', 'filter' => function ($value) {
+                if (empty($value)) {
+                    return Inflector::slug(TransliteratorHelper::process($this->name));
+                } else {
+                    return Inflector::slug($value);
+                }
+            }],
+            [['slug'], 'unique'],
         ];
     }
 

@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\shop\models;
@@ -12,7 +15,7 @@ use app\modules\gallery\behaviors\AttachImages;
 use dosamigos\transliterator\TransliteratorHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
+
 
 /**
  * Class Product
@@ -55,10 +58,10 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                 'mode'  => 'gallery',
             ],
             'relations'  => [
-                'class'        => 'app\modules\relations\behaviors\AttachRelations',
+                'class'        => \app\modules\relations\behaviors\AttachRelations::className(),
                 'relatedModel' => 'app\modules\shop\models\Product',
                 'inAttribute'  => 'related_ids',
-            ],
+            ], //
             'toCategory' => [
                 'class'     => \voskobovich\behaviors\ManyToManyBehavior::className(),
                 'relations' => [
@@ -77,8 +80,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     public static function find()
     {
         $return = new ProductQuery(get_called_class());
-        $return = $return->with('category');
-
+        //$return = $return->with('category');
         return $return;
     }
 
@@ -92,15 +94,15 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
             [['name'], 'string', 'max' => 200],
             [['short_text', 'slug'], 'string', 'max' => 255],
 
-            [['alias'], 'filter', 'filter' => 'trim'],
-            [['alias'], 'filter', 'filter' => function ($value) {
+            [['slug'], 'filter', 'filter' => 'trim'],
+            [['slug'], 'filter', 'filter' => function ($value) {
                 if (empty($value)) {
                     return Inflector::slug(TransliteratorHelper::process($this->title));
                 } else {
                     return Inflector::slug($value);
                 }
             }],
-            [['alias'], 'unique'],
+            ['slug', 'unique'],
         ];
     }
 
@@ -348,6 +350,23 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         }
 
         return $profuctInStock->save();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getFrontendViewLink()
+    {
+        return ['/shop/product/view', 'slug' => $this->slug];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function frontendViewLink($model)
+    {
+        return ['/shop/product/view', 'slug' => $model['slug']];
     }
 
     public function afterSave($insert, $changedAttributes)

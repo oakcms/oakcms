@@ -3,10 +3,11 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
-namespace app\components\menu;
+namespace app\modules\menu\behaviors;
 
 
 use app\components\module\ModuleEvent;
+use app\components\UrlManager;
 use app\modules\menu\models\MenuItem;
 use Yii;
 use yii\base\Event;
@@ -24,7 +25,7 @@ use yii\web\View;
  * Маршрутизация меню
  * для маршрутизации используется объекты MenuRouter с правилами маршрутизации,
  * MenuRouter* объект для приложения может расшарить любой модуль, через
- * \app\components\menu\interfaces\module\MenuRouterInterface
+ * \app\modules\menu\behaviors\interfaces\module\MenuRouterInterface
  * @package yii2-platform-basic
  * @author  Gayazov Roman <gromver5@gmail.com>
  */
@@ -125,7 +126,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         }
 
         if (!$router instanceof MenuRouter) {
-            throw new InvalidConfigException('MenuItemRoutes must be an instance of \app\components\menu\components\MenuRouter class.');
+            throw new InvalidConfigException('MenuItemRoutes must be an instance of \app\modules\menu\behaviors\components\MenuRouter class.');
         }
 
         return $this->_routers[$router->className()] = $router;
@@ -160,7 +161,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
             $this->menuManager->addActiveMenuId($menu->id);
             if ($menu->getContext() === MenuItem::CONTEXT_PROPER) {
                 //при "точном" совпадении, метаданные меню перекрывают метаднные контроллера
-                Yii::$app->getView()->on(View::EVENT_BEGIN_PAGE, [$this, 'applyMetaData']);
+                Yii::$app->getView()->on(View::EVENT_BEGIN_PAGE, [$this, 'applyMetaData'], null, false);
             } else {
                 //при "подходящем" устанавливаются по умолчанию
                 $this->applyMetaData();
@@ -216,12 +217,16 @@ class MenuUrlRule extends Object implements UrlRuleInterface
     public function applyMetaData()
     {
         $metaData = $this->activeMenuMetaData();
-        if (!empty($metaData['keywords'])) {
-            Yii::$app->getView()->registerMetaTag(['name' => 'keywords', 'content' => $metaData['keywords']], 'keywords');
-        }
-        if (!empty($metaData['description'])) {
-            Yii::$app->getView()->registerMetaTag(['name' => 'description', 'content' => $metaData['description']], 'description');
-        }
+
+        $data = [
+            'title' => isset($metaData['title']) ? $metaData['title'] : '',
+            'desc' => isset($metaData['description']) ? $metaData['description'] : '',
+            'keys' => isset($metaData['keywords']) ? $metaData['keywords'] : '',
+            'canonical' => isset($metaData['canonical']) ? $metaData['canonical'] : '',
+        ];
+
+        Yii::$app->getView()->setSeoData($data);
+
         if (!empty($metaData['robots'])) {
             Yii::$app->getView()->registerMetaTag(['name' => 'robots', 'content' => $metaData['robots']], 'robots');
         }
@@ -234,6 +239,7 @@ class MenuUrlRule extends Object implements UrlRuleInterface
     {
         if (!isset($this->_metaData)) {
             $menu = $this->menuManager->getActiveMenu();
+
             if ($this->cache) {
                 $cacheKey = [__CLASS__, $menu->id];
                 if (($this->_metaData = $this->cache->get($cacheKey)) === false) {
@@ -266,15 +272,14 @@ class MenuUrlRule extends Object implements UrlRuleInterface
     {
         $chain = [];
 
-        if ($this->menuManager->getMenuMap()->getMainMenu()) {
-            $chain[] = $this->menuManager->getMenuMap()->getMainMenu();
-        }
-
         $chain = array_merge($chain, $menu->parents()->excludeRoots()->all(), [$menu]);
         $metaDataChain = array_map(function ($value) {
             /** @var $value MenuItem */
             $metaData = [];
 
+            if (!empty($value->metatitle)) {
+                $metaData['title'] = $value->metatitle;
+            }
             if (!empty($value->metakey)) {
                 $metaData['keywords'] = $value->metakey;
             }

@@ -3,7 +3,7 @@
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
-namespace app\components\menu;
+namespace app\modules\menu\behaviors;
 
 
 /**

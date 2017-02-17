@@ -8,7 +8,7 @@ use yii\helpers\Html;
 	<div class="oakcms-relations">
 
     </div>
-    <div class="row pistol88-new-relation">
+    <div class="row oakcms-new-relation">
         <div class="col-md-12 col-lg-12">
             <div class="form-group">
                 <a href="<?=Url::toRoute(["/admin/relations/default/list", 'model' => $model->getRelatedModel()]);?>" class="oakcms-related-choise btn btn-success">Выбрать... <span class="glyphicon glyphicon-plus add-option"></span></a>
@@ -16,7 +16,7 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
-<?=FancyBox::widget([
+<?= FancyBox::widget([
     'target' => '.oakcms-related-choise',
     'helpers' => false,
     'mouse' => true,

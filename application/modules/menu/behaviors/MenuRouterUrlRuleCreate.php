@@ -1,0 +1,45 @@
+<?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
+
+namespace app\modules\menu\behaviors;
+
+/**
+ * Class MenuRouterUrlRuleCreate
+ * @package yii2-platform-basic
+ * @author Gayazov Roman <gromver5@gmail.com>
+ */
+class MenuRouterUrlRuleCreate extends MenuRouterUrlRule
+{
+    /**
+     * @var string
+     */
+    public $requestRoute;
+    /**
+     * @var array
+     */
+    public $requestParams;
+
+    /**
+     * @inheritdoc
+     */
+    public function process($requestInfo, $menuUrlRule)
+    {
+        if ($this->requestRoute && $this->requestRoute != strtok($requestInfo->requestRoute, '?')) {
+            return false;
+        }
+        if (isset($this->requestParams)) {
+            foreach ($this->requestParams as $param) {
+                if (!isset($requestInfo->requestParams[$param])) {
+                    return false;
+                }
+            }
+        }
+
+        return $menuUrlRule->getRouter($this->router)->{$this->handler}($requestInfo);
+    }
+}

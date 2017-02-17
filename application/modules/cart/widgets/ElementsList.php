@@ -150,6 +150,7 @@ class ElementsList extends \yii\base\Widget
             $options = '';
 
             foreach($item->getOptions() as $optionId => $valueId) {
+                var_dump($allOptions);exit;
                 if($optionData = $allOptions[$optionId]) {
                     $option = $optionData['name'];
 

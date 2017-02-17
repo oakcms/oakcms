@@ -66,7 +66,7 @@ class AttachRelations extends Behavior
         $find = $this->relatedFind;
 
         if($where) {
-            $find = $find->where($where);
+            $find = $find->andWhere($where);
         }
 
         $ids = [];
@@ -81,7 +81,7 @@ class AttachRelations extends Behavior
         }
 
         if($ids) {
-            return $find->where(['id' => $ids]);
+            return $find->andWhere(['id' => $ids]);
         } else {
             return null;
         }

@@ -15,11 +15,9 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.5.9",
-        "yiisoft/yii2": "~2.0.11",
+        "yiisoft/yii2": "~2.0.10",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
-        "codemix/yii2-localeurls": "^1.4",
-        "samdark/yii2-webshell": "~1.0"
+        "yiisoft/yii2-swiftmailer": "*"
     },
     "require-dev": {
         "bower-asset/admin-lte": "~2.0",
@@ -30,6 +28,10 @@
         "bower-asset/fancybox": "^2.1.5",
         "bower-asset/lightslider": "1.*",
 
+        "codemix/yii2-localeurls": "^1.4",
+
+        "developeruz/yii2-db-rbac": "*",
+
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
@@ -37,11 +39,8 @@
         "yiisoft/yii2-authclient": "~2.0",
         "yiisoft/yii2-jui": "~2.0",
 
-        "yii2mod/yii2-ion-slider": "*",
-
         "oakcms/yii2-bootstrap-switch": "*",
         "oakcms/yii2-datetimepicker": "*",
-        "oakcms/yii2-carousel": "dev-master",
 
         "abeautifulsite/simpleimage": "*",
 
@@ -93,7 +92,6 @@
         "kop/yii2-scroll-pager": "dev-master",
 
         "pigochu/yii2-jquery-locationpicker": ">=0.2.0",
-        "zelenin/yii2-slug-behavior": "~1.5.1",
         "voskobovich/yii2-many-many-behavior": "^3.0",
         "claviska/simpleimage": "~2.5"
     },
@@ -102,20 +100,20 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "yii\\composer\\Installer::postCreateProject"
+            "app\\components\\composer\\Installer::postCreateProject"
         ]
     },
     "extra": {
-        "yii\\composer\\Installer::postCreateProject": {
+        "app\\components\\composer\\Installer::postCreateProject": {
             "setPermission": [
                 {
                     "runtime": "0777",
-                    "web/assets": "0777",
-                    "yii": "0755"
+                    "assets": "0777",
+                    "application": "0755"
                 }
             ],
             "generateCookieValidationKey": [
-                "config/web.php"
+                ".env-dist"
             ]
         },
         "asset-installer-paths": {

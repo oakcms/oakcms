@@ -306,7 +306,7 @@ $userIdentity = Yii::$app->user->identity;
                                 <a href="<?= Url::to(['/admin/user/profile/index']) ?>" class="btn btn-default btn-flat">
                                     <i class="fa fa-street-view"></i> <?= Yii::t('user', 'Profile') ?>
                                 </a>
-                                <a href="<?= Url::to(['/admin/user/user/account/index']) ?>" class="btn btn-default btn-flat">
+                                <a href="<?= Url::to(['/admin/user/user/account']) ?>" class="btn btn-default btn-flat">
                                     <i class="fa fa-user"></i> <?= Yii::t('user', 'Account') ?>
                                 </a>
                                 <a href="<?= Url::to(['/user/default/logout']) ?>" data-method="post" class="btn btn-danger btn-flat">
@@ -319,7 +319,7 @@ $userIdentity = Yii::$app->user->identity;
                 </li>
                 <!-- Control Sidebar Toggle Button -->
                 <li>
-                    <a href="<?= Url::to(['/', 'language'=> 'ru']) ?>">
+                    <a href="<?= Url::to(['/', 'language'=> Yii::$app->language]) ?>">
                         <i class="fa fa-external-link"></i>
                     </a>
                 </li>

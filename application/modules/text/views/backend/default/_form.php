@@ -127,6 +127,8 @@ $this->params['actions_buttons'] = [
 
                 <?= $form->field($model, 'published_at')->widget(\kartik\datetime\DateTimePicker::className()) ?>
 
+                <?= $form->field($model, 'status')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
+
                 <?= $form->field($model, 'layout')->dropDownList(\yii\helpers\ArrayHelper::map($layouts, 'name', 'title')) ?>
                 <div class="col-md-5 col-md-offset-3">
                     <div id="preview_image"></div>

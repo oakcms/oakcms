@@ -118,8 +118,7 @@ class CategoryController extends \app\components\CategoryController
             } else {
                 if($model->save()) {
                     $this->flash('success', Yii::t('admin', 'Category updated'));
-                }
-                else{
+                } else {
                     $this->flash('error', Yii::t('admin', 'Update error. {0}', $model->formatErrors()));
                 }
                 return $this->refresh();

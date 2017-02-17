@@ -16,27 +16,26 @@ $userIdentity = Yii::$app->user->identity;
 
 <aside class="main-sidebar">
     <section class="sidebar" style="height: auto;">
-        <div class="user-panel">
-            <div class="pull-left image">
-                <?if($userIdentity->userProfile->avatar != ''):?>
-                    <img class="avatar" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
-                <?else:?>
-                    <?= \cebe\gravatar\Gravatar::widget([
-                        'email' => $userIdentity->email,
-                        'size' => 64,
-                        'options' => [
-                            'alt' => Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]),
-                            'class' => 'avatar'
-                        ]
-                    ]); ?>
-                <?endif?>
-            </div>
-            <div class="pull-left info">
-                <p class="fs-13"><?= $userIdentity->publicIdentity ?></p>
-                <span><i class="fa fa-circle text-success"></i> Online</span>
-            </div>
-        </div>
-        <br>
+<!--        <div class="user-panel">-->
+<!--            <div class="pull-left image">-->
+<!--                --><?//if($userIdentity->userProfile->avatar != ''):?>
+<!--                    <img class="avatar" src="--><?//= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?><!--" alt="--><?//= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?><!--">-->
+<!--                --><?//else:?>
+<!--                    --><?//= \cebe\gravatar\Gravatar::widget([
+//                        'email' => $userIdentity->email,
+//                        'size' => 64,
+//                        'options' => [
+//                            'alt' => Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]),
+//                            'class' => 'avatar'
+//                        ]
+//                    ]); ?>
+<!--                --><?//endif?>
+<!--            </div>-->
+<!--            <div class="pull-left info">-->
+<!--                <p class="fs-13">--><?//= $userIdentity->publicIdentity ?><!--</p>-->
+<!--                <span><i class="fa fa-circle text-success"></i> Online</span>-->
+<!--            </div>-->
+<!--        </div>-->
         <ul class="sidebar-menu">
             <li class="header"><?= Yii::t('admin', 'Main navigation') ?></li>
         </ul>

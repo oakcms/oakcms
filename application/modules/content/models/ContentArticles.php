@@ -5,6 +5,7 @@ namespace app\modules\content\models;
 use app\components\behaviors\HitableBehavior;
 use app\modules\admin\components\behaviors\SettingModel;
 use app\modules\admin\models\Medias;
+use app\modules\content\models\query\ContentArticleQuery;
 use app\modules\field\behaviors\AttachFields;
 use dosamigos\taggable\Taggable;
 use dosamigos\translateable\TranslateableBehavior;
@@ -40,7 +41,6 @@ class ContentArticles extends \app\components\ActiveRecord
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
-
 
     public function fields()
     {
@@ -145,6 +145,15 @@ class ContentArticles extends \app\components\ActiveRecord
     public function getTranslations()
     {
         return $this->hasMany(ContentArticlesLang::className(), ['content_articles_id' => 'id']);
+    }
+
+
+    /**
+     * @return ActiveQuery
+     */
+    public static function find()
+    {
+        return new ContentArticleQuery(get_called_class());
     }
 
     /**

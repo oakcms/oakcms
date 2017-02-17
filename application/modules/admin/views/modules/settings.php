@@ -58,31 +58,18 @@ $this->params['actions_buttons'] = [
     ]
 ];
 
+$translate = 'admin';
+if(!empty($_GET['name'])) {
+    $translate = $_GET['name'];
+}
+
 ?>
 
 <?php if(sizeof($model->settings) > 0) : ?>
     <?= Html::beginForm('', 'post', ['id' => 'modules-modules-id']); ?>
     <?php foreach($model->settings as $key => $value) : ?>
-        <?php if($value['type'] == 'textInput') : ?>
-            <div class="form-group">
-                <label><?= Yii::t('admin', $key); ?></label>
-                <?= Html::input('text', 'Settings['.$key.']', $value['value'], ['class' => 'form-control']); ?>
-            </div>
-        <?php elseif($value['type'] == 'checkbox') : ?>
-            <div class="checkbox form-controll row">
-                <label class="col-sm-3"><?= Yii::t('admin', $key); ?></label>
-                <div class="col-sm-9">
-                    <?= Html::hiddenInput('Settings['.$key.']', 0) .
-                            \oakcms\bootstrapswitch\Switcher::widget([
-                            'name' => 'Settings['.$key.']',
-                            'checked' => $value['value']
-                        ]); ?>
-                </div>
-            </div>
-        <? else: ?>
-
-        <?php endif; ?>
-    <?php endforeach; ?>
+        <?= \app\modules\admin\widgets\Html::settingField($key, $value, $translate) ?>
+    <?php endforeach; ?> 
     <?php Html::endForm(); ?>
 <?php else : ?>
     <?= $model->title ?> <?= Yii::t('admin', 'module doesn`t have any settings.') ?>

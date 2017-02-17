@@ -3,7 +3,7 @@
 namespace app\modules\content;
 
 use app\components\events\FetchRoutersEvent;
-use app\components\menu\MenuUrlRule;
+use app\modules\menu\behaviors\MenuUrlRule;
 use app\components\module\ModuleEventsInterface;
 use app\modules\admin\widgets\events\MenuItemsEvent;
 use app\modules\admin\widgets\Menu;
@@ -90,6 +90,21 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
             'type'  => 'checkbox',
             'value' => false,
         ],
+        'category_items_order' => [
+            'type' => 'select',
+            'value' => 0,
+            'items' => [
+                'rdate' => 'Latest First',
+                'date' => 'Latest Last',
+                'rmodified' => 'Modified First',
+                'modified' => 'Modified Last',
+                'alpha' => 'Alphabetical',
+                'ralpha' => 'Alphabetical Reversed',
+                'hits' => 'Most Hits',
+                'rhits' => 'Least Hits',
+                'random' => 'Random'
+            ]
+        ]
     ];
 
     /**

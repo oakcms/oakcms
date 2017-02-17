@@ -1,19 +1,16 @@
 <?php
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 15.05.2016
- * Project: oakcms
- * File name: SeoViewBehavior.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  *
  * Поведение для работы с SEO параметрами во view
  */
 
-
 namespace app\modules\system\components;
 
-
-use Yii;
+use yii\helpers\VarDumper;
 use yii\web\View;
 use yii\helpers\Html;
 use yii\base\Behavior;
@@ -36,25 +33,33 @@ class SeoViewBehavior extends Behavior
     public function events()
     {
         return [
-//            ActiveRecord::EVENT_BEFORE_VALIDATE => 'beforeValidate',
-//            ActiveRecord::EVENT_BEFORE_INSERT => 'beforeSave',
-//            ActiveRecord::EVENT_BEFORE_UPDATE => 'beforeSave',
-//            ActiveRecord::EVENT_BEFORE_DELETE => 'beforeDelete',
-//            ActiveRecord::EVENT_AFTER_FIND => 'afterFind',
+              View::EVENT_BEGIN_PAGE => 'beginPage'
         ];
     }
 
     public function init()
     {
-        $this->_seo_data = SeoItems::find()->where(['link' => $_SERVER['REQUEST_URI'], 'status' => SeoItems::STATUS_PUBLISHED])->one();
-        $this->setSeoData($this->_seo_data);
+        $model = SeoItems::find()
+            ->where(['link' => $_SERVER['REQUEST_URI'], 'status' => SeoItems::STATUS_PUBLISHED])
+            ->one();
+
+        $this->_seo_data = [];
+
+        if($model !== null) {
+            $this->_seo_data = [
+                'title' => $model->title,
+                'desc' => $model->description,
+                'keys' => $model->keywords,
+                'canonical' => $model->canonical,
+            ];
+        }
     }
 
     /**
      * Установка meta параметров страницы
      *
      * @param mixed $title 1) массив:
-     * array("title"=>"Page Title", "desc"=>"Page Descriptions", "keys"=>"Page, Keywords")
+     * array("title"=>"Page Title", "desc"=>"Page Descriptions", "keys"=>"Page, Keywords", "canonical" => "Canonical Link")
      * 2) SeoModelBehavior
      * 3) Строка для title страницы
      * @param string $desc Meta description
@@ -64,14 +69,12 @@ class SeoViewBehavior extends Behavior
      */
     public function setSeoData($title, $desc = '', $keys = '', $canonical = '')
     {
-        if (isset($this->_seo_data)) {
-            // Вытаскиваем данные из модельки, в которой есть SeoModelBehavior
-            $meta = $this->_seo_data;
+        if(is_array($title)) {
             $data = [
-                'title' => $meta->title,
-                'desc' => $meta->description,
-                'keys' => $meta->keywords,
-                'canonical' => $meta->canonical,
+                'title' => isset($title['title']) ? $title['title'] : '',
+                'desc' => isset($title['desc']) ? $title['desc'] : '',
+                'keys' => isset($title['keys']) ? $title['keys'] : '',
+                'canonical' => isset($title['canonical']) ? $title['canonical'] : '',
             ];
         } elseif (is_string($title)) {
             $data = array(
@@ -80,7 +83,10 @@ class SeoViewBehavior extends Behavior
                 'keys' => !is_array($keys) ? $keys : implode(', ', $keys),
                 'canonical' => $canonical
             );
+        } else {
+            $data = [];
         }
+
         if (isset($data['title'])) {
             $this->_page_title = $this->normalizeStr($data['title']);
         }
@@ -100,7 +106,7 @@ class SeoViewBehavior extends Behavior
         /* @var $view View */
         $view = $this->owner;
         $title = $this->_page_title;
-        echo '<title data-ng-bind="metaTitle">' . Html::encode($this->normalizeStr($title)) . '</title>' . PHP_EOL;
+        echo '<title>' . Html::encode($this->normalizeStr($title)) . '</title>' . PHP_EOL;
         if (!empty($this->_meta_description)) {
             $view->registerMetaTag(['name' => 'description', 'content' => Html::encode($this->normalizeStr($this->_meta_description))]);
         }
@@ -140,5 +146,14 @@ class SeoViewBehavior extends Behavior
     {
         $content = 'noindex, ' . ($follow ? 'follow' : 'nofollow');
         $this->_noIndex = $content;
+    }
+
+    /**
+     *
+     */
+    public function beginPage() {
+        if(isset($this->_seo_data) && count($this->_seo_data)) {
+            $this->setSeoData($this->_seo_data);
+        }
     }
 }

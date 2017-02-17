@@ -1,39 +1,39 @@
-.pistol88-relations-list {
+.oakcms-relations-list {
     list-style: none;
     margin: 2px;
     padding: 2px;
 }
-.pistol88-relations-list a {
+.oakcms-relations-list a {
     background-color: #f4f4f4;
-    border-top: 2px solid #333;
-    border-left: 2px solid #333;
-    border-right: 2px solid #333;
-    padding: 5px;
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+    padding: 3px;
     display: block;
     color: black;
 }
 
-.pistol88-relations-list a:hover {
+.oakcms-relations-list a:hover {
     background-color: #fff;
 }
 
-.pistol88-relations-list a.selected {
+.oakcms-relations-list a.selected {
     border: 2px solid green;
 }
 
-.pistol88-relation-delete {
+.oakcms-relation-delete {
     color: red;
 }
 
-.pistol88-relation-row {
+.oakcms-relation-row {
     padding: 2px;
 }
 
-.pistol88-relations-list p {
+.oakcms-relations-list p {
     padding: 1px;
     margin: 1px;
 }
 
-.pistol88-relations-search {
+.oakcms-relations-search {
     padding: 3px;
 }

@@ -12,10 +12,12 @@ Installation
 ------------
 OakCMS is installed through Composer.
 
-With Composer installed, you can install OakCMS by running:
+1) With Composer installed, you can install OakCMS by running:
 `composer create-project --prefer-dist oakcms/oakcms=dev-master oakcms`
 
-Import dump "oakcms.sql" for your db end configure .env config file
+2) Import dump "oakcms.sql" for your db.
+
+3) Rename .env-dist to .env and configure this file
 
 REQUIREMENTS
 ------------

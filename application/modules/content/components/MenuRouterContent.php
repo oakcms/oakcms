@@ -13,8 +13,8 @@
  */
 namespace app\modules\content\components;
 
-use app\components\menu\MenuRouter;
-use app\components\menu\MenuRequestInfo;
+use app\modules\menu\behaviors\MenuRouter;
+use app\modules\menu\behaviors\MenuRequestInfo;
 use app\modules\menu\models\MenuItem;
 use app\modules\content\models\ContentCategory;
 use app\modules\content\models\ContentArticles;

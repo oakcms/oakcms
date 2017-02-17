@@ -9,9 +9,9 @@
 
 namespace app\modules\shop\components;
 
-use app\components\menu\MenuMap;
-use app\components\menu\MenuRequestInfo;
-use app\components\menu\MenuRouter;
+use app\modules\menu\behaviors\MenuMap;
+use app\modules\menu\behaviors\MenuRequestInfo;
+use app\modules\menu\behaviors\MenuRouter;
 use app\modules\menu\models\MenuItem;
 use app\modules\shop\models\Category;
 use app\modules\shop\models\Product;
