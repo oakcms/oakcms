@@ -175,6 +175,13 @@ class AttachImages extends Behavior
         return $this->inputName;
     }
 
+    /**
+     * @param string $absolutePath
+     * @param bool   $isMain
+     *
+     * @return Image|bool
+     * @throws \Exception
+     */
     public function attachImage($absolutePath, $isMain = false)
     {
         if (!preg_match('#http#', $absolutePath)) {
@@ -205,10 +212,6 @@ class AttachImages extends Behavior
         BaseFileHelper::createDirectory($storePath . DIRECTORY_SEPARATOR . $pictureSubDir, 0775, true);
 
         copy($absolutePath, $newAbsolutePath);
-
-        if (!file_exists($absolutePath)) {
-            throw new \Exception('Cant copy file! ' . $absolutePath . ' to ' . $newAbsolutePath);
-        }
 
         if ($this->modelClass === null) {
             $image = new Image();

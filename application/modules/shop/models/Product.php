@@ -13,6 +13,7 @@ use app\modules\shop\models\product\ProductQuery;
 use app\modules\field\behaviors\AttachFields;
 use app\modules\gallery\behaviors\AttachImages;
 use dosamigos\transliterator\TransliteratorHelper;
+use yii\behaviors\SluggableBehavior;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
 
@@ -25,6 +26,7 @@ use yii\helpers\Url;
  * @property string $name;
  * @property string $slug;
  * @property string $code;
+ * @property string $short_text;
  * @property string $text;
  *
  * @mixin AttachImages
@@ -53,6 +55,12 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     function behaviors()
     {
         return [
+            [
+                'class' => SluggableBehavior::className(),
+                'attribute' => 'name',
+                'immutable' => true,
+                'ensureUnique' => true,
+            ],
             'images'     => [
                 'class' => AttachImages::className(),
                 'mode'  => 'gallery',
@@ -93,15 +101,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
             [['category_ids'], 'each', 'rule' => ['integer']],
             [['name'], 'string', 'max' => 200],
             [['short_text', 'slug'], 'string', 'max' => 255],
-
             [['slug'], 'filter', 'filter' => 'trim'],
-            [['slug'], 'filter', 'filter' => function ($value) {
-                if (empty($value)) {
-                    return Inflector::slug(TransliteratorHelper::process($this->title));
-                } else {
-                    return Inflector::slug($value);
-                }
-            }],
             ['slug', 'unique'],
         ];
     }

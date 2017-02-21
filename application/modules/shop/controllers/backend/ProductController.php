@@ -5,6 +5,7 @@
 
 namespace app\modules\shop\controllers\backend;
 
+use app\components\BackendController;
 use app\modules\shop\events\ProductEvent;
 use app\modules\shop\models\modification\ModificationSearch;
 use app\modules\shop\models\price\PriceSearch;
@@ -15,10 +16,9 @@ use app\modules\shop\Module;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class ProductController extends Controller
+class ProductController extends BackendController
 {
     public function behaviors()
     {
@@ -76,11 +76,11 @@ class ProductController extends Controller
 
         $priceModel = $this->module->getService('price');
 
-        $priceTypes = PriceType::findOne()->orderBy('sort DESC')->all();
+        $priceTypes = PriceType::find()->orderBy('sort DESC')->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            if ($prices = yii::$app->request->post('Price')) {
+            if ($prices = Yii::$app->request->post('Price')) {
                 foreach ($prices as $typeId => $price) {
                     $type = PriceType::findOne($typeId);
                     $price = new $priceModel($price);

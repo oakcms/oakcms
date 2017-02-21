@@ -7,6 +7,17 @@ namespace app\modules\shop\models;
 
 use yii;
 
+/**
+ * Class Price
+ * @package app\modules\shop\models
+ * @property $id
+ * @property $name
+ * @property $product_id
+ * @property $price
+ * @property $type_id
+ * @property $amount
+ * @property $sort
+ */
 class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces\CartElement
 {
 

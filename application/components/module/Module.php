@@ -24,6 +24,12 @@ class Module extends \yii\base\Module
     /** @var array  */
     public $settings = [];
 
+    /** @var array The rules to be used in Backend Url management. */
+    public static $urlRulesBackend = [];
+
+    /** @var array The rules to be used in Frontend Url management. */
+    public static $urlRulesFrontend = [];
+
     /**
      * Module name getter
      *

@@ -149,6 +149,6 @@ echo \yii\grid\GridView::widget([
 <script>
     function deleteA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = <?= Url::to(['delete-ids']) ?>?id=' + keys.join();
+        window.location.href = '<?= Url::to(['delete-ids']) ?>?id=' + keys.join();
     }
 </script>

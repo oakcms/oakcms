@@ -1,12 +1,24 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\shop\models;
 
-use yii;
+use Yii;
 
+
+/**
+ * Class PriceType
+ * @package app\modules\shop\models
+ * @property $id
+ * @property $name
+ * @property $condition
+ * @property $sort
+ */
 class PriceType extends \yii\db\ActiveRecord
 {
     public static function tableName()

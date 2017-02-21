@@ -164,7 +164,7 @@ class Image extends \yii\db\ActiveRecord
         }
 
         $pathToSave = $cachePath . '/' . $subDirPath . '/' . $this->urlAlias . $sizePart . '.' . $fileExtension;
-
+        $pathToSave = Yii::getAlias($pathToSave);
         BaseFileHelper::createDirectory(dirname($pathToSave), 0777, true);
         if ($sizeString) {
             $size = $this->getModule()->parseSize($sizeString);

@@ -14,12 +14,14 @@ use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "{{%filter}}".
  *
- * @property string $relation_field_name
+ * @property integer $id
  * @property string $name
  * @property string $slug
  * @property string $type
  * @property string $description
  * @property string $is_filter
+ * @property string $relation_field_name
+ * @property string $relation_field_value
  * @property integer $sort
  */
 class Filter extends \yii\db\ActiveRecord

@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\menu;
@@ -16,12 +19,14 @@ use Yii;
  * @author Volodumur Hryvinskiy <script@email.ua>
  */
 
-class Module extends \yii\base\Module implements ModuleEventsInterface
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
     const EVENT_MENU_ITEM_LAYOUTS = 'menuItemLayouts';
 
     public $controllerNamespace = 'app\modules\menu\controllers';
-    public $defaultRoute = 'backend/item';
+    public $defaultRoute = 'menu/item';
+
+    public static $urlRulesBackend = [];
 
     public $settings = [];
 
