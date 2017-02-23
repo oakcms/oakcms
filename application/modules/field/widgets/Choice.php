@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use Yii;
 
-class Choice extends \yii\base\Widgetr
+class Choice extends \yii\base\Widget
 {
     public $model = NULL;
 
