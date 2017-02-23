@@ -124,7 +124,7 @@ $this->params['actions_buttons'] = [
         'type' => Button::TYPE_CIRCLE,
         'color' => 'btn-success'
     ]
-]
+];
 ?>
 
 <div class="content-articles-form">

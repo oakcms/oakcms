@@ -7,6 +7,7 @@ use app\modules\admin\components\behaviors\SettingModel;
 use app\modules\admin\models\Medias;
 use app\modules\content\models\query\ContentArticleQuery;
 use app\modules\field\behaviors\AttachFields;
+use app\modules\field\interfaces\CategoryFieldInterface;
 use dosamigos\taggable\Taggable;
 use dosamigos\translateable\TranslateableBehavior;
 use Yii;
@@ -37,7 +38,7 @@ use yii\validators\UniqueValidator;
  * @property integer $category_id
  * @property string $settings
  */
-class ContentArticles extends \app\components\ActiveRecord
+class ContentArticles extends \app\components\ActiveRecord implements CategoryFieldInterface
 {
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
@@ -77,7 +78,11 @@ class ContentArticles extends \app\components\ActiveRecord
             TimestampBehavior::className(),
             SettingModel::className(),
             Taggable::className(),
-            AttachFields::className(),
+            'field' => [
+                'class' => AttachFields::className(),
+                'category_field' => 'category_id',
+                'categories' => $this->getCategoryFields()
+            ],
             [
                 'class' => BlameableBehavior::className(),
                 'createdByAttribute' => 'create_user_id',
@@ -312,4 +317,14 @@ class ContentArticles extends \app\components\ActiveRecord
         return ['/content/article/view', 'catslug' => $this->category->slug, 'slug' => $this->slug];
     }
 
+
+    public static function getCategoryFields() {
+        $arr = [];
+
+        foreach (ContentCategory::find()->all() as $item) {
+            $arr[$item->id] = $item->title;
+        }
+
+        return $arr;
+    }
 }

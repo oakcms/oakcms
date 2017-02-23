@@ -12,14 +12,14 @@ use app\modules\language\models\Language;
 use yii\helpers\ArrayHelper;
 
 class UrlManager extends \codemix\localeurls\UrlManager {
-    const LANGUAGE_PARAM = 'language';
+    const LANGUAGE_PARAM = '__language';
     public $languages;
     private $_language;
 
     public function init()
     {
         $this->languages = Language::getAllLang();
-
+        $this->languageParam = self::LANGUAGE_PARAM;
         parent::init();
     }
 

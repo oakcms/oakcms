@@ -18,6 +18,8 @@ use app\modules\field\models\FieldValue;
 
 class AttachFields extends Behavior
 {
+    public $category_field = null;
+    public $categories = array();
     private $fieldVariants = null;
 
     public function events()
@@ -131,9 +133,14 @@ class AttachFields extends Behavior
     {
         $model = $this->owner;
 
-        $fields = Field::find()->where(['relation_model' => $model::className()])->all();
+        $fields = Field::find()->andWhere(['relation_model' => $model::className()]);
 
-        return $fields;
+        if($this->category_field !== null && isset($this->owner->{$this->category_field})) {
+
+            $fields->andWhere(['model_category_id' => $this->owner->{$this->category_field}]);
+        }
+
+        return $fields->all();
     }
 
     public function deleteValues()

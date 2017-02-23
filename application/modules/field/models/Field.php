@@ -22,7 +22,7 @@ class Field extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'slug', 'relation_model'], 'required'],
-            [['category_id'], 'integer'],
+            [['category_id', 'model_category_id'], 'integer'],
             [['name', 'type', 'description', 'relation_model'], 'string'],
             ['slug', 'unique'],
         ];
