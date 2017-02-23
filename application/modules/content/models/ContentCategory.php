@@ -4,7 +4,6 @@ namespace app\modules\content\models;
 
 use app\components\CategoryModel;
 use app\modules\field\behaviors\AttachFields;
-use creocoder\nestedsets\NestedSetsBehavior;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
@@ -213,11 +212,10 @@ class ContentCategory extends CategoryModel
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getItems()
-    {
+    public function getItems() {
         return $this->hasMany(ContentArticles::className(), ['category_id' => 'id'])
-            ->andWhere([ContentArticles::tableName().'.status' => ContentArticles::STATUS_PUBLISHED])
-            ->orderBy([ContentArticles::tableName().'.status' => ContentArticles::STATUS_PUBLISHED]);
+            ->andWhere(['{{%content_articles}}.status' => ContentArticles::STATUS_PUBLISHED])
+            ->orderBy(['{{%content_articles}}.published_at' => SORT_DESC]);
     }
 
     /**
