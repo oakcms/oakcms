@@ -136,8 +136,7 @@ class AttachFields extends Behavior
         $fields = Field::find()->andWhere(['relation_model' => $model::className()]);
 
         if($this->category_field !== null && isset($this->owner->{$this->category_field})) {
-
-            $fields->andWhere(['model_category_id' => $this->owner->{$this->category_field}]);
+            $fields->andWhere(['like', 'model_category_id', '"'.$this->owner->{$this->category_field}.'"']);
         }
 
         return $fields->all();
