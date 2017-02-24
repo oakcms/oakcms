@@ -27,6 +27,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             $params[0] = $this->controller ? $this->controller . '/' . $action : $action;
 
             if($this->translatable === true) {
+                var_dump(\Yii::$app->session->get('_languages')['url']);
                 $params['language'] = \Yii::$app->session->get('_languages')['url'];
             }
             return Url::toRoute($params);

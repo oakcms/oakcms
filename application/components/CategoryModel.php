@@ -105,7 +105,7 @@ class CategoryModel extends ActiveRecord
 
             foreach ($collection as $node) {
                 $item = $node;
-                unset($item['lft'], $item['rgt'], $item['order_num']);
+                unset($item['lft'], $item['rgt'], $item['order']);
                 $item['children'] = array();
 
                 // Number of stack items

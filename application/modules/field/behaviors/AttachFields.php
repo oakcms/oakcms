@@ -18,6 +18,8 @@ use app\modules\field\models\FieldValue;
 
 class AttachFields extends Behavior
 {
+    public $category_field = null;
+    public $categories = array();
     private $fieldVariants = null;
 
     public function events()

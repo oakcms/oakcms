@@ -124,7 +124,8 @@ $this->params['actions_buttons'] = [
         'type' => Button::TYPE_CIRCLE,
         'color' => 'btn-success'
     ]
-]
+];
+var_dump($model->categoryFields);
 ?>
 
 <div class="content-articles-form">

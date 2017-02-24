@@ -8,11 +8,20 @@ $db = require(__DIR__ . '/db.php');
 $config = [
     'id' => 'basic-console',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
+    'bootstrap' => ['log'],
+    'modules' => [
+        'importmebel' => [
+            'class' => 'app\modules\importmebel\Module',
+            'controllerNamespace' => 'app\modules\importmebel\controllers\console',
+        ],
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
+        ],
+        'keyStorage'   => [
+            'class' => 'app\components\KeyStorage',
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
