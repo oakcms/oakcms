@@ -107,7 +107,7 @@ class ContentArticles extends \app\components\ActiveRecord implements CategoryFi
                         return $query;
                     }
                 ],
-            ], 
+            ],
             'hit' => [
                 'class' => HitableBehavior::className(),
                 'attribute' => 'hits',          //attribute which should contain uniquie hits value
@@ -317,7 +317,7 @@ class ContentArticles extends \app\components\ActiveRecord implements CategoryFi
         return ['/content/article/view', 'catslug' => $this->category->slug, 'slug' => $this->slug];
     }
 
-    public function getCategoryFields() {
+    public static function getCategoryFields() {
         $arr = [];
 
         foreach (ContentCategory::find()->all() as $item) {

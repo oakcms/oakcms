@@ -125,7 +125,6 @@ $this->params['actions_buttons'] = [
         'color' => 'btn-success'
     ]
 ];
-var_dump($model->categoryFields);
 ?>
 
 <div class="content-articles-form">

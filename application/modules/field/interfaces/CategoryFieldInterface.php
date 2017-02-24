@@ -13,5 +13,9 @@ interface CategoryFieldInterface
     /**
      * @return array
      */
+<<<<<<< HEAD
     public function getCategoryFields();
+=======
+    public static function getCategoryFields();
+>>>>>>> origin/master
 }
