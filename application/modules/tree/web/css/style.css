@@ -1,0 +1,12 @@
+/*!
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
+.oak-tree a, .oak-tree button, .oak-tree code, .oak-tree div, .oak-tree img, .oak-tree input, .oak-tree label, .oak-tree li, .oak-tree p, .oak-tree pre, .oak-tree select, .oak-tree span, .oak-tree svg, .oak-tree table, .oak-tree td, .oak-tree textarea, .oak-tree th, .oak-tree ul {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important; }
+
+/*# sourceMappingURL=style.css.map */
