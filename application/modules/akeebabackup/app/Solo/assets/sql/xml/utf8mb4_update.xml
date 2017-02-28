@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema>
+    <!-- Metadata -->
+    <meta>
+        <!-- Supported driver types -->
+        <drivers>
+            <driver>mysql</driver>
+            <driver>mysqli</driver>
+        </drivers>
+    </meta>
+
+    <!-- SQL commands to run on installation and update -->
+    <sql>
+        <action table="#__akeeba_common" canfail="1">
+          <condition type="missing" value="" operator="not"/>
+          <query><![CDATA[
+ALTER TABLE `#__akeeba_common` MODIFY `key` VARCHAR(191) NOT NULL
+            ]]></query>
+          <query><![CDATA[
+ALTER TABLE `#__akeeba_common` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+            ]]></query>
+        </action>
+
+        <action table="#__ak_params" canfail="1">
+          <condition type="missing" value="" operator="not"/>
+            <query><![CDATA[
+ALTER TABLE `#__ak_params` MODIFY `tag` VARCHAR(191) NOT NULL
+            ]]></query>
+          <query><![CDATA[
+ALTER TABLE `#__ak_params` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+            ]]></query>
+        </action>
+
+        <action table="#__ak_profiles" canfail="1">
+          <condition type="missing" value="" operator="not"/>
+          <query><![CDATA[
+ALTER TABLE `#__ak_profiles` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+            ]]></query>
+        </action>
+
+        <action table="#__ak_stats" canfail="1">
+          <condition type="missing" value="" operator="not"/>
+          <query><![CDATA[
+ALTER TABLE `#__ak_stats` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+            ]]></query>
+        </action>
+
+        <action table="#__ak_storage" canfail="1">
+          <condition type="missing" value="" operator="not"/>
+            <query><![CDATA[
+ALTER TABLE `#__ak_storage` MODIFY `tag` VARCHAR(191) NOT NULL
+            ]]></query>
+          <query><![CDATA[
+ALTER TABLE `#__ak_storage` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+            ]]></query>
+        </action>
+
+        <action table="#__ak_users" canfail="1">
+          <condition type="missing" value="" operator="not"/>
+          <query><![CDATA[
+ALTER TABLE `#__ak_users` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+            ]]></query>
+        </action>
+    </sql>
+</schema>

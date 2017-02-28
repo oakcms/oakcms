@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema>
+    <!-- Metadata -->
+    <meta>
+        <!-- Supported driver types -->
+        <drivers>
+            <driver>sqlite</driver>
+        </drivers>
+    </meta>
+
+    <!-- SQL commands to run on installation and update -->
+    <sql>
+        <action table="#__akeeba_common" canfail="0">
+          <condition type="missing" value=""/>
+          <query><![CDATA[
+CREATE TABLE `#__akeeba_common` (
+	`key`	TEXT,
+	`value`	TEXT,
+	PRIMARY KEY(`key`)
+) WITHOUT ROWID;
+            ]]></query>
+        </action>
+
+        <action table="#__ak_params" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_params` (
+  `tag` TEXT NOT NULL,
+  `data` TEXT,
+  PRIMARY KEY (`tag`)
+) WITHOUT ROWID;
+            ]]></query>
+        </action>
+
+        <action table="#__ak_profiles" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_profiles` (
+	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`description`	TEXT NOT NULL,
+	`configuration`	NUMERIC,
+	`filters`	TEXT,
+	`quickicon`	TEXT NOT NULL DEFAULT 1
+);
+            ]]></query>
+        </action>
+
+        <action table="#__ak_profiles" canfail="1">
+            <condition type="equals" operator="not" value="1"><![CDATA[
+SELECT COUNT(*) FROM `#__ak_profiles` WHERE `id` = 1;
+            ]]></condition>
+
+            <query><![CDATA[
+INSERT OR IGNORE INTO `#__ak_profiles`
+(`id`,`description`, `configuration`, `filters`, `quickicon`) VALUES
+(1,'Default Backup Profile','','',1);
+            ]]></query>
+        </action>
+
+        <action table="#__ak_stats" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_stats` (
+	`id`	INTEGER PRIMARY KEY AUTOINCREMENT,
+	`description`	BLOB NOT NULL,
+	`comment`	BLOB,
+	`backupstart`	TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`backupend`	TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`status`	TEXT NOT NULL DEFAULT 'run',
+	`origin`	TEXT NOT NULL DEFAULT 'backend',
+	`type`	TEXT NOT NULL DEFAULT 'full',
+	`profile_id` INTEGER NOT NULL DEFAULT '1',
+	`archivename` TEXT,
+	`absolute_path` TEXT,
+	`multipart` INT NOT NULL DEFAULT '0',
+	`tag` TEXT DEFAULT NULL,
+	`backupid` TEXT DEFAULT NULL,
+	`filesexist` INT NOT NULL DEFAULT '1',
+	`remote_filename` TEXT DEFAULT NULL,
+	`total_size` INT NOT NULL DEFAULT '0'
+);
+            ]]></query>
+          <query><![CDATA[
+CREATE INDEX `idx_fullstatus` on `#__ak_stats` (`filesexist`,`status`);
+          ]]></query>
+          <query><![CDATA[
+CREATE INDEX `idx_stale` on `#__ak_stats` (`status`,`origin`);
+          ]]></query>
+        </action>
+
+        <action table="#__ak_storage" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_storage` (
+  `tag` TEXT NOT NULL,
+  `lastupdate` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `data` TEXT,
+  PRIMARY KEY (`tag`)
+);
+            ]]></query>
+        </action>
+
+        <action table="#__ak_users" canfail="0">
+            <condition type="missing" value="" />
+            <query><![CDATA[
+CREATE TABLE `#__ak_users` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `username` TEXT NOT NULL,
+  `name` TEXT NOT NULL,
+  `email` TEXT NOT NULL,
+  `password` TEXT NOT NULL,
+  `parameters` TEXT
+);
+            ]]></query>
+        </action>
+
+        <!-- Add the backupid column to #__ak_stats if it's missing -->
+        <action table="#__ak_stats" canfail="1">
+            <condition type="missing" value="backupid" />
+            <query><![CDATA[
+ALTER TABLE `#__ak_stats`
+ADD COLUMN `backupid` TEXT DEFAULT NULL;
+            ]]></query>
+        </action>
+
+        <!-- Add the quickicon column to #__ak_profiles if it's missing -->
+        <action table="#__ak_profiles" canfail="1">
+            <condition type="missing" value="quickicon" />
+            <query><![CDATA[
+ALTER TABLE `#__ak_profiles`
+ADD COLUMN `quickicon` INT NOT NULL DEFAULT '1';
+            ]]></query>
+        </action>
+    </sql>
+</schema>

@@ -1,0 +1,220 @@
+########## Begin - RewriteEngine enabled
+RewriteEngine On
+########## End - RewriteEngine enabled
+
+########## Begin - RewriteBase
+#  Uncomment following line if your webserver's URL
+#  is not directly related to physical file paths.
+#  Update Your Directory (just / for root)
+
+# RewriteBase /
+########## End - RewriteBase
+
+########## Begin - No directory listings
+## Note: This feature may cause problems on many servers.
+
+# IndexIgnore *
+# Options +SymLinksIfOwnerMatch All -Indexes
+
+########## End - No directory listings
+
+########## Begin - File execution order, by Komra.de
+DirectoryIndex index.php index.html
+########## End - File execution order
+
+########## Begin - Common hacking tools and bandwidth hoggers block
+
+## The following two lines will prevent backups scheduled to run with the front-end backup feature.
+## Please uncomment them only if you are NOT using the front-end backup feature or the alternative
+## CRON script to schedule your backups.
+
+# SetEnvIf user-agent "Wget" stayout=1
+# SetEnvIf user-agent "curl" stayout=1
+
+SetEnvIf user-agent "Indy Library" stayout=1
+SetEnvIf user-agent "libwww-perl" stayout=1
+SetEnvIf user-agent "Download Demon" stayout=1
+SetEnvIf user-agent "GetRight" stayout=1
+SetEnvIf user-agent "GetWeb!" stayout=1
+SetEnvIf user-agent "Go!Zilla" stayout=1
+SetEnvIf user-agent "Go-Ahead-Got-It" stayout=1
+SetEnvIf user-agent "GrabNet" stayout=1
+SetEnvIf user-agent "TurnitinBot" stayout=1
+<IfModule !mod_authz_core.c>
+deny from env=stayout
+</IfModule>
+<IfModule mod_authz_core.c>
+<RequireAll>
+Require all granted
+Require not env stayout
+</RequireAll>
+</IfModule>
+########## End - Common hacking tools and bandwidth hoggers block
+
+########## Begin - Automatic compression of resources
+# Compress text, html, javascript, css, xml, kudos to Komra.de
+# May kill access to your site for old versions of Internet Explorer
+# The server needs to be compiled with mod_deflate otherwise it will send HTTP 500 Error.
+# mod_deflate is not available on Apache 1.x series. Can only be used with Apache 2.x server.
+# AddOutputFilterByType is now deprecated by Apache. Use mod_filter in the future.
+
+AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css application/xml application/xhtml+xml application/rss+xml application/javascript application/x-javascript
+
+########## End - Automatic compression of resources
+
+########## Begin - Rewrite rules to block out some common exploits
+## If you experience problems on your site block out the operations listed below
+## This attempts to block the most common type of exploit `attempts` to Joomla!
+#
+# If the request query string contains /proc/self/environ
+
+RewriteCond %{QUERY_STRING} proc/self/environ [OR]
+
+# Legacy variable injection (these attacks wouldn't work w/out Joomla! 1.5's Legacy Mode plugin)
+RewriteCond %{QUERY_STRING} mosConfig_[a-zA-Z_]{1,21}(=|\%3D) [OR]
+
+# Block out any script trying to base64_encode/base64_decode data to send via URL
+RewriteCond %{QUERY_STRING} base64_(en|de)code\(.*\) [OR]
+
+## IMPORTANT: If the above line throws an HTTP 500 error, replace it with these 2 lines:
+# RewriteCond %{QUERY_STRING} base64_encode\(.*\) [OR]
+# RewriteCond %{QUERY_STRING} base64_decode\(.*\) [OR]
+
+# Block out any script that includes a <script> tag in URL
+RewriteCond %{QUERY_STRING} (<|%3C).*script.*(>|%3E) [NC,OR]
+
+# Block out any script trying to set a PHP GLOBALS variable via URL
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+
+# Block out any script trying to modify a _REQUEST variable via URL
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+
+# Return a 403 Forbidden header and show the content of the root homepage
+RewriteRule .* index.php [F]
+
+#
+########## End - Rewrite rules to block out some common exploits
+
+########## Begin - File injection protection
+RewriteCond %{REQUEST_METHOD} GET
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=http:// [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=(\.\.//?)+ [OR]
+RewriteCond %{QUERY_STRING} [a-zA-Z0-9_]=/([a-z0-9_.]//?)+ [NC]
+RewriteRule .* - [F]
+########## End - File injection protection
+
+########## Begin - Advanced server protection rules exceptions ####
+RewriteRule ^restore\.php$ - [L]
+########## End - Advanced server protection rules exceptions ####
+
+########## Begin - Advanced server protection
+## Disallow PHP Easter Eggs (can be used in fingerprinting attacks to determine
+## your PHP version). See http://www.0php.com/php_easter_egg.php and
+## http://osvdb.org/12184 for more information
+RewriteCond %{QUERY_STRING} \=PHP[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12} [NC]
+RewriteRule .* - [F]
+
+## Disallow front-end access for system directories and certain files
+RewriteRule ^(Awf|cli|languages|Solo|templates|tmp)/ - [F]
+
+## Disallow access to certain files
+RewriteRule ^(htaccess\.txt|php\.ini|LICENSE\.txt|README\.txt|CHANGELOG\.php)$ - [F]
+
+## Allow limited access for certain system directories with client-accessible content
+RewriteRule ^media/.*\.(jp(e?g|2)?|png|gif|bmp|css|js|swf|html?|mp(eg?|[34])|avi|wav|og[gv]|xlsx?|docx?|pptx?|zip|rar|pdf|xps|txt|7z|svg|od[tsp]|flv|mov|map|woff|ttf|eof)$ - [L]
+RewriteRule ^media/ - [F]
+
+## Disallow access to rogue PHP files throughout the site, unless they are explicitly allowed
+RewriteCond %{REQUEST_FILENAME} (\.php)$
+RewriteCond %{REQUEST_FILENAME} !(/index\.php)$
+RewriteCond %{REQUEST_FILENAME} !(/restore\.php)$
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule (.*\.php)$ - [F]
+
+## Disallow access to .phar and .json files
+RewriteCond %{REQUEST_FILENAME} (\.phar)$
+RewriteRule (.*\.phar)$ - [F]
+
+RewriteCond %{REQUEST_FILENAME} (\.json)$
+RewriteRule (.*\.json)$ - [F]
+
+########## End - Advanced server protection
+
+########## Begin - Core SEF Section
+#
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# If the requested path and file is not /index.php and the request
+# has not already been internally rewritten to the index.php script
+RewriteCond %{REQUEST_URI} !^/index\.php
+
+# and the request is for the site root, or for an extensionless URL,
+# or the requested URL ends with one of the listed extensions
+RewriteCond %{REQUEST_URI} /[^.]*|\.(php|html?|json|raw)$ [NC]
+
+# and the requested path and file doesn't directly match a physical file
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# and the requested path doesn't match a physical folder
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# internally rewrite the request to the index.php script
+RewriteRule .* index.php [L]
+#
+########## End - Core SEF Section
+
+########## Begin - Optimal default expiration time
+## Note: this might cause problems and you might have to comment it out by
+## placing a hash in front of this section's lines
+<IfModule mod_expires.cDISABLED>
+	# Enable expiration control
+	ExpiresActive On
+
+	# Default expiration: 1 hour after request
+	ExpiresDefault "now plus 1 hour"
+
+	# CSS and JS expiration: 1 week after request
+	ExpiresByType text/css "now plus 1 week"
+	ExpiresByType application/javascript "now plus 1 week"
+	ExpiresByType application/x-javascript "now plus 1 week"
+
+	# Image files expiration: 1 month after request
+	ExpiresByType image/bmp "now plus 1 month"
+	ExpiresByType image/gif "now plus 1 month"
+	ExpiresByType image/jpeg "now plus 1 month"
+	ExpiresByType image/jp2 "now plus 1 month"
+	ExpiresByType image/pipeg "now plus 1 month"
+	ExpiresByType image/png "now plus 1 month"
+	ExpiresByType image/svg+xml "now plus 1 month"
+	ExpiresByType image/tiff "now plus 1 month"
+	ExpiresByType image/vnd.microsoft.icon "now plus 1 month"
+	ExpiresByType image/x-icon "now plus 1 month"
+	ExpiresByType image/ico "now plus 1 month"
+	ExpiresByType image/icon "now plus 1 month"
+	ExpiresByType text/ico "now plus 1 month"
+	ExpiresByType application/ico "now plus 1 month"
+	ExpiresByType image/vnd.wap.wbmp "now plus 1 month"
+	ExpiresByType application/vnd.wap.wbxml "now plus 1 month"
+	ExpiresByType application/smil "now plus 1 month"
+
+	# Audio files expiration: 1 month after request
+	ExpiresByType audio/basic "now plus 1 month"
+	ExpiresByType audio/mid "now plus 1 month"
+	ExpiresByType audio/midi "now plus 1 month"
+	ExpiresByType audio/mpeg "now plus 1 month"
+	ExpiresByType audio/x-aiff "now plus 1 month"
+	ExpiresByType audio/x-mpegurl "now plus 1 month"
+	ExpiresByType audio/x-pn-realaudio "now plus 1 month"
+	ExpiresByType audio/x-wav "now plus 1 month"
+
+	# Movie files expiration: 1 month after request
+	ExpiresByType application/x-shockwave-flash "now plus 1 month"
+	ExpiresByType x-world/x-vrml "now plus 1 month"
+	ExpiresByType video/x-msvideo "now plus 1 month"
+	ExpiresByType video/mpeg "now plus 1 month"
+	ExpiresByType video/mp4 "now plus 1 month"
+	ExpiresByType video/quicktime "now plus 1 month"
+	ExpiresByType video/x-la-asf "now plus 1 month"
+	ExpiresByType video/x-ms-asf "now plus 1 month"
+</IfModule>
+########## End - Optimal expiration time

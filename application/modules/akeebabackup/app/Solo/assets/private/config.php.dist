@@ -1,0 +1,45 @@
+<?php die; ?>
+{
+    "dbdriver":     	"mysqli",
+    "dbhost":       	"localhost",
+    "dbuser":       	"solo",
+    "dbpass":       	"solo",
+    "dbname":       	"solo",
+    "prefix":       	"solo_",
+
+    "timezone":     	"Europe/Athens",
+    "live_site":    	"",
+    "base_url":			"index.php",
+    "session_timeout":	"1440",
+
+    "mail":
+    {
+    	"online":		true,
+    	"mailer":		"mail",
+    	"smtpauth":		false,
+    	"smtpuser":		"",
+    	"smtppass":		"",
+    	"smtphost":		"",
+    	"smtpsecure":	0,
+    	"smtpport":		25,
+    	"mailfrom":		"you@example.com",
+    	"fromname":		"Change This"
+    }
+
+    "fs":
+    {
+        "driver":       "file",
+        "host":         "localhost",
+        "port":         "21",
+        "username":     "",
+        "password":     "",
+        "directory":    "/",
+        "ssl":          false,
+        "passive":      true
+    },
+
+    "options":
+    {
+
+    }
+}
