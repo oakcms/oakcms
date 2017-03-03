@@ -1,12 +1,9 @@
 <?php
 /**
- * Akeeba Engine
- * The modular PHP5 site backup engine
- *
- * @copyright Copyright (c)2014-2017 Nicholas K. Dionysopoulos
- * @license   GNU GPL version 3 or, at your option, any later version
- * @package   akeebabackupwp
- *
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace Akeeba\Engine\Platform;
@@ -27,13 +24,13 @@ if (!defined('DS'))
 /**
  * Akeeba Solo for WordPress platform class
  */
-class Wordpress extends Base
+class Yii extends Base
 {
 	/** @var   integer  Platform class priority */
 	public $priority = 60;
 
 	/** @var   string  The platform name */
-	public $platformName = 'wordpress';
+	public $platformName = 'yii';
 
 	function __construct()
 	{
@@ -58,7 +55,7 @@ class Wordpress extends Base
 	 */
 	public function isThisPlatform()
 	{
-		if (!defined('WPINC') && !defined('ABSPATH'))
+		if (!defined('ABSPATH'))
 		{
 			return false;
 		}

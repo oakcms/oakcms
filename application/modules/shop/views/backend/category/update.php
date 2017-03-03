@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 use yii\helpers\Html;
@@ -11,9 +14,6 @@ $this->params['breadcrumbs'][] = 'Обновить';
 \app\modules\shop\assets\BackendAsset::register($this);
 ?>
 <div class="category-update">
-    <div class="shop-menu">
-        <?=$this->render('../parts/menu');?>
-    </div>
 
     <?= $this->render('_form', [
         'model' => $model,

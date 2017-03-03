@@ -2,7 +2,7 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  * @version    0.0.1-alpha.0.4
  */
 
@@ -13,12 +13,6 @@ use app\modules\admin\widgets\Html;
 
 class DeleteColumn extends ActionColumn
 {
-    /*
-     <a aria-disabled="false" tabindex="0" class="">
-
-    </a>
-    */
-
     protected function initDefaultButtons()
     {
         if (!isset($this->buttons['delete'])) {

@@ -1,18 +1,21 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\shop\controllers\backend;
 
+use app\components\BackendController;
 use Yii;
 use app\modules\shop\models\category\CategorySearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-class CategoryController extends Controller
+class CategoryController extends BackendController
 {
     public function behaviors()
     {
@@ -21,7 +24,7 @@ class CategoryController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'delete', 'update', 'create', 'select'],
+                        'actions' => ['index', 'delete', 'update', 'create', 'select', 'update-nestable'],
                         'allow' => true,
                         'roles' => $this->module->adminRoles,
                     ],
@@ -88,6 +91,50 @@ class CategoryController extends Controller
         }
     }
 
+    public function actionUpdateNestable()
+    {
+        $success    = null;
+        $model      = $this->module->getService('category');
+
+        $i                  = 0;
+        $post               = Yii::$app->request->post();
+        $jsonDecoded        = $post['list'];
+        $readbleArray       = $this->Nestable($jsonDecoded);
+
+        // циклом проходимся по массиву и сохраняем в бд
+        foreach ($readbleArray as $key => $value) {
+            if (is_array($value)) {
+                $element                = $model::findOne($value['id']);
+                $element->parent_id     = $value['parentID'];
+                $element->sort          = $key;
+                if(!$element->save()) {
+                    $i++;
+                }
+            }
+        }
+
+        if($i == 0) {
+            $success['success'] = Yii::t('backend', 'Menu items updated');
+        } else {
+            $this->error = Yii::t('backend', 'error');
+        }
+
+        return $this->formatResponse($success);
+    }
+
+    public function Nestable($jsonArray, $parentID = 0)
+    {
+        $return = array();
+        foreach ($jsonArray as $subArray) {
+            $returnSubSubArray = array();
+            if (isset($subArray['children'])) {
+                $returnSubSubArray = $this->Nestable($subArray['children'], $subArray['id']);
+            }
+            $return[] = array('id' => $subArray['id'], 'parentID' => $parentID);
+            $return = array_merge($return, $returnSubSubArray);
+        }
+        return $return;
+    }
 
     /**
      * @param string $route

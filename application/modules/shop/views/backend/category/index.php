@@ -1,8 +1,12 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
+use app\modules\admin\widgets\Button;
 use app\modules\shop\models\Category;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -11,23 +15,52 @@ $this->title = 'Категории';
 $this->params['breadcrumbs'][] = $this->title;
 
 \app\modules\shop\assets\BackendAsset::register($this);
+
+$this->params['actions_buttons'] = [
+    [
+        'tagName'      => 'a',
+        'label'        => Yii::t('admin', 'Create'),
+        'options'      => [
+            'href' => Url::to(['create']),
+        ],
+        'icon'         => 'fa fa-plus',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size'         => Button::SIZE_SMALL,
+        'disabled'     => false,
+        'block'        => false,
+        'type'         => Button::TYPE_CIRCLE,
+    ],
+    [
+        'tagName'      => 'a',
+        'label'        => Yii::t('admin', 'Tree'),
+        'options'      => [
+            'href'   => Url::toRoute(['index', 'view' => 'tree']),
+            'class'  => 'btn btn-circle btn-sm' . ((Yii::$app->request->get('view') == 'tree' | Yii::$app->request->get('view') == '') ? ' blue' : ''),
+        ],
+        'icon'         => 'fa fa-tree',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size'         => Button::SIZE_SMALL,
+        'disabled'     => false,
+        'block'        => false,
+        'type'         => Button::TYPE_CIRCLE,
+    ],
+    [
+        'tagName'      => 'a',
+        'label'        => Yii::t('admin', 'List'),
+        'options'      => [
+            'href'   => Url::toRoute(['index', 'view' => 'list']),
+            'class'  => 'btn btn-circle btn-sm' . ((Yii::$app->request->get('view') == 'list') ? ' blue' : ''),
+        ],
+        'icon'         => 'fa fa-list',
+        'iconPosition' => Button::ICON_POSITION_LEFT,
+        'size'         => Button::SIZE_SMALL,
+        'disabled'     => false,
+        'block'        => false,
+        'type'         => Button::TYPE_CIRCLE,
+    ]
+];
 ?>
 <div class="category-index">
-
-    <div class="row">
-        <div class="col-md-2">
-            <?= Html::a('Создать категорию', ['create'], ['class' => 'btn btn-success']) ?>
-        </div>
-    </div>
-
-    <ul class="nav nav-pills">
-        <li role="presentation" <?php if (yii::$app->request->get('view') == 'tree' | yii::$app->request->get('view') == '') echo ' class="active"'; ?>>
-            <a href="<?= Url::toRoute(['category/index', 'view' => 'tree']); ?>">Деревом</a></li>
-        <li role="presentation" <?php if (yii::$app->request->get('view') == 'list') echo ' class="active"'; ?>>
-            <a href="<?= Url::toRoute(['category/index', 'view' => 'list']); ?>">Списком</a></li>
-    </ul>
-
-    <br style="clear: both;">
     <?php
     if (isset($_GET['view']) && $_GET['view'] == 'list') {
         $categories = \yii\grid\GridView::widget([

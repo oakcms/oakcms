@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 namespace app\modules\content\models;
 
@@ -22,6 +28,7 @@ use yii\validators\UniqueValidator;
  *
  * @property integer $id
  * @property string $title
+ * @property string $slug
  * @property string $description
  * @property string $content
  * @property integer $create_user_id
@@ -88,11 +95,11 @@ class ContentArticles extends \app\components\ActiveRecord implements CategoryFi
                 'createdByAttribute' => 'create_user_id',
                 'updatedByAttribute' => 'update_user_id',
             ],
-            [
+            'slug' => [
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'title',
                 'slugAttribute' => 'slug',
-                'ensureUnique' => true,
+                //'ensureUnique' => true,
                 'uniqueValidator' => [
                     'class' => UniqueValidator::className(),
                     'targetClass' => ContentArticlesLang::className(),

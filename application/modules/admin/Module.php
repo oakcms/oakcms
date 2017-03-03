@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 namespace app\modules\admin;
 
@@ -12,6 +18,8 @@ use yii\filters\AccessControl;
  */
 class Module extends \app\components\module\Module
 {
+    const EVENT_MODULE_AFTER_ACTIVATION = 'module_after_activation';
+    const EVENT_MODULE_AFTER_DEACTIVATION = 'module_after_deactivation';
 
     public $activeModules;
 

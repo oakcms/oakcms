@@ -1,8 +1,9 @@
 <?php
 /**
- * @package     akeebabackupwp
- * @copyright   2014-2017 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license     GNU GPL version 3 or later
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace Solo;
@@ -62,7 +63,7 @@ class Application extends \Awf\Application\Application
 
 		// Apply cookie parameters. This fixes badly configured servers setting the Secure flag on HTTP sites.
 		// This block must be AFTER the appConfig->loadConfiguration() call since we need to set the URIs from
-		// the AKEEBA_SOLO_WP_SITEURL and AKEEBA_SOLO_WP_URL constants, set from WordPress functions during bootstrap.
+		// the AKEEBA_SOLOYII_SITEURL and AKEEBA_SOLOYII_URL constants, set from WordPress functions during bootstrap.
 		// See: Solo\Application::applySessionTimeout()
 		$sessionTimeout = (int)$this->container->appConfig->get('session_timeout', 1440);
 		$uri = new Uri(Uri::base(false, $this->container), $this);

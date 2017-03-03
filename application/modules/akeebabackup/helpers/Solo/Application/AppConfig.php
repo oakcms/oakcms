@@ -1,8 +1,9 @@
 <?php
 /**
- * @package		akeebabackupwp
- * @copyright	2014-2017 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license		GNU GPL version 3 or later
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace Solo\Application;
@@ -126,19 +127,19 @@ class AppConfig extends Configuration
 
 		$this->set('prefix', $table_prefix);
 
-		if (defined('AKEEBA_SOLO_WP_SITEURL'))
+		if (defined('AKEEBA_SOLOYII_SITEURL'))
 		{
-			$this->set('live_site', AKEEBA_SOLO_WP_SITEURL);
+			$this->set('live_site', AKEEBA_SOLOYII_SITEURL);
 		}
 
-		if (defined('AKEEBA_SOLO_WP_URL'))
+		if (defined('AKEEBA_SOLOYII_URL'))
 		{
-			$this->set('base_url', AKEEBA_SOLO_WP_URL);
+			$this->set('base_url', AKEEBA_SOLOYII_URL);
 		}
 
-		if (defined('AKEEBA_SOLO_WP_ROOTURL'))
+		if (defined('AKEEBA_SOLOYII_ROOTURL'))
 		{
-			$this->set('cms_url', AKEEBA_SOLO_WP_ROOTURL);
+			$this->set('cms_url', AKEEBA_SOLOYII_ROOTURL);
 		}
 
 		$timezone = function_exists('get_option') ? get_option('timezone_string') : 'UTC';

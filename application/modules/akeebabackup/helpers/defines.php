@@ -1,8 +1,9 @@
 <?php
 /**
- * @package     akeebabackupwp
- * @copyright   2014-2017 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license     GNU GPL version 3 or later
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 // Do not remove this line. It is required for Akeeba Solo to work.
@@ -15,9 +16,9 @@ define('_AKEEBA', 1);
 // define('AKEEBA_OVERRIDE_JQUERY', 1);
 
 // Always enable Akeeba Backup for WordPress debug mode when WordPress' debug mode is enabled
-if (defined('WP_DEBUG') && !defined('AKEEBADEBUG'))
+if (defined('YII_DEBUG') && !defined('AKEEBADEBUG'))
 {
-	if (WP_DEBUG)
+	if (YII_DEBUG)
 	{
 		define('AKEEBADEBUG', 1);
 	}

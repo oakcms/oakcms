@@ -29,8 +29,11 @@ composer.phar
 
 # phpunit itself is not needed
 phpunit.phar
+
 # local phpunit config
 /phpunit.xml
 /web/assets
 
-application/runtime/cache/bd/bd969748773de43cb35a230b977606ec.bin
+# server log
+error.log
+access.log

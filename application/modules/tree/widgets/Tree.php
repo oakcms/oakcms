@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\tree\widgets;
@@ -11,12 +14,13 @@ class Tree extends \yii\base\Widget
 {
     public $model = null;
     public $updateUrl = 'category/update';
+    public $updateNestableUrl = 'category/update-nestable';
     public $viewUrl = 'product/index';
     public $deleteUrl = 'category/delete';
     public $viewUrlToSearch = true;
     public $viewUrlModelName = 'ProductSearch';
     public $viewUrlModelField = 'category_id';
-    public $orderField = false;
+    public $orderField = 'sort';
     public $parentField = 'parent_id';
     public $idField = 'id';
     public $view = 'index';
@@ -32,44 +36,65 @@ class Tree extends \yii\base\Widget
     {
         $model = $this->model;
 
-        if($this->orderField) {
+        if ($this->orderField) {
             $list = $model::find()->orderBy($this->orderField)->asArray()->all();
         } else {
             $list = $model::find()->asArray()->all();
         }
         $itemsTree = self::buildArray($list, 0, $this->idField, $this->parentField);
 
-       return $this->render($this->view, [
+        return $this->render($this->view, [
             'categoriesTree' => self::treeBuild($itemsTree),
+            'widget' => $this,
         ]);
     }
 
-    private function buildArray($items, $currentElementId = 0, $idKeyname = 'id', $parentIdKeyname = 'parent_id', $parentarrayName = 'childs')
-    {
-        if(empty($items)) return array();
+    private function buildArray(
+        $items, $currentElementId = 0, $idKeyname = 'id', $parentIdKeyname = 'parent_id', $parentarrayName = 'childs'
+    ) {
+        if (empty($items)) return [];
         $return = [];
-        foreach($items as $item) {
-            if($item[$parentIdKeyname] == $currentElementId) {
+        foreach ($items as $item) {
+            if ($item[$parentIdKeyname] == $currentElementId) {
                 $item[$parentarrayName] = self::buildArray($items, $item[$idKeyname], $idKeyname, $parentIdKeyname, $parentarrayName);
                 $return[] = $item;
             }
         }
+
         return $return;
     }
 
     private function treeBuild($items)
     {
         $return = '';
-        foreach($items as $item) {
-            $return .= '<li>';
+        foreach ($items as $item) {
+            $return .= '<li class="dd-item dd3-item" data-id="'.$item[$this->idField].'">';
             $return .= $this->render('parts/tree_inlist.php', ['widget' => $this, 'category' => $item]);
-            if(!empty($item['childs'])) {
-                $return .= '<ul>';
+            if (!empty($item['childs'])) {
+                $return .= '<ol class="dd-list">';
                 $return .= $this->treeBuild($item['childs']);
-                $return .= '</ul>';
+                $return .= '</ol>';
             }
             $return .= '</li>';
         }
+
         return $return;
+    }
+
+    function showNested($parentID)
+    {
+        $items = ShopCategories::find()->where(['parent_id' => $parentID])->orderBy(['sortOrder' => SORT_ASC])->all();
+        ?>
+        <? if ($items): ?>
+        <ol class="dd-list">
+            <? foreach ($items as $it): ?>
+                <li class="dd-item dd3-item" data-id="<?= $it->shop_category_id ?>">
+
+                    <? showNested($it->shop_category_id); ?>
+                </li>
+            <?endforeach ?>
+        </ol>
+    <?endif ?>
+        <?php
     }
 }

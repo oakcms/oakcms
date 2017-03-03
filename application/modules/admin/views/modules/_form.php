@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 use app\modules\admin\widgets\ActiveForm;
 use app\modules\admin\widgets\Button;
@@ -48,13 +54,11 @@ $this->params['actions_buttons'] = [
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'class')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'isFrontend')->textInput() ?>
-    <?= $form->field($model, 'isAdmin')->textInput() ?>
+    <?= $form->field($model, 'isFrontend')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
+    <?= $form->field($model, 'isAdmin')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
-    <? //= $form->field($model, 'settings')->textarea(['rows' => 6]) ?>
     <?= $form->field($model, 'order')->textInput() ?>
-    <?= $form->field($model, 'status')->textInput() ?>
 
     <?php ActiveForm::end(); ?>
 

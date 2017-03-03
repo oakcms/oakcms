@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -64,7 +70,6 @@ $this->params['actions_buttons'] = [
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
-        <?php \yii\widgets\Pjax::begin(); ?>
         <?= GridView::widget([
             'id' => 'grid',
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
@@ -95,7 +100,21 @@ $this->params['actions_buttons'] = [
                         }
                     }
                 ],
-                'published_at:datetime',
+                [
+                    'attribute' => 'published_at',
+                    'format' => 'datetime',
+                    'filter' => \kartik\daterange\DateRangePicker::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'published_at',
+                        'convertFormat' => true,
+                        'pluginOptions' => [
+                            'locale' => [
+                                'format' => 'Y-m-d',
+                            ],
+                            'opens' => 'left'
+                        ],
+                    ]),
+                ],
                 [
                     'class' => \app\modules\admin\components\grid\EnumColumn::className(),
                     'attribute' => 'status',
@@ -123,8 +142,8 @@ $this->params['actions_buttons'] = [
                     'translatable' => true
                 ],
             ],
-        ]); ?>
-        <?php \yii\widgets\Pjax::end(); ?>
+        ]);
+        ?>
     </div>
 </div>
 <script>

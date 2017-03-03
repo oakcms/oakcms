@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 /**
@@ -50,9 +53,9 @@ class KeyStorage extends Component
         $model = $this->getModel($key);
         if (!$model) {
             $model = new $this->modelClass;
-            $model->key = $key;
+            $model->param_name = $key;
         }
-        $model->value = $value;
+        $model->param_value = $value;
         if ($model->save(false)) {
             $this->values[$key] = $value;
             Yii::$app->cache->set($this->getCacheKey($key), $value, $this->cachingDuration);

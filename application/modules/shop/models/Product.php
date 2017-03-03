@@ -2,7 +2,7 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  * @version    0.0.1-alpha.0.4
  */
 
@@ -28,6 +28,7 @@ use yii\helpers\Url;
  * @property string $code;
  * @property string $short_text;
  * @property string $text;
+ * @property string $related_ids
  *
  * @mixin AttachImages
  * @mixin AttachFields

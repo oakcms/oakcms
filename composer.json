@@ -27,6 +27,7 @@
         "bower-asset/wow": "^1.1.2",
         "bower-asset/fancybox": "^2.1.5",
         "bower-asset/lightslider": "1.*",
+        "bower-asset/formBuilder": "*",
 
         "codemix/yii2-localeurls": "^1.4",
 
@@ -85,6 +86,7 @@
         "kartik-v/yii2-mpdf": "@dev",
         "kartik-v/yii2-widgets": "*",
         "kartik-v/yii2-field-range": "*",
+        "kartik-v/yii2-date-range": "*",
         "kartik-v/yii2-export": "*",
 		"kartik-v/yii2-builder": "*",
         "kartik-v/yii2-icons": "*",

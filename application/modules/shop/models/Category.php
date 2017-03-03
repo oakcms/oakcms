@@ -2,7 +2,7 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  * @version    0.0.1-alpha.0.4
  */
 
@@ -24,6 +24,7 @@ use yii\helpers\Url;
  * @property string $text
  * @property string $code
  * @property string $name
+ * @property string $title_h1
  * @property string $slug
  */
 class Category extends \yii\db\ActiveRecord
@@ -56,7 +57,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['parent_id', 'sort'], 'integer'],
             [['name'], 'required'],
-            [['text', 'code'], 'string'],
+            [['text', 'title_h1', 'code'], 'string'],
             [['name', 'code', 'slug'], 'string', 'max' => 55],
             [['slug'], 'filter', 'filter' => 'trim'],
             [['slug'], 'filter', 'filter' => function ($value) {
@@ -76,6 +77,7 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'ID',
             'parent_id' => 'Родительская категория',
             'name' => 'Имя категории',
+            'title_h1' => Yii::t('shop', 'Title H1'),
             'slug' => 'Сео имя',
             'text' => 'Описание',
             'image' => 'Картинка',

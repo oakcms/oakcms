@@ -3,12 +3,12 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\field\models;
 
-use yii;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 class Field extends \yii\db\ActiveRecord
@@ -33,24 +33,19 @@ class Field extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Имя',
-            'slug' => 'Код',
-            'description' => 'Описание',
-            'options' => 'Опции',
-            'type' => 'Тип полей',
-            'category_id' => 'Категория',
-            'relation_model' => 'Привязать к',
+            'name' => Yii::t('field', 'Name'),
+            'slug' => Yii::t('field', 'Slug'),
+            'description' => Yii::t('field', 'Description'),
+            'options' => Yii::t('field', 'Options'),
+            'type' => Yii::t('field', 'Type'),
+            'category_id' => Yii::t('field', 'Category ID'),
+            'relation_model' => Yii::t('field', 'Relation model'),
         ];
     }
 
     public function getVariants()
     {
         return $this->hasMany(FieldVariant::className(), ['field_id' => 'id']);
-    }
-
-    public function getSelected()
-    {
-        return ArrayHelper::map($this->hasMany(FieldRelationValue::className(), ['field_id' => 'id'])->all(), 'value', 'value');
     }
 
     public static function saveEdit($id, $name, $value)

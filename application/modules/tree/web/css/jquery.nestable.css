@@ -1,6 +1,14 @@
+/*
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
+
 /**
  * Nestable
  */
+
 .dd-list { display: block; position: relative; margin: 0; padding: 0; list-style: none; }
 .dd-list .dd-list { padding-left: 30px; }
 .dd-collapsed .dd-list { display: none; }
@@ -22,8 +30,8 @@
 .dd-item > button[data-action="collapse"]:before { content: '\f068';  }
 
 .dd-placeholder,
-.dd-empty { 
-    margin: 5px 0; padding: 0; min-height: 30px; background: #f2fbff; border: 1px dashed #b6bcbf; 
+.dd-empty {
+    margin: 5px 0; padding: 0; min-height: 30px; background: #f2fbff; border: 1px dashed #b6bcbf;
     box-sizing: border-box; -moz-box-sizing: border-box; }
 .dd-empty { border: 1px dashed #bbb; min-height: 100px; background-color: #e5e5e5;
     background-size: 60px 60px;

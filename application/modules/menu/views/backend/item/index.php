@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 use app\modules\admin\widgets\Button;
 use app\modules\menu\models\MenuItem;
@@ -109,7 +115,7 @@ $this->params['actions_buttons'] = [
                 ),
                 'value'     => function ($model) {
                     /** @var $model MenuItem */
-                    $class = ['fa', 'fa-star', 'switch-fa'];
+                    $class = ['fa', 'fa-home', 'switch-fa'];
                     if ($model->status == MenuItem::STATUS_MAIN_PAGE) $class[] = 'switch-fa--active';
 
                     return Html::a(

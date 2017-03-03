@@ -20,9 +20,3 @@
     RewriteRule (^|/)\.(?!well-known) - [F]
     RewriteRule ^(LICENSE.txt|composer.lock|composer.json|\.htaccess)$ error [F]
 </IfModule>
-#Options +FollowSymLinks
-#IndexIgnore */*
-#RewriteEngine on
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
-#RewriteRule . index.php

@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 13.09.2016
@@ -29,8 +36,15 @@ class Menu extends API
      * @return array
      */
     public function api_getMenuLvlAll($id) {
+        $return = [];
+
         $collection = MenuItem::find()->type($id)->published()->language($this->language)->orderBy('lft')->all();
-        return $this->generateMenuArray($collection, $collection[0]->level);
+
+        if($collection !== null && count($collection) > 0) {
+            $return = $this->generateMenuArray($collection, $collection[0]->level);
+        }
+
+        return $return;
     }
 
     /**
@@ -41,6 +55,8 @@ class Menu extends API
      * @return array
      */
     public function api_getMenuLvl($id, $startLvl, $endLvl, $parent_id = null) {
+        $return = [];
+
         $collection = MenuItem::find()
             ->type($id)
             ->published()
@@ -51,7 +67,11 @@ class Menu extends API
             ->orderBy('lft')
             ->all();
 
-        return $this->generateMenuArray($collection, $collection[0]->level);
+        if($collection !== null && count($collection) > 0) {
+            $return = $this->generateMenuArray($collection, $collection[0]->level);
+        }
+
+        return $return;
     }
 
     /**

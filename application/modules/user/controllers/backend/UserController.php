@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 namespace app\modules\user\controllers\backend;
 
@@ -96,20 +102,25 @@ class UserController extends BackendController
         $model = User::findOne(\Yii::$app->getUser()->getId());
         $model->scenario = User::SCENARIO_ADMIN_UPDATE;
 
+        if($model->googleAuthenticatorSecret == '') {
+            $ga = new GoogleAuthenticator();
+            $model->googleAuthenticatorSecret = $ga->generateSecret();
+        }
+
         if ($model->load(Yii::$app->request->post())) {
-            if($model->googleAuthenticator) {
-                $ga = new GoogleAuthenticator();
-                $model->googleAuthenticatorSecret = $ga->generateSecret();
-            } else {
+            if(!$model->googleAuthenticator) {
                 $model->googleAuthenticatorSecret = '';
+            } else {
+                Yii::$app->keyStorage->set('googleAuthenticator', '1');
             }
 
-            $model->save();
-            return $this->redirect(['/admin/user/account']);
-        } else {
-            return $this->render('account', [
-                'model' => $model,
-            ]);
+            if($model->save()) {
+                return $this->redirect(['/admin/user/account']);
+            }
         }
+
+        return $this->render('account', [
+            'model' => $model,
+        ]);
     }
 }

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 namespace app\modules\admin\models;
 
@@ -57,7 +63,7 @@ class ModulesModules extends ActiveRecord
             [['isAdmin', 'isFrontend', 'order', 'status'], 'integer'],
             //[['settings'], 'string'],
             [['name'], 'string', 'max' => 64],
-            [['class', 'title'], 'string', 'max' => 128],
+            [['class', 'bootstrapClass', 'title'], 'string', 'max' => 128],
             [['icon'], 'string', 'max' => 32],
             [['name'], 'unique'],
             ['class',  'match', 'pattern' => '/^[\w\\\]+$/'],

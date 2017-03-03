@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\field;
@@ -59,12 +59,12 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
                 [
                     'label' => \Yii::t('field', 'Categories'),
                     'url' => ['/admin/field/category/index'],
-                    'icon' => '<i class="fa fa-file-text-o"></i>'
+                    'icon' => '<i class="fa fa-folder-o"></i>'
                 ],
                 [
                     'label' => \Yii::t('field', 'Items'),
                     'url' => ['/admin/field/field/index'],
-                    'icon' => '<i class="fa fa-folder-o"></i>'
+                    'icon' => '<i class="fa fa-file-text-o"></i>'
                 ],
             ]
         ];

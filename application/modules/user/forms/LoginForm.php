@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 namespace app\modules\user\forms;
 
@@ -66,7 +72,7 @@ class LoginForm extends Model
                 $user->googleAuthenticator &&
                 $ga->getCode($user->googleAuthenticatorSecret) != $this->secretCode
             ) {
-                $this->addError('username', Yii::t('user', 'Error wrong secret code'));
+                $this->addError('secretCode', Yii::t('user', 'Error wrong secret code'));
             }
         }
     }

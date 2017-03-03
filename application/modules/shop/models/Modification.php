@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\shop\models;
@@ -16,8 +19,29 @@ use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 
+
+/**
+ * Class Modification
+ * @package app\modules\shop\models
+ *
+ * @property string $name
+ * @property string $slug
+ * @property integer $product_id
+ * @property integer $sort
+ * @property integer $amount
+ * @property float $price
+ * @property string $available
+ * @property string $code
+ * @property string $create_time
+ * @property string $update_time
+ * @property string $filter_values
+ */
+
 class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces\CartElement
 {
+    const STATUS_AVAILABLE_YES = 'yes';
+    const STATUS_AVAILABLE_NO = 'no';
+
     function behaviors()
     {
         return [

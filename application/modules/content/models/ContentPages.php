@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 namespace app\modules\content\models;
 
@@ -217,7 +223,11 @@ class ContentPages extends ActiveRecord
         }
 
         // модель перемещена в другую модель
-        if ($this->getOldAttribute('parent_id') != $this->parent_id && $newParent = $this->parent_id ? self::findOne($this->parent_id) : self::find()->roots()->one()) {
+
+        if (
+            $this->getOldAttribute('parent_id') != $this->parent_id &&
+            $newParent = $this->parent_id ? self::findOne($this->parent_id) : self::find()->roots()->one()
+        ) {
             $this->parent_id = $newParent->id;
 
             return $this->appendTo($newParent, $runValidation, $attributes);

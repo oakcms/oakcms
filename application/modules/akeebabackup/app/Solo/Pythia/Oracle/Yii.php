@@ -1,46 +1,42 @@
 <?php
 /**
- * @package		solo
- * @copyright	2014-2017 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license		GNU GPL version 3 or later
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace Solo\Pythia\Oracle;
 
 use Solo\Pythia\AbstractOracle;
 
-class Wordpress extends AbstractOracle
+class Yii extends AbstractOracle
 {
 	/**
 	 * The name of this oracle class
 	 *
 	 * @var  string
 	 */
-	protected $oracleName = 'wordpress';
+	protected $oracleName = 'yii';
 
 	/**
-	 * Does this class recognises the CMS type as Wordpress?
+	 * Does this class recognises the CMS type as Oakcms?
 	 *
 	 * @return  boolean
 	 */
 	public function isRecognised()
 	{
-		if (!@file_exists($this->path . '/wp-config.php') && !@file_exists($this->path . '/../wp-config.php'))
+		if (!@file_exists($this->path . '/.env') && !@file_exists($this->path . '/../.env'))
 		{
 			return false;
 		}
 
-		if (!@file_exists($this->path . '/wp-login.php'))
+		if (!@file_exists($this->path . '/index.php'))
 		{
 			return false;
 		}
 
-		if (!@file_exists($this->path . '/xmlrpc.php'))
-		{
-			return false;
-		}
-
-		if (!@is_dir($this->path . '/wp-admin'))
+		if (!@is_dir($this->path . '/application'))
 		{
 			return false;
 		}
@@ -65,51 +61,30 @@ class Wordpress extends AbstractOracle
 			'prefix'	=> '',
 		);
 
-		$filePath = $this->path . '/wp-config.php';
 
-		if (!@file_exists($filePath))
+		foreach ($_ENV as $k=>$line)
 		{
-			$filePath = $this->path . '/../wp-config.php';
+            switch (strtoupper($k))
+            {
+                case 'DB_NAME':
+                    $ret['name'] = $line;
+                    break;
+
+                case 'DB_USERNAME':
+                    $ret['username'] = $line;
+                    break;
+
+                case 'DB_PASSWORD':
+                    $ret['password'] = $line;
+                    break;
+
+                case 'DB_HOST':
+                    $ret['host'] = $line;
+                    break;
+
+            }
+            $ret['prefix'] = "solo_";
 		}
-
-		$fileContents = file($filePath);
-
-		foreach ($fileContents as $line)
-		{
-			$line = trim($line);
-
-			if (strpos($line, 'define') !== false)
-			{
-				list ($key, $value) = $this->parseDefine($line);
-
-				switch (strtoupper($key))
-				{
-					case 'DB_NAME':
-						$ret['name'] = $value;
-						break;
-
-					case 'DB_USER':
-						$ret['username'] = $value;
-						break;
-
-					case 'DB_PASSWORD':
-						$ret['password'] = $value;
-						break;
-
-					case 'DB_HOST':
-						$ret['host'] = $value;
-						break;
-
-				}
-			}
-			elseif (strpos($line, '$table_prefix') === 0)
-			{
-				$parts = explode('=', $line, 2);
-				$prefixData = trim($parts[1]);
-				$ret['prefix'] = $this->parseStringDefinition($prefixData);
-			}
-		}
-
 		return $ret;
 	}
 }

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 namespace app\modules\system\models;
 
@@ -75,13 +81,25 @@ class SystemSettings extends \yii\db\ActiveRecord
             case 'language':
                 return Html::dropDownList($this->param_name, $this->param_value, ArrayHelper::map(Language::getLanguages(), 'language_id', 'name'), ['class' => 'form-control']);
             break;
-            case 'getTheme':
+            case 'getThemeFrontend':
 
                 $files = scandir(Yii::getAlias('@app').'/templates/frontend');
 
                 $items = [];
                 foreach ($files as $file) {
-                    //if(!is_file($file) AND $file != '.' AND $file != '..') {
+                    if($file != '.' AND $file != '..') {
+                        $items[$file] = $file;
+                    }
+                }
+
+                return Html::dropDownList($this->param_name, $this->param_value, $items, ['class' => 'form-control']);
+            break;
+            case 'getThemeBackend':
+
+                $files = scandir(Yii::getAlias('@app').'/templates/backend');
+
+                $items = [];
+                foreach ($files as $file) {
                     if($file != '.' AND $file != '..') {
                         $items[$file] = $file;
                     }

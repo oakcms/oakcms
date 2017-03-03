@@ -1,23 +1,18 @@
 <?php
 /**
- * @package		akeebabackupwp
- * @copyright	2014-2017 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license		GNU GPL version 3 or later
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
-// Bootstrap file for Akeeba Solo for WordPress
 use Awf\Autoloader\Autoloader;
 use Awf\Session;
 
-/**
- * Make sure we are being called from WordPress itself
- */
-defined('WPINC') or die;
 
 defined('AKEEBASOLO') or define('AKEEBASOLO', 1);
 
-// A trick to prevent raw views from rendering the entire WP back-end interface
-if (defined('AKEEBA_SOLOWP_OBFLAG'))
+if (defined('AKEEBA_SOLOYII_OBFLAG'))
 {
 	@ob_get_clean();
 }
@@ -49,7 +44,7 @@ try
 
 	$application->getContainer()->session->commit();
 
-	if (defined('AKEEBA_SOLOWP_OBFLAG'))
+	if (defined('AKEEBA_SOLOYII_OBFLAG'))
 	{
 		@ob_start();
 	}

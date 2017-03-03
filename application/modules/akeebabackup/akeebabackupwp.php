@@ -1,48 +1,18 @@
 <?php
-/*
-Plugin Name: Akeeba Backup for WordPress
-Plugin URI: https://www.akeebabackup.com
-Description: The complete backup solution for WordPress
-Version: 2.1.0.b1
-Author: Akeeba Ltd
-Author URI: https://www.akeebabackup.com
-License: GPLv3
-*/
-
-/*
- * Copyright 2014-2017 Akeeba Ltd
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * You contact Akeeba Ltd through our contact page:
- * https://www.akeebabackup.com/contact-us
- */
-
 /**
- * @package        akeebabackupwp
- * @copyright      2014 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license        GNU GPL version 3 or later
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 /**
  * Make sure we are being called from WordPress itself
  */
-defined('WPINC') or die;
 
 function akeebabackupwp_boot()
 {
-	require_once dirname(__FILE__) . '/helpers/AkeebaBackupWP.php';
+	require_once dirname(__FILE__) . '/helpers/AkeebaBackupYii.php';
 
 	$baseUrlParts = explode('/', plugins_url('', __FILE__));
 
@@ -52,7 +22,7 @@ function akeebabackupwp_boot()
 	AkeebaBackupWP::$wrongPHP = version_compare(PHP_VERSION, AkeebaBackupWP::$minimumPHP, 'lt');
 
 	$aksolowpPath = plugin_dir_path(__FILE__);
-	define('AKEEBA_SOLOWP_PATH', $aksolowpPath);
+	define('AKEEBA_SOLOYII_PATH', $aksolowpPath);
 }
 
 akeebabackupwp_boot();

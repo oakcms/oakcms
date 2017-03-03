@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 05.04.2016
- * Project: oakcms
- * File name: index.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 require(__DIR__ . '/vendor/autoload.php');
