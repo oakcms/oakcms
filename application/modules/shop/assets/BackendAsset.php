@@ -17,6 +17,7 @@ class BackendAsset extends AssetBundle
     public $js = [
         'js/scripts.js',
         'js/stickyeah.js',
+        'js/modifications_product.js',
     ];
 
     public $css = [
@@ -25,7 +26,7 @@ class BackendAsset extends AssetBundle
 
     public function init()
     {
-        $this->sourcePath = __DIR__ . '/../web';
+        $this->sourcePath = __DIR__ . '/../web/backend';
         parent::init();
     }
 }

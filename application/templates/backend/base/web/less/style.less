@@ -21,6 +21,10 @@ html {
   width: 55px;
 }
 
+.w95 {
+  width: 95px;
+}
+
 .disabled {
 
   cursor: not-allowed;
@@ -508,4 +512,55 @@ div.checker {
 
 .md-ripple-background.md-ripple-active, .mdRippleFocused .md-ripple-background {
   opacity: 1
+}
+
+.photo_album .btn-group > .btn-small {
+  min-height: 27px;
+  margin-right: 0;
+  margin-left: 0;
+  line-height: 22px;
+}
+
+.photo_album {
+  position: relative;
+  margin: 0 auto;
+}
+.photo_album .table .btn {
+  margin-right: 0;
+}
+
+.photo_album .btn-group {
+  display: none;
+  position: absolute;
+  width: 100px;
+  text-align: center;
+  top: 50%;
+  margin-top: -17px;
+  left: 50%;
+  margin-left: -25px;
+  z-index: 1;
+}
+
+.photo_album:hover .btn-group {
+  display: block;
+}
+
+.photo_album .fon {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.photo_album:hover .fon {
+  background-color: rgba(0, 0, 0, 0.5)
+}
+
+.photo_album-v .fon {
+  width: 100%;
+}
+
+.photo_album-v img {
+  .img-responsive();
 }

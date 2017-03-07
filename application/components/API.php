@@ -25,7 +25,7 @@ class API extends \yii\base\Object
     {
         parent::init();
 
-        if(!($this->module = Module::getModuleName(self::className()))) {
+        if(($this->module = Module::getModuleName(self::className())) === false) {
             throw new HttpException(500, \Yii::t('system', 'The module can not be found'));
         }
 

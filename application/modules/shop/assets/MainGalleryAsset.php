@@ -32,7 +32,7 @@ class MainGalleryAsset extends AssetBundle
 
     public function init()
     {
-        $this->sourcePath = __DIR__ . '/../web';
+        $this->sourcePath = __DIR__ . '/../web/frontend';
         parent::init();
     }
 }

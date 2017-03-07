@@ -271,7 +271,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
 
     public function getModifications()
     {
-        $return = $this->hasMany(Modification::className(), ['product_id' => 'id'])->orderBy('sort DESC, id DESC');
+        $return = $this->hasMany(Modification::className(), ['product_id' => 'id'])->orderBy('sort ASC');
 
         return $return;
     }
@@ -317,6 +317,10 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
 
         Price::deleteAll(["product_id" => $this->id]);
         ProductToCategory::deleteAll(["product_id" => $this->id]);
+
+        foreach ($this->getModifications()->all() as $modification) {
+            $modification->delete();
+        }
 
         return false;
     }

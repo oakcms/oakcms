@@ -23,9 +23,7 @@ use app\modules\field\models\Category;
         </div>
         <div class="col-lg-6">
             <?= $form->field($model, 'relation_model')->dropdownList(yii::$app->getModule('field')->relationModels) ?>
-            <?php
-            $relation_model = $model->relation_model;
-            ?>
+            <?php $relation_model = $model->relation_model; ?>
             <?if(!empty($relation_model) && method_exists($relation_model, 'getCategoryFields')):?>
                 <?= $form->field($model, 'model_category_id')->checkboxList($relation_model::getCategoryFields()) ?>
             <?endif;?>

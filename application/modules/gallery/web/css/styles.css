@@ -16,17 +16,3 @@
 .oak-gallery .main {
     border: 2px solid red;
 }
-
-.oak-gallery-item a.delete {
-    position: absolute;
-    right: 1px;
-    top: 0px;
-    color: red;
-}
-
-.oak-gallery-item a.write {
-    position: absolute;
-    top: 0px;
-    color: green;
-    text-shadow: 1px 1px 4px black ;
-}

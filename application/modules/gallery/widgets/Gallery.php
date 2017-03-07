@@ -53,12 +53,36 @@ class Gallery extends \yii\base\Widget
     private function getImagePreview($image)
     {
         $size = (explode('x', $this->previewSize));
-        $delete = Html::a('x', '#', ['data-action' => Url::toRoute(['/admin/gallery/default/delete']), 'class' => 'delete']);
-        $write = Html::a('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>', '#', ['data-action' => Url::toRoute(['/admin/gallery/default/modal']), 'class' => 'write']);
-        $img = Html::img($image->getUrl($this->previewSize), ['data-action' => Url::toRoute(['/admin/gallery/default/setmain']), 'width' => $size[0], 'height' => $size[1], 'class' => 'thumb']);
+
+        $delete = Html::a('<i class="icon-trash"></i>', '#', [
+            'data-action' => Url::toRoute(['/admin/gallery/default/delete']),
+            'class' => 'delete btn red delete_image btn-small'
+        ]);
+
+        $write = Html::a('<i class="fa fa-edit"></i>', '#', [
+            'data-action' => Url::toRoute(['/admin/gallery/default/modal']),
+            'class' => 'write btn green change_image btn-small'
+        ]);
+
+        $img = Html::img($image->getUrl($this->previewSize), [
+            'data-action' => Url::toRoute(['/admin/gallery/default/setmain']),
+            'width' => $size[0],
+            'height' => $size[1],
+            'class' => 'thumb fancybox'
+        ]);
+
         $a = Html::a($img, $image->getUrl());
 
-        return $delete . $write . $a;
+        $ouput = '<div class="controls photo_album photo_album-v">';
+        $ouput .= '<div class="fon"></div>';
+        $ouput .= '<div class="btn-group btn-group-xs btn-group-solid f-s_0">';
+        $ouput .= $write;
+        $ouput .= $delete;
+        $ouput .= '</div>';
+        $ouput .= $a;
+        $ouput .= '</div>';
+
+        return $ouput;
     }
 
     private function getParams($id)

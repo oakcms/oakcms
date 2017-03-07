@@ -34,7 +34,7 @@ class PlaceHolder extends Image
         return $url;
     }
 
-    protected  function getSubDur()
+    protected  function getSubDir()
     {
         return 'placeHolder';
     }

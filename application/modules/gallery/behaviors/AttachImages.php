@@ -42,6 +42,7 @@ class AttachImages extends Behavior
         return [
             ActiveRecord::EVENT_BEFORE_UPDATE => 'setImages',
             ActiveRecord::EVENT_AFTER_INSERT  => 'setImages',
+            ActiveRecord::EVENT_AFTER_DELETE  => 'removeImages'
         ];
     }
 
@@ -120,13 +121,18 @@ class AttachImages extends Behavior
 
     public function removeImage(Image $img)
     {
-        //$img->clearCache();
+        $img->clearCache();
 
         $storePath = $this->getModule()->getStorePath();
         $fileToRemove = $storePath . DIRECTORY_SEPARATOR . $img->filePath;
 
         if (preg_match('@\.@', $fileToRemove) and is_file($fileToRemove)) {
-            unlink($fileToRemove);
+            $countImages = Image::find()->where(['filePath' => $img->filePath])->count();
+            if($countImages < 2) {
+                $dir = dirname($fileToRemove);
+                unlink($fileToRemove);
+                @rmdir($dir);
+            }
         }
 
         $img->delete();

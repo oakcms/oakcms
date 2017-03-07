@@ -5,14 +5,15 @@
 
 namespace app\modules\shop\controllers\backend;
 
+use app\components\BackendController;
+use app\modules\shop\models\Modification;
 use Yii;
 use yii\helpers\Url;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-class ModificationController extends Controller
+class ModificationController extends BackendController
 {
     public function behaviors()
     {
@@ -91,11 +92,24 @@ class ModificationController extends Controller
         }
     }
 
+    public function actionSort() {
+        $positions = \Yii::$app->request->post();
+        $productId = \Yii::$app->request->post('productId');
+
+        foreach ($positions as $order => $id) {
+            if ($target = Modification::find()->where(['id' => $id, 'product_id' => $productId])->one()) {
+                $target->updateAttributes(['sort' => intval($order)]);
+            }
+        }
+
+        $this->formatResponse(['success' => Yii::t('shop', 'Modifications soted')]);
+    }
+
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
-        $this->redirect(Yii::$app->request->referrer);
+        return $this->formatResponse(['success' => Yii::t('backend', 'Menu items updated')]);
     }
 
     public function actionEditField()

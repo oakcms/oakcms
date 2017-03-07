@@ -2,8 +2,8 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\gallery\models;
@@ -15,6 +15,21 @@ use yii\base\Exception;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Url;
 
+/**
+ * This is the model class for table "image".
+ *
+ * @property integer $id
+ * @property string $title
+ * @property string $alt
+ * @property string $filePath
+ * @property integer $itemId
+ * @property integer $isMain
+ * @property string $modelName
+ * @property string $urlAlias
+ * @property string $description
+ * @property string $gallery_id
+ * @property integer $sort
+ */
 class Image extends \yii\db\ActiveRecord
 {
     use ModuleTrait;
@@ -32,13 +47,12 @@ class Image extends \yii\db\ActiveRecord
 
     public function clearCache()
     {
-        $subDir = $this->getSubDur();
+        $subDir = $this->getSubDir();
 
         $dirToRemove = $this->getModule()->getCachePath() . DIRECTORY_SEPARATOR . $subDir;
 
         if (preg_match('/' . preg_quote($this->modelName, '/') . DIRECTORY_SEPARATOR, $dirToRemove)) {
             BaseFileHelper::removeDirectory($dirToRemove);
-
         }
 
         return true;
@@ -71,7 +85,7 @@ class Image extends \yii\db\ActiveRecord
     {
         $urlSize = ($size) ? '_' . $size : '';
         $base = $this->getModule()->getCachePath();
-        $sub = $this->getSubDur();
+        $sub = $this->getSubDir();
 
         $origin = $this->getPathToOrigin();
 
@@ -102,7 +116,6 @@ class Image extends \yii\db\ActiveRecord
 
         return $filePath;
     }
-
 
     public function getSizes()
     {
@@ -154,7 +167,7 @@ class Image extends \yii\db\ActiveRecord
         }
 
         $cachePath = $this->getModule()->getCachePath();
-        $subDirPath = $this->getSubDur();
+        $subDirPath = $this->getSubDir();
         $fileExtension = pathinfo($this->filePath, PATHINFO_EXTENSION);
 
         if ($sizeString) {
@@ -246,7 +259,7 @@ class Image extends \yii\db\ActiveRecord
         $this->isMain = $isMain ? 1 : null;
     }
 
-    protected function getSubDur()
+    protected function getSubDir()
     {
         return $this->modelName . 's/' . $this->modelName . $this->itemId;
     }

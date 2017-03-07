@@ -6,17 +6,22 @@
 namespace app\modules\shop\controllers\backend;
 
 use app\components\BackendController;
+use app\modules\gallery\models\Image;
 use app\modules\shop\events\ProductEvent;
+use app\modules\shop\models\Modification;
 use app\modules\shop\models\modification\ModificationSearch;
 use app\modules\shop\models\price\PriceSearch;
 use app\modules\shop\models\PriceType;
+use app\modules\shop\models\Product;
 use app\modules\shop\models\product\ProductSearch;
 use app\modules\shop\models\stock\StockSearch;
 use app\modules\shop\Module;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 class ProductController extends BackendController
 {
@@ -127,9 +132,11 @@ class ProductController extends BackendController
         $modificationDataProvider = $searchModificationModel->search($typeParams);
 
         $priceTypes = PriceType::find()->orderBy('sort DESC')->all();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
+        if (
+            $model->load(Yii::$app->request->post()) &&
+            $this->addModification(Yii::$app->request->post(), $model) &&
+            $model->save()
+        ) {
             /** @var Module $module */
             $module = $this->module;
             $productEvent = new ProductEvent(['model' => $model]);
@@ -163,6 +170,85 @@ class ProductController extends BackendController
                 'StockDataProvider'        => $StockDataProvider
             ]);
         }
+    }
+
+    /**
+     * @param $post
+     * @param $model Product
+     */
+    private function addModification($post, $model)
+    {
+        $countProducts = count($post['variants']['mainImageSlug']);
+        $changeImage = false;
+
+        for ($i = 0; $i < $countProducts; $i++) {
+
+            if(isset($post['changeImage'][$i]) AND $post['changeImage'][$i] != '') {
+                $changeImage = true;
+            }
+
+            if(isset($post['variants']['id'][$i]) AND $post['variants']['id'][$i] != ''){
+                $modification = Modification::findOne($post['variants']['id'][$i]);
+            } else {
+                $modification = new Modification();
+            }
+            if($post['variants']['price'][$i] != '' && $post['variants']['name'][$i] != '') {
+                $modification->product_id       = $model->id;
+                $modification->price            = $post['variants']['price'][$i];
+                $modification->code             = $post['variants']['code'][$i];
+                $modification->available        = $post['variants']['available'][$i];
+                $modification->name             = $post['variants']['name'][$i];
+                $modification->amount           = $post['variants']['amount'][$i];
+                $modification->sort             = $i;
+
+                if(!$modification->save()) {
+                    if(count($modification->getErrors())) {
+                        $err = '';
+                        foreach ($modification->getErrors() as $errors) {
+                            foreach ($errors as $error) {
+                                $err .= $error.'<br>';
+                            }
+                        }
+                        $this->flash('error', $err);
+                    }
+                    return false;
+                }
+
+                $photoUpload = UploadedFile::getInstanceByName('image'.$i);
+                if ($photoUpload) {
+                    $uploadsPath = Yii::$app->getModule('gallery')->imagesStorePath;
+                    if (!file_exists($uploadsPath)) {
+                        mkdir($uploadsPath, 0777, true);
+                    }
+
+                    $photoUpload->saveAs("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
+
+                    foreach ($modification->getImages() as $image) {
+                        $image->delete();
+                    }
+                    $modification->attachImage("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
+                } else {
+                    if(!$changeImage && $post['variants']['mainImageSlug'][$i] != '') {
+
+                        $image = Image::find()->where([
+                            'urlAlias' => $post['variants']['mainImageSlug'][$i],
+                        ])->one();
+
+                        if($image) {
+                            $newImage = new Image();
+
+                            $newImage->filePath     = $image->filePath;
+                            $newImage->itemId       = $modification->id;
+                            $newImage->modelName    = $image->modelName;
+                            $newImage->urlAlias     = $image->urlAlias;
+                            var_dump($newImage->save());
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
     public function actionDelete($id)

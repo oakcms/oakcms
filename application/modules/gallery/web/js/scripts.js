@@ -4,8 +4,8 @@ if (typeof oak == "undefined" || !oak) {
 
 oak.gallery = {
     init: function () {
-        $('.oak-gallery-item a.delete').on('click', this.deleteProductImage);
-        $('.oak-gallery-item a.write').on('click', this.callModal);
+        $('.oak-gallery-item .delete').on('click', this.deleteProductImage);
+        $('.oak-gallery-item .write').on('click', this.callModal);
         $('.oak-gallery img').on('click', this.setMainProductImage);
         $('.noctua-gallery-form').on('submit', this.writeProductImage);
     },

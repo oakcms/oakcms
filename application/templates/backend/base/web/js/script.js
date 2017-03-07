@@ -1,8 +1,22 @@
 /**
  * Created by Володимир on 06.04.2016.
  */
-
-
+// Grow message
+function grow(message, type) {
+    $.bootstrapGrowl(message, {
+        ele: 'body',
+        type: type,
+        offset: {
+            from: 'bottom',
+            amount: 100
+        },
+        align: 'right',
+        width: 'auto',
+        delay: 15000,
+        allow_dismiss: true,
+        stackup_spacing: 10
+    });
+}
 
 $(document).ready(function () {
     $("input:checkbox:not(.switch, .make-switch), input:radio:not(.switch, .make-switch)").uniform();

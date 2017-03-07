@@ -24,6 +24,7 @@ use yii\behaviors\TimestampBehavior;
  * Class Modification
  * @package app\modules\shop\models
  *
+ * @property integer $id
  * @property string $name
  * @property string $slug
  * @property integer $product_id
@@ -46,13 +47,8 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
     {
         return [
             'images' => [
-                'class' => 'app\modules\gallery\behaviors\AttachImages',
-                'mode' => 'gallery',
-            ],
-            'relations' => [
-                'class' => 'app\modules\relations\behaviors\AttachRelations',
-                'relatedModel' => 'app\modules\shop\models\Product',
-                'inAttribute' => 'related_ids',
+                'class' => \app\modules\gallery\behaviors\AttachImages::className(),
+                'mode' => 'single',
             ],
             'time' => [
                 'class' => TimestampBehavior::className(),
@@ -86,6 +82,19 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
             }],
             [['slug'], 'unique'],
         ];
+    }
+
+    public static function getAvailableVariants($id = null) {
+        $availables = [
+            self::STATUS_AVAILABLE_YES  => Yii::t('admin', 'Yes'),
+            self::STATUS_AVAILABLE_NO   => Yii::t('admin', 'No'),
+        ];
+
+        if($id && !empty($availables[$id])) {
+            return $availables[$id];
+        }
+
+        return $availables;
     }
 
     public function attributeLabels()
