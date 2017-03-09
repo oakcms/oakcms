@@ -19,141 +19,135 @@ class Html extends \yii\bootstrap\Html
 {
 
     /**
+     * @param $key
      * @param $item
+     * @param $translateCategory
+     *
      * @return string
      */
-    public static function settingField($key, $item, $traslateCategory)
+    public static function settingField($key, $item, $translateCategory)
     {
+        $name               = 'Settings['.$key.']';
+        $elementOptions     = ['class' => 'form-control'];
+        $value              = ArrayHelper::getValue($item, 'value');
+        $items              = ArrayHelper::getValue($item, 'items', []);
+        $type               = ArrayHelper::getValue($item, 'type', 'textInput');
+        $options            = ArrayHelper::getValue($item, 'options', []);
+
+        if(isset($options['elementOptions'])) {
+            $elementOptions = array_merge($elementOptions, $options['elementOptions']);
+        } else {
+
+        }
+        if(!isset($elementOptions['id'])) {
+            $elementOptions['id'] = 'field_'.$key;
+        }
+
         foreach ($item as $k=>$el) {
             if ($el instanceof \Closure) {
                 $item[$k] = call_user_func($el);
             }
         }
 
-        switch ($item['type']) {
+        switch ($type) {
             case 'checkbox':
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    parent::hiddenInput('Settings['.$key.']', 0) .
-                    \oakcms\bootstrapswitch\Switcher::widget([
-                        'id' => 'wid'.uniqid(),
-                        'name' => 'Settings['.$key.']',
-                        'checked' => $item['value']
-                    ]) .
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $element = \oakcms\bootstrapswitch\Switcher::widget([
+                    'id' => 'wid'.uniqid(),
+                    'name' => $name,
+                    'checked' => $value
+                ]);
                 break;
             case 'textInput':
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    parent::textInput('Settings['.$key.']', $item['value'], ['class' => 'form-control']).
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $element = parent::textInput($name, $value, $elementOptions);
                 break;
             case 'textarea':
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    parent::textarea('Settings['.$key.']', $item['value'], ['class' => 'form-control']).
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $element = parent::textarea($name, $value, $elementOptions);
                 break;
             case 'mediaInput':
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    InputFile::widget([
-                        'id' => 'wid'.uniqid(),
-                        'language'   => \Yii::$app->language,
-                        //'controller' => 'elfinder',
-                        //'path' => 'image',
-                        'filter'     => 'image',
-                        'name'       => 'Settings['.$key.']',
-                        'value'      => $item['value'],
-                    ])
-                    .
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $element = InputFile::widget([
+                    'id' => 'wid'.uniqid(),
+                    'language'   => \Yii::$app->language,
+                    'filter'     => 'image',
+                    'name'       => $name,
+                    'value'      => $value,
+                ]);
                 break;
             case 'menuType':
                 $menus = ArrayHelper::map(MenuType::find()->all(), 'id', 'title');
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    parent::dropDownList('Settings['.$key.']', $item['value'], $menus, ['class' => 'form-control']).
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $element = parent::dropDownList($name, $value, $menus, $elementOptions);
                 break;
             case 'widgetkit':
-                $menus = ArrayHelper::map(Widgetkit::find()->all(), 'id', 'name');
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    parent::dropDownList('Settings['.$key.']', $item['value'], $menus, ['class' => 'form-control']).
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $widgets = ArrayHelper::map(Widgetkit::find()->all(), 'id', 'name');
+                $element = parent::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
             case 'select':
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    parent::dropDownList('Settings['.$key.']', $item['value'], $item['items'], ['class' => 'form-control']).
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $element = parent::dropDownList($name, $value, $items, $elementOptions);
                 break;
             case 'aceEditor':
-                $return =
-                    parent::beginTag('div', ['class' => 'form-group']) .
-                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
-                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
-                    parent::endTag('label') .
-                    parent::beginTag('div', ['class' => 'col-md-9']) .
-                    AceEditor::widget([
-                        'id'    => $key.'_ace',
-                        'mode'  => isset($item['mode']) ? $item['mode']: 'html',
-                        'name'  => 'Settings['.$key.']',
-                        'value' => $item['value'],
-                        'readOnly' => 'false'
-                    ]) .
-                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
-                    //parent::dropDownList('Settings['.$key.']', $item['value'], $item['items'], ['class' => 'form-control']).
-                    parent::endTag('div') .
-                    parent::endTag('div');
+                $element = AceEditor::widget([
+                    'id'    => $key.'_ace',
+                    'mode'  => isset($item['mode']) ? $item['mode']: 'html',
+                    'name'  => $name,
+                    'value' => $value,
+                    'readOnly' => 'false'
+                ]);
                 break;
             default:
-                $return = '';
+                $element = '';
                 break;
         }
-        return $return;
+
+        return self::render($key, $item, $element, $elementOptions['id'], $translateCategory);
+    }
+
+    /**
+     * @param $key
+     * @param $item
+     * @param $element
+     * @param $elementId
+     * @param $translateCategory
+     *
+     * @return string
+     */
+    protected static function render($key, $item, $element, $elementId, $translateCategory)
+    {
+        $options            = ['class' => 'form-group'];
+        $template           = "{label}\n<div class=\"col-md-9\">{element}\n{hint}</div>";
+        $labelOptions       = ['class' => 'col-md-3 control-label'];
+        $hintOptions        = ['class' => 'hint-block'];
+        $parts              = [];
+
+        $hint    = ArrayHelper::getValue($item, 'hint');
+
+        if(isset($item['options'])) {
+            $options = array_merge($options, $item['options']);
+        }
+
+        if(isset($options['labelOptions'])) {
+            $labelOptions = array_merge($labelOptions, $options['labelOptions']);
+        }
+
+        if(isset($options['hintOptions'])) {
+            $hintOptions = array_merge($hintOptions, $options['hintOptions']);
+        }
+
+        if (!isset($parts['{element}'])) {
+            $parts['{element}'] = $element;
+        }
+
+        if (!isset($parts['{label}'])) {
+            $parts['{label}'] = self::label(\Yii::t($translateCategory, Inflector::camel2words($key)), $elementId, $labelOptions);
+        }
+
+        if (!isset($parts['{hint}'])) {
+            if($hint !== null) {
+                $parts['{hint}'] = self::tag('div', $hint, $hintOptions);
+            } else {
+                $parts['{hint}'] = '';
+            }
+        }
+
+        $content = strtr($template, $parts);
+        return self::tag('div', $content, $options);
     }
 }
