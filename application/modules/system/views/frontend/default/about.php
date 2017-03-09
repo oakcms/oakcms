@@ -12,43 +12,43 @@ $this->bodyClass = ['about']
 ?>
 
 <section class="section section-1">
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::begin([
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::begin([
         'name' => 'about_section_1',
         'dataUrlEdit' => \yii\helpers\Url::to(['/text/default/save/']),
         'value' => \app\modules\text\api\Text::get('about_section_1')
     ]); ?>
     <?= (!LIVE_EDIT) ? \app\modules\text\api\Text::get('about_section_1'):'' ?>
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::end() ; ?>
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::end() ; ?>
 </section>
 <section class="section section-lux">
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::begin([
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::begin([
         'name' => 'about_lux_content',
         'dataUrlEdit' => \yii\helpers\Url::to(['/text/default/save/']),
         'value' => \app\modules\text\api\Text::get('about_lux_content')
     ]); ?>
     <?= (!LIVE_EDIT) ? \app\modules\text\api\Text::get('about_lux_content'):'' ?>
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::end() ; ?>
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::end() ; ?>
 </section>
 
 <section class="section section-proposition">
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::begin([
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::begin([
         'name' => 'about_section_proposition',
         'dataUrlEdit' => \yii\helpers\Url::to(['/text/default/save/']),
         'value' => \app\modules\text\api\Text::get('about_section_proposition')
     ]); ?>
     <?= (!LIVE_EDIT) ? \app\modules\text\api\Text::get('about_section_proposition'):'' ?>
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::end() ; ?>
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::end() ; ?>
 
 </section>
 
 <section id="developer" class="section section-5">
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::begin([
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::begin([
         'name' => 'developer',
         'dataUrlEdit' => \yii\helpers\Url::to(['/text/default/save/']),
         'value' => \app\modules\text\api\Text::get('developer')
     ]); ?>
     <?= (!LIVE_EDIT) ? \app\modules\text\api\Text::get('developer'):'' ?>
-    <?if(LIVE_EDIT) \app\widgets\EditorInline::end(); ?>
+    <?php if(LIVE_EDIT) \app\widgets\EditorInline::end(); ?>
 </section>
 
 <section class="latest-news section">

@@ -1,6 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
-use yii\bootstrap\Html;
 use app\modules\admin\widgets\ActiveForm;
 use app\modules\admin\widgets\Button;
 
@@ -8,7 +13,6 @@ use app\modules\admin\widgets\Button;
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $model \app\modules\system\models\SystemSettings
- *
  */
 
 $this->title = Yii::t('system', 'System Settings');
@@ -36,7 +40,7 @@ $this->params['actions_buttons'] = [
         'id' => 'settings'
     ]) ?>
 
-    <?foreach ($model as $item):?>
+    <?php foreach ($model as $item): ?>
         <div class="form-group">
             <label class="col-md-3 control-label" for="<?= $item->param_name ?>">
                 <?= Yii::t('system', $item->param_name) ?>
@@ -45,6 +49,6 @@ $this->params['actions_buttons'] = [
                 <?= $item->renderField(); ?>
             </div>
         </div>
-    <?endforeach;?>
+    <?php endforeach; ?>
     <?php ActiveForm::end() ?>
 </div>

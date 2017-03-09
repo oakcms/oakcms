@@ -267,9 +267,9 @@ $userIdentity = Yii::$app->user->identity;
                 </li>
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?if($userIdentity->userProfile->avatar != ''):?>
+                        <?php if($userIdentity->userProfile->avatar != ''):?>
                             <img class="user-image" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
-                        <?else:?>
+                        <?php else:?>
                             <?= \cebe\gravatar\Gravatar::widget([
                                 'email' => $userIdentity->email,
                                 'size' => 64,
@@ -278,15 +278,15 @@ $userIdentity = Yii::$app->user->identity;
                                     'class' => 'user-image'
                                 ]
                             ]); ?>
-                        <?endif?>
+                        <?php endif?>
                         <span class="hidden-xs"><?= $userIdentity->publicIdentity ?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <?if($userIdentity->userProfile->avatar != ''):?>
+                            <?php if($userIdentity->userProfile->avatar != ''):?>
                                 <img class="img-circle" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
-                            <?else:?>
+                            <?php else:?>
                             <?= \cebe\gravatar\Gravatar::widget([
                                 'email' => $userIdentity->email,
                                 'size' => 160,
@@ -295,7 +295,7 @@ $userIdentity = Yii::$app->user->identity;
                                     'class' => 'img-circle'
                                 ]
                             ]); ?>
-                            <?endif?>
+                            <?php endif?>
                             <p>
                                 <?= $userIdentity->publicIdentity ?> - <?= $userIdentity->username ?>
                                 <small><?= Yii::t('user', 'Joined in {datetime}', ['datetime' => Yii::$app->formatter->asDatetime($userIdentity->created_at)]) ?></small>

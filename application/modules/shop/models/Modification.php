@@ -84,6 +84,11 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
         ];
     }
 
+    /**
+     * @param null $id
+     *
+     * @return array|string
+     */
     public static function getAvailableVariants($id = null) {
         $availables = [
             self::STATUS_AVAILABLE_YES  => Yii::t('admin', 'Yes'),

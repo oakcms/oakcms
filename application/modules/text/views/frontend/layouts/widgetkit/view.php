@@ -17,12 +17,12 @@
  */
 ?>
 <div class="<?= $model->getSetting('cssClass') ?>" id="<?= $model->getSetting('id') ?>">
-    <?if((int)$model->getSetting('hideTitle') !== 1):?>
+    <?php if((int)$model->getSetting('hideTitle') !== 1):?>
         <h2><?= $model->title ?></h2>
-        <?if($model->subtitle != ''):?>
+        <?php if($model->subtitle != ''):?>
         <h3><?= $model->subtitle ?></h3>
-        <?endif;?>
-    <?endif;?>
+        <?php endif;?>
+    <?php endif;?>
     <?= $model->text ?>
     [widgetkit id="<?= $model->getSetting('widgetkit') ?>"]
 </div>

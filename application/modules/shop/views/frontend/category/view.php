@@ -33,11 +33,11 @@ $this->registerJs($slider, \yii\web\View::POS_END, 'slider');
 ?>
 
 <h1 class="title text-center"><?= $model->name ?></h1>
-<?if($model->text != ''):?>
+<?php if($model->text != ''):?>
 <div class="descr_page">
     <?= $model->text ?>
 </div>
-<?endif;?>
+<?php endif;?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-9 col-md-push-3">
@@ -188,7 +188,7 @@ $this->registerJs($slider, \yii\web\View::POS_END, 'slider');
                 <button class="btn btn_by">купить</button>
             </div>
         </div>
-        <?endforeach;?>
+        <?php endforeach;?>
     </div>
     <hr class="border">
 </div>

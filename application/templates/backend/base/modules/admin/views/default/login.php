@@ -30,9 +30,9 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
 ?>
 <script>
     var loginImages = [
-        <?foreach($images->image as $image):?>
+        <?php foreach($images->image as $image):?>
         "http://www.bing.com<?= $image->url ?>",
-        <?endforeach?>
+        <?php endforeach?>
     ];
 </script>
 <style>

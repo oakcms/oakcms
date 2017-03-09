@@ -1,14 +1,12 @@
 <?php
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 08.06.2016
- * Project: oakcms
- * File name: Html.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\admin\widgets;
-
 
 use app\modules\menu\models\MenuType;
 use app\modules\widgets\models\Widgetkit;
@@ -36,9 +34,8 @@ class Html extends \yii\bootstrap\Html
 
         if(isset($options['elementOptions'])) {
             $elementOptions = array_merge($elementOptions, $options['elementOptions']);
-        } else {
-
         }
+
         if(!isset($elementOptions['id'])) {
             $elementOptions['id'] = 'field_'.$key;
         }
@@ -58,10 +55,10 @@ class Html extends \yii\bootstrap\Html
                 ]);
                 break;
             case 'textInput':
-                $element = parent::textInput($name, $value, $elementOptions);
+                $element = self::textInput($name, $value, $elementOptions);
                 break;
             case 'textarea':
-                $element = parent::textarea($name, $value, $elementOptions);
+                $element = self::textarea($name, $value, $elementOptions);
                 break;
             case 'mediaInput':
                 $element = InputFile::widget([
@@ -74,14 +71,14 @@ class Html extends \yii\bootstrap\Html
                 break;
             case 'menuType':
                 $menus = ArrayHelper::map(MenuType::find()->all(), 'id', 'title');
-                $element = parent::dropDownList($name, $value, $menus, $elementOptions);
+                $element = self::dropDownList($name, $value, $menus, $elementOptions);
                 break;
             case 'widgetkit':
                 $widgets = ArrayHelper::map(Widgetkit::find()->all(), 'id', 'name');
-                $element = parent::dropDownList($name, $value, $widgets, $elementOptions);
+                $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
             case 'select':
-                $element = parent::dropDownList($name, $value, $items, $elementOptions);
+                $element = self::dropDownList($name, $value, $items, $elementOptions);
                 break;
             case 'aceEditor':
                 $element = AceEditor::widget([

@@ -36,10 +36,10 @@ use Yii;
 class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . "\n" ?>
 {
 <?php foreach ($tableSchema->columns as $column): ?>
-<?if($column->name == 'status'):?>
+<?php if($column->name == 'status'):?>
     const STATUS_PUBLISHED = 1;
     const STATUS_DRAFT = 0;
-<?endif;?>
+<?php endif;?>
 <?php endforeach; ?>
 
     /**

@@ -145,9 +145,9 @@ if (!$model->isNewRecord) {
             ]
         ]
     ]); ?>
-    <?if(!$model->isNewRecord):?>
+    <?php if(!$model->isNewRecord):?>
         <?= $form->field($model, 'id')->hiddenInput(['id' => 'Product_Id'])->label(false) ?>
-    <?endif?>
+    <?php endif?>
     <div class="row">
         <div class="col-lg-6 col-xs-6">
             <?= $form->field($model, 'name')->textInput() ?>
@@ -228,11 +228,11 @@ if (!$model->isNewRecord) {
         <div class="box-header">
             <h3 class="box-title"><i class="fa fa-object-group"></i> <?= Yii::t('shop', 'Product Modifications') ?></h3>
             <div class="box-tools pull-right">
-                <?if(count($model->modifications) == 0):?>
+                <?php if(count($model->modifications) == 0):?>
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-                <?else:?>
+                <?php else:?>
                     <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                <?endif?>
+                <?php endif?>
             </div>
         </div>
         <div class="box-body">
@@ -251,7 +251,7 @@ if (!$model->isNewRecord) {
                 <tbody class="sortable save_positions"
                        data-path="<?= '/web/uploads/' ?>"
                        data-delete="<?= Url::to(['modification/delete']) ?>">
-                <?if(count($model->modifications)):?>
+                <?php if(count($model->modifications)):?>
                     <?php foreach($model->modifications as $k=>$variant) : ?>
                         <?php
                         if($k == 0) {
@@ -308,7 +308,7 @@ if (!$model->isNewRecord) {
                         }
                         ?>
                     <?php endforeach; ?>
-                <?else:?>
+                <?php else:?>
                     <?php
                     $variantTemplate=str_ireplace('<button class="btn btn-small remove_variant tooltips" type="button" data-placement="top" data-original-title="Удалить"><i class="icon-trash"></i></button>','',$variantTemplate);
                     ?>
@@ -335,7 +335,7 @@ if (!$model->isNewRecord) {
                         ],
                         $variantTemplate)
                     ?>
-                <?endif?>
+                <?php endif?>
                 </tbody>
                 <tfoot>
                 <tr>

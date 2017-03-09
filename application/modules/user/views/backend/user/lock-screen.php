@@ -21,9 +21,9 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
 ?>
 <script>
     var loginImages = [
-        <?foreach($images->image as $image):?>
+        <?php foreach($images->image as $image):?>
         "http://www.bing.com<?= $image->url ?>",
-        <?endforeach?>
+        <?php endforeach?>
     ];
 </script>
 <style>
@@ -116,9 +116,9 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                 <div class="lockscreen-item">
                     <!-- lockscreen image -->
                     <div class="lockscreen-image">
-                        <?if($user->userProfile->avatar != ''):?>
+                        <?php if($user->userProfile->avatar != ''):?>
                             <img class="img-circle" src="<?= $user->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('admin', 'Avatar image for {username}', ['username' => $user->username]) ?>">
-                        <?else:?>
+                        <?php else:?>
                             <?= \cebe\gravatar\Gravatar::widget([
                                 'email' => $user->email,
                                 'size' => 160,
@@ -127,7 +127,7 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                                     'class' => 'img-circle'
                                 ]
                             ]); ?>
-                        <?endif?>
+                        <?php endif?>
                     </div>
                     <!-- /.lockscreen-image -->
 

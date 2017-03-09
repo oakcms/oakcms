@@ -10,11 +10,11 @@
  */
 ?>
 <section class="<?= $model->settings['cssClass']['value'] ?>" id="<?= $model->settings['id']['value'] ?>">
-    <?if((int)$model->settings['hideTitle']['value'] !== 1):?>
+    <?php if((int)$model->settings['hideTitle']['value'] !== 1):?>
         <h2><?= $model->title ?></h2>
-        <?if($model->subtitle != ''):?>
+        <?php if($model->subtitle != ''):?>
         <h3><?= $model->subtitle ?></h3>
-        <?endif;?>
-    <?endif;?>
+        <?php endif;?>
+    <?php endif;?>
     <?= $model->text ?>
 </section>

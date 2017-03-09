@@ -42,7 +42,7 @@ $bundle = \app\templates\backend\base\assets\BaseAsset::register($this);
     </div>
 <?php $this->endBody() ?>
 <?php foreach(Yii::$app->session->getAllFlashes() as $key => $message) : ?>
-    <?if(isset($message)):?>
+    <?php if(isset($message)):?>
         <div id="growl_text_<?= $key ?>" class="hidden"><?= $message ?></div>
         <script>
             $(function() {
@@ -61,7 +61,7 @@ $bundle = \app\templates\backend\base\assets\BaseAsset::register($this);
                 });
             });
         </script>
-    <?endif?>
+    <?php endif?>
 <?php endforeach; ?>
 <?= Html::endTag('body') ?>
 </html>
