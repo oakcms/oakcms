@@ -6,6 +6,7 @@ use app\modules\admin\components\behaviors\StatusController;
 use app\modules\admin\widgets\Html;
 use app\modules\language\models\Language;
 use app\modules\menu\models\MenuType;
+use Awf\Utils\ArrayHelper;
 use Yii;
 use app\modules\text\models\Text;
 use app\modules\text\models\search\TextSearch;
@@ -272,7 +273,7 @@ class DefaultController extends BackendController
             }
             if($id !== null && $model) {
                 if($model->settings && is_array($model->settings) && count($model->settings) && $file == $model->layout) {
-                    $model->settings = array_merge($this->getLayouts($file)[0]['settings'], $model->settings);
+                    $model->settings = ArrayHelper::merge($this->getLayouts($file)[0]['settings'], $model->settings);
                     foreach ($model->settings as $key=>$setting) {
                         $return .= Html::settingField($key, $setting, 'text');
                     }

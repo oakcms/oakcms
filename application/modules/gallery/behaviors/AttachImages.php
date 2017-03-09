@@ -33,7 +33,7 @@ class AttachImages extends Behavior
     public function init()
     {
         if (empty($this->uploadsPath)) {
-            $this->uploadsPath = yii::$app->getModule('admin')->getModule('gallery')->imagesStorePath;
+            $this->uploadsPath = Yii::getAlias(Yii::$app->getModule('admin')->getModule('gallery')->imagesStorePath);
         }
     }
 

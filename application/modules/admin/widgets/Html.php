@@ -24,7 +24,12 @@ class Html extends \yii\bootstrap\Html
      */
     public static function settingField($key, $item, $traslateCategory)
     {
-        $return = '';
+        foreach ($item as $k=>$el) {
+            if ($el instanceof \Closure) {
+                $item[$k] = call_user_func($el);
+            }
+        }
+
         switch ($item['type']) {
             case 'checkbox':
                 $return =
@@ -39,6 +44,7 @@ class Html extends \yii\bootstrap\Html
                         'name' => 'Settings['.$key.']',
                         'checked' => $item['value']
                     ]) .
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;
@@ -50,6 +56,7 @@ class Html extends \yii\bootstrap\Html
                     parent::endTag('label') .
                     parent::beginTag('div', ['class' => 'col-md-9']) .
                     parent::textInput('Settings['.$key.']', $item['value'], ['class' => 'form-control']).
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;
@@ -61,6 +68,7 @@ class Html extends \yii\bootstrap\Html
                     parent::endTag('label') .
                     parent::beginTag('div', ['class' => 'col-md-9']) .
                     parent::textarea('Settings['.$key.']', $item['value'], ['class' => 'form-control']).
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;
@@ -81,6 +89,7 @@ class Html extends \yii\bootstrap\Html
                         'value'      => $item['value'],
                     ])
                     .
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;
@@ -93,6 +102,7 @@ class Html extends \yii\bootstrap\Html
                     parent::endTag('label') .
                     parent::beginTag('div', ['class' => 'col-md-9']) .
                     parent::dropDownList('Settings['.$key.']', $item['value'], $menus, ['class' => 'form-control']).
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;
@@ -105,6 +115,7 @@ class Html extends \yii\bootstrap\Html
                     parent::endTag('label') .
                     parent::beginTag('div', ['class' => 'col-md-9']) .
                     parent::dropDownList('Settings['.$key.']', $item['value'], $menus, ['class' => 'form-control']).
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;
@@ -116,6 +127,26 @@ class Html extends \yii\bootstrap\Html
                     parent::endTag('label') .
                     parent::beginTag('div', ['class' => 'col-md-9']) .
                     parent::dropDownList('Settings['.$key.']', $item['value'], $item['items'], ['class' => 'form-control']).
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
+                    parent::endTag('div') .
+                    parent::endTag('div');
+                break;
+            case 'aceEditor':
+                $return =
+                    parent::beginTag('div', ['class' => 'form-group']) .
+                    parent::beginTag('label', ['class' => 'col-md-3 control-label']) .
+                    \Yii::t($traslateCategory, Inflector::camel2words($key)) .
+                    parent::endTag('label') .
+                    parent::beginTag('div', ['class' => 'col-md-9']) .
+                    AceEditor::widget([
+                        'id'    => $key.'_ace',
+                        'mode'  => isset($item['mode']) ? $item['mode']: 'html',
+                        'name'  => 'Settings['.$key.']',
+                        'value' => $item['value'],
+                        'readOnly' => 'false'
+                    ]) .
+                    (isset($item['hint']) ? parent::tag('div', $item['hint'], ['class' => 'hint-block']) : '') .
+                    //parent::dropDownList('Settings['.$key.']', $item['value'], $item['items'], ['class' => 'form-control']).
                     parent::endTag('div') .
                     parent::endTag('div');
                 break;

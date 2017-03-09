@@ -37,7 +37,7 @@ class Text extends API
 
             if ($this->cache) {
                 if (($this->_texts = $this->cache->get(TextModel::CACHE_KEY)) === false) {
-                    $models = TextModel::find()->where([ 'status' => TextModel::STATUS_PUBLISHED])->all();
+                    $models = TextModel::find()->where([ 'status' => TextModel::STATUS_PUBLISHED])->orderBy(['order' => SORT_ASC])->all();
                     $return = [];
                     foreach ($models as $k=>$model) {
                         $return[$model->slug.'_'.\Yii::$app->language][$model->id] = $model;
