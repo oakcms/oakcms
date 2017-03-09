@@ -195,20 +195,14 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
     <div class="block row">
         <div class="col-md-6">
             <h3>ElementsList</h3>
-            <?//= \app\modules\cart\widgets\ElementsList::widget(['type' => 'full']); ?>
+            <?php //echo \app\modules\cart\widgets\ElementsList::widget(['type' => 'full']); ?>
         </div>
         <div class="col-md-3">
             <h3>TruncateButton</h3>
-            <?= \app\modules\cart\widgets\TruncateButton::widget(); ?>
+            <?php echo \app\modules\cart\widgets\TruncateButton::widget(); ?>
         </div>
     </div>
 </div>
 -->
 
 <?= $model->text ?>
-
-<?php
-
-?>
-
-

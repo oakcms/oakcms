@@ -7,6 +7,8 @@ Oak is a free, open-source CMS platform based on the Yii2 PHP Framework.
 [![PayPal donate button](https://img.shields.io/badge/paypal-donate-yellow.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=legionerblack%40yandex%2eru&lc=UA&item_name=oakcms&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted "Donate once-off to this project using Paypal")
 [![Latest Unstable Version](https://poser.pugx.org/oakcms/oakcms/v/unstable)](https://packagist.org/packages/oakcms/oakcms)
 [![License](https://poser.pugx.org/oakcms/oakcms/license)](https://packagist.org/packages/oakcms/oakcms)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/oakcms/oakcms/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/oakcms/oakcms/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/oakcms/oakcms/badges/build.png?b=master)](https://scrutinizer-ci.com/g/oakcms/oakcms/build-status/master)
 
 Installation
 ------------

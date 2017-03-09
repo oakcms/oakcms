@@ -49,7 +49,7 @@ $this->registerJs($slider, \yii\web\View::POS_END, 'slider');
             ]); ?>
         </div>
         <div class="col-md-3 col-md-pull-9">
-            <?//= \app\modules\filter\widgets\FilterPanel::widget(['itemId' => $model->id]);?>
+            <?php //echo \app\modules\filter\widgets\FilterPanel::widget(['itemId' => $model->id]);?>
 
             <?= \app\modules\filter\widgets\FilterPanel::widget([
                 'itemId' => $model->id,
