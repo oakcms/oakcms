@@ -14,7 +14,7 @@ class m160513_121415_Mass extends Migration
         else {
             $tableOptions = null;
         }
-        
+
         $connection = Yii::$app->db;
 
         try {
@@ -55,15 +55,15 @@ class m160513_121415_Mass extends Migration
             $this->addForeignKey(
                 'fk_variant', '{{%filter_value}}', 'variant_id', '{{%filter_variant}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_filter', '{{%filter_variant}}', 'filter_id', '{{%filter}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
             $this->addForeignKey(
                 'fk_filter', '{{%filter_value}}', 'filter_id', '{{%filter}}', 'id', 'CASCADE', 'CASCADE'
             );
-            
+
         } catch (Exception $e) {
             echo 'Catch Exception "' . $e->getMessage() . '" and rollBack this';
         }

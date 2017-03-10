@@ -41,11 +41,26 @@ class TextSearch extends Text
      */
     public function search($params)
     {
-        $query = Text::find();
+        $query = Text::find()
+            ->joinWith(['translations']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort'=> ['defaultOrder' => ['order' => SORT_ASC]]
+        ]);
+
+        $dataProvider->setSort([
+            'attributes' => [
+                'id',
+                'title' => [
+                    'asc' => ['{{%texts_lang}}.title' => SORT_ASC],
+                    'desc' => ['{{%texts_lang}}.title' => SORT_DESC],
+                    'default' => SORT_ASC
+                ],
+                'slug',
+                'layout',
+                'status'
+            ]
         ]);
 
         $this->load($params);
@@ -61,7 +76,7 @@ class TextSearch extends Text
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
+        $query->andFilterWhere(['like', '{{%texts_lang}}.title', $this->title])
             ->andFilterWhere(['like', 'subtitle', $this->subtitle])
             ->andFilterWhere(['like', 'layout', $this->layout])
             ->andFilterWhere(['like', 'slug', $this->slug])

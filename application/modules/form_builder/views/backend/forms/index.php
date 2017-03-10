@@ -1,21 +1,29 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
+ */
 
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\grid\GridView;
 use app\modules\admin\widgets\Button;
-use app\modules\text\models\Text;
+use app\modules\form_builder\models\FormBuilderForms;
+use app\modules\form_builder\models\FormBuilderSubmission;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\text\models\search\TextSearch */
+/* @var $searchModel app\modules\form_builder\models\search\FormBuilderFormsSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('carousel', 'Texts');
+$this->title = Yii::t('form_builder', 'Form Builder Forms');
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['actions_buttons'] = [
     [
         'tagName' => 'a',
-        'label' => Yii::t('carousel', 'Create'),
+        'label' => Yii::t('admin', 'Create'),
         'options' => [
             'href' => Url::to(['create'])
         ],
@@ -58,55 +66,46 @@ $this->params['actions_buttons'] = [
         ],
     ]
 ];
-
 ?>
-<div class="text-index">
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<div class="form-builder-forms-index">
     <div class="table-responsive">
-        <?= \yii\grid\GridView::widget([
+        <?= GridView::widget([
             'id' => 'grid',
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
-            'options' => [
-                'class' => 'grid-view',
-                'data' => [
-                    'sortable-widget' => 1,
-                    'sortable-url' => \yii\helpers\Url::toRoute(['sorting']),
-                ],
-            ],
-            'rowOptions' => function ($model, $key, $index, $grid) {
-                return ['data-sortable-id' => $model->id];
-            },
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'columns' => [
-                [
-                    'class' => \kotchuprik\sortable\grid\Column::className(),
-                ],
                 [
                     'class' => 'yii\grid\CheckboxColumn',
                     'options' => ['style' => 'width:36px']
                 ],
                 [
-                    'attribute' => 'id',
-                    'options' => ['style' => 'width:100px']
+                    'attribute' => 'title',
+                    'format' => 'raw',
+                    'value' => function($model) {
+                        return Html::a($model->title, ['update', 'id' => $model->id]);
+                    }
                 ],
-                'title',
+                'slug',
                 [
-                    'attribute' => 'layout',
-                    'filter' => Html::activeDropDownList($searchModel, 'slug', \yii\helpers\ArrayHelper::map(
-                        Text::find()->groupBy('layout')->all(),
-                        'layout',
-                        'layout'
-                    ), ['class'=>'form-control', 'prompt' => Yii::t('text', 'Select Layout')]),
-                ],
-                [
-                    'attribute' => 'slug',
-                    'filter' => Html::activeDropDownList($searchModel, 'slug', \yii\helpers\ArrayHelper::map(
-                        Text::find()->groupBy('slug')->all(),
-                        'slug',
-                        'slug'
-                    ), ['class'=>'form-control', 'prompt' => Yii::t('text', 'Select Position')]),
+                    'attribute' => 'submissions',
+                    'header' => Yii::t('form_builder', 'Submissions'),
+                    'format' => 'raw',
+                    'value' => function($model) {
+                        $count = FormBuilderSubmission::find()
+                            ->where(['status' => FormBuilderSubmission::STATUS_DRAFT])
+                            ->count();
+                        return Html::a(
+                            Html::tag(
+                                'span',
+                                Yii::t('form_builder', '{n} active submission', ['n' => $count]),
+                                [
+                                    'class' => 'label label-success'
+                                ]
+                            ),
+                            ['/admin/form_builder/submission', 'form_id' => $model->id]
+                        );
+                    }
                 ],
                 [
                     'class' => \app\modules\admin\components\grid\EnumColumn::className(),
@@ -114,10 +113,10 @@ $this->params['actions_buttons'] = [
                     'format' => 'raw',
                     'options' => ['width' => '50px'],
                     'value' => function ($model, $index, $widget) {
-                        return Html::checkbox('', $model->status == Text::STATUS_PUBLISHED, [
+                        return Html::checkbox('', $model->status == FormBuilderForms::STATUS_PUBLISHED, [
                             'class' => 'switch toggle',
                             'data-id' => $model->primaryKey,
-                            'data-link' => \yii\helpers\Url::to(['/admin/text/default']),
+                            'data-link' => \yii\helpers\Url::to(['/admin/form_builder/forms']),
                             'data-reload' => '0'
                         ]);
                     },
@@ -127,9 +126,10 @@ $this->params['actions_buttons'] = [
                     ]
                 ],
                 [
-                    'class' => 'app\modules\admin\components\grid\ActionColumn',
-                    'translatable' => true
+                    'attribute' => 'id',
+                    'options' => ['style' => 'width:100px']
                 ],
+                ['class' => 'app\modules\admin\components\grid\ActionColumn'],
             ],
         ]); ?>
     </div>
@@ -137,14 +137,14 @@ $this->params['actions_buttons'] = [
 <script>
     function deleteA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '<?= Url::to(['/admin/text/default/delete-ids']) ?>' + '?id=' + keys.join();
+        window.location.href = '/admin/seo/delete-ids?id=' + keys.join();
     }
     function publishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '<?= Url::to(['/admin/text/default/published']) ?>' + '?id=' + keys.join();
+        window.location.href = '/admin/seo/published?id=' + keys.join();
     }
     function unpublishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '<?= Url::to(['/admin/text/default/unpublished']) ?>' + '?id=' + keys.join();
+        window.location.href = '/admin/seo/unpublished?id=' + keys.join();
     }
 </script>

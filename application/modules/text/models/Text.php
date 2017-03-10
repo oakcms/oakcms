@@ -34,7 +34,7 @@ class Text extends ActiveRecord
 
     public static function tableName()
     {
-        return 'texts';
+        return '{{%texts}}';
     }
 
     public static function getWereToPlace() {
