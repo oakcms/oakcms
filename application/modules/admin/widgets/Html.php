@@ -23,9 +23,9 @@ class Html extends \yii\bootstrap\Html
      *
      * @return string
      */
-    public static function settingField($key, $item, $translateCategory)
+    public static function settingField($key, $item, $translateCategory, $model = 'Settings')
     {
-        $name               = 'Settings['.$key.']';
+        $name               = $model.'['.$key.']';
         $elementOptions     = ['class' => 'form-control'];
         $value              = ArrayHelper::getValue($item, 'value');
         $items              = ArrayHelper::getValue($item, 'items', []);
@@ -79,6 +79,7 @@ class Html extends \yii\bootstrap\Html
                 $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
             case 'select':
+            case 'dropDownList':
                 $element = self::dropDownList($name, $value, $items, $elementOptions);
                 break;
             case 'aceEditor':
@@ -109,13 +110,17 @@ class Html extends \yii\bootstrap\Html
      */
     protected static function render($key, $item, $element, $elementId, $translateCategory)
     {
-        $options            = ['class' => 'form-group'];
-        $template           = "{label}\n<div class=\"col-md-9\">{element}\n{hint}</div>";
+        $options            = [];
+        $template           = "<div class='form-group'>{label}\n<div class=\"col-md-9\">{element}\n{hint}</div></div>";
         $labelOptions       = ['class' => 'col-md-3 control-label'];
         $hintOptions        = ['class' => 'hint-block'];
         $parts              = [];
 
         $hint    = ArrayHelper::getValue($item, 'hint');
+
+        if(isset($item['template'])) {
+            $template = $item['template'];
+        }
 
         if(isset($item['options'])) {
             $options = array_merge($options, $item['options']);
@@ -146,6 +151,6 @@ class Html extends \yii\bootstrap\Html
         }
 
         $content = strtr($template, $parts);
-        return self::tag('div', $content, $options);
+        return $content;
     }
 }

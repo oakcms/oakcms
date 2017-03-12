@@ -54,6 +54,7 @@ $this->params['actions_buttons'] = [
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'class')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'bootstrapClass')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'isFrontend')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
     <?= $form->field($model, 'isAdmin')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>

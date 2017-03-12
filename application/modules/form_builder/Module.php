@@ -19,6 +19,10 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
 {
     public $settings = [];
 
+    public static $urlRulesFrontend = [
+        'form_builder/<slug:[\w\-]+>' => 'form_builder/form/view',
+    ];
+
     /**
      * @param $event MenuItemsEvent
      */

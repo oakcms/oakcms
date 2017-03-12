@@ -33,11 +33,6 @@ if($debug=Yii::$app->getModule('debug'))
     <body>
     <?php $this->beginBody() ?>
     <div class="container-fluid">
-        <?php foreach (Yii::$app->session->getAllFlashes() as $type => $body)
-            echo \kartik\alert\Alert::widget([
-                'type' => $type,
-                'body' => $body
-            ]) ?>
         <?= $content ?>
     </div>
 

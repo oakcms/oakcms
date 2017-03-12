@@ -21,11 +21,12 @@ function grow(message, type) {
 $(document).ready(function () {
     $("input:checkbox:not(.switch, .make-switch), input:radio:not(.switch, .make-switch)").uniform();
 
-    $(".select-on-check-all").change(function () {
-        $.uniform.update()
+    $(document).on('pjax:complete', function() {
+        $("input:checkbox:not(.switch, .make-switch), input:radio:not(.switch, .make-switch)").uniform();
+        $.uniform.update();
     });
 
-    $('.grid-view tbody .checker input').change(function () {
+    $(document).on('change', '.select-on-check-all, .grid-view tbody .checker input', function () {
         $.uniform.update();
     });
 
@@ -54,7 +55,6 @@ $(document).ready(function () {
     if (window.location.href == sessionStorage.page) {
         $('.nav-tabs-custom .nav a[href="' + sessionStorage.activeTab + '"]').tab('show');
     }
-
 });
 
 var OakCMS = function () {

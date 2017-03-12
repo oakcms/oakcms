@@ -86,7 +86,14 @@ $this->params['actions_buttons'] = [
                         return Html::a($model->title, ['update', 'id' => $model->id]);
                     }
                 ],
-                'slug',
+                [
+                    'attribute' => 'slug',
+                    'format' => 'raw',
+                    'value' => function($model) {
+                        $url = ['/form_builder/form/view', 'slug' => $model->slug];
+                        return Html::a(Url::to($url), $url, ['target' => '_blank']);
+                    }
+                ],
                 [
                     'attribute' => 'submissions',
                     'header' => Yii::t('form_builder', 'Submissions'),
@@ -108,6 +115,14 @@ $this->params['actions_buttons'] = [
                     }
                 ],
                 [
+                    'attribute' => 'widget',
+                    'format' => 'raw',
+                    'value' => function($model) {
+                        return '<code>[form_builder id="' . $model->id . '"]</code>';
+                    },
+                    'options' => ['style' => 'width:200px']
+                ],
+                [
                     'class' => \app\modules\admin\components\grid\EnumColumn::className(),
                     'attribute' => 'status',
                     'format' => 'raw',
@@ -125,10 +140,7 @@ $this->params['actions_buttons'] = [
                         Yii::t('admin', 'On')
                     ]
                 ],
-                [
-                    'attribute' => 'id',
-                    'options' => ['style' => 'width:100px']
-                ],
+
                 ['class' => 'app\modules\admin\components\grid\ActionColumn'],
             ],
         ]); ?>

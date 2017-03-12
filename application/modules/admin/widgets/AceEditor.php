@@ -42,10 +42,11 @@ class AceEditor extends InputWidget
         $this->getView()->registerJs("var {$editor_var} = ace.edit(\"{$editor_id}\")");
         $this->getView()->registerJs("{$editor_var}.setTheme(\"ace/theme/{$this->theme}\")");
         $this->getView()->registerJs("{$editor_var}.getSession().setMode(\"ace/mode/{$this->mode}\")");
-        $this->getView()->registerJs("{$editor_var}.getSession().setReadOnly({$this->readOnly})");
+        $this->getView()->registerJs("{$editor_var}.setReadOnly({$this->readOnly})");
         $textarea_var = 'acetextarea_' . $editor_id;
+        $this->options['id'] = $this->options['id'].'_textarea';
         $this->getView()->registerJs("
-            var {$textarea_var} = $('#{$this->options['id']}').hide();
+            var {$textarea_var} = $('#{$this->options['id']}');
             {$editor_var}.getSession().setValue({$textarea_var}.val());
             {$editor_var}.getSession().on('change', function(){
                 {$textarea_var}.val({$editor_var}.getSession().getValue());

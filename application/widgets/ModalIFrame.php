@@ -1,10 +1,12 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\widgets;
-
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -13,10 +15,6 @@ use Yii;
 use yii\helpers\Url;
 
 /**
- * Class ModalIFrame
- * @package yii2-widgets
- * @author Gayazov Roman <gromver5@gmail.com>
- *
  * <a href="/some/url" data-behavior="iframe" data-iframe-method="get" data-iframe-handler="function(data){}" data-popup="{backdrop: 'static', keyboard: false}" data-params="{a:b}">push</a>
  */
 class ModalIFrame extends \yii\base\Widget

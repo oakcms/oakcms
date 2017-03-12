@@ -18,13 +18,10 @@ class BackendAssets extends \yii\web\AssetBundle
     ];
 
     public $js = [
-        'js/form-builder.min.js',
-        'js/form-builder-script.js'
+        'js/form_builder_script.js'
     ];
 
-    public $css = [
-        'css/form-builder.min.css',
-    ];
+    public $css = [];
 
     public function init()
     {
