@@ -44,21 +44,25 @@ class ShortCode extends \app\components\ShortCode
      * @param array $attrs
      * @return string Html for text block
      */
-    public static function getForm($model) {
+    public static function getForm(&$model) {
         $fields = $model->fields;
 
         $attributes = [];
         $rulesRequired = [];
+        $rulesSafe = [];
         foreach ($fields as $field) {
             $data = Json::decode($field->data);
             $attributes[$field->slug] = $field->label;
             if($required = ArrayHelper::getValue($data, 'required')) {
                 $rulesRequired[] = $field->slug;
+            } else {
+                $rulesSafe[] = $field->slug;
             }
         }
 
         $formModel = new FormBuilder(array_keys($attributes));
         $formModel->addRule($rulesRequired, 'required');
+        $formModel->addRule($rulesSafe, 'safe');
         $formModel->setAttributesLabels($attributes);
 
         $model->setAttributesFields($attributes);

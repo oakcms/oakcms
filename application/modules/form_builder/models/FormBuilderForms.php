@@ -15,6 +15,7 @@ use yii\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\helpers\VarDumper;
 use yii\web\View;
 
 /**
@@ -226,5 +227,31 @@ class FormBuilderForms extends \app\components\ActiveRecord
     {
         parent::afterFind();
         $this->data = Json::decode($this->data);
+        $attributes = [];
+        foreach ($this->getFields()->all() as $k => $attribute) {
+            $attributes[$attribute->slug] = $attribute->label;
+        }
+        $this->fieldsAttributes = $attributes;
+    }
+
+    public function parseContent($formModel, $content) {
+
+        $html = ArrayHelper::getValue($this->data, $content, '');
+
+        foreach ($this->getFields()->all() as $field) {
+            $html = str_replace(
+                [
+                    '{' . $field->slug . ':label}',
+                    '{' . $field->slug . ':value}'
+                ],
+                [
+                    ArrayHelper::getValue($formModel, 'attributeLabels.'.$field->slug, ''),
+                    ArrayHelper::getValue($formModel, $field->slug, ''),
+                ],
+                $html
+            );
+        }
+
+        return $html;
     }
 }

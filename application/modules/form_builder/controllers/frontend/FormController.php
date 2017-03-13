@@ -8,6 +8,7 @@
 namespace app\modules\form_builder\controllers\frontend;
 
 use app\modules\form_builder\models\FormBuilder;
+use app\modules\form_builder\models\FormBuilderField;
 use app\modules\form_builder\models\FormBuilderSubmission;
 use app\modules\form_builder\widgets\ShortCode;
 use Yii;
@@ -28,7 +29,6 @@ class FormController extends \app\components\Controller
         $formModel = $models['formModel'];
 
         if ($formModel->load(Yii::$app->request->post()) && $formModel->validate()) {
-
             $submission = new FormBuilderSubmission();
             $submission->form_id    = $model->id;
             $submission->created    = time();
@@ -37,6 +37,28 @@ class FormController extends \app\components\Controller
             $submission->data       = Json::encode($formModel->attributes);
 
             if($submission->save()) {
+
+                if(ArrayHelper::getValue($model->data, 'email.sendToUser')) {
+                    if(($field_id = ArrayHelper::getValue($model->data, 'email.userEmail')) && ($field = FormBuilderField::findOne($field_id))) {
+                        $userEmail = $formModel->{$field->slug};
+                        Yii::$app->mailer->compose()
+                            ->setFrom(getenv('ROBOT_EMAIL'))
+                            ->setTo($userEmail)
+                            ->setSubject(ArrayHelper::getValue($model->data, 'email.userEmailSubject'))
+                            ->setHtmlBody($model->parseContent($formModel, 'email.userEmailContent'))
+                            ->send();
+                    }
+                }
+
+                if(ArrayHelper::getValue($model->data, 'email.sendToAdmin')) {
+                    Yii::$app->mailer->compose()
+                        ->setFrom(getenv('ROBOT_EMAIL'))
+                        ->setTo(ArrayHelper::getValue($model->data, 'email.adminEmail', getenv('ADMIN_EMAIL')))
+                        ->setSubject(ArrayHelper::getValue($model->data, 'email.adminEmailSubject'))
+                        ->setHtmlBody($model->parseContent($formModel, 'email.adminEmailContent'))
+                        ->send();
+                }
+
                 $this->flash('success', Yii::t('form_builder', 'Form submited.'));
             }
         }

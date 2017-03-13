@@ -110,7 +110,7 @@ $this->params['actions_buttons'] = [
                                     'class' => 'label label-success'
                                 ]
                             ),
-                            ['/admin/form_builder/submission', 'form_id' => $model->id]
+                            ['/admin/form_builder/submissions', 'form_id' => $model->id]
                         );
                     }
                 ],
@@ -149,14 +149,14 @@ $this->params['actions_buttons'] = [
 <script>
     function deleteA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/seo/delete-ids?id=' + keys.join();
+        window.location.href = '<?= Url::to(['delete-ids']) ?>?id=' + keys.join();
     }
     function publishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/seo/published?id=' + keys.join();
+        window.location.href = '<?= Url::to(['published']) ?>?id=' + keys.join();
     }
     function unpublishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
-        window.location.href = '/admin/seo/unpublished?id=' + keys.join();
+        window.location.href = '<?= Url::to(['unpublished']) ?>?id=' + keys.join();
     }
 </script>
