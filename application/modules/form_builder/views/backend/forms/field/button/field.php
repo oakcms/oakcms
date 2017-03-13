@@ -22,6 +22,9 @@ return [
                 'button' => 'Button'
             ]
         ],
+        'name' => [
+            'type' => BaseForm::INPUT_TEXT,
+        ],
         'label' => [
             'type' => BaseForm::INPUT_TEXT,
         ],
@@ -34,11 +37,18 @@ return [
             'options' => ['value' => 'btn btn-default']
         ],
         'additionalAttributes' => [
-            'type' => BaseForm::INPUT_TEXTAREA,
+            'type' => BaseForm::INPUT_WIDGET,
+            'widgetClass' => \app\modules\admin\widgets\AceEditor::className(),
+            'options' => [
+                'mode' => 'yaml',
+                'containerOptions' => [
+                    'style' => 'height: 150px'
+                ]
+            ]
         ]
     ],
     'rules' => [
-        [['type', 'value'], 'required'],
+        [['type', 'value', 'name', 'label'], 'required'],
         [['additionalAttributes', 'label'], 'string'],
         ['cssClass', 'string', ['max' => 100]],
     ]

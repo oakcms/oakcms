@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "016bb6371481e81374d654ce1ff0abd0",
+    "content-hash": "38a54a100168c9a5bdf3f8557106ce37",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -263,20 +263,23 @@
         },
         {
             "name": "ezyang/htmlpurifier",
-            "version": "v4.8.0",
+            "version": "v4.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ezyang/htmlpurifier.git",
-                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2"
+                "reference": "6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
-                "reference": "d0c392f77d2f2a3dcf7fcb79e2a1e2b8804e75b2",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4",
+                "reference": "6d50e5282afdfdfc3e0ff6d192aff56c5629b3d4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "^1.1"
             },
             "type": "library",
             "autoload": {
@@ -303,7 +306,7 @@
             "keywords": [
                 "html"
             ],
-            "time": "2016-07-16T12:58:58+00:00"
+            "time": "2017-03-13T06:30:53+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1818,16 +1821,16 @@
         },
         {
             "name": "bower-asset/owl.carousel",
-            "version": "2.2.0",
+            "version": "2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/OwlCarousel2/OwlCarousel2.git",
-                "reference": "5ba3d33927ee3f49587ea1cacb876c3da1dfafbc"
+                "reference": "716474f2335242aa24b2d79c554b3496922c22bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/OwlCarousel2/OwlCarousel2/zipball/5ba3d33927ee3f49587ea1cacb876c3da1dfafbc",
-                "reference": "5ba3d33927ee3f49587ea1cacb876c3da1dfafbc",
+                "url": "https://api.github.com/repos/OwlCarousel2/OwlCarousel2/zipball/716474f2335242aa24b2d79c554b3496922c22bd",
+                "reference": "716474f2335242aa24b2d79c554b3496922c22bd",
                 "shasum": ""
             },
             "require": {
@@ -1837,7 +1840,8 @@
             "extra": {
                 "bower-asset-main": [
                     "dist/owl.carousel.js",
-                    "dist/assets/owl.carousel.css"
+                    "dist/assets/owl.carousel.css",
+                    "dist/assets/owl.theme.default.css"
                 ],
                 "bower-asset-ignore": []
             }
@@ -2356,16 +2360,16 @@
         },
         {
             "name": "developeruz/yii2-db-rbac",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/developeruz/yii2-db-rbac.git",
-                "reference": "ef181cbb2d80a9a68d65c42d54bcd113260729ec"
+                "reference": "0cd8031d56d487a28b967d0af236a82577c0ea51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/developeruz/yii2-db-rbac/zipball/ef181cbb2d80a9a68d65c42d54bcd113260729ec",
-                "reference": "ef181cbb2d80a9a68d65c42d54bcd113260729ec",
+                "url": "https://api.github.com/repos/developeruz/yii2-db-rbac/zipball/0cd8031d56d487a28b967d0af236a82577c0ea51",
+                "reference": "0cd8031d56d487a28b967d0af236a82577c0ea51",
                 "shasum": ""
             },
             "require": {
@@ -2393,7 +2397,7 @@
                 "rbac",
                 "yii"
             ],
-            "time": "2016-12-09T13:28:47+00:00"
+            "time": "2017-03-05T11:58:10+00:00"
         },
         {
             "name": "dragonjet/yii2-opengraph",
@@ -3150,12 +3154,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "a178f26bc6d86d21088319a8afd406ad103e3535"
+                "reference": "05b889d6b51cdebd7e442be51b3cb7cf4f49fb9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/a178f26bc6d86d21088319a8afd406ad103e3535",
-                "reference": "a178f26bc6d86d21088319a8afd406ad103e3535",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/05b889d6b51cdebd7e442be51b3cb7cf4f49fb9a",
+                "reference": "05b889d6b51cdebd7e442be51b3cb7cf4f49fb9a",
                 "shasum": ""
             },
             "require": {
@@ -3195,7 +3199,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2017-02-26 07:48:11"
+            "time": "2017-03-11T10:54:52+00:00"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -5475,16 +5479,16 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.2.4",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "9137eb3a3328e413212826d63eeeb0217836e2b6"
+                "reference": "b7a1b9e0a0f623ce43b4c8d775eb138f190c9d8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/9137eb3a3328e413212826d63eeeb0217836e2b6",
-                "reference": "9137eb3a3328e413212826d63eeeb0217836e2b6",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/b7a1b9e0a0f623ce43b4c8d775eb138f190c9d8d",
+                "reference": "b7a1b9e0a0f623ce43b4c8d775eb138f190c9d8d",
                 "shasum": ""
             },
             "require": {
@@ -5531,7 +5535,56 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-02T20:32:22+00:00"
+            "time": "2017-02-21T09:12:04+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.8.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "2a7bab3c16f6f452c47818fdd08f3b1e49ffcf7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/2a7bab3c16f6f452c47818fdd08f3b1e49ffcf7d",
+                "reference": "2a7bab3c16f6f452c47818fdd08f3b1e49ffcf7d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-03-01T18:13:50+00:00"
         },
         {
             "name": "trntv/yii2-aceeditor",

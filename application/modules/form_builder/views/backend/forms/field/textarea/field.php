@@ -33,7 +33,14 @@ return [
             'options' => ['value' => 'form-control']
         ],
         'additionalAttributes' => [
-            'type' => BaseForm::INPUT_TEXTAREA,
+            'type' => BaseForm::INPUT_WIDGET,
+            'widgetClass' => \app\modules\admin\widgets\AceEditor::className(),
+            'options' => [
+                'mode' => 'yaml',
+                'containerOptions' => [
+                    'style' => 'height: 150px'
+                ]
+            ]
         ],
         'helpText' => [
             'type' => BaseForm::INPUT_TEXT,

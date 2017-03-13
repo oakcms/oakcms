@@ -40,6 +40,7 @@ $attributes = ArrayHelper::getValue($fieldData, 'attributes', []);
             $(document).ready(function () {
                 window.parent.$.pjax.reload('#pjax_form_fields');
                 window.parent.fieldsUpdateTemplate();
+                window.parent.yii.gromverIframe.closePopup();
             });
         </script>
         <?php
@@ -54,7 +55,6 @@ $attributes = ArrayHelper::getValue($fieldData, 'attributes', []);
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal"><?= Yii::t('form_builder', 'Close') ?></button>
     <button type="submit" class="btn btn-primary"><?= Yii::t('form_builder', 'Send') ?></button>
 </div>
 <?php ActiveForm::end(); ?>

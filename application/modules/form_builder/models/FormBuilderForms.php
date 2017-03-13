@@ -119,8 +119,8 @@ class FormBuilderForms extends \app\components\ActiveRecord
     {
         $data = $this->data;
         $html = ArrayHelper::getValue($data, 'design.html', '');
-        $css = ArrayHelper::getValue($data, 'design.html', '');
-        $javascript = ArrayHelper::getValue($data, 'design.javascript', '');
+        $css = ArrayHelper::getValue($data, 'design.css');
+        $javascript = ArrayHelper::getValue($data, 'design.javascript');
         $attributesForm = [];
 
         $view = Yii::$app->getView();
@@ -129,12 +129,21 @@ class FormBuilderForms extends \app\components\ActiveRecord
         foreach ($this->getFields()->all() as $field) {
             $fieldData = Json::decode($field->data);
 
+            $additionalAttr = ArrayHelper::getValue($fieldData, 'additionalAttributes');
+
+            $attr = [];
+            if($additionalAttr) {
+                $attr = \Symfony\Component\Yaml\Yaml::parse($additionalAttr);
+            }
 
             if ($field->type == 'button') {
-                $element = Html::button(ArrayHelper::getValue($fieldData, 'value', 'Send'), [
-                    'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
-                    'class' => ArrayHelper::getValue($fieldData, 'cssClass'),
-                ]);
+                $element = Html::button(ArrayHelper::getValue($fieldData, 'value', 'Send'), array_merge(
+                    $attr,
+                    [
+                        'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
+                        'class' => ArrayHelper::getValue($fieldData, 'cssClass'),
+                    ]
+                ));
             } else {
                 $element = \app\modules\admin\widgets\Html::settingField(
                     $field->slug,
@@ -142,11 +151,14 @@ class FormBuilderForms extends \app\components\ActiveRecord
                         'type'     => $field->type,
                         'value'    => ArrayHelper::getValue($fieldData, 'value', ''),
                         'options'  => [
-                            'elementOptions' => [
-                                'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
-                                'id'    => Html::getInputId($this->modelForm, $field->slug),
-                                'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
-                            ],
+                            'elementOptions' => array_merge(
+                                $attr,
+                                [
+                                    'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
+                                    'id'    => Html::getInputId($this->modelForm, $field->slug),
+                                    'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
+                                ]
+                            ),
                         ],
                         'hint'     => ArrayHelper::getValue($fieldData, 'helpText', ''),
                         'template' => '{element}',
