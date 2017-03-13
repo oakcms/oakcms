@@ -175,12 +175,14 @@ class FormBuilderForms extends \app\components\ActiveRecord
             );
         }
 
-        Form::widget([
-            'model'      => $this->modelForm,
-            'form'       => $form,
-            'columns'    => 2,
-            'attributes' => $attributesForm,
-        ]);
+        if(count($attributesForm)) {
+            Form::widget([
+                'model'      => $this->modelForm,
+                'form'       => $form,
+                'columns'    => 2,
+                'attributes' => $attributesForm,
+            ]);
+        }
 
         $html = str_replace(
             [
