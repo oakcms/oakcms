@@ -270,4 +270,17 @@ class FormBuilderForms extends \app\components\ActiveRecord
 
         return $html;
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        foreach ($this->getSubmissions()->all() as $submission) {
+            $submission->delete();
+        }
+
+        foreach ($this->getFields()->all() as $field) {
+            $field->delete();
+        }
+    }
 }
