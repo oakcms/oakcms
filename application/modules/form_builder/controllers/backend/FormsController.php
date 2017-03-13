@@ -184,6 +184,16 @@ class FormsController extends BackendController
         return $this->redirect(['index']);
     }
 
+    public function actionDeleteIds()
+    {
+        $ids = Yii::$app->request->get('id');
+        $id_arr = explode(',', $ids);
+        foreach ($id_arr as $id) {
+            $this->findModel($id)->delete();
+        }
+        return $this->back();
+    }
+
     public function actionDeleteFieldsIds()
     {
         $ids = Yii::$app->request->get('id');
