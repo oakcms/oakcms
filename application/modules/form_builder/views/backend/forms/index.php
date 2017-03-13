@@ -100,7 +100,7 @@ $this->params['actions_buttons'] = [
                     'format' => 'raw',
                     'value' => function($model) {
                         $count = FormBuilderSubmission::find()
-                            ->where(['status' => FormBuilderSubmission::STATUS_DRAFT])
+                            ->where(['status' => FormBuilderSubmission::STATUS_DRAFT, 'form_id' => $model->id])
                             ->count();
                         return Html::a(
                             Html::tag(
@@ -123,11 +123,11 @@ $this->params['actions_buttons'] = [
                     'options' => ['style' => 'width:200px']
                 ],
                 [
-                    'class' => \app\modules\admin\components\grid\EnumColumn::className(),
-                    'attribute' => 'status',
-                    'format' => 'raw',
-                    'options' => ['width' => '50px'],
-                    'value' => function ($model, $index, $widget) {
+                    'class'         => \app\modules\admin\components\grid\EnumColumn::className(),
+                    'attribute'     => 'status',
+                    'format'        => 'raw',
+                    'options'       => ['width' => '50px'],
+                    'value'         => function ($model, $index, $widget) {
                         return Html::checkbox('', $model->status == FormBuilderForms::STATUS_PUBLISHED, [
                             'class' => 'switch toggle',
                             'data-id' => $model->primaryKey,

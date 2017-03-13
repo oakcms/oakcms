@@ -212,9 +212,11 @@ class FormBuilderForms extends \app\components\ActiveRecord
     {
         if (parent::load($data, $formName)) {
             $options = [];
-            $options['design'] = $data['design'];
-            $options['submission'] = $data['submission'];
-            $options['email'] = $data['email'];
+
+            $options['design'] = ArrayHelper::getValue($data, 'design', []);
+            $options['submission'] = ArrayHelper::getValue($data, 'submission', []);
+            $options['email'] = ArrayHelper::getValue($data, 'email');
+
             $this->data = Json::encode($options);
         } else {
             return false;

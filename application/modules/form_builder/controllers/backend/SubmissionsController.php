@@ -22,9 +22,9 @@ class SubmissionsController extends BackendController
     public function actionIndex($form_id = null) {
 
         if(isset($form_id)) {
-            $formModel = FormBuilderForms::find()->where(['id' => $form_id, 'status' => FormBuilderForms::STATUS_PUBLISHED])->one();
+            $formModel = FormBuilderForms::find()->where(['id' => $form_id])->one();
         } else {
-            $formModel = FormBuilderForms::find()->where(['status' => FormBuilderForms::STATUS_PUBLISHED])->one();
+            $formModel = FormBuilderForms::find()->one();
         }
 
         $searchModel = new FormBuilder(array_keys($formModel->fieldsAttributes));

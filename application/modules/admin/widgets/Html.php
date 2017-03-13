@@ -8,6 +8,7 @@
 
 namespace app\modules\admin\widgets;
 
+use app\modules\form_builder\models\FormBuilderForms;
 use app\modules\menu\models\MenuType;
 use app\modules\widgets\models\Widgetkit;
 use yii\helpers\ArrayHelper;
@@ -90,6 +91,16 @@ class Html extends \yii\bootstrap\Html
                     'value' => $value,
                     'readOnly' => 'false'
                 ]);
+                break;
+            case 'formBuilder':
+                $widgets = ArrayHelper::map(
+                    FormBuilderForms::find()
+                        ->where(['status' => FormBuilderForms::STATUS_PUBLISHED])
+                        ->all(),
+                    'id',
+                    'name'
+                );
+                $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
             default:
                 $element = '';
