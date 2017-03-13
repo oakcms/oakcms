@@ -1,6 +1,7 @@
 Oak is a free, open-source CMS platform based on the Yii2 PHP Framework.
 ============================
 
+sorry for my bad english 😃
 
 [![Latest Stable Version](https://poser.pugx.org/oakcms/oakcms/v/stable)](https://packagist.org/packages/oakcms/oakcms)
 [![Total Downloads](https://poser.pugx.org/oakcms/oakcms/downloads)](https://packagist.org/packages/oakcms/oakcms)
@@ -32,8 +33,10 @@ ADVANTAGE
 
 2) The modular structure of the site.
 
-3) WidgetKit integration. (http://yootheme.com/widgetkit)
+3) WidgetKit integration. (https://demo.yootheme.com/widgetkit/joomla/)
 
 4) Menu module allows you to make any structure of the site from the admin panel. (Analog Joomla Menu component)
+
+5) Form Builder module, creating forms of any complexity.
 
 And more...
