@@ -98,7 +98,7 @@ class Html extends \yii\bootstrap\Html
                         ->where(['status' => FormBuilderForms::STATUS_PUBLISHED])
                         ->all(),
                     'id',
-                    'name'
+                    'title'
                 );
                 $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;

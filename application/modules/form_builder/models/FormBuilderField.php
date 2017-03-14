@@ -11,6 +11,7 @@ namespace app\modules\form_builder\models;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 use yii\helpers\Json;
 
 /**
@@ -47,7 +48,8 @@ class FormBuilderField extends \app\components\ActiveRecord
                 'class' => SluggableBehavior::className(),
                 'attribute' => 'label',
                 'slugAttribute' => 'slug',
-                'ensureUnique' => true
+                'ensureUnique' => true,
+                'immutable' => true
             ],
         ];
     }
@@ -96,6 +98,9 @@ class FormBuilderField extends \app\components\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
+//            if($this->slug == '') {
+//                $this->slug = Inflector::slug($this->slug, '_');
+//            }
             $this->slug = str_replace('-', '_', $this->slug);
             return true;
         } else {
