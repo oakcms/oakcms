@@ -394,4 +394,12 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
 
         return true;
     }
+
+    public function getModificationsImages() {
+        $images = [];
+        foreach ($this->getModifications()->all() as $modification) {
+            $images[] = $modification->getImage();
+        }
+        return $images;
+    }
 }

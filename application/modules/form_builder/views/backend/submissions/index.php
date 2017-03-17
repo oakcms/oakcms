@@ -52,8 +52,11 @@ $this->params['actions_buttons'] = [
 
 $columns = [
     [
-        'class' => 'yii\grid\CheckboxColumn',
-        'options' => ['style' => 'width:36px']
+        'class' => yii\grid\CheckboxColumn::className(),
+        'options' => ['style' => 'width:36px'],
+        'checkboxOptions' => function ($model, $key, $index, $column) {
+            return ['value' => $model['id']];
+        }
     ],
     'id',
     'ip',
@@ -69,6 +72,7 @@ $columns = array_merge($columns, [['class' => 'app\modules\admin\components\grid
 
 ?>
 <div class="form-builder-forms-index">
+    <?= \yii\helpers\Html::dropDownList('form', Url::to(['index', 'form_id' => $formModel->id]), $arrayForms, ['id' => 'form_select']); ?>
     <div class="table-responsive">
         <?= GridView::widget([
             'id' => 'grid',
@@ -93,4 +97,11 @@ $columns = array_merge($columns, [['class' => 'app\modules\admin\components\grid
         var keys = $('#grid').yiiGridView('getSelectedRows');
         window.location.href = '<?= Url::to(['unpublished']) ?>?id=' + keys.join();
     }
+    $('#form_select').on('change', function () {
+        var url = $(this).val(); // get selected value
+        if (url) { // require a URL
+            window.location = url; // redirect
+        }
+        return false;
+    });
 </script>

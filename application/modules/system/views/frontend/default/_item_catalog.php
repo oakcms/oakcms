@@ -13,9 +13,9 @@
 <section class="container pre-gk">
     <div class="gk-gen-text">
         <div class="col-xs-6 gk-pre-img">
-            <?php if(isset($model->main_photo)):?>
+            <?if(isset($model->main_photo)):?>
             <img src="<?= $model->main_photo ?>" alt="" class="img-responsive" />
-            <?php endif?>
+            <?endif?>
         </div>
         <div class="col-xs-6 gk-pre-text">
             <div class="gk-name"><?= $model->title ?></div>

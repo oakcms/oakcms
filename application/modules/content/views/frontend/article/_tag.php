@@ -9,7 +9,7 @@
 ?>
 
 <section class="thumbnav">
-    <?php foreach ($articles as $article):?>
+    <?foreach ($articles as $article):?>
         <?= $this->render('_item.php', ['model' => $article]); ?>
-    <?php endforeach;?>
+    <?endforeach;?>
 </section>

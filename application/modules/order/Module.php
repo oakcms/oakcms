@@ -1,16 +1,27 @@
 <?php
 namespace app\modules\order;
 
+use app\components\module\ModuleEventsInterface;
+use app\modules\admin\rbac\Rbac;
+use app\modules\admin\widgets\events\MenuItemsEvent;
+use app\modules\admin\widgets\Menu;
 use app\modules\order\behaviors\ShippingCost;
 use yii;
 
-class Module extends \yii\base\Module
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
     const EVENT_ORDER_CREATE = 'create';
     const EVENT_ORDER_DELETE = 'delete';
     const EVENT_ELEMENT_DELETE = 'delete_element';
 
-    public $orderStatuses = ['new' => 'Новый', 'approve' => 'Подтвержден', 'cancel' => 'Отменен', 'process' => 'В обработке', 'done' => 'Выполнен'];
+    public $orderStatuses = [
+        'new' => 'Новый',
+        'approve' => 'Подтвержден',
+        'cancel' => 'Отменен',
+        'process' => 'В обработке',
+        'done' => 'Выполнен'
+    ];
+
     public $defaultStatus = 'new';
     public $successUrl = '/order/info/thanks/';
     public $orderCreateRedirect = 'order/view';
@@ -21,7 +32,7 @@ class Module extends \yii\base\Module
     public $currency = ' р.';
     public $currencyPosition = 'after';
     public $priceFormat = [2, '.', ''];
-    public $adminRoles = ['admin', 'superadmin'];
+    public $adminRoles = [Rbac::PERMISSION_ADMIN_PANEL];
     public $cartCustomFields = ['Остаток' => 'amount'];
 
     public $paymentFormAction = false;
@@ -92,8 +103,6 @@ class Module extends \yii\base\Module
         } else {
             return $this->workers;
         }
-
-        return [];
     }
 
     public function getProductCategoriesList()
@@ -117,5 +126,27 @@ class Module extends \yii\base\Module
         }
 
         return [];
+    }
+
+    /**
+     * @param $event MenuItemsEvent
+     */
+    public function addAdminMenuItem($event)
+    {
+        $event->items['text'] = [
+            'label' => \Yii::t('text', 'Orders'),
+            'icon'  => '<i class="fa fa-font"></i>',
+            'url'   => ['/admin/order/order/index'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function events()
+    {
+        return [
+            Menu::EVENT_FETCH_ITEMS => 'addAdminMenuItem',
+        ];
     }
 }

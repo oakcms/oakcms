@@ -133,8 +133,6 @@ oakcms.cart = {
         return false;
     },
     addElement: function() {
-        jQuery(document).trigger("addCartElement", this);
-
         var data = {};
         data.CartElement = {};
         data.CartElement.model = jQuery(this).data('model');
@@ -142,6 +140,9 @@ oakcms.cart = {
         data.CartElement.count = jQuery(this).data('count');
         data.CartElement.price = jQuery(this).data('price');
         data.CartElement.options = jQuery(this).data('options');
+
+
+        jQuery(document).trigger("addCartElement", data);
 
         oakcms.cart.sendData(data, jQuery(this).attr('href'));
 

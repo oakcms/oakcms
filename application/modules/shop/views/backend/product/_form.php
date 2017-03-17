@@ -28,6 +28,18 @@ yii\jui\JuiAsset::register($this);
 $asset = \app\templates\backend\base\assets\BaseAsset::register($this);
 \app\modules\shop\assets\BackendAsset::register($this);
 
+$selectFilter = '';
+
+foreach ($model->getFilters() as $filter) {
+    $selectFilter .= '<div>'.$filter->name.'</div>';
+    $selectFilter .=  Html::dropDownList(
+        'variants[filter_values][][' . $filter->id . ']',
+        null,
+        ArrayHelper::map($filter->variants, 'id', 'value'),
+        ['class' => 'form-control', 'options' => ['data-available' => true]]
+    );
+}
+
 $variantTemplate = '
 <tr>
     <td>
@@ -53,6 +65,9 @@ $variantTemplate = '
                 </div>
             </div>
         </div>
+    </td>
+    <td>
+        ' . $selectFilter . '
     </td>
     <td>
         <input type="text" name="variants[price][]"  id="" class="form-control" value="{{price}}">
@@ -240,6 +255,7 @@ if (!$model->isNewRecord) {
                 <thead class="font-12">
                     <tr>
                         <th style="width: 120px"> <?= Yii::t('shop', 'Image') ?> </th>
+                        <th style="width: 150px"> <?= Yii::t('shop', 'Filter') ?> </th>
                         <th> <?= Yii::t('shop', 'Price') ?> </th>
                         <th> <?= Yii::t('shop', 'Vendor code') ?> </th>
                         <th> <?= Yii::t('shop', 'Amount') ?> </th>
@@ -254,6 +270,16 @@ if (!$model->isNewRecord) {
                 <?php if(count($model->modifications)):?>
                     <?php foreach($model->modifications as $k=>$variant) : ?>
                         <?php
+                        $selectFilter = unserialize($variant->filter_values);
+
+                        foreach ($selectFilter as $filter=>$value) {
+                            $variantTemplate = preg_replace(
+                                '/name="variants\[filter_values\]\[\]\['.$filter.'\](.*)<option value="' . $value . '">/',
+                                'name="variants[filter_values][]['.$filter.']"$1<option value="' . $value .  '" selected>',
+                                $variantTemplate
+                            );
+                        }
+
                         if($k == 0) {
                             $template = str_ireplace('<button class="btn btn-small remove_variant tooltips" type="button" data-placement="top" data-original-title="Удалить"><i class="icon-trash"></i></button>', '', $variantTemplate);
                             echo preg_replace(

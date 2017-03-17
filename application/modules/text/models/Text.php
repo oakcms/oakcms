@@ -1,25 +1,24 @@
 <?php
 namespace app\modules\text\models;
 
+use app\components\ActiveRecord;
+use app\helpers\StringHelper;
 use app\modules\admin\components\behaviors\SettingModel;
-use app\validators\JsonValidator;
 use dosamigos\translateable\TranslateableBehavior;
-use himiklab\sortablegrid\SortableGridBehavior;
 use Yii;
-use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 
 /**
  * Class Text
  * @package app\modules\text\models
  *
- * @property $published_at;
- * @property $created_at;
- * @property $updated_at;
- * @property $status;
- * @property $order;
- * @property $settings;
+ * @property $id
+ * @property $published_at
+ * @property $created_at
+ * @property $updated_at
+ * @property $status
+ * @property $order
+ * @property $settings
  *
  * @mixin SettingModel Settings Model
  */
@@ -37,11 +36,12 @@ class Text extends ActiveRecord
         return '{{%texts}}';
     }
 
-    public static function getWereToPlace() {
+    public static function getWereToPlace()
+    {
         return [
-            '0' => Yii::t('text', 'On all pages'),
-            '-' => Yii::t('text', 'Not on the same page'),
-            '1' => Yii::t('text', 'On these pages only'),
+            '0'  => Yii::t('text', 'On all pages'),
+            '-'  => Yii::t('text', 'Not on the same page'),
+            '1'  => Yii::t('text', 'On these pages only'),
             '-1' => Yii::t('text', 'On all pages, except for the above'),
         ];
     }
@@ -54,15 +54,15 @@ class Text extends ActiveRecord
         return [
             TimestampBehavior::className(),
             [
-                'class' => SettingModel::className(),
+                'class'         => SettingModel::className(),
                 'settingsField' => 'settings',
-                'module' => false
+                'module'        => false,
             ],
-            'trans' => [
-                'class' => TranslateableBehavior::className(),
+            'trans'    => [
+                'class'                 => TranslateableBehavior::className(),
                 'translationAttributes' => [
-                    'title', 'subtitle', 'text', 'settings'
-                ]
+                    'title', 'subtitle', 'text', 'settings',
+                ],
             ],
             'sortable' => [
                 'class' => \kotchuprik\sortable\behaviors\Sortable::className(),
@@ -96,19 +96,19 @@ class Text extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'text' => Yii::t('text', 'Content'),
-            'slug' => Yii::t('text', 'Position'),
-            'title' => Yii::t('text', 'Title'),
-            'subtitle' => Yii::t('text', 'Subtitle'),
-            'layout' => Yii::t('text', 'Layout'),
-            'links' => Yii::t('text', 'Links'),
+            'text'           => Yii::t('text', 'Content'),
+            'slug'           => Yii::t('text', 'Position'),
+            'title'          => Yii::t('text', 'Title'),
+            'subtitle'       => Yii::t('text', 'Subtitle'),
+            'layout'         => Yii::t('text', 'Layout'),
+            'links'          => Yii::t('text', 'Links'),
             'where_to_place' => Yii::t('text', 'Where To Place'),
         ];
     }
 
     public function beforeValidate()
     {
-        if(is_array($this->links))
+        if (is_array($this->links))
             $this->links = implode(",", $this->links);
 
         return parent::beforeValidate();
@@ -127,5 +127,38 @@ class Text extends ActiveRecord
         foreach ($this->getTranslations()->all() as $translation) {
             $translation->delete();
         }
+    }
+
+    /**
+     * Batch copy items to a new category or current.
+     *
+     * @param   array $ids An array of row IDs.
+     *
+     * @return boolean.
+     */
+    public static function batchCopy($ids)
+    {
+
+        while (!empty($ids)) {
+            $id = array_shift($ids);
+
+
+            $model = self::findOne($id);
+            $translations = $model->translations;
+            $model->id = null;
+            $model->isNewRecord = true;
+            if ($model->save()) {
+                foreach ($translations as $translation) {
+                    /** @var $translation TextsLang */
+                    $translation->texts_id = $model->id;
+                    $translation->title = StringHelper::increment($translation->title);
+                    $translation->id = null;
+                    $translation->isNewRecord = true;
+                    $translation->save();
+                }
+            }
+        }
+
+        return true;
     }
 }

@@ -54,6 +54,11 @@ $this->params['actions_buttons'] = [
                     'url' => 'javascript:void(0)',
                     'linkOptions' => ['onclick' => 'unpublishedA()']
                 ],
+                [
+                    'label' => '<span class="font-blue-chambray"><i class="fa fa-clone" aria-hidden="true"></i> ' . Yii::t('admin', 'Copy') . '</span>',
+                    'url' => 'javascript:void(0)',
+                    'linkOptions' => ['onclick' => 'copyA()']
+                ],
             ],
         ],
     ]
@@ -146,5 +151,9 @@ $this->params['actions_buttons'] = [
     function unpublishedA() {
         var keys = $('#grid').yiiGridView('getSelectedRows');
         window.location.href = '<?= Url::to(['/admin/text/default/unpublished']) ?>' + '?id=' + keys.join();
+    }
+    function copyA() {
+        var keys = $('#grid').yiiGridView('getSelectedRows');
+        window.location.href = '<?= Url::to(['/admin/text/default/clone-ids']) ?>' + '?id=' + keys.join();
     }
 </script>

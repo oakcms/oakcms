@@ -91,7 +91,7 @@ class Menu extends API
                 $items[] = [
                     'id'             => $model->id,
                     'label'          => @$linkParams['title'] ? $linkParams['title'] : $model->title,
-                    'url'            => $model->link_type == MenuItem::LINK_ROUTE ? ($model->secure ? $urlManager->createAbsoluteUrl($model->getFrontendViewLink(), 'https') : $urlManager->createUrl($model->getFrontendViewLink())) : Url::to([$model->link, 'language' => \Yii::$app->language]),
+                    'url'            => $model->link_type == MenuItem::LINK_ROUTE ? ($model->secure ? $urlManager->createAbsoluteUrl($model->getFrontendViewLink(), 'https') : $urlManager->createUrl($model->getFrontendViewLink())) : $model->link,
                     'access_rule'    => $model->access_rule,
                     'submenuOptions' => [
                         'class' => 'level-' . $model->level

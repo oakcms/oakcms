@@ -194,6 +194,14 @@ class FormsController extends BackendController
         return $this->back();
     }
 
+    public function actionCloneIds()
+    {
+        $ids = Yii::$app->request->get('id');
+        $id_arr = explode(',', $ids);
+        FormBuilderForms::batchCopy($id_arr);
+        return $this->back();
+    }
+
     public function actionDeleteFieldsIds()
     {
         $ids = Yii::$app->request->get('id');
@@ -267,10 +275,10 @@ class FormsController extends BackendController
         if (
             ($modelForm = FormBuilderForms::findOne($form_id)) !== null &&
             (
-                $modelFields = FormBuilderField::find()
-                    ->where(['form_id' => $form_id])
-                    ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
-                    ->all()
+            $modelFields = FormBuilderField::find()
+                ->where(['form_id' => $form_id])
+                ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
+                ->all()
             ) !== null
         ) {
             foreach ($modelFields as $modelField) {
@@ -295,10 +303,10 @@ class FormsController extends BackendController
         if (
             ($modelForm = FormBuilderForms::findOne($form_id)) !== null &&
             (
-                $modelFields = FormBuilderField::find()
-                    ->where(['form_id' => $form_id])
-                    ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
-                    ->all()
+            $modelFields = FormBuilderField::find()
+                ->where(['form_id' => $form_id])
+                ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
+                ->all()
             ) !== null
         ) {
             foreach ($modelFields as $modelField) {
@@ -320,10 +328,10 @@ class FormsController extends BackendController
         if (
             ($modelForm = FormBuilderForms::findOne($form_id)) !== null &&
             (
-                $modelFields = FormBuilderField::find()
-                    ->where(['form_id' => $form_id])
-                    ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
-                    ->all()
+            $modelFields = FormBuilderField::find()
+                ->where(['form_id' => $form_id])
+                ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
+                ->all()
             ) !== null
         ) {
             foreach ($modelFields as $modelField) {
@@ -346,10 +354,10 @@ class FormsController extends BackendController
         if (
             ($modelForm = FormBuilderForms::findOne($form_id)) !== null &&
             (
-                $modelFields = FormBuilderField::find()
-                    ->where(['form_id' => $form_id, 'type' => 'textInput'])
-                    ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
-                    ->all()
+            $modelFields = FormBuilderField::find()
+                ->where(['form_id' => $form_id, 'type' => 'textInput'])
+                ->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])
+                ->all()
             ) !== null
         ) {
             foreach ($modelFields as $modelField) {
@@ -406,13 +414,12 @@ class FormsController extends BackendController
                 'targetClass' => FormBuilderField::className(),
                 'targetAttribute' => 'slug',
                 'filter' => function ($query) use($model) {
-                    /**
-                     * @var $query ActiveQuery
-                     */
-                    if(!$model->isNewRecord)
-                        $query->andWhere('id <> :id', ['id' => $model->id]);
-
-                    return $query;
+                    /** @var $query ActiveQuery */
+                    if($model->isNewRecord) {
+                        return $query->andWhere('form_id <> :form_id', ['form_id' => $model->form_id]);
+                    } else {
+                        return $query->andWhere('form_id = :form_id AND id <> :id', ['form_id' => $model->form_id, 'id' => $model->id]);
+                    }
                 }
             ]);
 
@@ -428,6 +435,9 @@ class FormsController extends BackendController
                 $model->data = Json::encode($saveData);
                 if ($model->save()) {
                     $this->flash('success', Yii::t('form_builder', '{fieldName} saved.', ['fieldName' => $fieldData['title']]));
+                } else {
+                    var_dump($model->getErrors());
+                    exit;
                 }
             }
 

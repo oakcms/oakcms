@@ -1,32 +1,25 @@
 <?php
-namespace app\modules\order\controllers;
 
-use yii;
-use app\modules\order\models\ShippingType;
-use app\modules\order\models\tools\ShippingTypeSearch;
+namespace app\modules\order\controllers\backend;
+
+use Yii;
+use app\modules\order\models\Payment;
+use app\modules\order\models\PaymentType;
+use app\modules\order\models\tools\PaymentSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
-class ShippingTypeController  extends Controller
+class PaymentController extends Controller
 {
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => yii::$app->getModule('order')->adminRoles,
-                    ]
-                ]
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -34,23 +27,25 @@ class ShippingTypeController  extends Controller
 
     public function actionIndex()
     {
-        $searchModel = new ShippingTypeSearch();
-        $dataProvider = $searchModel->search(yii::$app->request->queryParams);
+        $searchModel = new PaymentSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $paymentTypes = ArrayHelper::map(PaymentType::find()->all(), 'id', 'name');
 
         return $this->render('index', [
             'searchModel' => $searchModel,
+            'paymentTypes' => $paymentTypes,
             'dataProvider' => $dataProvider,
         ]);
     }
 
     public function actionCreate()
     {
-        $model = new ShippingType();
+        $model = new Payment();
 
-        if ($model->load(yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->id]);
-		}
-		else {
+        } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -61,7 +56,7 @@ class ShippingTypeController  extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -79,7 +74,7 @@ class ShippingTypeController  extends Controller
 
     protected function findModel($id)
     {
-        if (($model = ShippingType::findOne($id)) !== null) {
+        if (($model = Payment::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

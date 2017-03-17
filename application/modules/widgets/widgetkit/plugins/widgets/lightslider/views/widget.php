@@ -186,7 +186,7 @@ $class = $settings['class'] ? ' class="' . $settings['class'] . '"' : '';
                 </div>
             </div>
 
-        <?php elseif(($item['title'] && $settings['title']) || ($item['content'] && $settings['content'])):?>
+        <?elseif(($item['title'] && $settings['title']) || ($item['content'] && $settings['content'])):?>
 
             <?php if ($item['title'] && $settings['title']) : ?>
                 <h3 class="<?php echo $title_size; ?>">
@@ -202,8 +202,8 @@ $class = $settings['class'] ? ' class="' . $settings['class'] . '"' : '';
             <p><a<?php if($link_style) echo ' class="' . $link_style . '"'; ?> href="<?php echo $item->escape('link'); ?>"<?php echo $link_target; ?>><?php echo $app['translator']->trans($settings['link_text']); ?></a></p>
             <?php endif; ?>
 
-        <?php endif;?>
-    <?php endforeach;?>
+        <?endif;?>
+    <?endforeach;?>
 </div>
 <!--
 <div<?php /*echo $class; */?> data-slideshow="<?php /*echo $options; */?>">

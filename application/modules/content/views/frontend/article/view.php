@@ -112,11 +112,11 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
             </span>
         </div>
         <div class="cntnt__tags__text">
-            <?php foreach (explode(',', $model->tagNames) as $tagName):?>
+            <?foreach (explode(',', $model->tagNames) as $tagName):?>
                 <a href="<?= Url::to(['/content/article/tag', 'tag' => trim($tagName)]) ?>" class="cntnt__tags__text_tag">
                     <?= trim($tagName) ?>
                 </a>
-            <?php endforeach;?>
+            <?endforeach;?>
         </div>
     </div>
     <div class="article__discus">

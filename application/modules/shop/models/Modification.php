@@ -8,14 +8,10 @@
 
 namespace app\modules\shop\models;
 
+use app\modules\gallery\behaviors\AttachImages;
 use dosamigos\transliterator\TransliteratorHelper;
 use Yii;
 use yii\helpers\Inflector;
-use yii\helpers\Url;
-use app\modules\shop\models\Category;
-use app\modules\shop\models\Price;
-use app\modules\shop\models\product\ProductQuery;
-use yii\db\ActiveQuery;
 use yii\db\Expression;
 use yii\behaviors\TimestampBehavior;
 
@@ -36,6 +32,8 @@ use yii\behaviors\TimestampBehavior;
  * @property string $create_time
  * @property string $update_time
  * @property string $filter_values
+ *
+ * @mixin AttachImages
  */
 
 class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces\CartElement
@@ -47,7 +45,7 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
     {
         return [
             'images' => [
-                'class' => \app\modules\gallery\behaviors\AttachImages::className(),
+                'class' => AttachImages::className(),
                 'mode' => 'single',
             ],
             'time' => [
@@ -218,15 +216,15 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
 
     public function beforeValidate()
     {
-        if($filterValue = yii::$app->request->post('filterValue')) {
-            $filter_values = [];
-            foreach($filterValue as $filterId => $variantId) {
-                $filter_values[$filterId] = $variantId;
-            }
-            $this->filter_values = serialize($filter_values);
-        } else {
-            $this->filter_values = serialize([]);
-        }
+//        if($filterValue = yii::$app->request->post('filterValue')) {
+//            $filter_values = [];
+//            foreach($filterValue as $filterId => $variantId) {
+//                $filter_values[$filterId] = $variantId;
+//            }
+//            $this->filter_values = serialize($filter_values);
+//        } else {
+//            $this->filter_values = serialize([]);
+//        }
 
         return parent::beforeValidate();
     }

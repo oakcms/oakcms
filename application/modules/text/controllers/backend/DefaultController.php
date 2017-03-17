@@ -6,7 +6,7 @@ use app\modules\admin\components\behaviors\StatusController;
 use app\modules\admin\widgets\Html;
 use app\modules\language\models\Language;
 use app\modules\menu\models\MenuType;
-use Awf\Utils\ArrayHelper;
+use yii\helpers\ArrayHelper;
 use Yii;
 use app\modules\text\models\Text;
 use app\modules\text\models\search\TextSearch;
@@ -163,6 +163,14 @@ class DefaultController extends BackendController
         foreach ($id_arr as $id) {
             $this->findModel($id)->delete();
         }
+        return $this->back();
+    }
+
+    public function actionCloneIds()
+    {
+        $ids = Yii::$app->request->get('id');
+        $id_arr = explode(',', $ids);
+        Text::batchCopy($id_arr);
         return $this->back();
     }
 

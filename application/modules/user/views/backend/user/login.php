@@ -30,9 +30,9 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
 ?>
 <script>
     var loginImages = [
-        <?php foreach($images->image as $image):?>
+        <?foreach($images->image as $image):?>
         "http://www.bing.com<?= $image->url ?>",
-        <?php endforeach?>
+        <?endforeach?>
     ];
 </script>
 <style>
@@ -138,12 +138,12 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                             'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
                         ])->passwordInput(['placeholder'=>Yii::t('user', 'Password')])->label(false) ?>
 
-                        <?php if(Yii::$app->keyStorage->get('googleAuthenticator')):?>
+                        <?if(Yii::$app->keyStorage->get('googleAuthenticator')):?>
                             <?= $form->field($model, 'secretCode', [
                                 'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"fa fa-shield form-control-feedback\"></span>\n{hint}\n{error}</div>",
                                 'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
                             ])->passwordInput(['placeholder'=>Yii::t('user', 'Secret Code')])->label(false) ?>
-                        <?php endif;?>
+                        <?endif;?>
                         <div class="row">
                             <div class="col-xs-8">
                                 <div class="checkbox icheck">

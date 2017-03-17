@@ -8,14 +8,13 @@
 
 namespace app\modules\form_builder\models;
 
+use app\helpers\StringHelper;
 use kartik\builder\Form;
-use kartik\form\ActiveForm;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use yii\helpers\VarDumper;
 use yii\web\View;
 
 /**
@@ -91,7 +90,7 @@ class FormBuilderForms extends \app\components\ActiveRecord
 
     public function getSubmissions()
     {
-        return $this->hasMany(FormBuilderSubmission::className(), ['form_id' => 'id']);
+        return $this->hasMany(FormBuilderSubmission::className(), ['form_id', 'id']);
     }
 
     public function getFields()
@@ -269,6 +268,41 @@ class FormBuilderForms extends \app\components\ActiveRecord
         }
 
         return $html;
+    }
+
+    /**
+     * Batch copy items to a new category or current.
+     *
+     * @param   array $ids An array of row IDs.
+     *
+     * @return boolean.
+     */
+    public static function batchCopy($ids)
+    {
+
+        while (!empty($ids)) {
+            $id = array_shift($ids);
+
+
+            $model = self::findOne($id);
+            $fields = $model->fields;
+            $model->id = null;
+            $model->title = StringHelper::increment($model->title);
+            $model->slug = StringHelper::increment($model->slug, 'dash');
+            $model->data = Json::encode($model->data);
+            $model->isNewRecord = true;
+            if ($model->save()) {
+                foreach ($fields as $field) {
+                    /** @var $field FormBuilderField */
+                    $field->form_id = $model->id;
+                    $field->id = null;
+                    $field->isNewRecord = true;
+                    $field->save();
+                }
+            }
+        }
+
+        return true;
     }
 
     public function afterDelete()

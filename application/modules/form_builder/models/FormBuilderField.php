@@ -8,11 +8,14 @@
 
 namespace app\modules\form_builder\models;
 
+use app\components\ActiveQuery;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
+use yii\helpers\VarDumper;
+use yii\validators\UniqueValidator;
 
 /**
  * This is the model class for table "{{%form_builder_field}}".
@@ -49,7 +52,17 @@ class FormBuilderField extends \app\components\ActiveRecord
                 'attribute' => 'label',
                 'slugAttribute' => 'slug',
                 'ensureUnique' => true,
-                'immutable' => true
+                'immutable' => true,
+                'uniqueValidator' => [
+                    'filter' => function ($query) {
+                        /** @var $query ActiveQuery */
+                        if($this->isNewRecord) {
+                            return $query->andWhere('form_id <> :form_id', ['form_id' => $this->form_id]);
+                        } else {
+                            return $query->andWhere('form_id = :form_id AND id <> :id', ['form_id' => $this->form_id, 'id' => $this->id]);
+                        }
+                    }
+                ]
             ],
         ];
     }
@@ -62,7 +75,6 @@ class FormBuilderField extends \app\components\ActiveRecord
         return [
             [['form_id', 'type', 'label', 'slug'], 'required'],
             [['form_id', 'sort'], 'integer'],
-            ['slug', 'unique'],
             [['options', 'roles', 'data'], 'string'],
             [['type', 'label', 'slug'], 'string', 'max' => 255],
         ];

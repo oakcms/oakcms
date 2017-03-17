@@ -199,6 +199,7 @@ class ProductController extends BackendController
                 $modification->available        = $post['variants']['available'][$i];
                 $modification->name             = $post['variants']['name'][$i];
                 $modification->amount           = $post['variants']['amount'][$i];
+                $modification->filter_values    = serialize($post['variants']['filter_values'][$i]);
                 $modification->sort             = $i;
 
                 if(!$modification->save()) {
@@ -216,7 +217,7 @@ class ProductController extends BackendController
 
                 $photoUpload = UploadedFile::getInstanceByName('image'.$i);
                 if ($photoUpload) {
-                    $uploadsPath = Yii::$app->getModule('gallery')->imagesStorePath;
+                    $uploadsPath = Yii::getAlias(Yii::$app->getModule('gallery')->imagesStorePath.'/');
                     if (!file_exists($uploadsPath)) {
                         mkdir($uploadsPath, 0777, true);
                     }
@@ -241,7 +242,7 @@ class ProductController extends BackendController
                             $newImage->itemId       = $modification->id;
                             $newImage->modelName    = $image->modelName;
                             $newImage->urlAlias     = $image->urlAlias;
-                            var_dump($newImage->save());
+                            $newImage->save();
                         }
                     }
                 }

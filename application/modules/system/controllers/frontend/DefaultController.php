@@ -130,7 +130,7 @@ class DefaultController extends Controller
     public function actionError()
     {
         $exception = \Yii::$app->errorHandler->exception;
-
+        $this->layout = '/clear';
         if ($exception !== null) {
 
             return $this->render('error', ['exception' => $exception]);

@@ -22,11 +22,13 @@ class FormController extends \app\components\Controller
 {
 
     function actionView($slug) {
-
+        $success = '';
         $model = $this->findModel($slug);
 
         $models = ShortCode::getForm($model);
         $formModel = $models['formModel'];
+
+        $format = Yii::$app->request->get('format');
 
         if ($formModel->load(Yii::$app->request->post()) && $formModel->validate()) {
             $submission = new FormBuilderSubmission();
@@ -59,8 +61,22 @@ class FormController extends \app\components\Controller
                         ->send();
                 }
 
-                $this->flash('success', Yii::t('form_builder', 'Form submited.'));
+                if($format == 'json') {
+                    $success = ArrayHelper::getValue($model->data, 'submission.content');
+                } else {
+                    $this->flash('success', Yii::t('form_builder', 'Form submited.'));
+                }
+
+            } else {
+                if($format == 'json') {
+                    $this->error = Yii::t('form_builder', 'Email not sending');
+                } else {
+                    $this->flash('error', Yii::t('form_builder', 'Email not sending.'));
+                }
             }
+        }
+        if($format == 'json') {
+            return $this->formatResponse(['success' => $success]);
         }
         return $this->render('view', ['model' => $model]);
     }

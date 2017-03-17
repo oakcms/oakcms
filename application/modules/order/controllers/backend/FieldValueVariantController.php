@@ -1,5 +1,5 @@
 <?php
-namespace app\modules\order\controllers;
+namespace app\modules\order\controllers\backend;
 
 use yii;
 use app\modules\order\models\FieldValueVariant;

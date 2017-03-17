@@ -51,10 +51,10 @@ class Html extends \yii\bootstrap\Html
             case 'checkbox':
                 $element = self::hiddenInput($name, 0) .
                     \oakcms\bootstrapswitch\Switcher::widget([
-                    'id' => 'wid'.uniqid(),
-                    'name' => $name,
-                    'checked' => $value
-                ]);
+                        'id' => 'wid'.uniqid(),
+                        'name' => $name,
+                        'checked' => $value
+                    ]);
                 break;
             case 'textInput':
                 $element = self::textInput($name, $value, $elementOptions);

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
@@ -8,6 +7,8 @@
  */
 
 namespace app\modules\tree\widgets;
+
+use yii;
 
 class Tree extends \yii\base\Widget
 {
@@ -78,5 +79,22 @@ class Tree extends \yii\base\Widget
         }
 
         return $return;
+    }
+
+    function showNested($parentID)
+    {
+        $items = ShopCategories::find()->where(['parent_id' => $parentID])->orderBy(['sortOrder' => SORT_ASC])->all();
+        ?>
+        <? if ($items): ?>
+        <ol class="dd-list">
+            <? foreach ($items as $it): ?>
+                <li class="dd-item dd3-item" data-id="<?= $it->shop_category_id ?>">
+
+                    <? showNested($it->shop_category_id); ?>
+                </li>
+            <?endforeach ?>
+        </ol>
+    <?endif ?>
+        <?php
     }
 }

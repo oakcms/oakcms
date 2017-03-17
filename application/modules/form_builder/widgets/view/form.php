@@ -9,9 +9,11 @@
 /**
  * @var $model
  */
-
+$index = new \app\components\Count();
 $form = \kartik\form\ActiveForm::begin([
-    'action' => \yii\helpers\Url::to(['/form_builder/form/view', 'slug'=>$model->slug])
+    'id' => 'fb_form_id_'.$model->id.'_'.$index->getIndex(),
+    'action' => \yii\helpers\Url::to(['/form_builder/form/view', 'slug'=>$model->slug]),
+    'options' => ['class' => 'fb_form']
 ]);
 ?>
     <?= $model->renderForm($form); ?>
