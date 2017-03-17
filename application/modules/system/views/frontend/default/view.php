@@ -52,9 +52,9 @@ $this->bodyClass[] = 'catalog-'.$model->id;
     <div class="header-invite">
         <div class="col-sm-8 logo-gk-address">
             <div class="logo-invite">
-                <?if(isset($model->logo_company) AND $model->logo_company != ''): ?>
+                <?php if(isset($model->logo_company) AND $model->logo_company != ''): ?>
                     <img src="<?= $model->logo_company ?>" alt="">
-                <?endif?>
+                <?php endif?>
             </div>
             <div class="ttl-address-invite">
                 <div class="ttl-invite"><?= $model->title ?></div>
@@ -63,9 +63,9 @@ $this->bodyClass[] = 'catalog-'.$model->id;
         </div>
         <div class="col-sm-4 logo-phone-comp">
             <div class="logo-comp">
-                <?if(isset($model->logo_invest) AND $model->logo_invest != ''): ?>
+                <?php if(isset($model->logo_invest) AND $model->logo_invest != ''): ?>
                 <img src="<?= $model->logo_invest ?>" alt="">
-                <?endif?>
+                <?php endif?>
             </div>
             <div class="phone-comp">
                 <div class="desc-phone-comp">Liên lạc chủ đầu tư</div>
@@ -106,15 +106,15 @@ $this->bodyClass[] = 'catalog-'.$model->id;
         <div style="clear: both;"></div>
     </div>
     <div class="gallery-invite">
-        <?if($model->medias):?>
+        <?php if($model->medias):?>
         <div id="gallery">
-            <?foreach ($model->medias as $k=>$item):?>
+            <?php foreach ($model->medias as $k=>$item):?>
             <div class="item item-<?= $k ?>">
                 <img src="<?= $item->bigImage ?>" alt="<?= $item->file_title ?>" class="img-responsive block-center">
             </div>
-            <?endforeach;?>
+            <?php endforeach;?>
         </div>
-        <?endif;?>
+        <?php endif;?>
         <div class="dscr-gall">
             <div class="col-md-6 first-col">
                 <div class="col-sm-6 ff-col">
@@ -218,11 +218,11 @@ $this->bodyClass[] = 'catalog-'.$model->id;
             <div class="form-group">
                 <?php echo $form->field($formModel, 'email')->textInput(['placeholder'=>Yii::t('system', 'Email của bạn')])->label(false) ?>
             </div>
-            <?if(!$model->work_with_us):?>
+            <?php if(!$model->work_with_us):?>
             <div class="form-group">
                 <?php echo $form->field($formModel, 'phone')->textInput(['placeholder'=>Yii::t('system', 'Số điện thoại không được để trống')])->label(false) ?>
             </div>
-            <?endif;?>
+            <?php endif;?>
             <?= $form->field($formModel, 'emails')->hiddenInput()->label(false) ?>
             <?= $form->field($formModel, 'title')->hiddenInput()->label(false) ?>
             <?= $form->field($formModel, 'id_event')->hiddenInput()->label(false) ?>
@@ -278,11 +278,11 @@ $this->bodyClass[] = 'catalog-'.$model->id;
                 <div class="form-group">
                     <?php echo $form->field($formModel, 'email')->textInput(['placeholder'=>Yii::t('system', 'Email của bạn')])->label(false) ?>
                 </div>
-                <?if(!$model->work_with_us):?>
+                <?php if(!$model->work_with_us):?>
                 <div class="form-group">
                     <?php echo $form->field($formModel, 'phone')->textInput(['placeholder'=>Yii::t('system', 'Số điện thoại không được để trống')])->label(false) ?>
                 </div>
-                <?endif;?>
+                <?php endif;?>
                 <?= $form->field($formModel, 'emails')->hiddenInput()->label(false) ?>
                 <?= $form->field($formModel, 'title')->hiddenInput()->label(false) ?>
                 <?= $form->field($formModel, 'id_event')->hiddenInput()->label(false) ?>

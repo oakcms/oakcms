@@ -26,9 +26,9 @@ use app\modules\field\models\Category;
             <?php
             $relation_model = $model->relation_model;
             ?>
-            <?if(!empty($relation_model) && method_exists($relation_model, 'getCategoryFields')):?>
+            <?php if(!empty($relation_model) && method_exists($relation_model, 'getCategoryFields')):?>
                 <?= $form->field($model, 'model_category_id')->checkboxList($relation_model::getCategoryFields()) ?>
-            <?endif;?>
+            <?php endif;?>
             <?= $form->field($model, 'type')->dropdownList(Yii::$app->getModule('field')->types) ?>
             <?= $form->field($model, 'description')->textArea(['maxlength' => true]) ?>
             <div class="form-group">

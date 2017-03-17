@@ -233,15 +233,15 @@ $this->params['actions_buttons'] = [
             </div>
             <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_3">
-                <?foreach ($model->settings as $key=>$setting):?>
+                <?php foreach ($model->settings as $key=>$setting):?>
                     <?= Html::settingField($key, $setting, 'content') ?>
-                <?endforeach;?>
+                <?php endforeach;?>
                 <? //= $form->field($model, 'access_type')->textInput() ?>
                 <? //= $form->field($model, 'category_id')->textInput() ?>
             </div>
 
             <div class="tab-pane" id="imagesTab">
-                <?if(!$model->isNewRecord):?>
+                <?php if(!$model->isNewRecord):?>
                     <button id="photo-upload" class="btn btn-success text-uppercase" type="button">
                         <span class="glyphicon glyphicon-arrow-up"></span> <?= Yii::t('admin', 'Upload Images')?>
                     </button>
@@ -287,9 +287,9 @@ $this->params['actions_buttons'] = [
                         ])
                         ?>
                     </div>
-                <?else:?>
+                <?php else:?>
                     <?= Yii::t('admin', 'First you need to save the item, and then the form appears with images')?>
-                <?endif?>
+                <?php endif?>
             </div>
             <div class="tab-pane" id="seoTab">
                 <?= $form->field($model, 'meta_title')->textInput() ?>

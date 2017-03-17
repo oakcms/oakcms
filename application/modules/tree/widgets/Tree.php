@@ -92,9 +92,9 @@ class Tree extends \yii\base\Widget
 
                     <? showNested($it->shop_category_id); ?>
                 </li>
-            <?endforeach ?>
+            <?php endforeach ?>
         </ol>
-    <?endif ?>
+    <?php endif ?>
         <?php
     }
 }
