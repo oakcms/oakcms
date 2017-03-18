@@ -90,7 +90,7 @@ class FormBuilderForms extends \app\components\ActiveRecord
 
     public function getSubmissions()
     {
-        return $this->hasMany(FormBuilderSubmission::className(), ['form_id', 'id']);
+        return $this->hasMany(FormBuilderSubmission::className(), ['form_id' => 'id']);
     }
 
     public function getFields()

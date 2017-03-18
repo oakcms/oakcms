@@ -21,7 +21,8 @@ return [
                 'password' => 'Password',
                 'email' => 'Email',
                 'color' => 'Color',
-                'tel' => 'Telephone'
+                'tel' => 'Phone',
+                'number' => 'Number'
             ]
         ],
         'name' => [

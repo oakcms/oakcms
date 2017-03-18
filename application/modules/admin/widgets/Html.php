@@ -102,6 +102,9 @@ class Html extends \yii\bootstrap\Html
                 );
                 $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
+            case 'hiddenInput':
+                $element = self::hiddenInput($name, $value, $elementOptions);
+                break;
             default:
                 $element = '';
                 break;

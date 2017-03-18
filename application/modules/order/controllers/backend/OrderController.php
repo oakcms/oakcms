@@ -5,10 +5,8 @@ use yii;
 use app\modules\order\models\tools\OrderSearch;
 use app\modules\order\models\Order;
 use app\modules\order\models\Payment;
-use app\modules\order\models\Element;
 use app\modules\order\models\tools\ElementSearch;
 use app\modules\order\models\Field;
-use app\modules\order\models\FieldValue;
 use app\modules\order\models\PaymentType;
 use app\modules\order\models\ShippingType;
 use yii\web\Controller;
@@ -20,27 +18,27 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use app\modules\order\events\OrderEvent;
 
-class OrderController  extends Controller
+class OrderController extends Controller
 {
     public function behaviors()
     {
         return [
             'adminAccess' => [
                 'class' => AccessControl::className(),
-				'only' => ['create', 'update', 'index', 'view', 'push-elements', 'print', 'delete', 'editable', 'to-order', 'update-status'],
+                'only'  => ['create', 'update', 'index', 'view', 'push-elements', 'print', 'delete', 'editable', 'to-order', 'update-status'],
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => $this->module->adminRoles,
-                    ]
-                ]
+                    ],
+                ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
+            'verbs'       => [
+                'class'   => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['post'],
+                    'delete'        => ['post'],
                     'push-elements' => ['post'],
-                    'to-order' => ['post'],
+                    'to-order'      => ['post'],
                 ],
             ],
         ];
@@ -67,13 +65,13 @@ class OrderController  extends Controller
 
         $dataProvider = $searchModel->search($searchParams);
 
-        if($tab == 'assigments') {
+        if ($tab == 'assigments') {
             $dataProvider->query->andWhere(['order.is_assigment' => '1']);
         } else {
             $dataProvider->query->andWhere('(order.is_assigment IS NULL OR order.is_assigment = 0)');
         }
 
-        if(yii::$app->request->get('time_start')) {
+        if (yii::$app->request->get('time_start')) {
             $dataProvider->query->orderBy('order.timestamp ASC');
         }
 
@@ -82,21 +80,21 @@ class OrderController  extends Controller
         $paymentTypes = ArrayHelper::map(PaymentType::find()->all(), 'id', 'name');
         $shippingTypes = ArrayHelper::map(ShippingType::find()->all(), 'id', 'name');
 
-		$this->getView()->registerJs('oak.orders_list.elementsUrl = "'.Url::toRoute(['/order/tools/ajax-elements-list']).'";');
+        $this->getView()->registerJs('oak.orders_list.elementsUrl = "' . Url::toRoute(['/order/tools/ajax-elements-list']) . '";');
 
         return $this->render('index', [
-            'tab' => Html::encode($tab),
-            'searchModel' => $searchModel,
+            'tab'           => Html::encode($tab),
+            'searchModel'   => $searchModel,
             'shippingTypes' => $shippingTypes,
-            'paymentTypes' => $paymentTypes,
-			'module' => $this->module,
-            'dataProvider' => $dataProvider,
+            'paymentTypes'  => $paymentTypes,
+            'module'        => $this->module,
+            'dataProvider'  => $dataProvider,
         ]);
     }
 
     public function actionPushElements($id)
     {
-        if($model = $this->findModel($id)) {
+        if ($model = $this->findModel($id)) {
             yii::$app->order->pushCartElements($id);
         }
 
@@ -109,7 +107,7 @@ class OrderController  extends Controller
 
         $searchModel = new ElementSearch;
         $params = yii::$app->request->queryParams;
-        if(empty($params['ElementSearch'])) {
+        if (empty($params['ElementSearch'])) {
             $params = ['ElementSearch' => ['order_id' => $model->id]];
         }
 
@@ -123,12 +121,12 @@ class OrderController  extends Controller
         $this->getView()->registerJs('oak.order.outcomingAction = "' . Url::toRoute(['/order/tools/outcoming']) . '";');
 
         return $this->render('view', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel'   => $searchModel,
+            'dataProvider'  => $dataProvider,
             'shippingTypes' => $shippingTypes,
-            'fieldFind' => $fieldFind,
-            'paymentTypes' => $paymentTypes,
-            'model' => $model,
+            'fieldFind'     => $fieldFind,
+            'paymentTypes'  => $paymentTypes,
+            'model'         => $model,
         ]);
     }
 
@@ -142,7 +140,7 @@ class OrderController  extends Controller
 
         $searchModel = new ElementSearch;
         $params = yii::$app->request->queryParams;
-        if(empty($params['ElementSearch'])) {
+        if (empty($params['ElementSearch'])) {
             $params = ['ElementSearch' => ['order_id' => $model->id]];
         }
 
@@ -154,13 +152,13 @@ class OrderController  extends Controller
         $fieldFind = Field::find();
 
         return $this->render('print', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel'   => $searchModel,
+            'dataProvider'  => $dataProvider,
             'shippingTypes' => $shippingTypes,
-            'fieldFind' => $fieldFind,
-            'paymentTypes' => $paymentTypes,
-            'module' => $this->module,
-            'model' => $model,
+            'fieldFind'     => $fieldFind,
+            'paymentTypes'  => $paymentTypes,
+            'module'        => $this->module,
+            'model'         => $model,
         ]);
     }
 
@@ -173,7 +171,7 @@ class OrderController  extends Controller
         $model = $this->findModel($id);
         $searchModel = new ElementSearch;
         $params = yii::$app->request->queryParams;
-        if(empty($params['ElementSearch'])) {
+        if (empty($params['ElementSearch'])) {
             $params = ['ElementSearch' => ['order_id' => $model->id]];
         }
 
@@ -185,13 +183,13 @@ class OrderController  extends Controller
         $fieldFind = Field::find();
 
         return $this->render('print', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'searchModel'   => $searchModel,
+            'dataProvider'  => $dataProvider,
             'shippingTypes' => $shippingTypes,
-            'fieldFind' => $fieldFind,
-            'paymentTypes' => $paymentTypes,
-            'module' => $this->module,
-            'model' => $model,
+            'fieldFind'     => $fieldFind,
+            'paymentTypes'  => $paymentTypes,
+            'module'        => $this->module,
+            'model'         => $model,
         ]);
     }
 
@@ -205,12 +203,12 @@ class OrderController  extends Controller
 
         if ($model->load(yii::$app->request->post()) && $model->save()) {
 
-            if($ordersEmail = yii::$app->getModule('order')->ordersEmail) {
+            if ($ordersEmail = yii::$app->getModule('order')->ordersEmail) {
                 $sender = yii::$app->getModule('order')->mail
                     ->compose('admin_notification', ['model' => $model])
                     ->setTo($ordersEmail)
                     ->setFrom(yii::$app->getModule('order')->robotEmail)
-                    ->setSubject(Yii::t('order', 'New order')." #{$model->id} ({$model->client_name})")
+                    ->setSubject(Yii::t('order', 'New order') . " #{$model->id} ({$model->client_name})")
                     ->send();
             }
 
@@ -256,12 +254,12 @@ class OrderController  extends Controller
         if ($model->load(yii::$app->request->post()) && $model->save()) {
             $model = yii::$app->order->get($model->id);
 
-            if($ordersEmail = yii::$app->getModule('order')->ordersEmail) {
+            if ($ordersEmail = yii::$app->getModule('order')->ordersEmail) {
                 $sender = yii::$app->getModule('order')->mail
                     ->compose('admin_notification', ['model' => $model])
                     ->setTo($ordersEmail)
                     ->setFrom(yii::$app->getModule('order')->robotEmail)
-                    ->setSubject(Yii::t('order', 'New order')." #{$model->id} ({$model->client_name})")
+                    ->setSubject(Yii::t('order', 'New order') . " #{$model->id} ({$model->client_name})")
                     ->send();
             }
 
@@ -274,14 +272,14 @@ class OrderController  extends Controller
             // создаём заказ, очищаем информер корзины
             if ($model->cost == 0) {
                 return [
-                    'status' => 'success',
-                    'nextStep' => $nextStepAction
+                    'status'   => 'success',
+                    'nextStep' => $nextStepAction,
                 ];
             }
 
             // создаём заказ, отдаём урл на рендер формы оплаты
             if (\yii::$app->getModule('order')->paymentFormAction) {
-                $nextStepAction = Url::to([\yii::$app->getModule('order')->paymentFormAction , 'id' => $model->id, 'useAjax' => 1]);
+                $nextStepAction = Url::to([\yii::$app->getModule('order')->paymentFormAction, 'id' => $model->id, 'useAjax' => 1]);
             }
 
             if ($this->module->paymentFreeTypeIds && in_array($model->payment_type_id, $this->module->paymentFreeTypeIds)) {
@@ -289,13 +287,13 @@ class OrderController  extends Controller
             }
 
             return [
-                'status' => 'success',
-                'nextStep' => $nextStepAction
+                'status'   => 'success',
+                'nextStep' => $nextStepAction,
             ];
 
         } else {
             return [
-                'status' => 'error'
+                'status' => 'error',
             ];
         }
     }
@@ -312,13 +310,13 @@ class OrderController  extends Controller
             $model->payment = 'no';
             $model->user_id = yii::$app->user->id;
 
-            if($model->save()) {
-                if($ordersEmail = yii::$app->getModule('order')->ordersEmail) {
+            if ($model->save()) {
+                if ($ordersEmail = yii::$app->getModule('order')->ordersEmail) {
                     $sender = yii::$app->getModule('order')->mail
                         ->compose('admin_notification', ['model' => $model])
                         ->setTo($ordersEmail)
                         ->setFrom(yii::$app->getModule('order')->robotEmail)
-                        ->setSubject(Yii::t('order', 'New order')." #{$model->id} ({$model->client_name})")
+                        ->setSubject(Yii::t('order', 'New order') . " #{$model->id} ({$model->client_name})")
                         ->send();
                 }
 
@@ -326,22 +324,22 @@ class OrderController  extends Controller
                 $orderEvent = new OrderEvent(['model' => $model]);
                 $this->module->trigger($module::EVENT_ORDER_CREATE, $orderEvent);
 
-                if($paymentType = $model->paymentType) {
+                if ($paymentType = $model->paymentType) {
                     $payment = new Payment;
                     $payment->order_id = $model->id;
                     $payment->payment_type_id = $paymentType->id;
                     $payment->date = date('Y-m-d H:i:s');
                     $payment->amount = $model->getCost();
-                    $payment->description = yii::t('order', 'Order #'.$model->id);
+                    $payment->description = yii::t('order', 'Order #' . $model->id);
                     $payment->user_id = yii::$app->user->id;
                     $payment->ip = yii::$app->getRequest()->getUserIP();
                     $payment->save();
 
-                    if($widget = $paymentType->widget) {
+                    if ($widget = $paymentType->widget) {
                         return $widget::widget([
-                            'autoSend' => true,
-                            'orderModel' => $model,
-                            'description' => yii::t('order', 'Order #'.$model->id),
+                            'autoSend'    => true,
+                            'orderModel'  => $model,
+                            'description' => yii::t('order', 'Order #' . $model->id),
                         ]);
                     }
                 }
@@ -349,20 +347,22 @@ class OrderController  extends Controller
                 return $this->redirect([yii::$app->getModule('order')->successUrl, 'id' => $model->id, 'payment' => $model->payment_type_id]);
             } else {
                 yii::$app->session->setFlash('orderError', yii::t('order', 'Error (check required fields)'));
+
                 return $this->redirect(yii::$app->request->referrer);
             }
         } else {
             yii::$app->session->setFlash('orderError', yii::t('order', 'Error (check required fields)'));
+
             return $this->redirect(yii::$app->request->referrer);
         }
     }
 
     public function actionUpdateStatus()
     {
-        if($id = yii::$app->request->post('id')) {
+        if ($id = yii::$app->request->post('id')) {
             $model = Order::findOne($id);
             $model->status = yii::$app->request->post('status');
-            if($model->save(false)) {
+            if ($model->save(false)) {
                 die(json_encode(['result' => 'success']));
             } else {
                 die(json_encode(['result' => 'fail', 'error' => 'enable to save']));
@@ -408,12 +408,12 @@ class OrderController  extends Controller
 
     public function actionToOrder()
     {
-        if($order = $this->findModel(yii::$app->request->post('id'))) {
+        if ($order = $this->findModel(yii::$app->request->post('id'))) {
             $order->is_assigment = 0;
             $order->date = date('Y-m-d H:i:s');
             $order->timestamp = time();
 
-            if($staffers = yii::$app->request->post('staffers')) {
+            if ($staffers = yii::$app->request->post('staffers')) {
                 $order->staffer = $staffers;
             }
 

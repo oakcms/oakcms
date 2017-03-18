@@ -102,10 +102,13 @@
     "config": {
         "process-timeout": 1800
     },
+    "autoload": {
+        "psr-4": {
+            "app\\components\\composer\\" : "application/components/composer"
+        }
+    },
     "scripts": {
-        "post-create-project-cmd": [
-            "app\\components\\composer\\Installer::postCreateProject"
-        ]
+        "post-create-project-cmd": "app\\components\\composer\\Installer::generateCookieValidationKey"
     },
     "extra": {
         "app\\components\\composer\\Installer::postCreateProject": {
@@ -116,10 +119,9 @@
                     "application": "0755"
                 }
             ],
-            "generateCookieValidationKey": [
-                ".env-dist"
-            ]
+            "generateCookieValidationKey": ""
         },
+
         "asset-installer-paths": {
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
