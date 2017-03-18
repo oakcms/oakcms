@@ -108,7 +108,7 @@
         }
     },
     "scripts": {
-        "post-create-project-cmd": "app\\components\\composer\\Installer::generateCookieValidationKey"
+        "post-create-project-cmd": ["app\\components\\composer\\Installer::generateCookieValidationKey"]
     },
     "extra": {
         "app\\components\\composer\\Installer::postCreateProject": {
