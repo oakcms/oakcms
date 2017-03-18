@@ -73,8 +73,6 @@
 
         "kotchuprik/yii2-sortable-widgets" : "^2.0.2",
 
-        "newerton/yii2-fancybox": "dev-master",
-
         "mongosoft/yii2-upload-behavior": "*",
 
         "mihaildev/yii2-ckeditor": "*",
