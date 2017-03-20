@@ -106,7 +106,10 @@
         }
     },
     "scripts": {
-        "post-create-project-cmd": ["app\\components\\composer\\Installer::postCreateProject"]
+        "post-create-project-cmd": [
+            "app\\components\\composer\\Installer::generateConfig",
+            "yii\\composer\\Installer::postCreateProject"
+        ]
     },
     "extra": {
         "asset-installer-paths": {
@@ -120,8 +123,7 @@
                     "assets": "0777",
                     "application": "0755"
                 }
-            ],
-            "generateCookieValidationKey": ""
+            ]
         }
     }
 }

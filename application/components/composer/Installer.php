@@ -14,7 +14,7 @@ class Installer extends \yii\composer\Installer
     /**
      * @inheritdoc
      */
-    public static function generateCookieValidationKey()
+    public static function generateConfig()
     {
         $key            = self::generateRandomString();
         $db_host        = self::readStdinUser('Data Base Host', 'localhost');
@@ -48,6 +48,15 @@ class Installer extends \yii\composer\Installer
         }
     }
 
+    protected static function generateRandomString()
+    {
+        if (!extension_loaded('openssl')) {
+            throw new \Exception('The OpenSSL PHP extension is required by Yii2.');
+        }
+        $length = 32;
+        $bytes = openssl_random_pseudo_bytes($length);
+        return strtr(substr(base64_encode($bytes), 0, $length), '+/=', '_-.');
+    }
 
     /**
      * @param string $prompt
