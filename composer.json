@@ -109,6 +109,10 @@
         "post-create-project-cmd": ["app\\components\\composer\\Installer::postCreateProject"]
     },
     "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        },
         "app\\components\\composer\\Installer::postCreateProject": {
             "setPermission": [
                 {
@@ -118,11 +122,6 @@
                 }
             ],
             "generateCookieValidationKey": ""
-        },
-
-        "asset-installer-paths": {
-            "npm-asset-library": "vendor/npm",
-            "bower-asset-library": "vendor/bower"
         }
     }
 }
