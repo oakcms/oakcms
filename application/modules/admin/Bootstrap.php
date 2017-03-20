@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 06.04.2016
@@ -9,7 +16,7 @@
 
 namespace app\modules\admin;
 
-use app\modules\admin\models\ModulesModules;
+use app\modules\admin\models\Modules;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
@@ -42,61 +49,66 @@ class Bootstrap implements BootstrapInterface
             /**
              * автоматична загрузка модулів
              */
-            $adminModule->activeModules = ModulesModules::findAllActiveAdmin();
+            $adminModule->activeModules = Modules::findAllActiveAdmin();
 
             $modules_backend = [];
             $modules_frontend = [];
+            $modules_console = [];
 
             foreach ($adminModule->activeModules as $name => $module) {
                 if (class_exists($module->class)) {
-                    if ($module->isAdmin) {
+                    if (!Yii::$app->request->isConsoleRequest) {
+                        if ($module->isAdmin) {
+                            $class = new \ReflectionClass($module->class);
 
-                        $class = new \ReflectionClass($module->class);
+                            $modules_backend[$name]['class'] = $module->class;
 
-                        $modules_backend[$name]['class'] = $module->class;
+                            if ($class->hasProperty('controllerNamespace') && $class->getStaticPropertyValue('controllerNamespace', '') != '') {
+                                $modules_backend[$name]['controllerNamespace'] = $class->getStaticPropertyValue('controllerNamespace');
+                            } else {
+                                $modules_backend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\backend';
+                            }
 
-                        if ($class->hasProperty('controllerNamespace') && $class->getStaticPropertyValue('controllerNamespace', '') != '') {
-                            $modules_backend[$name]['controllerNamespace'] = $class->getStaticPropertyValue('controllerNamespace');
-                        } else {
-                            $modules_backend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\backend';
-                        }
+                            if ($class->hasProperty('viewPath') && $class->getStaticPropertyValue('viewPath', '') != '') {
+                                $modules_backend[$name]['viewPath'] = $class->getStaticPropertyValue('viewPath');
+                            } else {
+                                $modules_backend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/backend';
+                            }
 
-                        if ($class->hasProperty('viewPath') && $class->getStaticPropertyValue('viewPath', '') != '') {
-                            $modules_backend[$name]['viewPath'] = $class->getStaticPropertyValue('viewPath');
-                        } else {
-                            $modules_backend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/backend';
-                        }
+                            if ($class->hasProperty('urlRulesBackend')) {
+                                foreach ($class->getStaticPropertyValue('urlRulesBackend') as $k => $item) {
+                                    $this->backendUrlRules[$k] = $item;
+                                }
+                            }
 
-                        if ($class->hasProperty('urlRulesBackend')) {
-                            foreach ($class->getStaticPropertyValue('urlRulesBackend') as $k => $item) {
-                                $this->backendUrlRules[$k] = $item;
+                            if ($class->hasProperty('urlRulesFrontend')) {
+                                foreach ($class->getStaticPropertyValue('urlRulesFrontend') as $k => $item) {
+                                    $this->frontendUrlRules[$k] = $item;
+                                }
+                            }
+
+                            if ($class->hasProperty('setAppComponents')) {
+                                foreach ($class->getStaticPropertyValue('setAppComponents') as $k => $item) {
+                                    $this->setAppComponents[$k] = $item;
+                                }
+                            }
+
+                            if (isset($module->settings) AND is_array($module->settings)) {
+                                $modules_backend[$name]['settings'] = $module->settings;
                             }
                         }
+                        if ($module->isFrontend) {
+                            $modules_frontend[$name]['class'] = $module->class;
+                            $modules_frontend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\frontend';
+                            $modules_frontend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/frontend';
 
-                        if ($class->hasProperty('urlRulesFrontend')) {
-                            foreach ($class->getStaticPropertyValue('urlRulesFrontend') as $k => $item) {
-                                $this->frontendUrlRules[$k] = $item;
+                            if (isset($module->settings) AND is_array($module->settings)) {
+                                $modules_frontend[$name]['settings'] = $module->settings;
                             }
                         }
-
-                        if ($class->hasProperty('setAppComponents')) {
-                            foreach ($class->getStaticPropertyValue('setAppComponents') as $k => $item) {
-                                $this->setAppComponents[$k] = $item;
-                            }
-                        }
-
-                        if (isset($module->settings) AND is_array($module->settings)) {
-                            $modules_backend[$name]['settings'] = $module->settings;
-                        }
-                    }
-                    if ($module->isFrontend) {
-                        $modules_frontend[$name]['class'] = $module->class;
-                        $modules_frontend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\frontend';
-                        $modules_frontend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/frontend';
-
-                        if (isset($module->settings) AND is_array($module->settings)) {
-                            $modules_frontend[$name]['settings'] = $module->settings;
-                        }
+                    } else {
+                        $modules_console[$name]['class'] = $module->class;
+                        $modules_console[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\console';
                     }
                 }
 
@@ -115,6 +127,7 @@ class Bootstrap implements BootstrapInterface
 
             Yii::$app->setComponents($this->setAppComponents);
             Yii::$app->setModules($modules_frontend);
+            Yii::$app->setModules($modules_console);
 
             $adminModule->setModules($modules_backend);
 
@@ -146,20 +159,22 @@ class Bootstrap implements BootstrapInterface
                 $app->getUrlManager()->addRules($this->frontendUrlRules, false);
             }
 
-            $rHostInfo = Url::home(true);
+            if (!Yii::$app->request->isConsoleRequest) {
+                $rHostInfo = Url::home(true);
 
-            if (
-                !Yii::$app->user->isGuest &&
-                strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'admin') === false &&
-                strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'gii') === false &&
-                strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'debug') === false &&
-                !Yii::$app->request->isAjax &&
-                Yii::$app->getView()->adminPanel
-            ) {
-                $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
-                    Yii::$app->getView()->bodyClass[] = 'oak-admin-bar';
-                    $app->getView()->on(\yii\web\View::EVENT_BEGIN_BODY, [$this, 'renderToolbar']);
-                });
+                if (
+                    !Yii::$app->user->isGuest &&
+                    strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'admin') === false &&
+                    strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'gii') === false &&
+                    strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'debug') === false &&
+                    !Yii::$app->request->isAjax &&
+                    Yii::$app->getView()->adminPanel
+                ) {
+                    $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
+                        Yii::$app->getView()->bodyClass[] = 'oak-admin-bar';
+                        $app->getView()->on(\yii\web\View::EVENT_BEGIN_BODY, [$this, 'renderToolbar']);
+                    });
+                }
             }
         }
 

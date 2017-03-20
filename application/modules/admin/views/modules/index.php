@@ -1,12 +1,18 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 use yii\helpers\Url;
 use yii\helpers\Html;
 use app\modules\admin\widgets\Button;
-use app\modules\admin\models\ModulesModules;
+use app\modules\admin\models\Modules;
 
 /* @var $this yii\web\View */
-/* @var $searchModel app\modules\admin\models\search\ModulesModulesSearch */
+/* @var $searchModel app\modules\admin\models\search\ModulesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('admin', 'Modules Modules');
@@ -108,7 +114,7 @@ $this->params['actions_buttons'] = [
                     'format' => 'raw',
                     'options' => ['width' => '50px'],
                     'value' => function ($model, $index, $widget) {
-                        return Html::checkbox('', $model->status == ModulesModules::STATUS_PUBLISHED, [
+                        return Html::checkbox('', $model->status == Modules::STATUS_PUBLISHED, [
                             'class' => 'switch toggle',
                             'data-id' => $model->primaryKey,
                             'data-link' => \yii\helpers\Url::to(['/admin/modules']),

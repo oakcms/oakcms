@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 Yii::setAlias('@adminTemplate', realpath(__DIR__ . '/../templates/backend/base'));
 Yii::setAlias('@adminTemplate', realpath(__DIR__ . '/../templates/backend/base'));
@@ -55,7 +61,14 @@ if (YII_ENV_DEV) {
                 ],
                 'template' => 'OakCMS',
                 'messageCategory' => 'oakcms'
-            ]
+            ],
+            'migrik' => [
+                'class'     => \insolita\migrik\gii\StructureGenerator::class,
+                'templates' =>
+                    [
+                        'custom' => '@adminTemplate/views/_gii/default_structure',
+                    ],
+            ],
         ]
     ];
     //$config['components']['assetManager']['forceCopy'] = true;

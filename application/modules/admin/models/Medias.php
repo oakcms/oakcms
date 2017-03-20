@@ -1,11 +1,17 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 namespace app\modules\admin\models;
 
 use Yii;
 
 /**
- * This is the model class for table "{{%medias}}".
+ * This is the model class for table "{{%admin_medias}}".
  *
  * @property integer $media_id
  * @property string $file_title
@@ -32,7 +38,7 @@ class Medias extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%medias}}';
+        return '{{%admin_medias}}';
     }
 
     /**

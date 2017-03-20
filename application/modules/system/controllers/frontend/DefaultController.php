@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 namespace app\modules\system\controllers\frontend;
 
@@ -31,57 +37,6 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         return $this->render('index', []);
-    }
-
-    public function actionBackCall()
-    {
-        $success    = null;
-        $model      = new SystemBackCall();
-        $settings   = \Yii::$app->getModule('admin')->getSettings($this->module->id);
-
-        if (
-            $model->load(\Yii::$app->request->post()) &&
-            $model->contact($settings['BackCallEmail']['value'], $settings['BackCallSubject']['value'])
-        ) {
-            $success = [
-                'success' => \Yii::t('system', $settings['BackCallSuccessText']['value'])
-            ];
-        } else {
-            $this->error =\Yii::t('system', 'Error');
-        }
-
-        return $this->response($success);
-    }
-
-    public function actionSendRecruitment()
-    {
-        $success    = null;
-        $model      = new RecruitmentForm();
-        $settings   = \Yii::$app->getModule('admin')->getSettings($this->module->id);
-
-        if ($model->load(\Yii::$app->request->post())) {
-
-            $model->resume = UploadedFile::getInstance($model, 'resume');
-
-            if($model->resume) {
-                $filename = \Yii::getAlias('@webroot').'/uploads/emailattachments/' . uniqid() . '.' . $model->resume->extension;
-                $model->resume->saveAs($filename);
-            } else {
-                $filename = false;
-            }
-
-            if($model->contact($settings['BackCallEmail']['value'], $filename)) {
-                $success = [
-                    'success' => \Yii::t('system', $settings['BackCallSuccessText']['value'])
-                ];
-            } else {
-                var_dump($model->resume);
-                exit;
-            }
-
-        }
-
-        return $this->response($success);
     }
 
     public function actionLiveEdit($id)

@@ -2,8 +2,8 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\user\models\backend;
@@ -16,6 +16,7 @@ class User extends \app\modules\user\models\User
 {
     const SCENARIO_ADMIN_CREATE = 'adminCreate';
     const SCENARIO_ADMIN_UPDATE = 'adminUpdate';
+    const SCENARIO_ADMIN_CREATE_INIT = 'adminCreateInit';
 
     public $newPassword;
     public $newPasswordRepeat;
@@ -28,6 +29,7 @@ class User extends \app\modules\user\models\User
     {
         return ArrayHelper::merge(parent::rules(), [
             [['newPassword', 'newPasswordRepeat'], 'required', 'on' => self::SCENARIO_ADMIN_CREATE],
+            [['newPassword'], 'required', 'on' => self::SCENARIO_ADMIN_CREATE_INIT],
             ['newPassword', 'string', 'min' => 6],
             ['newPasswordRepeat', 'compare', 'compareAttribute' => 'newPassword'],
             ['googleAuthSecretCode', 'string', 'max' => 6],
@@ -41,6 +43,7 @@ class User extends \app\modules\user\models\User
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_ADMIN_CREATE] = ['username', 'email', 'status', 'role', 'newPassword', 'newPasswordRepeat'];
+        $scenarios[self::SCENARIO_ADMIN_CREATE_INIT] = ['username', 'email', 'status', 'role', 'newPassword'];
         $scenarios[self::SCENARIO_ADMIN_UPDATE] = ['username', 'email', 'status', 'role', 'newPassword', 'newPasswordRepeat', 'googleAuthenticatorSecret', 'googleAuthenticator', 'googleAuthSecretCode'];
         return $scenarios;
     }

@@ -3,42 +3,13 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1
- *
- * Use the
- *
- * ```php
- * use app\modules\admin\components\behaviors\SettingModel;
- *
- * public function behaviors()
- * {
- *     return [
- *         SettingModel::className(),
- *     ];
- * }
- * ```
- *
- * or
- *
- * ```php
- * use app\modules\admin\components\behaviors\SettingModel;
- *
- * public function behaviors()
- * {
- *     return [
- *          [
- *              'class' => SettingModel::className(),
- *              'settingsField' => 'settings'
- *          ]
- *     ];
- * }
- * ```
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\admin\components\behaviors;
 
 use app\components\ActiveRecord;
-use app\modules\admin\models\ModulesModules;
+use app\modules\admin\models\Modules;
 use app\modules\text\controllers\backend\DefaultController;
 
 class SettingModel extends \yii\base\Behavior
@@ -75,7 +46,7 @@ class SettingModel extends \yii\base\Behavior
     public function beforeSave($event)
     {
         if(!$this->owner->{$this->settingsField} || !is_array($this->owner->{$this->settingsField})){
-            $this->owner->{$this->settingsField} = ModulesModules::getDefaultSettings($this->module);
+            $this->owner->{$this->settingsField} = Modules::getDefaultSettings($this->module);
         }
         $this->owner->{$this->settingsField} = json_encode($this->owner->{$this->settingsField});
     }
@@ -87,7 +58,7 @@ class SettingModel extends \yii\base\Behavior
         } elseif($this->module === false) {
 
         } else {
-            $this->owner->{$this->settingsField} = ModulesModules::getDefaultSettings($this->module);
+            $this->owner->{$this->settingsField} = Modules::getDefaultSettings($this->module);
         }
     }
 

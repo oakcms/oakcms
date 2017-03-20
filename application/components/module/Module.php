@@ -2,14 +2,13 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
-
 
 namespace app\components\module;
 
-use app\modules\admin\models\ModulesModules;
+use app\modules\admin\models\Modules;
 
 class Module extends \yii\base\Module
 {
@@ -31,7 +30,7 @@ class Module extends \yii\base\Module
      */
     public static function getModuleName($namespace)
     {
-        foreach(ModulesModules::findAllActive() as $module)
+        foreach (Modules::findAllActive() as $module)
         {
             $moduleClassPath = preg_replace('/[\w]+$/', '', $module->class);
             if(strpos($namespace, $moduleClassPath) !== false){

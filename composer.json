@@ -94,8 +94,8 @@
         "pigochu/yii2-jquery-locationpicker": ">=0.2.0",
         "voskobovich/yii2-many-many-behavior": "^3.0",
         "claviska/simpleimage": "~2.5",
-
-        "symfony/yaml": "~2.8"
+        "symfony/yaml": "~2.8",
+        "insolita/yii2-migration-generator": "~2.2"
     },
     "config": {
         "process-timeout": 1800

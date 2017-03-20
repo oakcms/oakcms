@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
+
 namespace app\modules\text;
 
 use app\components\module\ModuleEventsInterface;
@@ -24,7 +31,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
     public function addAdminMenuItem($event)
     {
         $event->items['text'] = [
-            'label' => \Yii::t('text', 'Text Block'),
+            'label' => \Yii::t('text', 'Html Blocks'),
             'icon'  => '<i class="fa fa-font"></i>',
             'url'   => ['/admin/text'],
         ];

@@ -2,8 +2,8 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\gallery\behaviors;
@@ -32,8 +32,14 @@ class AttachImages extends Behavior
 
     public function init()
     {
-        if (empty($this->uploadsPath)) {
-            $this->uploadsPath = Yii::getAlias(Yii::$app->getModule('admin')->getModule('gallery')->imagesStorePath);
+        if (empty($this->uploadsPath) && !Yii::$app->request->isConsoleRequest) {
+            $this->uploadsPath = Yii::getAlias(
+                yii\helpers\ArrayHelper::getValue(
+                    Yii::$app->getModule('admin')->getModule('gallery'),
+                    'imagesStorePath',
+                    '@webroot/uploads/store'
+                )
+            );
         }
     }
 

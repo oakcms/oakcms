@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\shop;
@@ -139,15 +142,17 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
             ];
         }
 
-        if (!$this->userModel) {
-            if ($user = Yii::$app->user->getIdentity()) {
-                $this->userModel = $user::className();
+        if (!Yii::$app->request->isConsoleRequest) {
+            if (!$this->userModel) {
+                if ($user = Yii::$app->user->getIdentity()) {
+                    $this->userModel = $user::className();
+                }
             }
-        }
 
-        if (is_callable($this->users)) {
-            $func = $this->users;
-            $this->users = $func();
+            if (is_callable($this->users)) {
+                $func = $this->users;
+                $this->users = $func();
+            }
         }
 
         parent::init();

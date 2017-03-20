@@ -2,15 +2,15 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 use app\modules\admin\widgets\ActiveForm;
 use app\modules\admin\widgets\Button;
 
 /* @var $this yii\web\View */
-/* @var $model app\modules\admin\models\ModulesModules */
+/* @var $model app\modules\admin\models\Modules */
 /* @var $form yii\widgets\ActiveForm */
 
 $this->params['actions_buttons'] = [

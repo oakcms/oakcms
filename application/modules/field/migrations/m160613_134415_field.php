@@ -1,9 +1,16 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m160613_134415_Mass extends Migration {
+class m160613_134415_field extends Migration
+{
 
     public function safeUp() {
         if ($this->db->driverName === 'mysql') {
@@ -12,19 +19,20 @@ class m160613_134415_Mass extends Migration {
         else {
             $tableOptions = null;
         }
-        
+
         $connection = Yii::$app->db;
 
         try {
             $this->createTable('{{%field}}', [
-                'id' => Schema::TYPE_PK . "",
-                'name' => Schema::TYPE_STRING . "(255) NOT NULL",
-                'slug' => Schema::TYPE_STRING . "(255) NOT NULL",
-                'category_id' => Schema::TYPE_INTEGER . "(11)",
-                'type' => Schema::TYPE_TEXT . "",
-                'options' => Schema::TYPE_TEXT . "",
-                'description' => Schema::TYPE_TEXT . "",
-                'relation_model' => Schema::TYPE_STRING . "(55)",
+                'id'                => Schema::TYPE_PK . "",
+                'name'              => Schema::TYPE_STRING . "(255) NOT NULL",
+                'slug'              => Schema::TYPE_STRING . "(255) NOT NULL",
+                'category_id'       => Schema::TYPE_INTEGER . "(11)",
+                'type'              => Schema::TYPE_TEXT . "",
+                'options'           => Schema::TYPE_TEXT . "",
+                'description'       => Schema::TYPE_TEXT . "",
+                'relation_model'    => Schema::TYPE_STRING . "(55)",
+                'model_category_id' => Schema::TYPE_TEXT . "",
                 ], $tableOptions);
 
             $this->createIndex('category_id', '{{%field}}', 'category_id', 0);

@@ -1,10 +1,12 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\system\models;
-
 
 use Yii;
 use yii\base\Event;
@@ -14,14 +16,6 @@ use yii\caching\ExpressionDependency;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
-/**
- * This is the model class for table "grom_table".
- * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
- *
- * @property string $id
- * @property integer $timestamp
- */
 class DbState extends \yii\db\ActiveRecord
 {
     /**
@@ -29,7 +23,7 @@ class DbState extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%db_state}}';
+        return '{{%system_db_state}}';
     }
 
     /**

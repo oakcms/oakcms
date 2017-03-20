@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\components\composer;
@@ -44,6 +44,7 @@ class Installer extends \yii\composer\Installer
 
         if ($count > 0) {
             file_put_contents('.env', $content);
+            echo shell_exec('yii migrate');
         }
     }
 

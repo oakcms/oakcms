@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 06.04.2016
@@ -63,24 +70,26 @@ class Bootstrap implements BootstrapInterface
 
         $app->set('assetManager', $assetManager);
 
-        $rHostInfo = Url::home(true);
-        $themeBackend = Yii::$app->keyStorage->get('themeBackend');
-        $themeFrontend = Yii::$app->keyStorage->get('themeFrontend');
-        \Yii::setAlias('@backendTemplate', realpath(__DIR__ . '/../../templates/backend/' . $themeBackend));
-        \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
+        if (!Yii::$app->request->isConsoleRequest) {
+            $rHostInfo = Url::home(true);
+            $themeBackend = Yii::$app->keyStorage->get('themeBackend');
+            $themeFrontend = Yii::$app->keyStorage->get('themeFrontend');
+            \Yii::setAlias('@backendTemplate', realpath(__DIR__ . '/../../templates/backend/' . $themeBackend));
+            \Yii::setAlias('@frontendTemplate', realpath(__DIR__ . '/../../templates/frontend/' . $themeFrontend));
 
-        if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin') !== false) {
-            $themeClass = '\app\templates\backend\\'.$themeBackend.'\Theme';
-            \Yii::$app->getView()->theme = new $themeClass;
-            Yii::$app->getErrorHandler()->errorAction = '/admin/default/error';
-        } else {
-            $themeClass = '\app\templates\frontend\\' . $themeFrontend . '\Theme';
-            \Yii::$app->getView()->theme = new $themeClass;
-        }
+            if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo . 'admin') !== false) {
+                $themeClass = '\app\templates\backend\\' . $themeBackend . '\Theme';
+                \Yii::$app->getView()->theme = new $themeClass;
+                Yii::$app->getErrorHandler()->errorAction = '/admin/default/error';
+            } else {
+                $themeClass = '\app\templates\frontend\\' . $themeFrontend . '\Theme';
+                \Yii::$app->getView()->theme = new $themeClass;
+            }
 
-        // Індексація сайту
-        if (!Yii::$app->keyStorage->get('indexing')) {
-            \Yii::$app->getView()->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
+            // Індексація сайту
+            if (!Yii::$app->keyStorage->get('indexing')) {
+                \Yii::$app->getView()->registerMetaTag(['name' => 'robots', 'content' => 'noindex, nofollow']);
+            }
         }
     }
 }

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 Yii::setAlias('@tests', dirname(__DIR__) . '/tests/codeception');
 
@@ -6,17 +12,26 @@ $params = require(__DIR__ . '/params.php');
 $db = require(__DIR__ . '/db.php');
 
 $config = [
-    'id' => 'basic-console',
-    'basePath' => dirname(__DIR__),
+    'id'                  => 'basic-console',
+    'basePath'            => dirname(__DIR__),
     'controllerNamespace' => 'app\commands',
-    'bootstrap' => ['log'],
-    'modules' => [
-        'importmebel' => [
-            'class' => 'app\modules\importmebel\Module',
-            'controllerNamespace' => 'app\modules\importmebel\controllers\console',
+    'bootstrap'           => [
+        'log',
+        'app\modules\system\Bootstrap',
+        'app\modules\admin\Bootstrap',
+    ],
+    'modules'             => [
+        'admin' => [
+            'class'               => 'app\modules\admin\Module',
+            'controllerNamespace' => 'app\modules\admin\controllers\console',
         ],
     ],
-    'components' => [
+    'controllerMap'       => [
+        'migrate' => [
+            'class' => '\app\commands\MigrateController',
+        ],
+    ],
+    'components'          => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -44,13 +59,6 @@ $config = [
         'db' => $db,
     ],
     'params' => $params,
-    /*
-    'controllerMap' => [
-        'fixture' => [ // Fixture generation command line.
-            'class' => 'yii\faker\FixtureController',
-        ],
-    ],
-    */
 ];
 
 if (YII_ENV_DEV) {

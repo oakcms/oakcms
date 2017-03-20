@@ -2,8 +2,8 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\admin\models;
@@ -14,7 +14,7 @@ use himiklab\sortablegrid\SortableGridBehavior;
 use Yii;
 
 /**
- * This is the model class for table "{{%modules_modules}}".
+ * This is the model class for table "{{%admin_modules}}".
  *
  * @property integer $module_id
  * @property string $isFrontend
@@ -27,7 +27,7 @@ use Yii;
  * @property integer $order
  * @property integer $status
  */
-class ModulesModules extends ActiveRecord
+class Modules extends ActiveRecord
 {
 
     const CACHE_KEY_FRONTEND = 'modules_cache_frontend';
@@ -38,10 +38,10 @@ class ModulesModules extends ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return '{{%modules_modules}}';
-    }
+//    public static function tableName()
+//    {
+//        return '{{%admin_modules}}';
+//    }
 
     public function behaviors()
     {
@@ -77,26 +77,26 @@ class ModulesModules extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'module_id' => Yii::t('seoitems', 'ID'),
-            'name' => Yii::t('seoitems', 'Name'),
-            'class' => Yii::t('seoitems', 'Class'),
-            'isAdmin' => Yii::t('seoitems', 'Is Admin'),
-            'AdminClass' => Yii::t('seoitems', 'Admin Class'),
-            'title' => Yii::t('seoitems', 'Title'),
-            'icon' => Yii::t('seoitems', 'Icon'),
-            'settings' => Yii::t('seoitems', 'Settings'),
-            'order' => Yii::t('seoitems', 'Order'),
-            'status' => Yii::t('seoitems', 'Status'),
+            'module_id'  => Yii::t('admin', 'ID'),
+            'name'       => Yii::t('admin', 'Name'),
+            'class'      => Yii::t('admin', 'Class'),
+            'isAdmin'    => Yii::t('admin', 'Is Admin'),
+            'AdminClass' => Yii::t('admin', 'Admin Class'),
+            'title'      => Yii::t('admin', 'Title'),
+            'icon'       => Yii::t('admin', 'Icon'),
+            'settings'   => Yii::t('admin', 'Settings'),
+            'order'      => Yii::t('admin', 'Order'),
+            'status'     => Yii::t('admin', 'Status'),
         ];
     }
 
     /**
      * @inheritdoc
-     * @return \app\modules\admin\models\query\ModulesModulesQuery the active query used by this AR class.
+     * @return \app\modules\admin\models\query\ModulesQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \app\modules\admin\models\query\ModulesModulesQuery(get_called_class());
+        return new \app\modules\admin\models\query\ModulesQuery(get_called_class());
     }
 
     public function getId() {

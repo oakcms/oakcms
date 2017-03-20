@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 use yii\db\Migration;
 
@@ -36,6 +42,7 @@ class m170309_200111_form_builder extends Migration
                 'options'  => $this->longText()->comment('(DC2Type:json_array)'),
                 'roles'    => $this->longText()->comment('(DC2Type:simple_array)'),
                 'data'     => $this->longText()->comment('(DC2Type:json_array)'),
+                'sort'     => $this->integer(11),
             ], $tableOptions);
 
             $this->createTable('{{%form_builder_submission}}', [

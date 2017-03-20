@@ -2,8 +2,8 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\system\models;
@@ -17,9 +17,9 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "{{%system_settings}}".
  *
  * @property integer $id
- * @property string $param_name
- * @property string $param_value
- * @property string $type
+ * @property string  $param_name
+ * @property string  $param_value
+ * @property string  $type
  */
 class SystemSettings extends \yii\db\ActiveRecord
 {
@@ -51,10 +51,10 @@ class SystemSettings extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'                => Yii::t('seoitems', 'ID'),
-            'param_name'        => Yii::t('seoitems', 'Param Name'),
-            'param_value'       => Yii::t('seoitems', 'Param Value'),
-            'type'              => Yii::t('seoitems', 'Type'),
+            'id'          => Yii::t('system', 'ID'),
+            'param_name'  => Yii::t('system', 'Param Name'),
+            'param_value' => Yii::t('system', 'Param Value'),
+            'type'        => Yii::t('system', 'Type'),
         ];
     }
 
@@ -66,47 +66,47 @@ class SystemSettings extends \yii\db\ActiveRecord
         switch ($this->type) {
             case 'textInput':
                 return Html::textInput($this->param_name, $this->param_value, ['class' => 'form-control']);
-            break;
+                break;
             case 'textarea':
                 return Html::textarea($this->param_name, $this->param_value, ['class' => 'form-control']);
-            break;
+                break;
             case 'checkbox':
                 return
                     Html::hiddenInput($this->param_name, 0) .
                     \oakcms\bootstrapswitch\Switcher::widget([
-                        'name' => $this->param_name,
-                        'checked' => $this->param_value
+                        'name'    => $this->param_name,
+                        'checked' => $this->param_value,
                     ]);
-            break;
+                break;
             case 'language':
                 return Html::dropDownList($this->param_name, $this->param_value, ArrayHelper::map(Language::getLanguages(), 'language_id', 'name'), ['class' => 'form-control']);
-            break;
+                break;
             case 'getThemeFrontend':
 
-                $files = scandir(Yii::getAlias('@app').'/templates/frontend');
+                $files = scandir(Yii::getAlias('@app') . '/templates/frontend');
 
                 $items = [];
                 foreach ($files as $file) {
-                    if($file != '.' AND $file != '..') {
+                    if ($file != '.' AND $file != '..') {
                         $items[$file] = $file;
                     }
                 }
 
                 return Html::dropDownList($this->param_name, $this->param_value, $items, ['class' => 'form-control']);
-            break;
+                break;
             case 'getThemeBackend':
 
-                $files = scandir(Yii::getAlias('@app').'/templates/backend');
+                $files = scandir(Yii::getAlias('@app') . '/templates/backend');
 
                 $items = [];
                 foreach ($files as $file) {
-                    if($file != '.' AND $file != '..') {
+                    if ($file != '.' AND $file != '..') {
                         $items[$file] = $file;
                     }
                 }
 
                 return Html::dropDownList($this->param_name, $this->param_value, $items, ['class' => 'form-control']);
-            break;
+                break;
         }
     }
 }
