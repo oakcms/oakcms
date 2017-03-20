@@ -116,7 +116,7 @@
             "npm-asset-library": "vendor/npm",
             "bower-asset-library": "vendor/bower"
         },
-        "app\\components\\composer\\Installer::postCreateProject": {
+        "yii\\composer\\Installer::postCreateProject": {
             "setPermission": [
                 {
                     "runtime": "0777",
