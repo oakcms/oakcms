@@ -8,19 +8,24 @@
 
 namespace app\components\composer;
 
-
-class Installer extends \yii\composer\Installer
+class Installer
 {
+    private static $_db_host     = 'localhost';
+    private static $_db_name     = 'oakcms';
+    private static $_db_username = 'root';
+    private static $_db_password = '';
+
     /**
      * @inheritdoc
      */
     public static function generateConfig()
     {
-        $key            = self::generateRandomString();
-        $db_host        = self::readStdinUser('Data Base Host', 'localhost');
-        $db_name        = self::readStdinUser('Data Base Name', 'oakcms');
-        $db_username    = self::readStdinUser('Data Base User Name', 'root');
-        $db_password    = self::readStdinUser('Data Base User Password');
+        $key = self::generateRandomString();
+
+        require(__DIR__ . '/../../../vendor/autoload.php');
+        require(__DIR__ . '/../../../vendor/yiisoft/yii2/Yii.php');
+
+        while (!self::hasDbConnect()) {}
 
         $content = preg_replace(
             [
@@ -31,10 +36,10 @@ class Installer extends \yii\composer\Installer
                 '/COOKIE_VALIDATION_KEY(.*)=(.*)(\r|\n)/',
             ],
             [
-                'DB_HOST$1= '.$db_host.'$3',
-                'DB_NAME$1= '.$db_name.'$3',
-                'DB_USERNAME$1= '.$db_username.'$3',
-                'DB_PASSWORD$1= '.$db_password.'$3',
+                'DB_HOST$1= '.self::$_db_host.'$3',
+                'DB_NAME$1= '.self::$_db_name.'$3',
+                'DB_USERNAME$1= '.self::$_db_username.'$3',
+                'DB_PASSWORD$1= '.self::$_db_password.'$3',
                 'COOKIE_VALIDATION_KEY$1= '.$key.'$3',
             ],
             file_get_contents('.env-dist'),
@@ -44,8 +49,43 @@ class Installer extends \yii\composer\Installer
 
         if ($count > 0) {
             file_put_contents('.env', $content);
-            echo shell_exec('yii migrate');
+            echo shell_exec('application/yii migrate --interactive=0');
         }
+    }
+
+
+    protected static function hasDbConnect() {
+        self::$_db_host     = self::readStdinUser('Data Base Host', 'localhost');
+        self::$_db_name     = self::readStdinUser('Data Base Name', 'oakcms');
+        self::$_db_username = self::readStdinUser('Data Base User Name', 'root');
+        self::$_db_password = self::readStdinUser('Data Base User Password');
+
+        while (($confirm = self::readStdinUser('Are the data entered correctly?', 'no')) != 'no' || $confirm != 'n') {
+
+            if($confirm != 'no' && $confirm != 'n' && $confirm != 'yes' && $confirm != 'y') {
+                continue;
+            }
+
+
+            if($confirm == 'yes' || $confirm == 'y') {
+                $connection = new \yii\db\Connection([
+                    'dsn' => 'mysql:host='.self::$_db_host.';port=3306;dbname='.self::$_db_name,
+                    'username' => self::$_db_username,
+                    'password' => self::$_db_password,
+                ]);
+
+                try {
+                    $connection->open();
+                    return true;
+                } catch (\Exception $e) {
+                    echo 'Wrong permission to db'.PHP_EOL;
+                    return false;
+                }
+            }
+
+            return false;
+        }
+        return false;
     }
 
     protected static function generateRandomString()
