@@ -6,7 +6,7 @@
  * @version    0.0.1-alpha.0.5
  */
 
-namespace app\modules\admin\migrations;
+namespace app\migrations;
 
 use yii\db\Migration;
 
@@ -33,11 +33,11 @@ class m170319_203200_admin extends Migration
             'file_url_thumb'   => $this->string(900)->notNull()->defaultValue(''),
             'file_params'      => $this->string(17500)->null()->defaultValue(null),
             'status'           => $this->smallInteger(1)->notNull()->defaultValue(1),
-            'created_on'       => $this->datetime()->notNull()->defaultValue('0000-00-00 00:00:00'),
+            'created_on'       => $this->datetime()->notNull(),
             'created_by'       => $this->integer(11)->notNull()->defaultValue(0),
-            'modified_on'      => $this->datetime()->notNull()->defaultValue('0000-00-00 00:00:00'),
+            'modified_on'      => $this->datetime()->notNull(),
             'modified_by'      => $this->integer(11)->notNull()->defaultValue(0),
-        ], $tableOptions);
+        ], 'ENGINE=MyISAM');
 
         $this->createIndex('i_published', '{{%admin_medias}}', 'status', false);
 

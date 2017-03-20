@@ -53,27 +53,15 @@ class MigrateController extends \yii\console\controllers\MigrateController
     }
 
     /** @inheritdoc */
-    public function actionCreate($name)
+    public function actionCreate($name, $module = null)
     {
-        if (!preg_match('/^\w+$/', $name)) {
-            throw new Exception("The migration name should contain letters, digits and/or underscore characters only.");
+        if (!empty($module)) {
+            if (empty($this->allMigrationPaths[$module])) {
+                throw new Exception("Module $module does not exist or does not contains 'migrations' directory");
+            }
+            $this->migrationPath = $this->allMigrationPaths[$module];
         }
-
-        $className = 'migrate' . gmdate('ymd_His') . '_' . $name;
-
-        // По сравнению со стандартной логикой поменялись только следующие три строчки. Остальное не тронуто.
-        $namespace = $this->namespace;
-        $fullClassName = "$namespace\\{$className}";
-        $file = $this->getFileOfClass($fullClassName);
-
-        if ($this->confirm("Create new migration '$file'?")) {
-            $content = $this->renderFile(\Yii::getAlias($this->templateFile), [
-                'className' => $className,
-                'namespace' => $namespace,
-            ]);
-            file_put_contents($file, $content);
-            $this->stdout("New migration created successfully.\n", Console::FG_GREEN);
-        }
+        parent::actionCreate($name);
     }
 
     /**
@@ -88,6 +76,15 @@ class MigrateController extends \yii\console\controllers\MigrateController
         $alias = '@' . str_replace('\\', '/', $className);
 
         return \Yii::getAlias($alias) . '.php';
+    }
+
+    protected function getNameSpace($src)
+    {
+        if (preg_match('#^namespace\s+(.+?);$#sm', $src, $m)) {
+            return $m[1];
+        }
+
+        return null;
     }
 
     /**
@@ -134,6 +131,9 @@ class MigrateController extends \yii\console\controllers\MigrateController
         }
         require_once($file);
 
+        $src = file_get_contents($file);
+        $namespace = $this->getNameSpace($src);
+        $class = $namespace . '\\' . $class;
         return new $class(['db' => $this->db]);
     }
 

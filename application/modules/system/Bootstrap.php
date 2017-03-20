@@ -33,9 +33,6 @@ class Bootstrap implements BootstrapInterface
          * @var \app\modules\user\Module $userModule
          *
          */
-
-        \Yii::$app->getView()->title = Yii::$app->keyStorage->get('siteName');
-
         $assetManager = [
             'class'           => 'yii\web\AssetManager',
             'linkAssets'      => false,
@@ -71,6 +68,8 @@ class Bootstrap implements BootstrapInterface
         $app->set('assetManager', $assetManager);
 
         if (!Yii::$app->request->isConsoleRequest) {
+            \Yii::$app->getView()->title = Yii::$app->keyStorage->get('siteName');
+
             $rHostInfo = Url::home(true);
             $themeBackend = Yii::$app->keyStorage->get('themeBackend');
             $themeFrontend = Yii::$app->keyStorage->get('themeFrontend');
