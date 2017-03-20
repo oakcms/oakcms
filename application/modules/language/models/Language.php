@@ -29,7 +29,7 @@ class Language extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'language';
+        return '{{%language}}';
     }
 
     /**

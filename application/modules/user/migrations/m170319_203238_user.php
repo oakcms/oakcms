@@ -33,7 +33,7 @@ class m170319_203238_user extends Migration
             'password_hash'             => $this->string(255)->notNull(),
             'password_reset_token'      => $this->string(255)->null()->defaultValue(null),
             'email'                     => $this->string(255)->notNull(),
-            'googleAuthenticator'       => $this->smallInteger(1)->notNull(),
+            'googleAuthenticator'       => $this->smallInteger(1)->notNull()->defaultValue(0),
             'googleAuthenticatorSecret' => $this->string(255)->notNull()->defaultValue(''),
             'status'                    => $this->smallInteger(6)->notNull()->defaultValue(0),
             'role'                      => $this->string(64)->notNull(),
@@ -46,8 +46,8 @@ class m170319_203238_user extends Migration
             'firstname'  => $this->string(255)->null()->defaultValue(null),
             'middlename' => $this->string(255)->null()->defaultValue(null),
             'lastname'   => $this->string(255)->null()->defaultValue(null),
-            'avatar'     => $this->string(255)->notNull(),
-            'locale'     => $this->string(32)->notNull(),
+            'avatar'     => $this->string(255)->null()->defaultValue(null),
+            'locale'     => $this->string(32)->null()->defaultValue(null),
             'gender'     => $this->integer(1)->null()->defaultValue(null),
         ], $tableOptions);
     }

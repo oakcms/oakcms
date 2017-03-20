@@ -30,13 +30,14 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
 
     public function init()
     {
-        $this->relationFieldValues = $this->getCategories();
+        if (!\Yii::$app->request->isConsoleRequest) {
+            $this->relationFieldValues = $this->getCategories();
 
-        if(is_callable($this->relationFieldValues)) {
-            $values = $this->relationFieldValues;
-            $this->relationFieldValues = $values();
+            if(is_callable($this->relationFieldValues)) {
+                $values = $this->relationFieldValues;
+                $this->relationFieldValues = $values();
+            }
         }
-
         parent::init();
     }
 

@@ -18,14 +18,12 @@ OakCMS is installed through Composer.
 1) With Composer installed, you can install OakCMS by running:
 `composer create-project --prefer-dist oakcms/oakcms=dev-master oakcms`
 
-2) Import dump "oakcms.sql" for your db.
-
-3) Rename .env-dist to .env and configure this file
+2) Run command `cd oakcms` and `php application/yii migrate`.
 
 REQUIREMENTS
 ------------
 
-The minimum requirement by this project template that your Web server supports PHP 5.5.0.
+The minimum requirement by this project template that your Web server supports PHP 5.6.0.
 
 ADVANTAGE
 ---------

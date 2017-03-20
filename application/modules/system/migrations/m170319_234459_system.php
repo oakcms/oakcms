@@ -23,10 +23,6 @@ class m170319_234459_system extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
-        $this->createTable('{{%system_db_state}}', [
-            'id'        => $this->primaryKey(11),
-            'timestamp' => $this->integer(11)->notNull(),
-        ], $tableOptions);
 
         $this->createTable('{{%system_settings}}', [
             'id'          => $this->primaryKey(11),
@@ -81,7 +77,6 @@ class m170319_234459_system extends Migration
 
     public function safeDown()
     {
-        $this->dropTable('{{%system_db_state}}');
         $this->dropTable('{{%system_settings}}');
     }
 }

@@ -32,7 +32,7 @@ class ActiveRecord extends \yii\db\ActiveRecord
     {
         $className = static::class;
 
-        return static::getTablePrefix($className) . Inflector::camel2id(StringHelper::basename($className), '_');
+        return '{{%'.static::getTablePrefix($className) . Inflector::camel2id(StringHelper::basename($className), '_').'}}';
     }
 
     /**

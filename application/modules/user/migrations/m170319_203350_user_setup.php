@@ -12,7 +12,7 @@ use app\modules\admin\rbac\Rbac;
 use app\modules\user\models\backend\User;
 use yii\db\Migration;
 
-class user_setup extends Migration
+class m170319_203350_user_setup extends Migration
 {
     public function up()
     {
@@ -22,12 +22,15 @@ class user_setup extends Migration
         $adminUser->status = User::STATUS_ACTIVE;
         $adminUser->role = Rbac::PERMISSION_ADMINISTRATOR;
         echo 'Please type the admin user info: ' . PHP_EOL;
-        $this->readStdinUser('Email (e.g. admin@mydomain.com)', $adminUser, 'email');
+        $this->readStdinUser('Email (e.g. admin@domain.com)', $adminUser, 'email');
         $this->readStdinUser('Type Username', $adminUser, 'username', 'admin');
         $this->readStdinUser('Type Password', $adminUser, 'newPassword', 'admin');
-        if (!$adminUser->save()) {
+        if ($adminUser->save()) {
+            $adminUser->afterSingUp();
+        } else {
             throw new \yii\console\Exception('Error when creating admin user.');
         }
+
         echo 'User created successfully.' . PHP_EOL;
     }
 

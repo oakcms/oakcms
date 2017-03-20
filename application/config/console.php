@@ -52,8 +52,21 @@ $config = [
                         return sprintf('[%s][%s]', Yii::$app->id, $url);
                     },
                     'logVars'=>[],
-                    'logTable'=>'{{%system_log}}'
+                    'logTable'=>'{{%admin_system_log}}'
                 ]
+            ],
+        ],
+        'i18n'         => [
+            'translations' => [
+                '*' => [
+                    'class'              => 'yii\i18n\DbMessageSource',
+                    'db'                 => 'db',
+                    'sourceLanguage'     => 'en-US',
+                    'sourceMessageTable' => '{{%language_source}}',
+                    'messageTable'       => '{{%language_translate}}',
+                    'cachingDuration'    => 86400,
+                    'enableCaching'      => false,
+                ],
             ],
         ],
         'db' => $db,

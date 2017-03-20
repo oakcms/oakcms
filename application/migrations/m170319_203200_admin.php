@@ -22,6 +22,10 @@ class m170319_203200_admin extends Migration
     public function safeUp()
     {
         $tableOptions = 'ENGINE=InnoDB';
+        $this->createTable('{{%system_db_state}}', [
+            'id'        => $this->primaryKey(11),
+            'timestamp' => $this->integer(11)->notNull(),
+        ], $tableOptions);
         $this->createTable('{{%admin_medias}}', [
             'media_id'         => $this->primaryKey(11)->unsigned(),
             'file_title'       => $this->char(126)->notNull()->defaultValue(''),
@@ -372,11 +376,72 @@ class m170319_203200_admin extends Migration
                 ],
             ]
         );
+
+        $this->batchInsert('{{%auth_item}}',
+            ["name", "type", "description", "rule_name", "data", "created_at", "updated_at"],
+            [
+                [
+                    'name' => 'administrator',
+                    'type' => '1',
+                    'description' => 'Administrator',
+                    'rule_name' => null,
+                    'data' => null,
+                    'created_at' => '1460046593',
+                    'updated_at' => '1460046593',
+                ],
+                [
+                    'name' => 'manager',
+                    'type' => '1',
+                    'description' => 'Manager',
+                    'rule_name' => null,
+                    'data' => null,
+                    'created_at' => '1460046592',
+                    'updated_at' => '1460046592',
+                ],
+                [
+                    'name' => 'permAdminPanel',
+                    'type' => '2',
+                    'description' => 'Permission Admin Panel',
+                    'rule_name' => null,
+                    'data' => null,
+                    'created_at' => '1460046593',
+                    'updated_at' => '1460046593',
+                ],
+                [
+                    'name' => 'user',
+                    'type' => '1',
+                    'description' => 'User',
+                    'rule_name' => null,
+                    'data' => null,
+                    'created_at' => '1460046592',
+                    'updated_at' => '1460046592',
+                ],
+            ]
+        );
+
+        $this->batchInsert('{{%auth_item_child}}',
+            ["parent", "child"],
+            [
+                [
+                    'parent' => 'administrator',
+                    'child' => 'manager',
+                ],
+                [
+                    'parent' => 'manager',
+                    'child' => 'permAdminPanel',
+                ],
+                [
+                    'parent' => 'manager',
+                    'child' => 'user',
+                ],
+            ]
+        );
     }
 
     public function safeDown()
     {
         $this->dropTable('{{%admin_medias}}');
         $this->dropTable('{{%admin_modules}}');
+        $this->dropTable('{{%system_db_state}}');
     }
 }

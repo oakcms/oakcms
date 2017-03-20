@@ -11,7 +11,7 @@ namespace app\modules\language\migrations;
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m170320_001215_language extends Migration
+class m170318_001215_language extends Migration
 {
 
     public function init()

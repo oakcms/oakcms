@@ -46,6 +46,9 @@ class MigrateController extends \yii\console\controllers\MigrateController
             $this->db->schemaCache->flush();
         }
         $this->allMigrationPaths['app'] = $this->migrationPath;
+        $this->allMigrationPaths['log'] = Yii::getAlias('@yii/log/migrations/');
+        $this->allMigrationPaths['rbac'] = Yii::getAlias('@yii/rbac/migrations/');
+
         $this->attachModuleMigrations();
         $this->setMigrationFiles();
 

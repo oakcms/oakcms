@@ -167,23 +167,6 @@ class m170319_202942_content extends Migration
         ], $tableOptions);
 
         $this->createIndex('name', '{{%content_tags}}', 'name', false);
-
-        $this->insert('{{%admin_modules}}', [
-            'name'                     => 'content',
-            'class'                    => 'app\modules\content\Module',
-            'bootstrapClass'           => '',
-            'isFrontend'               => 1,
-            'controllerNamespace'      => '',
-            'viewPath'                 => '',
-            'isAdmin'                  => 1,
-            'AdminControllerNamespace' => '',
-            'AdminViewPath'            => '',
-            'title'                    => 'Content',
-            'icon'                     => '',
-            'settings'                 => '',
-            'status'                   => 1,
-            'order'                    => 0,
-        ]);
     }
 
     public function safeDown()

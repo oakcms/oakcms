@@ -138,6 +138,17 @@ class User extends ActiveRecord implements IdentityInterface
         }
     }
 
+    public function afterSingUp() {
+        $profile            = new UserProfile();
+        $profile->user_id   = $this->id;
+        $profile->gender    = UserProfile::GENDER_MALE;
+        $profile->locale    = 'ru-RU';
+        if(!$profile->save()) {
+            var_dump($profile->rules());
+            var_dump($profile->getErrors());
+        }
+    }
+
     /**
     * @inheritdoc
     */

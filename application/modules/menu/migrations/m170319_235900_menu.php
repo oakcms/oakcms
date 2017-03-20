@@ -10,7 +10,7 @@ namespace app\modules\menu\migrations;
 
 use yii\db\Schema;
 
-class menu_create_tables extends \yii\db\Migration
+class m170319_235900_menu extends \yii\db\Migration
 {
     public function up()
     {
@@ -38,7 +38,7 @@ class menu_create_tables extends \yii\db\Migration
             'language'       => Schema::TYPE_STRING . '(7) NOT NULL',
             'title'          => Schema::TYPE_STRING . '(1024)',
             'alias'          => Schema::TYPE_STRING,
-            'path'           => Schema::TYPE_STRING . '(2048)',
+            'path'           => Schema::TYPE_STRING . '(1024)',
             'note'           => Schema::TYPE_STRING,
             'link'           => Schema::TYPE_STRING . '(1024)',
             'link_type'      => Schema::TYPE_SMALLINT,
@@ -61,17 +61,17 @@ class menu_create_tables extends \yii\db\Migration
             'hits'           => Schema::TYPE_BIGINT . ' UNSIGNED',
             'lock'           => Schema::TYPE_BIGINT . ' UNSIGNED DEFAULT 1',
         ]);
-        $this->createIndex('MenuTypeId_idx', '{{%grom_menu_item}}', 'menu_type_id');
-        $this->createIndex('ParentId_idx', '{{%grom_menu_item}}', 'parent_id');
-        $this->createIndex('TranslationId_idx', '{{%grom_menu_item}}', 'translation_id');
-        $this->createIndex('Lft_Rgt_idx', '{{%grom_menu_item}}', 'lft, rgt');
-        $this->createIndex('Language_idx', '{{%grom_menu_item}}', 'language');
-        $this->createIndex('Path_idx', '{{%grom_menu_item}}', 'path');
-        $this->createIndex('Alias_idx', '{{%grom_menu_item}}', 'alias');
-        $this->createIndex('Status_idx', '{{%grom_menu_item}}', 'status');
+        $this->createIndex('MenuTypeId_idx', '{{%menu_item}}', 'menu_type_id');
+        $this->createIndex('ParentId_idx', '{{%menu_item}}', 'parent_id');
+        $this->createIndex('TranslationId_idx', '{{%menu_item}}', 'translation_id');
+        $this->createIndex('Lft_Rgt_idx', '{{%menu_item}}', 'lft, rgt');
+        $this->createIndex('Language_idx', '{{%menu_item}}', 'language');
+        $this->createIndex('Path_idx', '{{%menu_item}}', 'path');
+        $this->createIndex('Alias_idx', '{{%menu_item}}', 'alias');
+        $this->createIndex('Status_idx', '{{%menu_item}}', 'status');
 
         // Вставляєм рутовий елемент
-        $this->insert('{{%grom_menu_item}}', [
+        $this->insert('{{%menu_item}}', [
             'menu_type_id' => 0,
             'status'       => 1,
             'title'        => 'Root',

@@ -159,7 +159,6 @@ class Modules extends ActiveRecord
                     $result[$module->name] = (object)$module->attributes;
                 }
             } catch (\yii\db\Exception $e) {}
-
             return $result;
         });
     }

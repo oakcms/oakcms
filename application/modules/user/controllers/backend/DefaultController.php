@@ -65,6 +65,7 @@ class DefaultController extends Controller
         $model->status = User::STATUS_ACTIVE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model->afterSingUp();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
