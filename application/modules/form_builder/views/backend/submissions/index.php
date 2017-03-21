@@ -68,7 +68,12 @@ $columns = [
 ];
 
 $columns = array_merge($columns, array_map('strval', array_keys($formModel->fieldsAttributes)));
-$columns = array_merge($columns, [['class' => 'app\modules\admin\components\grid\ActionColumn']]);
+$columns = array_merge($columns, [
+    [
+        'class' => 'app\modules\admin\components\grid\ActionColumn',
+        'template' => '<div class="btn-group w55">{delete}</div>'
+    ]
+]);
 
 ?>
 <div class="form-builder-forms-index">
