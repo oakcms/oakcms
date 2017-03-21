@@ -42,6 +42,35 @@ return [
         'helpText' => [
             'type' => BaseForm::INPUT_TEXT,
         ],
+        'fileSize' => [
+            'type' => BaseForm::INPUT_TEXT,
+            'options' => [
+                'onkeyup' => 'javascript:this.value=this.value.replace(/[^0-9]/g, \'\');'
+            ]
+        ],
+        'extNames' => [
+            'type' => BaseForm::INPUT_WIDGET,
+            'widgetClass' => \dosamigos\selectize\SelectizeTextInput::className(),
+            'options' => [
+                'clientOptions' => [
+                    'create' => true
+                ]
+            ]
+        ],
+        'destination' => [
+            'type' => BaseForm::INPUT_TEXT,
+            'value' => '@webroot/uploads/form_builder'
+        ],
+        'attach_file_to' => [
+            'type' => BaseForm::INPUT_DROPDOWN_LIST,
+            'items' => [
+                'useremail' => 'User Email',
+                'adminemail' => 'Admin Email'
+            ],
+            'options' => [
+                'multiple' => 'multiple'
+            ]
+        ],
         'required' => [
             'type' => BaseForm::INPUT_WIDGET,
             'widgetClass' => '\oakcms\bootstrapswitch\Switcher',

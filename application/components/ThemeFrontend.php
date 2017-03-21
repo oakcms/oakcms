@@ -55,12 +55,9 @@ class ThemeFrontend extends \yii\base\Theme
                     $file = $to . substr($path, $n);
 
                     if($oldfrom == '@app/modules') {
-                        $file = str_replace('views\frontend\\', '', $file);
+                        $file = str_replace('views'. DIRECTORY_SEPARATOR .'frontend'. DIRECTORY_SEPARATOR, '', $file);
                     }
 
-//                    if(Yii::$app->hasModule('content') && Yii::$app->controller->module->uniqueId == 'content') {
-//                        var_dump($file);
-//                    }
                     if (is_file($file)) {
                         return $file;
                     }
