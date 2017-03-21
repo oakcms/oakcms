@@ -9,6 +9,9 @@
 
 namespace app\components;
 
+use Yii;
+use yii\web\Application;
+
 class CoreController extends \yii\web\Controller
 {
     public function afterAction($action, $result)
@@ -23,8 +26,8 @@ class CoreController extends \yii\web\Controller
      */
     public function flash($type, $message)
     {
-        if($session = \Yii::$app->getSession()) {
-            $session->setFlash($type == 'error' ? 'danger' : $type, $message);
+        if(Yii::$app instanceof Application) {
+            return Yii::$app->getSession()->setFlash($type == 'error' ? 'danger' : $type, $message);
         }
     }
 }

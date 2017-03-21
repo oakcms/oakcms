@@ -57,8 +57,8 @@ class BackendController extends CoreController
 
     public function getReturnUrl($defaultUrl = null)
     {
-        if($session = Yii::$app->getSession()) {
-            return $session->get($this->module->id . '_return', $defaultUrl ? Url::to($defaultUrl) : Url::to('/admin/' . $this->module->id));
+        if(Yii::$app instanceof Application) {
+            return Yii::$app->getSession()->get($this->module->id . '_return', $defaultUrl ? Url::to($defaultUrl) : Url::to('/admin/' . $this->module->id));
         }
         return null;
     }
