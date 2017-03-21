@@ -85,9 +85,9 @@ class Tree extends \yii\base\Widget
     {
         $items = ShopCategories::find()->where(['parent_id' => $parentID])->orderBy(['sortOrder' => SORT_ASC])->all();
         ?>
-        <? if ($items): ?>
+        <?php if ($items): ?>
         <ol class="dd-list">
-            <? foreach ($items as $it): ?>
+            <?php foreach ($items as $it): ?>
                 <li class="dd-item dd3-item" data-id="<?= $it->shop_category_id ?>">
 
                     <? showNested($it->shop_category_id); ?>

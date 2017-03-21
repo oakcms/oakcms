@@ -15,7 +15,7 @@ use yii\bootstrap\Html;
 ?>
 <a href="<?= Url::to(['/content/article/view', 'catslug' => $model->category->slug, 'slug' => $model->slug]) ?>" class="col-sm-6 cntnt__item wow slideInUpInUp">
     <div class="cntnt__item_img">
-        <?//= Html::img($model->getUploadUrl('image'), ['class' => 'img-thumbnail']) ?>
+        <?php //= Html::img($model->getUploadUrl('image'), ['class' => 'img-thumbnail']) ?>
         <?= Html::img($model->getThumbUploadUrl('image'), ['class' => '', 'alt' => $model->title]) ?>
         <i class="fa fa-search-plus zoom-ico" aria-hidden="true"></i>
     </div>

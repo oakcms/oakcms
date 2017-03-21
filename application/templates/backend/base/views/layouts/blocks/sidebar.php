@@ -18,10 +18,10 @@ $userIdentity = Yii::$app->user->identity;
     <section class="sidebar" style="height: auto;">
 <!--        <div class="user-panel">-->
 <!--            <div class="pull-left image">-->
-<!--                --><?//if($userIdentity->userProfile->avatar != ''):?>
-<!--                    <img class="avatar" src="--><?//= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?><!--" alt="--><?//= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?><!--">-->
-<!--                --><?//else:?>
-<!--                    --><?//= \cebe\gravatar\Gravatar::widget([
+<!--                --><?php //if($userIdentity->userProfile->avatar != ''):?>
+<!--                    <img class="avatar" src="--><?php //= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?><!--" alt="--><?php //= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?><!--">-->
+<!--                --><?php //else:?>
+<!--                    --><?php //= \cebe\gravatar\Gravatar::widget([
 //                        'email' => $userIdentity->email,
 //                        'size' => 64,
 //                        'options' => [
@@ -29,10 +29,10 @@ $userIdentity = Yii::$app->user->identity;
 //                            'class' => 'avatar'
 //                        ]
 //                    ]); ?>
-<!--                --><?//endif?>
+<!--                --><?php //endif?>
 <!--            </div>-->
 <!--            <div class="pull-left info">-->
-<!--                <p class="fs-13">--><?//= $userIdentity->publicIdentity ?><!--</p>-->
+<!--                <p class="fs-13">--><?php //= $userIdentity->publicIdentity ?><!--</p>-->
 <!--                <span><i class="fa fa-circle text-success"></i> Online</span>-->
 <!--            </div>-->
 <!--        </div>-->

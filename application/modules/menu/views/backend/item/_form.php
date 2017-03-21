@@ -137,7 +137,7 @@ JS
             </div>
         </div>
 
-        <?//= $form->field($model, 'path')->textInput(['maxlength' => 2048]) ?>
+        <?php //= $form->field($model, 'path')->textInput(['maxlength' => 2048]) ?>
 
         <ul class="nav nav-tabs">
             <li class="active">

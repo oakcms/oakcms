@@ -236,8 +236,8 @@ $this->params['actions_buttons'] = [
                 <?php foreach ($model->settings as $key=>$setting):?>
                     <?= Html::settingField($key, $setting, 'content') ?>
                 <?php endforeach;?>
-                <? //= $form->field($model, 'access_type')->textInput() ?>
-                <? //= $form->field($model, 'category_id')->textInput() ?>
+                <?php //= $form->field($model, 'access_type')->textInput() ?>
+                <?php //= $form->field($model, 'category_id')->textInput() ?>
             </div>
 
             <div class="tab-pane" id="imagesTab">
