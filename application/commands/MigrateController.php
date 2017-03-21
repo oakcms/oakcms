@@ -125,7 +125,9 @@ class MigrateController extends \yii\console\controllers\MigrateController
     }
 
     /**
-     * @inheritdoc
+     * Creates a new migration instance.
+     * @param string $class the migration class name
+     * @return boolean|\yii\db\Migration the migration instance
      */
     protected function createMigration($class)
     {

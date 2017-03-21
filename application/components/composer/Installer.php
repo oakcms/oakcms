@@ -62,7 +62,7 @@ class Installer
 
         while (($confirm = self::readStdinUser('Are the data entered correctly?', 'no')) != 'no' || $confirm != 'n') {
 
-            if($confirm != 'no' && $confirm != 'n' && $confirm != 'yes' && $confirm != 'y') {
+            if($confirm!= 'no' && $confirm != 'n' && $confirm != 'yes' && $confirm != 'y') {
                 continue;
             }
 

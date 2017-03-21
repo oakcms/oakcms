@@ -32,7 +32,7 @@ $this->bodyClass = ['error'];
             <div class="line mb-20">
                 <div class="font-40"><?= Html::encode($this->title) ?></div>
             </div>
-            <?
+            <?php
         }
         ?>
         <div class="font-22">

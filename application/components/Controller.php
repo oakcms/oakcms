@@ -27,16 +27,6 @@ class Controller extends CoreController
     }
 
     /**
-     * Write in sessions alert messages
-     * @param string $type error or success
-     * @param string $message alert body
-     */
-    public function flash($type, $message)
-    {
-        Yii::$app->getSession()->setFlash($type == 'error' ? 'danger' : $type, $message);
-    }
-
-    /**
      * Formats response depending on request type (ajax or not)
      * @param string $success
      * @param bool $back go back or refresh
