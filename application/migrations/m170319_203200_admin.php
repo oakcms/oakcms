@@ -21,11 +21,27 @@ class m170319_203200_admin extends Migration
 
     public function safeUp()
     {
-        $tableOptions = 'ENGINE=InnoDB';
+        $tableOptions = null;
+        if ($this->db->driverName === 'mysql') {
+            // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
+
+        $this->createTable('{{%hits}}', [
+            'hit_id' => $this->primaryKey(),
+            'user_agent' => $this->string()->notNull(),
+            'ip' => $this->string()->notNull(),
+            'target_group' => $this->string()->notNull(),
+            'target_pk' => $this->string()->notNull(),
+            'created_at' => $this->integer()->notNull(),
+        ]);
+        $this->createIndex('hits_uigp_idx', $this->tablename, ['user_agent', 'ip', 'target_group', 'target_pk']);
+
         $this->createTable('{{%system_db_state}}', [
             'id'        => $this->primaryKey(11),
             'timestamp' => $this->integer(11)->notNull(),
         ], $tableOptions);
+
         $this->createTable('{{%admin_medias}}', [
             'media_id'         => $this->primaryKey(11)->unsigned(),
             'file_title'       => $this->char(126)->notNull()->defaultValue(''),

@@ -28,6 +28,13 @@ class Html extends \yii\bootstrap\Html
     {
         $name               = $model.'['.$key.']';
         $elementOptions     = ['class' => 'form-control'];
+
+        foreach ($item as $k=>$el) {
+            if ($el instanceof \Closure) {
+                $item[$k] = call_user_func($el);
+            }
+        }
+
         $value              = ArrayHelper::getValue($item, 'value');
         $items              = ArrayHelper::getValue($item, 'items', []);
         $type               = ArrayHelper::getValue($item, 'type', 'textInput');
@@ -39,12 +46,6 @@ class Html extends \yii\bootstrap\Html
 
         if(!isset($elementOptions['id'])) {
             $elementOptions['id'] = 'field_'.$key;
-        }
-
-        foreach ($item as $k=>$el) {
-            if ($el instanceof \Closure) {
-                $item[$k] = call_user_func($el);
-            }
         }
 
         switch ($type) {
