@@ -25,7 +25,7 @@ class m170318_001215_language extends Migration
         $tableOptions = 'ENGINE=InnoDB';
 
         $this->createTable('{{%language}}', [
-            'language_id' => $this->string(5)->notNull(),
+            'language_id' => $this->string(5),
             'language'    => $this->string(3)->notNull(),
             'country'     => $this->string(3)->notNull(),
             'url'         => $this->string(3)->notNull(),
@@ -34,6 +34,7 @@ class m170318_001215_language extends Migration
             'status'      => $this->smallInteger(6)->notNull(),
         ], $tableOptions);
         $this->createIndex('url', '{{%language}}', 'url', false);
+        $this->addPrimaryKey('language_id', '{{%language}}', 'language_id');
 
         $this->createTable('{{%language_source}}', [
             'id'       => $this->primaryKey(11),

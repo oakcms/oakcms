@@ -35,7 +35,7 @@ class m170319_203200_admin extends Migration
             'target_pk' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull(),
         ]);
-        $this->createIndex('hits_uigp_idx', $this->tablename, ['user_agent', 'ip', 'target_group', 'target_pk']);
+        $this->createIndex('hits_uigp_idx', '{{%hits}}', ['user_agent', 'ip', 'target_group', 'target_pk']);
 
         $this->createTable('{{%system_db_state}}', [
             'id'        => $this->primaryKey(11),

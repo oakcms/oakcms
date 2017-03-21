@@ -46,6 +46,7 @@ class m170319_235900_menu extends \yii\db\Migration
             'link_params'    => Schema::TYPE_TEXT,
             'layout_path'    => Schema::TYPE_STRING . '(1024)',
             'access_rule'    => Schema::TYPE_STRING . '(50)',
+            'metatitle'      => Schema::TYPE_STRING . '(1024)',
             'metakey'        => Schema::TYPE_STRING,
             'metadesc'       => Schema::TYPE_STRING . '(2048)',
             'robots'         => Schema::TYPE_STRING . '(50)',
