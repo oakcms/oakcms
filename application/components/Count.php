@@ -20,7 +20,6 @@ class Count
 
     /**
      * Returns the ID of the widget.
-     * @param bool $autoGenerate whether to generate an ID if it is not set previously
      * @return string ID of the widget.
      */
     public function getIndex()
