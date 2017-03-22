@@ -1,44 +1,24 @@
 <?php
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 24.09.2016
- * Project: osnovasite
- * File name: UrlManager.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
+
 namespace app\components;
 
 use app\modules\language\models\Language;
-use yii\helpers\ArrayHelper;
 
 class UrlManager extends \codemix\localeurls\UrlManager {
     const LANGUAGE_PARAM = '__language';
     public $languages;
-    private $_language;
 
     public function init()
     {
         $this->languages = Language::getAllLang();
         $this->languageParam = self::LANGUAGE_PARAM;
         parent::init();
-    }
-
-    /**
-     * @param array|string $params
-     * @param null|string $language языковой контекст обработки урла, позволяет определить для какого сайта(рускоязычного или допустим англоязычного)
-     * нужно сделать урл, используется в MenuManager для определения соответсвующей карты меню
-     * @return string
-     */
-    public function createUrl($params, $language = null)
-    {
-//
-//        $this->_language = isset($language) ? $language : ArrayHelper::getValue($params, static::LANGUAGE_PARAM, \Yii::$app->language);
-//
-//        if(is_array($params)) {
-//            unset($params[static::LANGUAGE_PARAM]);
-//        }
-
-        return parent::createUrl($params);
     }
 
     protected function processLocaleUrl($request) {

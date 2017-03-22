@@ -1,10 +1,9 @@
 <?php
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 14.12.2016
- * Project: oakcms
- * File name: Request.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\components;
@@ -12,9 +11,7 @@ namespace app\components;
 use app\modules\menu\models\MenuItem;
 use Yii;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
-use yii\web\UrlNormalizer;
 
 class Request extends \yii\web\Request
 {
@@ -46,8 +43,6 @@ class Request extends \yii\web\Request
 
                 list ($routeURL, $paramsURL) = Yii::$app->urlManager->parseRequest($this);
 
-                $defaultLang = Yii::$app->getUrlManager()->getDefaultLanguage();
-
                 $currentURL = [$routeURL];
                 foreach ($paramsURL as $k=>$item) {
                     $currentURL[$k] = $item;
@@ -63,12 +58,7 @@ class Request extends \yii\web\Request
                 }
 
                 if($menuPath) {
-                    if($defaultLang == Yii::$app->language) {
-                        $homeUrl = Url::home();
-                    } else {
-                        $homeUrl = Url::to(['/', 'language' => Yii::$app->language]);
-                    }
-
+                    $homeUrl = Url::to(['/']);
                     if(
                         urldecode($this->createUrlToRedirect(ltrim(trim($homeUrl, '/').'/'.$menuPath, '/'))) != ltrim(urldecode(Url::to()), '/') &&
                         $menuRoute != $homeMenuItem->link &&

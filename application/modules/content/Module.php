@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 namespace app\modules\content;
 
@@ -30,7 +36,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
         'content/search'                               => 'content/search/search',
         'content/<slug:[\w\-]+>'                       => 'content/category/view',
         'content/<catslug:[\w\-]+>/<slug:[\w\-]+>'     => 'content/article/view',
-        'page/<slug:[\w\-]+>'                          => 'content/page/view',
+        'content/page/<slug:[\w\-]+>'                  => 'content/page/view',
     ];
 
     public $settings = [

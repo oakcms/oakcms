@@ -3,16 +3,12 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1
- *
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 08.01.2017
- * Project: kn-group-site
- * File name: MenuRouteContent.php
+ * @version    0.0.1-alpha.0.5
  */
 namespace app\modules\content\components;
 
+use app\modules\content\models\ContentPages;
+use app\modules\menu\behaviors\MenuMap;
 use app\modules\menu\behaviors\MenuRouter;
 use app\modules\menu\behaviors\MenuRequestInfo;
 use app\modules\menu\models\MenuItem;
@@ -23,6 +19,7 @@ class MenuRouterContent extends MenuRouter
 {
     private $_categoryPaths = [];
     private $_articlesPaths = [];
+    private $_pagesPaths = [];
 
     /**
      * @inheritdoc
@@ -33,6 +30,10 @@ class MenuRouterContent extends MenuRouter
             [
                 'menuRoute' => 'content/category/view',
                 'handler'   => 'parseCategoryView',
+            ],
+            [
+                'menuRoute' => 'content/page/view',
+                'handler'   => 'parsePageView',
             ],
             /*[
                 'menuRoute' => 'content/article/view',
@@ -51,6 +52,11 @@ class MenuRouterContent extends MenuRouter
                 'requestRoute'  => 'content/category/view',
                 'requestParams' => ['slug'],
                 'handler'       => 'createCategoryView',
+            ],
+            [
+                'requestRoute'  => 'content/page/view',
+                'requestParams' => ['slug'],
+                'handler'       => 'createPageView',
             ],
             /*[
                 'requestRoute'  => 'content/article/view',
@@ -79,6 +85,24 @@ class MenuRouterContent extends MenuRouter
         /** @var ContentCategory $menuCategory */
         if ($menuCategory = ContentCategory::findOne([$requestInfo->menuParams['slug']])) {
             return ['content/category/view', ['slug' => $menuCategory->slug]];
+        }
+    }
+
+    /**
+     * @param MenuRequestInfo $requestInfo
+     *
+     * @return array
+     */
+    public function parsePageView($requestInfo)
+    {
+        if(isset($requestInfo->requestRoute) && $requestInfo->requestRoute != '') {
+            if($page = ContentPages::findOne([$requestInfo->requestRoute])) {
+                return ['content/page/view', ['slug' => $page->slug]];
+            }
+        }
+        /** @var ContentCategory $menuCategory */
+        if ($menuPage = ContentPages::findOne([$requestInfo->menuParams['slug']])) {
+            return ['content/page/view', ['slug' => $menuPage->slug]];
         }
     }
 
@@ -126,6 +150,22 @@ class MenuRouterContent extends MenuRouter
      *
      * @return mixed|null|string
      */
+    public function createPageView($requestInfo)
+    {
+        if ($path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('content/page/view', ['slug' => $requestInfo->requestParams['slug']]))) {
+            unset($requestInfo->requestParams['slug']);
+
+            return MenuItem::toRoute($path, $requestInfo->requestParams);
+        }
+
+        return $this->findPageMenuPath($requestInfo->requestParams['slug'], $requestInfo->menuMap);
+    }
+
+    /**
+     * @param MenuRequestInfo $requestInfo
+     *
+     * @return mixed|null|string
+     */
     public function createArticleView($requestInfo)
     {
         if ($path = $requestInfo->menuMap->getMenuPathByRoute(MenuItem::toRoute('content/article/view', ['slug' => $requestInfo->requestParams['slug']]))) {
@@ -159,7 +199,7 @@ class MenuRouterContent extends MenuRouter
      * Находит путь к пункту меню ссылающемуся на категорию $categoryId, либо ее предка
      * Если путь ведет к предку, то достраиваем путь категории $categoryId
      *
-     * @param $categoryId
+     * @param $categorySlug
      * @param $menuMap MenuMap
      *
      * @return null|string
@@ -178,6 +218,24 @@ class MenuRouterContent extends MenuRouter
             }
         }
         return $this->_categoryPaths[$menuMap->language][$categorySlug];
+    }
+
+    private function findPageMenuPath($pageSlug, $menuMap)
+    {
+        $page = ContentPages::find()->published()
+            ->joinWith(['translations'])
+            ->andWhere(['{{%content_pages_lang}}.slug' => $pageSlug])
+            ->one();
+
+        if (!isset($this->_pagesPaths[$menuMap->language][$pageSlug]) || $page) {
+            if ($path = $menuMap->getMenuPathByRoute(MenuItem::toRoute('content/page/view', ['slug' => $pageSlug]))) {
+                $this->_pagesPaths[$menuMap->language][$pageSlug] = $path;
+            } else {
+                $this->_pagesPaths[$menuMap->language][$pageSlug] = false;
+            }
+        }
+
+        return $this->_articlesPaths[$menuMap->language][$pageSlug];
     }
 
     private function findArticleMenuPath($articleCatSlug, $articleSlug, $menuMap)
