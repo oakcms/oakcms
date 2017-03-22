@@ -55,7 +55,6 @@ class Request extends \yii\web\Request
 
                 $url = Yii::$app->getUrlManager()->createUrl($currentURL);
 
-                //  OR urldecode($url) !== urldecode(Url::to())
                 if(
                     urldecode($this->createUrlToRedirect($url)) !== rtrim(urldecode(Url::to()), '=') &&
                     $menuRoute != $homeMenuItem->link
