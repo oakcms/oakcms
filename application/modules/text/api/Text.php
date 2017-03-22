@@ -15,8 +15,12 @@ use yii\helpers\VarDumper;
 /**
  * Text module API
  * @package yii\easyii\modules\text\api
+ * @property $_text array
+ * @property $cache array
+ * @property $cacheDependency
+ * @property $cacheDuration
  *
- * @method static get(mixed $id_slug, int $id = false) Get text block by id or slug
+ * @method static get(mixed $id_slug, int $id = null) Get text block by id or slug
  */
 class Text extends API
 {
@@ -55,7 +59,7 @@ class Text extends API
             }
         }
     }
-    public function api_get($id_slug, $id = false)
+    public function api_get($id_slug, $id = null)
     {
         if(($texts = $this->findText($id_slug, $id)) === null) {
             return $this->notFound($id_slug);
