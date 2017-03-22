@@ -33,11 +33,10 @@ class Request extends \yii\web\Request
     public function resolve()
     {
         $result = Yii::$app->getUrlManager()->parseRequest($this);
-
         if ($result !== false) {
             list ($route, $params) = $result;
 
-            if(Yii::$app->hasModule('oakcms-menu')) {
+            if(Yii::$app->hasModule('menu')) {
                 $menuManager    = Yii::$app->menuManager;
                 $menuRoute      = MenuItem::toRoute($route, $params);
                 $menuPath       = $menuManager->menuMap->getMenuPathByRoute($menuRoute);

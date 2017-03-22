@@ -9,6 +9,7 @@
 namespace app\modules\form_builder\controllers\backend;
 
 use app\components\ActiveQuery;
+use app\modules\admin\components\behaviors\StatusController;
 use app\modules\form_builder\models\FormBuilder;
 use app\modules\form_builder\models\FormBuilderField;
 use app\modules\form_builder\models\search\FormBuilderFieldSearch;
@@ -41,6 +42,10 @@ class FormsController extends BackendController
                     'delete' => ['post'],
                 ],
             ],
+            [
+                'class' => StatusController::className(),
+                'model' => FormBuilderForms::className()
+            ]
         ];
     }
 
