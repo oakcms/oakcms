@@ -59,6 +59,7 @@ class Text extends API
             }
         }
     }
+
     public function api_get($id_slug, $id = null)
     {
         if(($texts = $this->findText($id_slug, $id)) === null) {
@@ -112,14 +113,14 @@ class Text extends API
                     $text['output'] = Yii::$app->view->renderFile($params['viewFile'], ['model' => $text], true);
                     $blocks .= LIVE_EDIT ? API::liveEdit($text['output'], Url::to(['/admin/text/default/update/', 'id' => $text['id']]), 'div') : $text['output'];
                 } else {
-                    $blocks = '';
+                    $blocks .= '';
                 }
             }
         }
         return $blocks;
     }
 
-    private function findText($id_slug, $id)
+    private function findText($id_slug, $id = null)
     {
         if($id) {
             $return = \app\modules\text\models\Text::find()->where(['status'=>1, 'id'=>$id_slug])->all();
