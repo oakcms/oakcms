@@ -56,7 +56,7 @@ class MigrateController extends \yii\console\controllers\MigrateController
         if (strpos($class, '\\') === false) {
             $class = $this->namespace . '\\' . $class;
         } elseif (strpos($class, 'yii\\') !== false) {
-            $path = $this->getNamespacePath($class);
+            $path = $this->getPathNamespace($class);
             $file = $path . '.php';
 
             $class = explode(DIRECTORY_SEPARATOR, $path);
@@ -72,9 +72,8 @@ class MigrateController extends \yii\console\controllers\MigrateController
      * Returns the file path matching the give namespace.
      * @param string $namespace namespace.
      * @return string file path.
-     * @since 2.0.10
      */
-    private function getNamespacePath($namespace)
+    private function getPathNamespace($namespace)
     {
         return str_replace('/', DIRECTORY_SEPARATOR, Yii::getAlias('@' . str_replace('\\', '/', $namespace)));
     }

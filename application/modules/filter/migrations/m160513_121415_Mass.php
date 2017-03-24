@@ -8,7 +8,6 @@
 
 namespace app\modules\filter\migrations;
 
-use Yii;
 use yii\db\Schema;
 use yii\db\Migration;
 
@@ -22,8 +21,6 @@ class m160513_121415_Mass extends Migration
         } else {
             $tableOptions = null;
         }
-
-        $connection = Yii::$app->db;
 
         try {
             $this->createTable('{{%filter}}', [
@@ -72,22 +69,20 @@ class m160513_121415_Mass extends Migration
                 'fk_filter_value', '{{%filter_value}}', 'filter_id', '{{%filter}}', 'id', 'CASCADE', 'CASCADE'
             );
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Catch Exception "' . $e->getMessage() . '" and rollBack this';
         }
     }
 
     public function safeDown()
     {
-        $connection = Yii::$app->db;
         try {
             $this->dropTable('{{%filter}}');
             $this->dropTable('{{%filter_relation_value}}');
             $this->dropTable('{{%filter_value}}');
             $this->dropTable('{{%filter_variant}}');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Catch Exception ' . $e->getMessage() . ' and rollBack this';
         }
     }
-
 }

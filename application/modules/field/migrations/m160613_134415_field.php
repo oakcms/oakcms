@@ -8,7 +8,6 @@
 
 namespace app\modules\field\migrations;
 
-use Yii;
 use yii\db\Schema;
 use yii\db\Migration;
 
@@ -22,8 +21,6 @@ class m160613_134415_field extends Migration
         } else {
             $tableOptions = null;
         }
-
-        $connection = Yii::$app->db;
 
         try {
             $this->createTable('{{%field}}', [
@@ -65,14 +62,13 @@ class m160613_134415_field extends Migration
 
             $this->createIndex('fk_field', '{{%field_variant}}', 'field_id', 0);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Catch Exception ' . $e->getMessage() . ' ';
         }
     }
 
     public function safeDown()
     {
-        $connection = Yii::$app->db;
         try {
             $this->dropForeignKey('fk_field_category_id', '{{%field}}');
             $this->dropForeignKey('fk_field_value_field_id', '{{%field_value}}');
@@ -83,8 +79,8 @@ class m160613_134415_field extends Migration
             $this->dropTable('{{%field_category}}');
             $this->dropTable('{{%field_value}}');
             $this->dropTable('{{%field_variant}}');
-            $transaction->commit();
-        } catch (Exception $e) {
+
+        } catch (\Exception $e) {
             echo 'Catch Exception ' . $e->getMessage() . ' ';
         }
     }
