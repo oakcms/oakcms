@@ -31,8 +31,11 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public static function tableName()
     {
         $className = static::class;
+        $replace = [
+            '_search',
+        ];
 
-        return '{{%'.static::getTablePrefix($className) . Inflector::camel2id(StringHelper::basename($className), '_').'}}';
+        return '{{%' . static::getTablePrefix($className) . str_replace($replace, '', Inflector::camel2id(StringHelper::basename($className), '_')) . '}}';
     }
 
     /**
@@ -45,10 +48,12 @@ class ActiveRecord extends \yii\db\ActiveRecord
     public static function getTablePrefix($className)
     {
         if (!preg_match('#modules\\\\(.*)\\\\models#', $className, $idModule)) {
-            return '';
+            $return = '';
+        } else {
+            $return = ArrayHelper::getValue($idModule, 1);
         }
 
-        return ArrayHelper::getValue($idModule, 1) . '_';
+        return $return . '_';
     }
 
     public static function find()

@@ -36,7 +36,7 @@ class Module extends \yii\base\Module implements ModuleEventsInterface
         'content/search'                               => 'content/search/search',
         'content/<slug:[\w\-]+>'                       => 'content/category/view',
         'content/<catslug:[\w\-]+>/<slug:[\w\-]+>'     => 'content/article/view',
-        'content/page/<slug:[\w\-]+>'                  => 'content/page/view',
+        //'content/page/<slug:[\w\-]+>'                  => 'content/page/view',
     ];
 
     public $settings = [

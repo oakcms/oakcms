@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
+
 namespace app\modules\text\models;
 
 use app\components\ActiveRecord;
@@ -88,7 +95,7 @@ class Text extends ActiveRecord
             ['published_at', 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             ['published_at', 'default', 'value' => time()],
 
-            ['slug', 'default', 'value' => null],
+            ['slug', 'default', 'value' => ''],
             [['settings'], 'safe'],
         ];
     }
@@ -108,8 +115,9 @@ class Text extends ActiveRecord
 
     public function beforeValidate()
     {
-        if (is_array($this->links))
+        if (is_array($this->links)) {
             $this->links = implode(",", $this->links);
+        }
 
         return parent::beforeValidate();
     }

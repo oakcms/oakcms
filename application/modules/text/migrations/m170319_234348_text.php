@@ -26,7 +26,7 @@ class m170319_234348_text extends Migration
         $this->createTable('{{%texts}}', [
             'id'             => $this->primaryKey(11),
             'layout'         => $this->string(255)->notNull(),
-            'slug'           => $this->string(255)->notNull(),
+            'slug'           => $this->string(255)->defaultValue(''),
             'where_to_place' => $this->string(10)->notNull(),
             'links'          => $this->text()->notNull(),
             'status'         => $this->smallInteger(1)->notNull(),

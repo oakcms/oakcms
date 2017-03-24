@@ -1,5 +1,14 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
+namespace app\modules\shop\migrations;
+
+use Yii;
 use yii\db\Schema;
 use yii\db\Migration;
 
@@ -14,128 +23,128 @@ class m160521_112618_Mass extends Migration {
         $connection = Yii::$app->db;
         try {
             $this->createTable('{{%shop_product}}', [
-                'id' => Schema::TYPE_PK . "",
-                'category_id' => Schema::TYPE_INTEGER . "(10)",
-                'producer_id' => Schema::TYPE_INTEGER . "(11)",
-                'amount' => Schema::TYPE_INTEGER . "(11)",
+                'id'               => Schema::TYPE_PK . "",
+                'category_id'      => Schema::TYPE_INTEGER . "(10)",
+                'producer_id'      => Schema::TYPE_INTEGER . "(11)",
+                'amount'           => Schema::TYPE_INTEGER . "(11)",
                 'related_products' => Schema::TYPE_TEXT . " COMMENT 'PHP serialize'",
-                'name' => Schema::TYPE_STRING . "(200) NOT NULL",
-                'code' => Schema::TYPE_STRING . "(155)",
-                'price' => Schema::TYPE_DECIMAL . "(11, 2)",
-                'text' => Schema::TYPE_TEXT . " ",
-                'short_text' => Schema::TYPE_STRING . "(255)",
-                'images' => Schema::TYPE_TEXT . "",
-                'available' => "enum('yes','no')" . " DEFAULT 'yes'",
-                'sort' => Schema::TYPE_INTEGER . "(11)",
-                'slug' => Schema::TYPE_STRING . "(255)",
-                'related_ids' => Schema::TYPE_TEXT . "",
+                'name'             => Schema::TYPE_STRING . "(200) NOT NULL",
+                'code'             => Schema::TYPE_STRING . "(155)",
+                'price'            => Schema::TYPE_DECIMAL . "(11, 2)",
+                'text'             => Schema::TYPE_TEXT . " ",
+                'short_text'       => Schema::TYPE_STRING . "(255)",
+                'images'           => Schema::TYPE_TEXT . "",
+                'available'        => "enum('yes','no')" . " DEFAULT 'yes'",
+                'sort'             => Schema::TYPE_INTEGER . "(11)",
+                'slug'             => Schema::TYPE_STRING . "(255)",
+                'related_ids'      => Schema::TYPE_TEXT . "",
             ], $tableOptions);
 
             $this->createIndex('category_id', '{{%shop_product}}', 'category_id', 0);
             $this->createIndex('producer_id', '{{%shop_product}}', 'producer_id', 0);
 
             $this->createTable('{{%shop_category}}', [
-                'id' => Schema::TYPE_PK . "",
+                'id'        => Schema::TYPE_PK . "",
                 'parent_id' => Schema::TYPE_INTEGER . "(11)",
-                'name' => Schema::TYPE_STRING . "(55) NOT NULL",
-                'code' => Schema::TYPE_STRING . "(155)",
-                'slug' => Schema::TYPE_STRING . "(255)",
-                'text' => Schema::TYPE_TEXT . "",
-                'image' => Schema::TYPE_TEXT . "",
-                'sort' => Schema::TYPE_INTEGER . "(11)",
-                ], $tableOptions);
+                'name'      => Schema::TYPE_STRING . "(55) NOT NULL",
+                'code'      => Schema::TYPE_STRING . "(155)",
+                'slug'      => Schema::TYPE_STRING . "(255)",
+                'text'      => Schema::TYPE_TEXT . "",
+                'image'     => Schema::TYPE_TEXT . "",
+                'sort'      => Schema::TYPE_INTEGER . "(11)",
+            ], $tableOptions);
 
             $this->createTable('{{%shop_price_type}}', [
-                'id' => Schema::TYPE_PK . "",
-                'name' => Schema::TYPE_STRING . "(55) NOT NULL",
-                'sort' => Schema::TYPE_INTEGER . "(11)",
+                'id'        => Schema::TYPE_PK . "",
+                'name'      => Schema::TYPE_STRING . "(55) NOT NULL",
+                'sort'      => Schema::TYPE_INTEGER . "(11)",
                 'condition' => Schema::TYPE_TEXT . "",
-                ], $tableOptions);
+            ], $tableOptions);
 
             $this->insert('{{%shop_price_type}}', [
-                'id' => '1',
+                'id'   => '1',
                 'name' => 'Основная цена',
             ]);
 
             $this->createIndex('id', '{{%shop_category}}', 'id,parent_id', 0);
             $this->createTable('{{%shop_price}}', [
-                'id' => Schema::TYPE_PK . "",
-                'code' => Schema::TYPE_STRING . "(155) NOT NULL",
-                'name' => Schema::TYPE_STRING . "(155) NOT NULL",
-                'price' => Schema::TYPE_DECIMAL . "(11, 2)",
-                'sort' => Schema::TYPE_INTEGER . "(11)",
-                'amount' => Schema::TYPE_INTEGER . "(11)",
-                'type_id' => Schema::TYPE_INTEGER . "(11)",
+                'id'         => Schema::TYPE_PK . "",
+                'code'       => Schema::TYPE_STRING . "(155) NOT NULL",
+                'name'       => Schema::TYPE_STRING . "(155) NOT NULL",
+                'price'      => Schema::TYPE_DECIMAL . "(11, 2)",
+                'sort'       => Schema::TYPE_INTEGER . "(11)",
+                'amount'     => Schema::TYPE_INTEGER . "(11)",
+                'type_id'    => Schema::TYPE_INTEGER . "(11)",
                 'product_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                'available' => "enum('yes','no')" . " DEFAULT 'yes'",
-                ], $tableOptions);
+                'available'  => "enum('yes','no')" . " DEFAULT 'yes'",
+            ], $tableOptions);
 
             $this->createTable('{{%shop_product_modification}}', [
-                'id' => Schema::TYPE_PK . "",
-                'amount' => Schema::TYPE_INTEGER . "(11)",
-                'product_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                'name' => Schema::TYPE_STRING . "(200) NOT NULL",
-                'code' => Schema::TYPE_STRING . "(155)",
-                'images' => Schema::TYPE_TEXT . "",
-                'available' => "enum('yes','no')" . " DEFAULT 'yes'",
-                'sort' => Schema::TYPE_INTEGER . "(11)",
-                'slug' => Schema::TYPE_STRING . "(255)",
-                'create_time' => Schema::TYPE_DATETIME,
-                'update_time' => Schema::TYPE_DATETIME,
+                'id'            => Schema::TYPE_PK . "",
+                'amount'        => Schema::TYPE_INTEGER . "(11)",
+                'product_id'    => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'name'          => Schema::TYPE_STRING . "(200) NOT NULL",
+                'code'          => Schema::TYPE_STRING . "(155)",
+                'images'        => Schema::TYPE_TEXT . "",
+                'available'     => "enum('yes','no')" . " DEFAULT 'yes'",
+                'sort'          => Schema::TYPE_INTEGER . "(11)",
+                'slug'          => Schema::TYPE_STRING . "(255)",
+                'create_time'   => Schema::TYPE_DATETIME,
+                'update_time'   => Schema::TYPE_DATETIME,
                 'filter_values' => Schema::TYPE_TEXT,
-                ], $tableOptions);
+            ], $tableOptions);
 
             $this->createIndex('product_id', '{{%shop_price}}', 'product_id', 0);
             $this->createTable('{{%shop_producer}}', [
-                'id' => Schema::TYPE_PK . "",
-				'code' => Schema::TYPE_STRING . "(155)",
-                'name' => Schema::TYPE_STRING . "(255) NOT NULL",
+                'id'    => Schema::TYPE_PK . "",
+                'code'  => Schema::TYPE_STRING . "(155)",
+                'name'  => Schema::TYPE_STRING . "(255) NOT NULL",
                 'image' => Schema::TYPE_TEXT . "",
-                'text' => Schema::TYPE_TEXT . "",
-                'slug' => Schema::TYPE_STRING . "(255)",
-                ], $tableOptions);
+                'text'  => Schema::TYPE_TEXT . "",
+                'slug'  => Schema::TYPE_STRING . "(255)",
+            ], $tableOptions);
 
             $this->createTable('{{%shop_product_to_category}}', [
-                'id' => Schema::TYPE_PK . "",
-                'product_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'id'          => Schema::TYPE_PK . "",
+                'product_id'  => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'category_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                ], $tableOptions);
+            ], $tableOptions);
 
             $this->createTable( '{{%shop_incoming}}',[
-                'id' => Schema::TYPE_PK . "",
-                'date' => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'id'      => Schema::TYPE_PK . "",
+                'date'    => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'content' => Schema::TYPE_TEXT . "",
             ], $tableOptions);
 
             $this->createTable( '{{%shop_outcoming}}',[
-                'id' => Schema::TYPE_PK . "",
-                'date' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                'stock_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'id'         => Schema::TYPE_PK . "",
+                'date'       => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'stock_id'   => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'product_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                'user_id' => Schema::TYPE_INTEGER . "(11)",
-                'order_id' => Schema::TYPE_INTEGER . "(11)",
-                'count' => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'user_id'    => Schema::TYPE_INTEGER . "(11)",
+                'order_id'   => Schema::TYPE_INTEGER . "(11)",
+                'count'      => Schema::TYPE_INTEGER . "(11) NOT NULL",
             ], $tableOptions);
 
             $this->createTable( '{{%shop_stock}}',[
-                'id' => Schema::TYPE_PK . "",
-                'name' => Schema::TYPE_STRING . "(255) NOT NULL",
+                'id'      => Schema::TYPE_PK . "",
+                'name'    => Schema::TYPE_STRING . "(255) NOT NULL",
                 'address' => Schema::TYPE_STRING . "(255) NOT NULL",
-                'text' => Schema::TYPE_TEXT . "",
+                'text'    => Schema::TYPE_TEXT . "",
             ], $tableOptions);
 
             $this->createTable('{{%shop_stock_to_product}}', [
-                'id' => Schema::TYPE_PK . "",
+                'id'         => Schema::TYPE_PK . "",
                 'product_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                'stock_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                'amount' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                ], $tableOptions);
+                'stock_id'   => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'amount'     => Schema::TYPE_INTEGER . "(11) NOT NULL",
+            ], $tableOptions);
 
             $this->createTable('{{%shop_stock_to_user}}', [
-                'id' => Schema::TYPE_PK . "",
-                'user_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'id'       => Schema::TYPE_PK . "",
+                'user_id'  => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'stock_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                ], $tableOptions);
+            ], $tableOptions);
 
             $this->addForeignKey(
                 'fk_category', '{{%shop_product}}', 'category_id', '{{%shop_category}}', 'id', 'CASCADE', 'CASCADE'
@@ -154,15 +163,15 @@ class m160521_112618_Mass extends Migration {
             );
 
             $this->addForeignKey(
-                'fk_category', '{{%shop_product_to_category}}', 'category_id', '{{%shop_category}}', 'id', 'CASCADE', 'CASCADE'
+                'fk_product_to_category', '{{%shop_product_to_category}}', 'category_id', '{{%shop_category}}', 'id', 'CASCADE', 'CASCADE'
             );
 
             $this->addForeignKey(
-                'fk_product', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
+                'fk_product_modification', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
             );
 
             $this->addForeignKey(
-                'fk_product', '{{%shop_product_to_category}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
+                'fk_product_to_category_1', '{{%shop_product_to_category}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
             );
 
             $this->addForeignKey(
@@ -170,7 +179,7 @@ class m160521_112618_Mass extends Migration {
             );
 
             $this->addForeignKey(
-                'fk_product', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
+                'fk_product_modification_1', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
             );
 
         } catch (Exception $e) {

@@ -6,6 +6,8 @@
  * @version    0.0.1-alpha.0.5
  */
 
+namespace app\modules\form_builder\migrations;
+
 use yii\db\Migration;
 
 class m170309_200111_form_builder extends Migration
@@ -55,7 +57,7 @@ class m170309_200111_form_builder extends Migration
                 'data'    => $this->longText()->comment('(DC2Type:json_array)'),
             ], $tableOptions);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Catch Exception "' . $e->getMessage() . '" and rollBack this';
         }
     }
@@ -66,7 +68,7 @@ class m170309_200111_form_builder extends Migration
             $this->dropTable('{{%form_builder_forms}}');
             $this->dropTable('{{%form_builder_field}}');
             $this->dropTable('{{%form_builder_submission}}');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo 'Catch Exception ' . $e->getMessage() . ' and rollBack this';
         }
     }

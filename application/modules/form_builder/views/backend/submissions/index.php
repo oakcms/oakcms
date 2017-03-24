@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @version    0.0.1-alpha.0.5
  */
 
 use yii\helpers\Url;
@@ -68,12 +68,7 @@ $columns = [
 ];
 
 $columns = array_merge($columns, array_map('strval', array_keys($formModel->fieldsAttributes)));
-$columns = array_merge($columns, [
-    [
-        'class' => 'app\modules\admin\components\grid\ActionColumn',
-        'template' => '<div class="btn-group w55">{delete}</div>'
-    ]
-]);
+$columns = array_merge($columns, [['class' => 'app\modules\admin\components\grid\ActionColumn']]);
 
 ?>
 <div class="form-builder-forms-index">

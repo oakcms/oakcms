@@ -9,9 +9,6 @@
 namespace app\commands;
 
 use Yii;
-use yii\console\Application;
-use yii\console\Exception;
-use yii\helpers\Console;
 
 class MigrateController extends \yii\console\controllers\MigrateController
 {
@@ -24,10 +21,6 @@ class MigrateController extends \yii\console\controllers\MigrateController
     /** @inheritdoc */
     protected $namespace = 'app\migrations';
 
-    /**
-     * @var array module base paths
-     */
-    public $allMigrationPaths = [];
     /**
      * @var array paths to migrations like [path => migrationName]
      */
@@ -45,220 +38,57 @@ class MigrateController extends \yii\console\controllers\MigrateController
         if ($action->id !== 'create' && is_object($this->db->schemaCache)) {
             $this->db->schemaCache->flush();
         }
-        $this->allMigrationPaths['app'] = $this->migrationPath;
-        $this->allMigrationPaths['log'] = Yii::getAlias('@yii/log/migrations/');
-        $this->allMigrationPaths['rbac'] = Yii::getAlias('@yii/rbac/migrations/');
+
+        $this->migrationNamespaces['log'] = 'yii\log\migrations';
+        $this->migrationNamespaces['rbac'] = 'yii\rbac\migrations';
 
         $this->attachModuleMigrations();
-        $this->setMigrationFiles();
-
         return true;
-    }
-
-    /** @inheritdoc */
-    public function actionCreate($name, $module = null)
-    {
-        if (!empty($module)) {
-            if (empty($this->allMigrationPaths[$module])) {
-                throw new Exception("Module $module does not exist or does not contains 'migrations' directory");
-            }
-            $this->migrationPath = $this->allMigrationPaths[$module];
-        }
-        parent::actionCreate($name);
-    }
-
-    /**
-     * Формирует имя файла с миграцией на основе полного имени класса.
-     *
-     * @param string $className Полное имя класса.
-     *
-     * @return string Путь к файлу.
-     */
-    protected function getFileOfClass($className)
-    {
-        $alias = '@' . str_replace('\\', '/', $className);
-
-        return \Yii::getAlias($alias) . '.php';
-    }
-
-    protected function getNameSpace($src)
-    {
-        if (preg_match('#^namespace\s+(.+?);$#sm', $src, $m)) {
-            return $m[1];
-        }
-
-        return null;
     }
 
     /**
      * @inheritdoc
      */
-    protected function getNewMigrations()
-    {
-        $result = [];
-        foreach ($this->allMigrationPaths as $path) {
-            $this->migrationPath = $path;
-            if (!file_exists($path)) {
-                continue;
-            }
-            $result = array_merge($result, parent::getNewMigrations());
-        }
-        $this->migrationPath = $this->allMigrationPaths['app'];
-        sort($result);
-
-        return $result;
-    }
-
-    /**
-     * gets path to migration file
-     *
-     * @param string      $name migration name
-     * @param bool|string $path module migrations base path
-     *
-     * @return string path to migration file
-     */
-    protected function getMigrationFile($name, $path = false)
-    {
-        $path = $path ? $path : $this->migrationPath;
-
-        return $path . DIRECTORY_SEPARATOR . $name . '.php';
-    }
-
-    /**
-     * Creates a new migration instance.
-     * @param string $class the migration class name
-     * @return boolean|\yii\db\Migration the migration instance
-     */
     protected function createMigration($class)
     {
-        if (!$file = array_search($class, $this->migrationFiles)) {
-            return false;
-        }
-        require_once($file);
+        $class = trim($class, '\\');
 
-        $src = file_get_contents($file);
-        $namespace = $this->getNameSpace($src);
-        $class = $namespace . '\\' . $class;
+        if (strpos($class, '\\') === false) {
+            $class = $this->namespace . '\\' . $class;
+        } elseif (strpos($class, 'yii\\') !== false) {
+            $path = $this->getNamespacePath($class);
+            $file = $path . '.php';
+
+            $class = explode(DIRECTORY_SEPARATOR, $path);
+            $class = array_pop($class);
+
+            require_once($file);
+        }
+
         return new $class(['db' => $this->db]);
     }
 
     /**
-     * creates $allMigrationPaths attribute from module base paths
+     * Returns the file path matching the give namespace.
+     * @param string $namespace namespace.
+     * @return string file path.
+     * @since 2.0.10
+     */
+    private function getNamespacePath($namespace)
+    {
+        return str_replace('/', DIRECTORY_SEPARATOR, Yii::getAlias('@' . str_replace('\\', '/', $namespace)));
+    }
+
+    /**
+     * creates $migrationNamespaces attribute from module base paths
      */
     protected function attachModuleMigrations()
     {
+        $migrationNamespaces = [];
         foreach (Yii::$app->modules as $name => $config) {
-            $basePath = Yii::$app->getModule($name)->basePath;
-            $path = $basePath . DIRECTORY_SEPARATOR . 'migrations';
-            if ($this->allMigrationPaths['app'] == $path) {
-                continue;
-            }
-            if (file_exists($path) && !is_file($path)) {
-                $this->allMigrationPaths[$name] = $path;
-            }
+            $namespace = new \ReflectionClass(get_class(Yii::$app->getModule($name)));
+            $migrationNamespaces[$name] = $namespace->getNamespaceName() . '\\' . 'migrations';
         }
-    }
-
-    /**
-     * Creates $migrationFiles array
-     * @return array list of migrations like [path=>migrationName]
-     */
-    protected function setMigrationFiles()
-    {
-        $result = [];
-        foreach ($this->allMigrationPaths as $path) {
-            if (!file_exists($path) || is_file($path)) {
-                continue;
-            }
-            $handle = opendir($path);
-            while (($file = readdir($handle)) !== false) {
-                if ($file === '.' || $file === '..') {
-                    continue;
-                }
-                $filePath = $path . DIRECTORY_SEPARATOR . $file;
-                if (preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/', $file, $matches) && is_file($filePath)) {
-                    $result[$filePath] = $matches[1];
-                }
-            }
-            closedir($handle);
-        }
-
-        return $this->migrationFiles = $result;
-    }
-
-    /**
-     * Migrates current module up.
-     *
-     * @param string         $module module name.
-     * @param string|integer $limit  migrations limit.
-     */
-    public function actionModuleUp($module, $limit = 'all')
-    {
-        $this->setModuleMigrationPaths($module);
-        parent::actionUp($limit);
-    }
-
-    /**
-     * Migrates current module down.
-     *
-     * @param string         $module module name.
-     * @param string|integer $limit  migrations limit.
-     */
-    public function actionModuleDown($module, $limit = 'all')
-    {
-        $this->setModuleMigrationPaths($module);
-        parent::actionDown($limit);
-    }
-
-    /**
-     * Sets modules array - leaves only module migrations.
-     *
-     * @param string $module module name.
-     */
-    protected function setModuleMigrationPaths($module)
-    {
-        $paths = ['app' => Yii::getAlias('@app/runtime/tmp')];
-        if (isset($this->allMigrationPaths[$module])) {
-            $paths[$module] = $this->allMigrationPaths[$module];
-        }
-        $this->allMigrationPaths = $paths;
-        $this->setMigrationFiles();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getMigrationHistory($limit)
-    {
-        $history = parent::getMigrationHistory($limit);
-        foreach ($history as $name => $time) {
-            if (!$this->migrationExists($name)) {
-                unset($history[$name]);
-            }
-        }
-
-        return $history;
-    }
-
-    /**
-     * Checks if a migration exists
-     *
-     * @param string $name the name of the migration to check for.
-     *
-     * @return bool
-     */
-    protected function migrationExists($name)
-    {
-        return in_array($name, $this->migrationFiles);
-    }
-
-    public function stderr($string)
-    {
-        return Yii::$app instanceof Application ? parent::stderr($string) : true;
-    }
-
-    public function stdout($string)
-    {
-        return Yii::$app instanceof Application ? parent::stdout($string) : true;
+        $this->migrationNamespaces += $migrationNamespaces;
     }
 }

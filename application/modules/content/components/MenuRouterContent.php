@@ -5,6 +5,7 @@
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
  * @version    0.0.1-alpha.0.5
  */
+
 namespace app\modules\content\components;
 
 use app\modules\content\models\ContentPages;
@@ -35,10 +36,10 @@ class MenuRouterContent extends MenuRouter
                 'menuRoute' => 'content/page/view',
                 'handler'   => 'parsePageView',
             ],
-            /*[
+            [
                 'menuRoute' => 'content/article/view',
                 'handler'   => 'parseArticleView',
-            ],*/
+            ]
         ];
     }
 
@@ -58,11 +59,11 @@ class MenuRouterContent extends MenuRouter
                 'requestParams' => ['slug'],
                 'handler'       => 'createPageView',
             ],
-            /*[
+            [
                 'requestRoute'  => 'content/article/view',
                 'requestParams' => ['catslug', 'slug'],
                 'handler'       => 'createArticleView',
-            ],*/
+            ]
         ];
     }
 

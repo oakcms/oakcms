@@ -53,13 +53,9 @@ class FormController extends \app\components\Controller
                 }
 
                 if(ArrayHelper::getValue($model->data, 'email.sendToAdmin')) {
-                    $email = ArrayHelper::getValue($model->data, 'email.adminEmail', getenv('ADMIN_EMAIL'));
-                    $email = str_replace(' ', '', $email);
-                    $emails = explode(',', $email);
-
                     Yii::$app->mailer->compose()
                         ->setFrom(getenv('ROBOT_EMAIL'))
-                        ->setTo($emails)
+                        ->setTo(ArrayHelper::getValue($model->data, 'email.adminEmail', getenv('ADMIN_EMAIL')))
                         ->setSubject(ArrayHelper::getValue($model->data, 'email.adminEmailSubject'))
                         ->setHtmlBody($model->parseContent($formModel, 'email.adminEmailContent'))
                         ->send();

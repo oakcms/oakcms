@@ -3,13 +3,12 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @version    0.0.1-alpha.0.5
  */
 
 namespace app\modules\form_builder\controllers\backend;
 
 use app\components\ActiveQuery;
-use app\modules\admin\components\behaviors\StatusController;
 use app\modules\form_builder\models\FormBuilder;
 use app\modules\form_builder\models\FormBuilderField;
 use app\modules\form_builder\models\search\FormBuilderFieldSearch;
@@ -42,10 +41,6 @@ class FormsController extends BackendController
                     'delete' => ['post'],
                 ],
             ],
-            [
-                'class' => StatusController::className(),
-                'model' => FormBuilderForms::className()
-            ]
         ];
     }
 

@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
+
 namespace app\modules\text\api;
 
 use Yii;
@@ -105,10 +112,11 @@ class Text extends API
                 }
 
                 if($return) {
-                    if(is_file($file = Yii::getAlias('@frontendTemplate/modules/text/layouts/'.$text->layout.'/plugin.php')))
+                    if (is_file($file = Yii::getAlias('@frontendTemplate/modules/text/layouts/' . $text->layout . '/plugin.php'))) {
                         $params = require $file;
-                    else
+                    } else {
                         $params = require Yii::getAlias('@app/modules/text/views/frontend/layouts/'.$text->layout.'/plugin.php');
+                    }
 
                     $text['output'] = Yii::$app->view->renderFile($params['viewFile'], ['model' => $text], true);
                     $blocks .= LIVE_EDIT ? API::liveEdit($text['output'], Url::to(['/admin/text/default/update/', 'id' => $text['id']]), 'div') : $text['output'];

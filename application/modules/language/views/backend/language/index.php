@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
 
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -90,7 +96,7 @@ $this->params['actions_buttons'] = [
                             'class' => 'switch toggle',
                             'data-id' => $model->primaryKey,
                             'data-link' => \yii\helpers\Url::to(['/admin/language/language']),
-                            'data-reload' => '0'
+                            //'data-reload' => '0'
                         ]);
                     },
                     'enum' => [

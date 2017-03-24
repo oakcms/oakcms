@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 07.04.2016
@@ -52,12 +59,12 @@ $userIdentity = Yii::$app->user->identity;
         <ul class="menus oak-pull-left">
             <li>
                 <a href="<?= Url::to(['/admin/cache/flush-cache']) ?>" class="js-oak-flush-cache" data-toggle="tooltip" title="<?= Yii::t('admin', 'Flush cache') ?>" data-placement="bottom">
-                    <i class="glyphicon glyphicon-flash"></i>
+                    <i class="fa fa-bolt" aria-hidden="true"></i>
                 </a>
             </li>
             <li>
                 <a href="<?= Url::to(['/admin/cache/clear-assets']) ?>" class="js-oak-clear-assets" data-toggle="tooltip" title="<?= Yii::t('admin', 'Clear assets') ?>" data-placement="bottom">
-                    <i class="glyphicon glyphicon-trash"></i>
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
                 </a>
             </li>
         </ul>

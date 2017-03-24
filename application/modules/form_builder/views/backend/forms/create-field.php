@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
+ * @version    0.0.1-alpha.0.5
  */
 
 /**
@@ -21,8 +21,8 @@
     <div class="container-fluid">
         <div class="row">
             <?php foreach ($fields as $type => $field): ?>
-                <div class="col-xs-4">
-                    <a href="<?= \yii\helpers\Url::to(['', 'id' => $form_id, 'type' => $type]) ?>" class="btn btn-default">
+                <div class="col-xs-4 mb-10">
+                    <a href="<?= \yii\helpers\Url::to(['', 'id' => $form_id, 'type' => $type]) ?>" class="btn btn-default btn-block">
                         <?= $field['icon'] ?> <?= $field['title'] ?>
                     </a>
                 </div>
