@@ -6,24 +6,18 @@
  * @version    0.0.1-alpha.0.5
  */
 
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 06.04.2016
- * Project: oakcms
- * File name: Bootstrap.php
- */
-
 namespace app\modules\admin;
 
 use app\modules\admin\models\Modules;
 use Yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\base\Event;
 use yii\helpers\Url;
 
 class Bootstrap implements BootstrapInterface
 {
+    const EVENT_AFTER_BOOTSTRAP = 'afterBootstrap';
 
     /**
      * @var null|\yii\caching\Dependency
@@ -54,6 +48,7 @@ class Bootstrap implements BootstrapInterface
             ]);
         }
         $adminModule = $app->getModule('admin');
+
 
         /**
          * автоматична загрузка модулів
@@ -190,6 +185,9 @@ class Bootstrap implements BootstrapInterface
             'cache' => $app->cache,
             'cacheDependency' => $this->_modulesConfigDependency
         ]);
+
+        Event::trigger(self::class, self::EVENT_AFTER_BOOTSTRAP);
+
     }
 
     public function renderToolbar()

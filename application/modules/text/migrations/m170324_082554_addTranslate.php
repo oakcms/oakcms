@@ -24,6 +24,10 @@ class m170324_082554_addTranslate extends Migration
                     'Not on the same page'               => 'Ни на одной странице',
                     'On these pages only'                => 'Только на указаных страницах',
                     'On all pages, except for the above' => 'На всех страницах, кроме выбраных',
+                    'Binding to the menu'                => 'Привязка к меню',
+                    'Where To Place'                     => 'Где поместить',
+                    'Menus'                              => 'Меню',
+                    'Menu where will be displayed'       => 'Меню где будет выведено',
                 ],
             ],
         ];

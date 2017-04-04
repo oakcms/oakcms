@@ -142,7 +142,7 @@ $this->params['actions_buttons'] = [
                 <?= $form->field($model, 'where_to_place')->dropDownList(\app\modules\text\models\Text::getWereToPlace()) ?>
 
                 <div class="form-group field-text-links">
-                    <label class="col-md-3 control-label" for="text-links"><?= Yii::t('text', 'Links') ?></label>
+                    <label class="col-md-3 control-label" for="text-links"><?= Yii::t('text', 'Menus') ?></label>
                     <div class="col-md-9">
                         <div class="checkbox well well-sm">
                             <div class="container-fluid">
@@ -167,7 +167,7 @@ $this->params['actions_buttons'] = [
                                 </div>
                             </div>
                         </div>
-                        <div class="hint-block"><?= Yii::t('text', 'Links will be posted where') ?></div>
+                        <div class="hint-block"><?= Yii::t('text', 'Menu where will be displayed') ?></div>
                     </div>
                 </div>
             </div>

@@ -75,12 +75,8 @@ class MenuRouterContent extends MenuRouter
     public function parseCategoryView($requestInfo)
     {
         if(isset($requestInfo->requestRoute) && $requestInfo->requestRoute != '') {
-            if(
-                ($category = ContentCategory::findOne([$requestInfo->menuParams['slug']])) &&
-                ($article = ContentArticles::findOne([$requestInfo->requestRoute])) &&
-                $category->id == $article->category_id
-            ) {
-                return ['content/article/view', ['slug' => $article->slug]];
+            if($category = ContentCategory::find()->where([$requestInfo->menuParams['slug']])->published()->one()) {
+                return ['content/category/view', ['slug' => $category->slug]];
             }
         }
         /** @var ContentCategory $menuCategory */
