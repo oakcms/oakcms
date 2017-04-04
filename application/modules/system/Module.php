@@ -14,7 +14,7 @@ namespace app\modules\system;
 class Module extends \yii\base\Module
 {
 
-    const VERSION = '0.0.1-alpha.0.5';
+    const VERSION = '0.0.1-beta.0.1';
 
     public $activeModules;
 
