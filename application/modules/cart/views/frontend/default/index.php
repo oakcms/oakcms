@@ -3,10 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.4
- *
- * @var $this \app\components\View
- * @var $elements \app\modules\cart\models\CartElement
+ * @version    0.0.1-beta.0.1
  */
 
 use app\modules\cart\widgets\CartInformer;
