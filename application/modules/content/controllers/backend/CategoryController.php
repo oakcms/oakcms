@@ -100,7 +100,7 @@ class CategoryController extends \app\components\CategoryController
      * @return array|string|\yii\web\Response
      * @throws \yii\web\HttpException
      */
-    public function actionUpdate($id, $language)
+    public function actionUpdate($id, $language = false)
     {
         $lang = $this->getDefaultLanguage($language);
         $class = $this->categoryClass;
@@ -137,16 +137,19 @@ class CategoryController extends \app\components\CategoryController
      * @param string $route
      * @return string
      */
-    public function actionSelect($route = 'content/category/view') {
+    public function actionSelect($route = 'content/category/view', $language = false) {
+        $lang = $this->getDefaultLanguage($language);
+        Yii::$app->language = $lang->language_id;
         $searchModel = new ContentCategorySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams(), $lang);
 
         Yii::$app->getView()->applyModalLayout();
 
         return $this->render('select', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'route' => $route
+            'route' => $route,
+            'lang' => $lang
         ]);
     }
 
@@ -207,8 +210,8 @@ class CategoryController extends \app\components\CategoryController
     protected static function getLayouts()
     {
         $layouts = [];
-        $core = glob(Yii::getAlias('@app/modules/content/views/frontend/category/[^_]*.php'));
-        $template = glob(Yii::getAlias('@frontendTemplate/modules/content/category/[^_]*.php'));
+        $core = glob(Yii::getAlias('@app/modules/content/views/frontend/category/[!^_]*.php'));
+        $template = glob(Yii::getAlias('@frontendTemplate/modules/content/category/[!^_]*.php'));
 
         foreach ($core as $layout) {
             if(is_file($layout)) {

@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.5
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 11.10.2016
@@ -23,6 +30,9 @@ class CoreView extends \rmrevin\yii\minify\View
     public $bodyClass = [];
     public $adminPanel = true;
     public $modalLayout = '@app/modules/admin/views/layouts/_modal';
+
+    public $pageTitle = '';
+    public $pageTitleHeading = 'h3';
 
     public function isAdmin() {
         $rHostInfo = Url::home(true);

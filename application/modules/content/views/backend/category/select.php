@@ -15,9 +15,40 @@ use yii\grid\GridView;
  * @var \app\modules\shop\models\category\CategorySearch $searchModel
  * @var string $route
  */
-
-$this->title = Yii::t('shop', 'Select Category');
+$asset = \app\templates\backend\base\assets\BaseAsset::register($this);
+$this->title = Yii::t('content', 'Select Category');
 $this->params['breadcrumbs'][] = $this->title;
+
+$allLang = \app\modules\language\models\Language::getLanguages();
+$langueBtnItems = [];
+foreach($allLang as $item) {
+    if($lang->language_id != $item->language_id) {
+        $langueBtnItems[] = [
+            'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$item->url.'.png" alt="'.$item->url.'"/> '.$item->name,
+            'url' => ['', 'language' => $item->url]
+        ];
+    }
+}
+
+
+$langueBtn = [
+    'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.$lang->name,
+    'options' => [
+        'class' => 'btn blue btn-outline btn-circle btn-sm',
+        'data-hover'=>"dropdown",
+        'data-close-others'=>"true",
+    ],
+    'encodeLabel' => false,
+    'dropdown' => [
+        'encodeLabels' => false,
+        'options' => ['class' => 'pull-left'],
+        'items' => $langueBtnItems,
+    ],
+];
+?>
+
+
+<?php echo app\modules\admin\widgets\ButtonDropdown::widget($langueBtn);
 ?>
 <div class="page-index">
     <?php \yii\widgets\Pjax::begin(['id' => 'article-pjax']) ?>

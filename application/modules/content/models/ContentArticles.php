@@ -44,6 +44,9 @@ use yii\validators\UniqueValidator;
  * @property integer $access_type
  * @property integer $category_id
  * @property string $settings
+ * @property string $rating
+ * @property string $rating_sum
+ * @property integer $rating_votes
  */
 class ContentArticles extends \app\components\ActiveRecord implements CategoryFieldInterface
 {
@@ -182,11 +185,12 @@ class ContentArticles extends \app\components\ActiveRecord implements CategoryFi
     public function rules()
     {
         return [
-            [['title', 'content', 'language'], 'required'],
-            [['update_user_id','status', 'comment_status', 'access_type', 'category_id', 'main_image'], 'integer'],
+            [['title', 'content', 'category_id', 'language'], 'required', 'except' => 'rating'],
+            [['update_user_id','status', 'comment_status', 'access_type', 'category_id', 'main_image', 'rating_votes'], 'integer'],
             [['create_user_ip'], 'string', 'max' => 20],
             [['description'], 'string'],
             //[['settings'], 'string'],
+            [['rating', 'rating_sum'], 'number'],
             [['title', 'link', 'meta_title', 'meta_keywords', 'meta_description', 'layout'], 'string', 'max' => 255],
             [['published_at'], 'filter', 'filter' => 'strtotime', 'skipOnEmpty' => true],
             ['published_at', 'default', 'value' => time()],

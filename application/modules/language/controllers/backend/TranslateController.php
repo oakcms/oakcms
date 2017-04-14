@@ -120,7 +120,6 @@ class TranslateController extends BackendController
         return $this->redirect(['index']);
     }
 
-
     public function actionOn($id)
     {
         return $this->changeStatus($id, LanguageTranslate::STATUS_PUBLISHED);

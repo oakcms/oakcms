@@ -22,26 +22,26 @@ use app\components\Migration;
 
 class <?= $className ?> extends Migration
 {
-public function up()
-{
+    public function up()
+    {
 
-}
+    }
 
-public function down()
-{
-echo "<?= $className ?> cannot be reverted.\n";
+    public function down()
+    {
+        echo "<?= $className ?> cannot be reverted.\n";
 
-return false;
-}
+        return false;
+    }
 
-/*
-// Use safeUp/safeDown to run migration code within a transaction
-public function safeUp()
-{
-}
+    /*
+    // Use safeUp/safeDown to run migration code within a transaction
+    public function safeUp()
+    {
+    }
 
-public function safeDown()
-{
-}
-*/
+    public function safeDown()
+    {
+    }
+    */
 }

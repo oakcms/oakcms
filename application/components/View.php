@@ -10,16 +10,12 @@
 
 namespace app\components;
 
-use Yii;
-
-class View extends \yii\web\View
+class View extends CoreView
 {
     public $bodyClass = [];
 
     public function init()
     {
         parent::init();
-
-
     }
 }

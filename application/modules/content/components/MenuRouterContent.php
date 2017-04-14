@@ -75,12 +75,35 @@ class MenuRouterContent extends MenuRouter
     public function parseCategoryView($requestInfo)
     {
         if(isset($requestInfo->requestRoute) && $requestInfo->requestRoute != '') {
-            if($category = ContentCategory::find()->where([$requestInfo->menuParams['slug']])->published()->one()) {
-                return ['content/category/view', ['slug' => $category->slug]];
+            if(
+                ($category = ContentCategory::find()
+                    ->select(['{{%content_category}}.id'])
+                    ->joinWith(['translations'])
+                    ->where(['{{%content_category_lang}}.slug' => $requestInfo->menuParams['slug']])
+                    ->published()
+                    ->asArray()
+                    ->one()) &&
+                ($article = ContentArticles::find()
+                    ->select(['{{%content_articles}}.category_id', '{{%content_articles}}.id'])
+                    ->joinWith(['translations'])
+                    ->where(['{{%content_articles_lang}}.slug' => $requestInfo->requestRoute])
+                    ->published()
+                    ->asArray()
+                    ->one()) &&
+                $category['id'] == $article['category_id']
+            ) {
+                return ['content/article/view', ['catslug' => $requestInfo->menuParams['slug'], 'slug' => $requestInfo->requestRoute]];
             }
         }
+
         /** @var ContentCategory $menuCategory */
-        if ($menuCategory = ContentCategory::findOne([$requestInfo->menuParams['slug']])) {
+        if (
+            $menuCategory = ContentCategory::find()
+                ->joinWith(['translations'])
+                ->where(['{{%content_category_lang}}.slug' => $requestInfo->menuParams['slug']])
+                ->published()
+                ->one()
+        ) {
             return ['content/category/view', ['slug' => $menuCategory->slug]];
         }
     }
@@ -232,7 +255,7 @@ class MenuRouterContent extends MenuRouter
             }
         }
 
-        return $this->_articlesPaths[$menuMap->language][$pageSlug];
+        return $this->_pagesPaths[$menuMap->language][$pageSlug];
     }
 
     private function findArticleMenuPath($articleCatSlug, $articleSlug, $menuMap)

@@ -16,12 +16,19 @@ use app\modules\gallery\models\Image;
 class Module extends \yii\base\Module
 {
     public $imagesStoreUrl = '@web/uploads/store';
+
     public $imagesStorePath = '@webroot/uploads/store';
+
     public $imagesCachePath = '@webroot/uploads/imgCache';
+
     public $graphicsLibrary = 'GD';
-    public $placeHolderPath;
+
+    public $placeHolderPath = '@webroot/uploads/placeHolder.png';
+
     public $waterMark = false;
+
     public $adminRoles = [Rbac::PERMISSION_ADMIN_PANEL];
+
     public $settings = [];
 
     public function getImage($item, $dirtyAlias)
@@ -147,23 +154,17 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        $this->placeHolderPath = 'das';
-        if (!$this->imagesStorePath
-            or
-            !$this->imagesCachePath
-            or
-            $this->imagesStorePath == '@app'
-            or
-            $this->imagesCachePath == '@app'
-        )
+
+        if (!$this->imagesStorePath or !$this->imagesCachePath or $this->imagesStorePath == '@app' or $this->imagesCachePath == '@app') {
             throw new \Exception('Setup imagesStorePath and imagesCachePath images module properties!!!');
+        }
     }
 
-    public function getPlaceHolder(){
-
+    public function getPlaceHolder()
+    {
         if($this->placeHolderPath){
             return new PlaceHolder();
-        }else{
+        } else {
             return null;
         }
     }

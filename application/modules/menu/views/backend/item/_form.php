@@ -155,9 +155,9 @@ JS
             <div id="main-data" class="tab-pane active">
                 <?= $form->field($model, 'link_type')->dropDownList(\app\modules\menu\models\MenuItem::linkTypeLabels()) ?>
 
-                <?php $this->registerJs("$('#" . Html::getInputId($model, 'link_type') . "').change(function (event){
-                if($(this).val() === '" . \app\modules\menu\models\MenuItem::LINK_ROUTE . "') {
-                    $('a#router').attr('href', " . \yii\helpers\Json::encode(\yii\helpers\Url::toRoute(['routers'])) . ");
+                <?php $this->registerJs("$('#" . Html::getInputId($model, 'link_type') . ", #" . Html::getInputId($model, 'language') . "').change(function (event){
+                if($('#" . Html::getInputId($model, 'link_type') . "').val() === '" . \app\modules\menu\models\MenuItem::LINK_ROUTE . "') {
+                    $('a#router').attr('href', " . \yii\helpers\Json::encode(\yii\helpers\Url::toRoute(['routers'])) . " + '?__language='+$('#" . Html::getInputId($model, 'language') . "').val());
                     $('#".Html::getInputId($model, 'link')."').addClass('disabled');
                 } else {
                     $('a#router').attr('href', " . \yii\helpers\Json::encode(\yii\helpers\Url::toRoute(['select', 'MenuItemSearch[link_type]' => \app\modules\menu\models\MenuItem::LINK_ROUTE])) . ")

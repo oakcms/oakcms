@@ -19,19 +19,33 @@ class BaseAsset extends AssetBundle
     public $basePath = '@app/templates/frontend/base/web/';
 
     public $css = [
-        'scss/main.scss',
+        'css/animations.css',
+        'external/owl.carousel/dist/assets/owl.carousel.min.css',
+        'css/sweetalert.css',
+        'css/concated.css',
+        'css/main.css',
+        '//fonts.googleapis.com/css?family=Roboto:400,500,700&subset=cyrillic-ext'
     ];
 
     public $js = [
-
+        'external/jquery.browser/dist/jquery.browser.min.js',
+        'external/wow/dist/wow.js',
+        'external/owl.carousel/dist/owl.carousel.min.js',
+        'external/textillate/jquery.textillate.js',
+        'external/letteringjs/jquery.lettering.js',
+        'js/sweetalert.min.js',
+        'js/validate.js',
+        'js/main.js',
     ];
 
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        'app\assets\FontAwesome',
+        'app\templates\frontend\base\assets\WowAsset',
     ];
 
     public $jsOptions = [
-        'position' => View::POS_HEAD
+        'position' => View::POS_END
     ];
 }

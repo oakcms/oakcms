@@ -79,6 +79,12 @@ class SubmissionsController extends BackendController
         return $dataProvider;
     }
 
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+        return $this->back();
+    }
+
     public function actionDeleteIds()
     {
         $ids = Yii::$app->request->get('id');

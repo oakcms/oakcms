@@ -59,7 +59,9 @@ return [
         ],
         'destination' => [
             'type' => BaseForm::INPUT_TEXT,
-            'value' => '@webroot/uploads/form_builder'
+            'options' => [
+                'value' => '@webroot/uploads/form_builder'
+            ]
         ],
         'attach_file_to' => [
             'type' => BaseForm::INPUT_DROPDOWN_LIST,
@@ -78,8 +80,9 @@ return [
     ],
     'rules' => [
         [['label', 'name'], 'required'],
-        [['additionalAttributes', 'label', 'helpText', 'value'], 'string'],
+        [['additionalAttributes', 'label', 'helpText', 'value', 'fileSize', 'extNames', 'destination'], 'string'],
         [['cssClass', 'name'], 'string', ['max' => 100]],
+        [['attach_file_to'], 'safe'],
         [['required'], 'integer'],
     ]
 ];

@@ -1,4 +1,41 @@
 /*!
  * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
+.mb-10 {
+  margin-bottom: 10px; }
+
+.list_pagination li.prev span,
+.list_pagination li.next span {
+  width: 30px;
+  height: 33px;
+  display: block;
+  border: 1px solid #00aaff;
+  font-size: 20px;
+  transition: all 0s;
+  color: #00aaff;
+  line-height: 31px; }
+
+.list_pagination li.prev a,
+.list_pagination li.prev span {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg); }
+
+.block_feedback .list_feedback .item .block_video * {
+  height: 100%; }
+
+.help-block {
+  font-size: 11px;
+  color: red;
+  padding-left: 10px; }
+
+.info_vakansii .column > div {
+  height: 16px; }
+
+.list-view .empty {
+  margin-bottom: 20px; }
+
+.mod_system.default_error .form_search {
+  display: none; }
+
 /*# sourceMappingURL=main.css.map */

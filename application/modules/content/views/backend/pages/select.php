@@ -19,8 +19,37 @@ use yii\grid\GridView;
 
 $this->title = Yii::t('content', 'Select Page');
 $this->params['breadcrumbs'][] = $this->title;
+
+$asset = \app\templates\backend\base\assets\BaseAsset::register($this);
+
+$allLang = \app\modules\language\models\Language::getLanguages();
+$langueBtnItems = [];
+foreach($allLang as $item) {
+    if($lang->language_id != $item->language_id) {
+        $langueBtnItems[] = [
+            'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$item->url.'.png" alt="'.$item->url.'"/> '.$item->name,
+            'url' => ['', 'language' => $item->url]
+        ];
+    }
+}
+
+$langueBtn = [
+    'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.$lang->name,
+    'options' => [
+        'class' => 'btn blue btn-outline btn-circle btn-sm',
+        'data-hover'=>"dropdown",
+        'data-close-others'=>"true",
+    ],
+    'encodeLabel' => false,
+    'dropdown' => [
+        'encodeLabels' => false,
+        'options' => ['class' => 'pull-left'],
+        'items' => $langueBtnItems,
+    ],
+];
 ?>
 <div class="page-index">
+    <?php echo app\modules\admin\widgets\ButtonDropdown::widget($langueBtn);?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

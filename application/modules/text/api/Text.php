@@ -8,16 +8,14 @@
 
 namespace app\modules\text\api;
 
+use app\modules\text\models\TextsLang;
 use Yii;
 use app\components\API;
-use app\helpers\Data;
 use yii\caching\Cache;
-use yii\caching\DbDependency;
 use yii\di\Instance;
 use yii\helpers\Url;
 use app\modules\text\models\Text as TextModel;
 use yii\helpers\Html;
-use yii\helpers\VarDumper;
 
 /**
  * Text module API
@@ -48,7 +46,14 @@ class Text extends API
 
             if ($this->cache) {
                 if (($this->_texts = $this->cache->get(TextModel::CACHE_KEY)) === false) {
-                    $models = TextModel::find()->where([ 'status' => TextModel::STATUS_PUBLISHED])->orderBy(['order' => SORT_ASC])->all();
+                    $models = TextModel::find()
+                        ->joinWith(['translations'])
+                        ->where([
+                            TextModel::tableName().'.status' => TextModel::STATUS_PUBLISHED,
+                            TextsLang::tableName().'.language' => Yii::$app->language,
+                        ])
+                        ->orderBy([TextModel::tableName().'.order' => SORT_ASC])
+                        ->all();
                     $return = [];
                     foreach ($models as $k=>$model) {
                         $return[$model->slug.'_'.\Yii::$app->language][$model->id] = $model;
@@ -73,22 +78,22 @@ class Text extends API
             return $this->notFound($id_slug);
         }
 
-        $return = '';
         $blocks = '';
         foreach ($texts as $text) {
             if(isset($text->where_to_place)) {
                 switch ($text->where_to_place) {
                     case '0':
-                        $return = true;
+                        $return = true && $this->hasPhpCode($text);
                         break;
                     case '-':
-                        $return = false;
+                        $return = false && $this->hasPhpCode($text);
                         break;
                     case '1':
                         if(
                             isset(Yii::$app->menuManager->activeMenu) &&
                             ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
-                            in_array(Yii::$app->menuManager->activeMenu->id, $text->links)
+                            in_array(Yii::$app->menuManager->activeMenu->id, $text->links) &&
+                            $this->hasPhpCode($text)
                         ) {
                             $return = true;
                         } else {
@@ -99,13 +104,15 @@ class Text extends API
                         if(
                             isset(Yii::$app->menuManager->activeMenu) &&
                             ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
-                            !in_array(Yii::$app->menuManager->activeMenu->id, $text->links)
+                            in_array(Yii::$app->menuManager->activeMenu->id, $text->links) &&
+                            $this->hasPhpCode($text)
                         ) {
-                            $return = true;
-                        } else {
                             $return = false;
+                        } else {
+                            $return = true;
                         }
                         break;
+
                     default:
                         $return = false;
                         break;
@@ -126,6 +133,18 @@ class Text extends API
             }
         }
         return $blocks;
+    }
+
+    /**
+     * @var $text
+     * @return boolean
+     */
+    protected function hasPhpCode($text) {
+        if($text->enable_php_code && $text->php_code != '') {
+            return eval($text->php_code);
+        } else {
+            return true;
+        }
     }
 
     private function findText($id_slug, $id = null)

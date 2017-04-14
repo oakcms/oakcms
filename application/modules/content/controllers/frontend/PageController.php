@@ -19,6 +19,7 @@ namespace app\modules\content\controllers\frontend;
 
 use app\components\Controller;
 use app\modules\content\models\ContentPages;
+use app\modules\content\models\ContentPagesLang;
 use app\modules\menu\api\Menu;
 use app\modules\menu\models\MenuItems;
 use yii\helpers\VarDumper;
@@ -29,7 +30,6 @@ class PageController extends Controller
 
     /**
      * @param $slug
-     * Return template page-{slug}.php or page-{id}.php or page.php
      * @return string
      */
     public function actionView($slug) {
@@ -41,7 +41,19 @@ class PageController extends Controller
 
     protected function findModel($slug)
     {
-        if (($model = ContentPages::find()->published()->joinWith(['translations'])->andWhere(['{{%content_pages_lang}}.slug'=>$slug])->one()) !== null) {
+        if (
+            (
+                $model = ContentPages::find()
+                    ->published()
+                    ->joinWith(['translations'])
+                    ->andWhere([
+                        ContentPages::tableName().'.status'       => ContentPages::STATUS_PUBLISHED,
+                        ContentPagesLang::tableName().'.slug'     => $slug,
+                        ContentPagesLang::tableName().'.language' => \Yii::$app->language,
+                    ])
+                    ->one()
+            ) !== null
+        ) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

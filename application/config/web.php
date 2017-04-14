@@ -19,7 +19,7 @@ $config = [
     'basePath' => dirname(__DIR__),
     'language' => 'en-US',
     'sourceLanguage' => 'en-US',
-    'defaultRoute' => 'system/default',
+    'defaultRoute' => '',
     'runtimePath' => $webRoot . '/runtime',
     'vendorPath' => $webRoot . '/vendor',
     'bootstrap' => [
@@ -62,13 +62,13 @@ if (YII_ENV_DEV) {
                 'template' => 'OakCMS',
                 'messageCategory' => 'oakcms'
             ],
-            'migrik' => [
-                'class'     => \insolita\migrik\gii\StructureGenerator::class,
-                'templates' =>
-                    [
-                        'custom' => '@adminTemplate/views/_gii/default_structure',
-                    ],
-            ],
+//            'migrik' => [
+//                'class'     => \insolita\migrik\gii\StructureGenerator::class,
+//                'templates' =>
+//                    [
+//                        'custom' => '@adminTemplate/views/_gii/default_structure',
+//                    ],
+//            ],
         ]
     ];
     //$config['components']['assetManager']['forceCopy'] = true;

@@ -11,6 +11,7 @@ namespace app\modules\admin\widgets;
 use app\modules\form_builder\models\FormBuilderForms;
 use app\modules\menu\models\MenuType;
 use app\modules\widgets\models\Widgetkit;
+use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
@@ -57,6 +58,9 @@ class Html extends \yii\bootstrap\Html
                         'checked' => $value
                     ]);
                 break;
+            case 'checkboxList':
+                $element = self::checkboxList($name, $value, $items, $elementOptions);
+                break;
             case 'textInput':
                 $element = self::textInput($name, $value, $elementOptions);
                 break;
@@ -80,8 +84,17 @@ class Html extends \yii\bootstrap\Html
                 $widgets = ArrayHelper::map(Widgetkit::find()->all(), 'id', 'name');
                 $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
+            case 'select2':
+                $element = Select2::widget([
+                    'name'       => $name,
+                    'value'      => $value,
+                    'data'       => $items,
+                    'options'    => $elementOptions
+                ]);
+                break;
             case 'select':
             case 'dropDownList':
+            case 'dropdownList':
                 $element = self::dropDownList($name, $value, $items, $elementOptions);
                 break;
             case 'aceEditor':

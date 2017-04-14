@@ -21,13 +21,13 @@ class Theme extends \yii\base\Theme
     {
         parent::init();
 
-        Yii::$app->getAssetManager()->bundles['mihaildev\ckeditor\Assets'] = [
-            'sourcePath' => '@media/vendor/ckeditor',
-            'js'         => [
-                'ckeditor.js',
-                'js.js',
-            ],
-        ];
+//        Yii::$app->getAssetManager()->bundles['mihaildev\ckeditor\Assets'] = [
+//            'sourcePath' => '@media/vendor/ckeditor',
+//            'js'         => [
+//                'ckeditor.js',
+//                'js.js',
+//            ],
+//        ];
 
         $rHostInfo = Url::home(true);
         if (strpos(Yii::$app->request->absoluteUrl, $rHostInfo.'admin/file-manager-elfinder') === false) {

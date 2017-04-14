@@ -2,6 +2,8 @@
 
 namespace app\modules\content\models\search;
 
+use app\modules\content\models\ContentCategoryLang;
+use app\modules\language\models\Language;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -39,9 +41,14 @@ class ContentCategorySearch extends ContentCategory
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $language = false)
     {
-        $query = ContentCategory::find();
+        if(!$language) {
+            $language = Language::findOne(Yii::$app->language);
+        }
+        $query = ContentCategory::find()
+            ->joinWith(['translations'])
+            ->where([ContentCategoryLang::tableName().'.language' => $language->language_id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -62,30 +69,30 @@ class ContentCategorySearch extends ContentCategory
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
-            'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'tree' => $this->tree,
-            'lft' => $this->lft,
-            'rgt' => $this->rgt,
-            'depth' => $this->depth,
-            'icon_type' => $this->icon_type,
-            'active' => $this->active,
-            'selected' => $this->selected,
-            'disabled' => $this->disabled,
-            'readonly' => $this->readonly,
-            'visible' => $this->visible,
-            'collapsed' => $this->collapsed,
-            'movable_u' => $this->movable_u,
-            'movable_d' => $this->movable_d,
-            'movable_l' => $this->movable_l,
-            'movable_r' => $this->movable_r,
-            'removable' => $this->removable,
-            'removable_all' => $this->removable_all,
+            ContentCategory::tableName().'.id' => $this->id,
+            ContentCategory::tableName().'.status' => $this->status,
+            ContentCategory::tableName().'.created_at' => $this->created_at,
+            ContentCategory::tableName().'.updated_at' => $this->updated_at,
+            ContentCategory::tableName().'.tree' => $this->tree,
+            ContentCategory::tableName().'.lft' => $this->lft,
+            ContentCategory::tableName().'.rgt' => $this->rgt,
+            ContentCategory::tableName().'.depth' => $this->depth,
+            ContentCategory::tableName().'.icon_type' => $this->icon_type,
+            ContentCategory::tableName().'.active' => $this->active,
+            ContentCategory::tableName().'.selected' => $this->selected,
+            ContentCategory::tableName().'.disabled' => $this->disabled,
+            ContentCategory::tableName().'.readonly' => $this->readonly,
+            ContentCategory::tableName().'.visible' => $this->visible,
+            ContentCategory::tableName().'.collapsed' => $this->collapsed,
+            ContentCategory::tableName().'.movable_u' => $this->movable_u,
+            ContentCategory::tableName().'.movable_d' => $this->movable_d,
+            ContentCategory::tableName().'.movable_l' => $this->movable_l,
+            ContentCategory::tableName().'.movable_r' => $this->movable_r,
+            ContentCategory::tableName().'.removable' => $this->removable,
+            ContentCategory::tableName().'.removable_all' => $this->removable_all,
         ]);
 
-        $query->andFilterWhere(['like', 'icon', $this->icon]);
+        $query->andFilterWhere(['like', ContentCategory::tableName().'.icon', $this->icon]);
 
         return $dataProvider;
     }

@@ -111,8 +111,13 @@ $this->params['actions_buttons'] = [
                     <i class="fa fa-file-text-o"></i> <?= Yii::t('text', 'Binding to the menu') ?>
                 </a>
             </li>
+            <li>
+                <a href="#tab_3" data-toggle="tab" aria-expanded="true">
+                    <i class="fa fa-file-text-o"></i> <?= Yii::t('text', 'Binding to the php') ?>
+                </a>
+            </li>
             <li class="">
-                <a href="#tab_3" data-toggle="tab" aria-expanded="false">
+                <a href="#tab_4" data-toggle="tab" aria-expanded="false">
                     <i class="fa fa-gear"></i> <?= Yii::t('admin', 'Settings') ?>
                 </a>
             </li>
@@ -151,11 +156,16 @@ $this->params['actions_buttons'] = [
                                     <?php foreach($menus as $menu):?>
                                         <div class="col-xs-12 col-sm-6">
                                             <b><?= $menu->title ?></b><br>
-                                            <?php foreach($menu->items as $cat) : ?>
-                                                <?php if($cat->link_type == \app\modules\menu\models\MenuItem::LINK_ROUTE):?>
-                                                <label style="padding-left:  <?= $cat->level * 20 ?>px;">
-                                                    <input type="checkbox" name="Text[links][]" <?=($model->links !== null && in_array($cat->id, $model->links))?"checked":""?> value="<?= $cat->id ?>">
-                                                    <?= $cat->title ?>
+
+                                            <?php
+                                            $items = \yii\helpers\ArrayHelper::toArray($menu->items);
+                                            \yii\helpers\ArrayHelper::multisort($items, 'language', SORT_ASC, SORT_REGULAR);
+                                            ?>
+                                            <?php foreach($items as $cat) : ?>
+                                                <?php if($cat['link_type'] == \app\modules\menu\models\MenuItem::LINK_ROUTE):?>
+                                                <label style="padding-left:  <?= $cat['level'] * 20 ?>px;">
+                                                    <input type="checkbox" name="Text[links][]" <?=($model->links !== null && in_array($cat['id'], $model->links))?"checked":""?> value="<?= $cat['id'] ?>">
+                                                    <?= $cat['title'] ?>
                                                 </label>
                                                 <br>
                                                 <?php endif;?>
@@ -172,6 +182,13 @@ $this->params['actions_buttons'] = [
                 </div>
             </div>
             <div class="tab-pane" id="tab_3">
+                <?= $form->field($model, 'enable_php_code')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
+                <?= $form->field($model, 'php_code')->widget(\app\modules\admin\widgets\AceEditor::className(), [
+                    'mode'  => 'php',
+                    'readOnly' => 'false'
+                ]) ?>
+            </div>
+            <div class="tab-pane" id="tab_4">
 
             </div>
     <?php ActiveForm::end(); ?>
@@ -209,10 +226,9 @@ $this->params['actions_buttons'] = [
                 dataType: 'html',
                 async: false,
                 success: function(data) {
-                    $('#tab_3').html(data);
+                    $('#tab_4').html(data);
                 }
             });
-
         }
         selLayout();
         $("#text-layout").change(function () {

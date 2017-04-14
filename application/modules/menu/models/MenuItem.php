@@ -552,13 +552,15 @@ class MenuItem extends \yii\db\ActiveRecord implements ViewableInterface
     public function getBreadcrumbs($includeSelf = false)
     {
         if ($this->isRoot()) {
-            return [];
+            return [
+                'label' => $this->title,
+                'url'   => $this->getFrontendViewLink(),
+            ];
         } else {
             $path = $this->parents()->excludeRoots()->all();
             if ($includeSelf) {
                 $path[] = $this;
             }
-
             return array_map(function ($item) {
                 /** @var self $item */
                 return [

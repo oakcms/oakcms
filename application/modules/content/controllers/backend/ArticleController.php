@@ -93,7 +93,7 @@ class ArticleController extends BackendController
         $model->setScenario('insert');
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             if(Yii::$app->request->post('submit-type') == 'continue')
-                return $this->redirect(['update', 'id' => $model->id]);
+                return $this->redirect(['update', 'id' => $model->id, 'language' => $lang->url]);
             else
                 return $this->redirect(['index']);
         } else {
@@ -112,7 +112,7 @@ class ArticleController extends BackendController
      * @param string $language
      * @return mixed
      */
-    public function actionUpdate($id, $language)
+    public function actionUpdate($id, $language = false)
     {
         $lang = $this->getDefaultLanguage($language);
         $model = $this->findModel($id);

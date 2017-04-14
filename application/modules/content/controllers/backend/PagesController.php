@@ -65,7 +65,7 @@ class PagesController extends BackendController
         if ($model->load(Yii::$app->request->post())) {
             $model->saveNode(true);
             if(Yii::$app->request->post('submit-type') == 'continue')
-                return $this->redirect(['update', 'id' => $model->id]);
+                return $this->redirect(['update', 'id' => $model->id, 'language' => $lang->url]);
             else
                 return $this->redirect(['index']);
         } else {
@@ -83,7 +83,7 @@ class PagesController extends BackendController
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id, $language)
+    public function actionUpdate($id, $language = false)
     {
         $lang = $this->getDefaultLanguage($language);
         $model = $this->findModel($id);
@@ -129,16 +129,19 @@ class PagesController extends BackendController
      * @param string $route
      * @return string
      */
-    public function actionSelect($route = 'content/page/view') {
+    public function actionSelect($route = 'content/page/view', $language = false) {
+        $lang = $this->getDefaultLanguage($language);
+        Yii::$app->language = $lang->language_id;
         $searchModel = new ContentPagesSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams());
+        $dataProvider = $searchModel->search(Yii::$app->request->getQueryParams(), $lang);
 
         Yii::$app->getView()->applyModalLayout();
 
         return $this->render('select', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-            'route' => $route
+            'route' => $route,
+            'lang' => $lang
         ]);
     }
 

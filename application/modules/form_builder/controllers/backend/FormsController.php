@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.5
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\form_builder\controllers\backend;
@@ -409,6 +409,7 @@ class FormsController extends BackendController
                     ArrayHelper::getValue($rule, 2, [])
                 );
             }
+
             $modelFormField->addRule('name', 'match', ['pattern' => '/(^|.*\])([\w\.]+)(\[.*|$)/']);
             $modelFormField->addRule('name', 'unique', [
                 'targetClass' => FormBuilderField::className(),
@@ -416,7 +417,7 @@ class FormsController extends BackendController
                 'filter' => function ($query) use($model) {
                     /** @var $query ActiveQuery */
                     if($model->isNewRecord) {
-                        return $query->andWhere('form_id <> :form_id', ['form_id' => $model->form_id]);
+                        return $query->andWhere('form_id = :form_id', ['form_id' => $model->form_id]);
                     } else {
                         return $query->andWhere('form_id = :form_id AND id <> :id', ['form_id' => $model->form_id, 'id' => $model->id]);
                     }

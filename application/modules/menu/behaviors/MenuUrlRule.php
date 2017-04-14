@@ -221,10 +221,10 @@ class MenuUrlRule extends Object implements UrlRuleInterface
         $metaData = $this->activeMenuMetaData();
 
         $data = [
-            'title' => isset($metaData['title']) ? $metaData['title'] : '',
-            'desc' => isset($metaData['description']) ? $metaData['description'] : '',
-            'keys' => isset($metaData['keywords']) ? $metaData['keywords'] : '',
-            'canonical' => isset($metaData['canonical']) ? $metaData['canonical'] : '',
+            'title' => isset($metaData['title']) ? $metaData['title'] : null,
+            'desc' => isset($metaData['description']) ? $metaData['description'] : null,
+            'keys' => isset($metaData['keywords']) ? $metaData['keywords'] : null,
+            'canonical' => isset($metaData['canonical']) ? $metaData['canonical'] : null,
         ];
 
         Yii::$app->getView()->setSeoData($data);

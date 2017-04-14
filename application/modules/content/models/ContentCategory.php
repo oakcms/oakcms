@@ -38,6 +38,11 @@ use dosamigos\translateable\TranslateableBehavior;
  * @property integer $movable_r
  * @property integer $removable
  * @property integer $removable_all
+ *
+ * @property string $meta_title
+ * @property string $meta_keywords
+ * @property string $meta_description
+ * @property string $settings
  */
 
 class ContentCategory extends CategoryModel

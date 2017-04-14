@@ -7,7 +7,7 @@
  */
 
 /**
- * @var $model
+ * @var $model \app\modules\form_builder\models\FormBuilderForms
  */
 $index = new \app\components\Count();
 $form = \kartik\form\ActiveForm::begin([

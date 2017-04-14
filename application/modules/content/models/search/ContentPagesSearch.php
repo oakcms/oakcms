@@ -2,6 +2,8 @@
 
 namespace app\modules\content\models\search;
 
+use app\modules\content\models\ContentPagesLang;
+use app\modules\language\models\Language;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -43,10 +45,17 @@ class ContentPagesSearch extends ContentPages
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $language = false)
     {
-        $query = ContentPages::find()->excludeRoots()
-        ->joinWith('translations');
+        if(!$language) {
+            $language = Language::findOne(Yii::$app->language);
+        }
+
+        $query = ContentPages::find()
+            ->excludeRoots()
+            ->joinWith('translations')
+            ->where([ContentPagesLang::tableName().'.language' => $language->language_id])
+        ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

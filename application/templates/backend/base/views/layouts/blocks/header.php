@@ -284,9 +284,9 @@ $userIdentity = Yii::$app->user->identity;
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <?php if($userIdentity->userProfile->avatar != ''):?>
+                            <?php if($userIdentity->userProfile->avatar != ''): ?>
                                 <img class="img-circle" src="<?= $userIdentity->userProfile->getThumbUploadUrl('avatar') ?>" alt="<?= Yii::t('user', 'Avatar image for {username}', ['username' => $userIdentity->username]) ?>">
-                            <?php else:?>
+                            <?php else: ?>
                             <?= \cebe\gravatar\Gravatar::widget([
                                 'email' => $userIdentity->email,
                                 'size' => 160,
@@ -295,7 +295,7 @@ $userIdentity = Yii::$app->user->identity;
                                     'class' => 'img-circle'
                                 ]
                             ]); ?>
-                            <?php endif?>
+                            <?php endif ?>
                             <p>
                                 <?= $userIdentity->publicIdentity ?> - <?= $userIdentity->username ?>
                                 <small><?= Yii::t('user', 'Joined in {datetime}', ['datetime' => Yii::$app->formatter->asDatetime($userIdentity->created_at)]) ?></small>
@@ -319,7 +319,7 @@ $userIdentity = Yii::$app->user->identity;
                 </li>
                 <!-- Control Sidebar Toggle Button -->
                 <li>
-                    <a href="<?= Url::to(['/', 'language'=> Yii::$app->language]) ?>">
+                    <a href="<?= Url::home() ?>">
                         <i class="fa fa-external-link"></i>
                     </a>
                 </li>

@@ -27,7 +27,7 @@ class ModulesController extends BackendController
     {
         return [
             'sorting' => [
-                'class' => \kotchuprik\sortable\actions\Sorting::className(),
+                'class' => \app\components\Sorting::className(),
                 'query' => Modules::find(),
                 'pk'    => 'module_id'
             ],

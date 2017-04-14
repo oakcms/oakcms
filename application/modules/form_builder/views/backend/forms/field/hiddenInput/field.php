@@ -14,6 +14,11 @@ return [
     'icon' => '<i class="fa fa-eye-slash" aria-hidden="true"></i>',
     'render' => __DIR__ . '/render.php',
     'attributes' => [
+        'type' => [
+            'type' => BaseForm::INPUT_HIDDEN,
+            'label' => false,
+            'value' => 'hidden'
+        ],
         'label' => [
             'type' => BaseForm::INPUT_TEXT,
         ],

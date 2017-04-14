@@ -99,7 +99,7 @@ $this->params['actions_buttons'] = [
                 'title',
                 [
                     'attribute' => 'layout',
-                    'filter' => Html::activeDropDownList($searchModel, 'slug', \yii\helpers\ArrayHelper::map(
+                    'filter' => Html::activeDropDownList($searchModel, 'layout', \yii\helpers\ArrayHelper::map(
                         Text::find()->groupBy('layout')->all(),
                         'layout',
                         'layout'

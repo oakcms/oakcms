@@ -2,6 +2,7 @@
 
 namespace app\modules\text\models\search;
 
+use app\modules\text\models\TextsLang;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -42,24 +43,31 @@ class TextSearch extends Text
     public function search($params)
     {
         $query = Text::find()
-            ->joinWith(['translations']);
+            ->joinWith(['translations'])
+            ->andWhere([TextsLang::tableName().'.language' => Yii::$app->language]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['order' => SORT_ASC]]
+            'pagination' => [
+                'pageSize' => 50,
+            ],
         ]);
 
         $dataProvider->setSort([
             'attributes' => [
                 'id',
                 'title' => [
-                    'asc' => ['{{%texts_lang}}.title' => SORT_ASC],
-                    'desc' => ['{{%texts_lang}}.title' => SORT_DESC],
+                    'asc' => [TextsLang::tableName().'.title' => SORT_ASC],
+                    'desc' => [TextsLang::tableName().'.title' => SORT_DESC],
                     'default' => SORT_ASC
                 ],
                 'slug',
                 'layout',
-                'status'
+                'status',
+                'order'
+            ],
+            'defaultOrder' => [
+                'order' => SORT_ASC
             ]
         ]);
 
@@ -76,11 +84,11 @@ class TextSearch extends Text
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', '{{%texts_lang}}.title', $this->title])
-            ->andFilterWhere(['like', 'subtitle', $this->subtitle])
-            ->andFilterWhere(['like', 'layout', $this->layout])
-            ->andFilterWhere(['like', 'slug', $this->slug])
-            ->andFilterWhere(['like', 'text', $this->text]);
+        $query->andFilterWhere(['like', TextsLang::tableName().'.title', $this->title])
+            ->andFilterWhere(['like', TextsLang::tableName().'.subtitle', $this->subtitle])
+            ->andFilterWhere(['like', Text::tableName().'.layout', $this->layout])
+            ->andFilterWhere(['like', Text::tableName().'.slug', $this->slug])
+            ->andFilterWhere(['like', TextsLang::tableName().'.text', $this->text]);
 
         return $dataProvider;
     }

@@ -7,23 +7,19 @@
  */
 
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 16.09.2016
- * Project: osnovasite
- * File name: view.php
- *
- * @var $model \app\modules\text\models\Text;
+ * @var $model \app\modules\text\models\Text
  */
+
+use yii\helpers\Html;
 ?>
-<section id="<?= $model->settings['id']['value'] ?>">
-    <article class="container <?= $model->settings['cssClass']['value'] ?>">
-        <?php if ((int)$model->settings['hideTitle']['value'] !== 1): ?>
-            <h2><?= $model->title ?></h2>
+<div id="<?= $model->getSetting('id') ?>">
+    <div class="container <?= $model->getSetting('cssClass') ?>">
+        <?php if((int)$model->getSetting('hideTitle') !== 1): ?>
+            <?= Html::tag($model->getSetting('headingSize'), $model->title) ?>
             <?php if ($model->subtitle != ''): ?>
                 <h3><?= $model->subtitle ?></h3>
             <?php endif; ?>
         <?php endif; ?>
         <?= $model->text ?>
-    </article>
-</section>
+    </div>
+</div>

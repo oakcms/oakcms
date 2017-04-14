@@ -14,7 +14,7 @@ use Yii;
  * @property string $sourceMessage
  * @property object $sourceMessageModel
  */
-class LanguageTranslate extends \app\components\ActiveRecord
+class LanguageTranslate extends \yii\db\ActiveRecord
 {
 
     public $category;
@@ -35,6 +35,7 @@ class LanguageTranslate extends \app\components\ActiveRecord
     {
         return [
             [['id', 'language'], 'required'],
+            [['id'], 'exist', 'targetClass' => LanguageSource::className(), 'targetAttribute' => 'id'],
             [['id'], 'integer'],
             [['translation'], 'string'],
             [['language'], 'string', 'max' => 16],

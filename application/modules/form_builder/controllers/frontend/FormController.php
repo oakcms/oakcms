@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-alpha.0.5
+ * @version    0.0.1-alpha.0.4
  */
 namespace app\modules\form_builder\controllers\frontend;
 
@@ -17,6 +17,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 
 class FormController extends \app\components\Controller
 {
@@ -36,29 +37,75 @@ class FormController extends \app\components\Controller
             $submission->created    = time();
             $submission->ip         = Yii::$app->request->userIP;
             $submission->status     = FormBuilderSubmission::STATUS_DRAFT;
+
+            $attachments = [];
+            foreach ($models['model']->fields as $field) {
+                if($field->type == 'fileInput' && ($attachment = UploadedFile::getInstance($formModel,'rezume'))) {
+                    $fieldData = Json::decode($field->data);
+                    $uploadsPath = Yii::getAlias($fieldData['destination']);
+                    $urlDownload = Yii::getAlias('@webroot');
+                    $urlDownload = Yii::getAlias('@web'.str_replace($urlDownload, '', $uploadsPath));
+                    if (!file_exists($uploadsPath)) {
+                        mkdir($uploadsPath, 0777, true);
+                    }
+                    $uniqid = uniqid();
+                    $fileName = $uploadsPath . '/' . $uniqid .'.'. $attachment->extension;
+                    $fileDownload = $urlDownload . '/' . $uniqid .'.'. $attachment->extension;
+                    $attachment->saveAs($fileName);
+                    $attributes = $formModel->attributes;
+                    $attributes[$field->slug] = $fileDownload;
+                    $formModel->attributes = $attributes;
+                    foreach ($fieldData['attach_file_to'] as $datum) {
+                        $attachments[$datum][] = $fileName;
+                    }
+                }
+            }
+
             $submission->data       = Json::encode($formModel->attributes);
-
             if($submission->save()) {
-
                 if(ArrayHelper::getValue($model->data, 'email.sendToUser')) {
                     if(($field_id = ArrayHelper::getValue($model->data, 'email.userEmail')) && ($field = FormBuilderField::findOne($field_id))) {
                         $userEmail = $formModel->{$field->slug};
-                        Yii::$app->mailer->compose()
+                        $mailer = Yii::$app->mailer->compose()
                             ->setFrom(getenv('ROBOT_EMAIL'))
                             ->setTo($userEmail)
                             ->setSubject(ArrayHelper::getValue($model->data, 'email.userEmailSubject'))
-                            ->setHtmlBody($model->parseContent($formModel, 'email.userEmailContent'))
-                            ->send();
+                            ->setHtmlBody($model->parseContent($formModel, 'email.userEmailContent'));
+
+                        foreach ($attachments as $key => $attachment) {
+                            if($key == 'useremail') {
+                                foreach ($attachment as $filename) {
+                                    $mailer->attach($filename);
+                                }
+                            }
+                        }
+
+                        $mailer->send();
                     }
                 }
 
                 if(ArrayHelper::getValue($model->data, 'email.sendToAdmin')) {
-                    Yii::$app->mailer->compose()
+                    $email = ArrayHelper::getValue($model->data, 'email.adminEmail', getenv('ADMIN_EMAIL'));
+                    $email = $model->parseFields($formModel, $email);
+                    $email = str_replace(' ', '', $email);
+                    $emails = explode(',', $email);
+
+                    $mailer = Yii::$app->mailer
+                        ->compose()
                         ->setFrom(getenv('ROBOT_EMAIL'))
-                        ->setTo(ArrayHelper::getValue($model->data, 'email.adminEmail', getenv('ADMIN_EMAIL')))
+                        ->setTo($emails)
                         ->setSubject(ArrayHelper::getValue($model->data, 'email.adminEmailSubject'))
-                        ->setHtmlBody($model->parseContent($formModel, 'email.adminEmailContent'))
-                        ->send();
+                        ->setHtmlBody($model->parseContent($formModel, 'email.adminEmailContent'));
+
+                    foreach ($attachments as $key => $attachment) {
+                        if($key == 'adminemail') {
+                            foreach ($attachment as $filename) {
+                                $mailer->attach($filename);
+                            }
+                        }
+                    }
+
+                    $mailer->send();
                 }
 
                 if($format == 'json') {
@@ -75,11 +122,9 @@ class FormController extends \app\components\Controller
                 }
             }
         }
-
         if($format == 'json') {
             return $this->formatResponse(['success' => $success]);
         }
-
         return $this->render('view', ['model' => $model]);
     }
 

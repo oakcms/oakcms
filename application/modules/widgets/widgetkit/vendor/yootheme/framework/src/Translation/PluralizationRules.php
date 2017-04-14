@@ -117,7 +117,7 @@ class PluralizationRules
 
             case 'am':
             case 'bh':
-            case 'fil':
+            case 'Filter':
             case 'fr':
             case 'gun':
             case 'hi':

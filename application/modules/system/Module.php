@@ -14,40 +14,11 @@ namespace app\modules\system;
 class Module extends \yii\base\Module
 {
 
-    const VERSION = '0.0.1-beta.0.1';
+    const VERSION = '0.0.1-alpha.0.5';
 
     public $activeModules;
 
-    public $settings = [
-        'BackCallEmail' => [
-            'type' => 'textInput',
-            'value' => 'script@email.ua'
-        ],
-        'BackCallSubject' => [
-            'type' => 'textInput',
-            'value' => 'Новая заявка з сайта falconcity.kz'
-        ],
-        'BackCallSuccessText' => [
-            'type' => 'textInput',
-            'value' => 'Ваш запрос получен!<br>В ближайшее время наш менеджер свяжится с Вами!'
-        ],
-        'SocialInstagramLink' => [
-            'type' => 'textInput',
-            'value' => '#'
-        ],
-        'SocialTwitterLink' => [
-            'type' => 'textInput',
-            'value' => '#'
-        ],
-        'SocialFacebookLink' => [
-            'type' => 'textInput',
-            'value' => '#'
-        ],
-        'FrequentlyAskedQuestionsLink' => [
-            'type' => 'textInput',
-            'value' => '#'
-        ],
-    ];
+    public $settings = [];
 
     public static $urlRulesFrontend = [];
     public static $installConfig = [];

@@ -87,20 +87,21 @@ class SeoViewBehavior extends Behavior
             $data = [];
         }
 
-        if (isset($data['title'])) {
+        if (isset($data['title']) && $data['title'] != '') {
             $this->_page_title = $this->normalizeStr($data['title']);
         }
-        if (isset($data['desc'])) {
+        if (isset($data['desc']) && $data['desc'] != '') {
             $this->_meta_description = $this->normalizeStr($data['desc']);
         }
-        if (isset($data['keys'])) {
+        if (isset($data['keys']) && $data['keys'] != '') {
             $this->_meta_keywords = $this->normalizeStr($data['keys']);
         }
-        if (isset($data['canonical']) and $data['canonical'] != '') {
+        if (isset($data['canonical']) && $data['canonical'] != '') {
             $this->_meta_canonical = $this->normalizeStr($data['canonical']);
         }
         return $this;
     }
+
     public function renderMetaTags()
     {
         /* @var $view View */

@@ -24,6 +24,8 @@ use yii\behaviors\TimestampBehavior;
  * @property $created_at
  * @property $updated_at
  * @property $status
+ * @property $enable_php_code
+ * @property $php_code
  * @property $order
  * @property $settings
  *
@@ -86,9 +88,9 @@ class Text extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'order', 'status'], 'number', 'integerOnly' => true],
+            [['id', 'order', 'status', 'enable_php_code'], 'number', 'integerOnly' => true],
             [['title'], 'required'],
-            [['title', 'subtitle', 'layout', 'links', 'text'], 'string'],
+            [['title', 'subtitle', 'layout', 'links', 'text', 'php_code'], 'string'],
             ['text', 'trim'],
             [['slug', 'where_to_place'], 'string', 'max' => 150],
 
@@ -103,13 +105,15 @@ class Text extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'text'           => Yii::t('text', 'Content'),
-            'slug'           => Yii::t('text', 'Position'),
-            'title'          => Yii::t('text', 'Title'),
-            'subtitle'       => Yii::t('text', 'Subtitle'),
-            'layout'         => Yii::t('text', 'Layout'),
-            'links'          => Yii::t('text', 'Links'),
-            'where_to_place' => Yii::t('text', 'Where To Place'),
+            'text'            => Yii::t('text', 'Content'),
+            'slug'            => Yii::t('text', 'Position'),
+            'enable_php_code' => Yii::t('text', 'Enable php code'),
+            'php_code'        => Yii::t('text', 'php code'),
+            'title'           => Yii::t('text', 'Title'),
+            'subtitle'        => Yii::t('text', 'Subtitle'),
+            'layout'          => Yii::t('text', 'Layout'),
+            'links'           => Yii::t('text', 'Links'),
+            'where_to_place'  => Yii::t('text', 'Where To Place'),
         ];
     }
 
@@ -150,18 +154,18 @@ class Text extends ActiveRecord
         while (!empty($ids)) {
             $id = array_shift($ids);
 
-
             $model = self::findOne($id);
             $translations = $model->translations;
+            $model->detachBehavior('tree');
             $model->id = null;
             $model->isNewRecord = true;
             if ($model->save()) {
                 foreach ($translations as $translation) {
                     /** @var $translation TextsLang */
-                    $translation->texts_id = $model->id;
-                    $translation->title = StringHelper::increment($translation->title);
-                    $translation->id = null;
-                    $translation->isNewRecord = true;
+                    $translation->texts_id      = $model->id;
+                    $translation->title         = StringHelper::increment($translation->title);
+                    $translation->id            = null;
+                    $translation->isNewRecord   = true;
                     $translation->save();
                 }
             }

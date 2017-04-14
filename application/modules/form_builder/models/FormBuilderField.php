@@ -73,7 +73,7 @@ class FormBuilderField extends \app\components\ActiveRecord
     public function rules()
     {
         return [
-            [['form_id', 'type', 'label', 'slug'], 'required'],
+            [['form_id', 'label', 'slug'], 'required'],
             [['form_id', 'sort'], 'integer'],
             [['options', 'roles', 'data'], 'string'],
             [['type', 'label', 'slug'], 'string', 'max' => 255],

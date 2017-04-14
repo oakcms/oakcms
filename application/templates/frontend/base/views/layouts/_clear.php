@@ -15,6 +15,12 @@ use yii\helpers\Url;
 
 $bundle = \app\templates\frontend\base\assets\BaseAsset::register($this);
 
+
+$isHome = (Url::to() == Url::home()) ? true : false;
+if($isHome) {
+    $this->bodyClass[] = 'home';
+}
+
 $this->bodyClass[] = 'mod_'.Yii::$app->controller->module->id;
 $this->bodyClass[] = Yii::$app->controller->id.'_'.Yii::$app->controller->action->id;
 
@@ -41,9 +47,9 @@ $this->bodyClass[] = Yii::$app->controller->id.'_'.Yii::$app->controller->action
 </head>
 <body class="<?= implode(' ', (array)$this->bodyClass) ?>">
 <?php $this->beginBody() ?>
-    <div id="main">
-        <?= $content ?>
-    </div>
+    <?= $content ?>
+<?= \app\modules\text\api\Text::get('modal_form'); ?>
+<div id="overlay"></div>
 <?php $this->endBody() ?>
 </body>
 </html>

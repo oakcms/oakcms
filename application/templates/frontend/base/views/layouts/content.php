@@ -17,10 +17,10 @@ $this->bodyClass[] = 'base';
 <?php if(Yii::$app->session->hasFlash('alert')):?>
 <div class="content-wrapper">
     <section class="content">
-            <?= \yii\bootstrap\Alert::widget([
-                'body'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'body'),
-                'options'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'options'),
-            ])?>
+        <?= \yii\bootstrap\Alert::widget([
+            'body'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'body'),
+            'options'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'options'),
+        ])?>
     </section>
 </div>
 <?php endif; ?>

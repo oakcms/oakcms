@@ -13,6 +13,10 @@ return [
     'footer'  => 'Footer',
     'contact' => 'Contact',
 
+    'fixed_right_bord_phone' => 'Fixed Right Bord Phone',
+    'sidebar_catalog_item'   => 'Sidebar Catalog Item',
+    'latest_news'            => 'Latest news',
+
     'position_top_1' => 'Position Top 1',
     'position_top_2' => 'Position Top 2',
     'position_top_3' => 'Position Top 3',

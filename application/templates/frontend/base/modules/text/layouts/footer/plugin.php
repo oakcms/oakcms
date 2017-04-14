@@ -10,32 +10,80 @@
 return [
     'name' => 'footer',
     'title' => Yii::t('text', 'Footer'),
-    'preview_image' => Yii::getAlias('@web').'/application/templates/frontend/base/modules/text/views/frontend/layouts/footer/preview.png',
-    'viewFile' => '@app/templates/frontend/base/modules/text/views/frontend/layouts/footer/view.php',
+    'preview_image' => Yii::getAlias('@web').'/application/templates/frontend/base/modules/text/layouts/footer/preview.png',
+    'viewFile' => '@app/templates/frontend/base/modules/text/layouts/footer/view.php',
     'settings' => [
         'cssClass' => [
             'type' => 'textInput',
             'value' => ''
         ],
-        'telephone' => [
+        'logoTitle' => [
             'type' => 'textInput',
-            'value' => '(067) 323-78-07'
+            'value' => 'Am lingwista'
         ],
-        'sales_department' => [
+        'logoDescription' => [
             'type' => 'textInput',
-            'value' => '08298 Киевская обл., пгт. Коцюбинское, ул. Пономарёва, 26'
+            'value' => 'Трудоустройство за границей'
         ],
-        'schedule' => [
-            'type' => 'textInput',
-            'value' => 'Пн. - Пт. 9:00 - 18:00'
-        ],
-        'links' => [
-            'type' => 'textarea',
+        'menu' => [
+            'type' => 'menuType',
             'value' => ''
         ],
-        'facebook_link' => [
-            'type' => 'textarea',
-            'value' => 'https://www.facebook.com/kotsyubynsk.com.ua/'
+        'country1' => [
+            'type' => 'textInput',
+            'value' => 'УКРАИНА'
+        ],
+        'address1' => [
+            'type' => 'textInput',
+            'value' => 'г. Ровно, ул. Кн.Ольги,5'
+        ],
+        'telephone1_1' => [
+            'type' => 'textInput',
+            'value' => '+38 /067/ 362 04 74'
+        ],
+        'telephone1_2' => [
+            'type' => 'textInput',
+            'value' => '+38 /050/ 371 98 00'
+        ],
+        'telephone1_3' => [
+            'type' => 'textInput',
+            'value' => '+38 /050/ 111 11 11'
+        ],
+        'country2' => [
+            'type' => 'textInput',
+            'value' => 'POLAND'
+        ],
+        'address2' => [
+            'type' => 'textInput',
+            'value' => 'ul. Sobieskiego, 11 Katowice'
+        ],
+        'telephone2_1' => [
+            'type' => 'textInput',
+            'value' => '+48 /500/87 83 62'
+        ],
+        'vkLink' => [
+            'type' => 'textInput',
+            'value' => ''
+        ],
+        'gpluseLink' => [
+            'type' => 'textInput',
+            'value' => ''
+        ],
+        'facebookLink' => [
+            'type' => 'textInput',
+            'value' => ''
+        ],
+        'odLink' => [
+            'type' => 'textInput',
+            'value' => ''
+        ],
+        'youtubePlayLink' => [
+            'type' => 'textInput',
+            'value' => ''
+        ],
+        'twitterLink' => [
+            'type' => 'textInput',
+            'value' => ''
         ]
     ],
 ];

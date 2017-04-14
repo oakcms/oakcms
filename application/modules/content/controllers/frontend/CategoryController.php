@@ -3,6 +3,7 @@
 namespace app\modules\content\controllers\frontend;
 
 use app\modules\content\models\ContentArticles;
+use app\modules\content\models\ContentArticlesLang;
 use app\modules\content\models\ContentCategory;
 use app\modules\menu\api\Menu;
 use yii\data\ActiveDataProvider;
@@ -25,18 +26,23 @@ class CategoryController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query' => ContentArticles::find()
-                ->andWhere(['category_id' => $model->id])
-                ->orderBy(['published_at'=>SORT_DESC])
+                ->joinWith(['translations'])
+                ->andWhere([
+                    ContentArticles::tableName().'.category_id' => $model->id,
+                    ContentArticlesLang::tableName().'.language' => \Yii::$app->language
+                ])
+                ->orderBy(['published_at' => SORT_DESC])
                 ->published(),
 
             'pagination' => [
-                'defaultPageSize' => 10,
+                'defaultPageSize' => 12,
                 'forcePageParam' => false,
                 'pageSizeParam' => false,
             ],
         ]);
 
         $breadcrumbs = [];
+
         return $this->render($model->layout, [
             'breadcrumbs' => $breadcrumbs,
             'model' => $model,
