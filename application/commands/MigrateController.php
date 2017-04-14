@@ -41,7 +41,7 @@ class MigrateController extends \yii\console\controllers\MigrateController
 
         $this->migrationNamespaces['yii-log'] = 'yii\log\migrations';
         $this->migrationNamespaces['yii-rbac'] = 'yii\rbac\migrations';
-
+        
         $this->attachModuleMigrations();
         return true;
     }
@@ -114,7 +114,7 @@ class MigrateController extends \yii\console\controllers\MigrateController
         }
 
         if($module === null) {
-            $this->migrationNamespaces = $migrationNamespaces;
+            $this->migrationNamespaces += $migrationNamespaces;
         } elseif (isset($this->migrationNamespaces[$module])) {
             $this->migrationNamespaces = [$module => $this->migrationNamespaces[$module]];
         } else {

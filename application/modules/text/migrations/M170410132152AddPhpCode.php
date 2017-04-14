@@ -10,7 +10,7 @@ class M170410132152AddPhpCode extends Migration
     public function safeUp()
     {
         $this->addColumn(Text::tableName(), 'enable_php_code', $this->boolean()->defaultValue(0));
-        $this->addColumn(Text::tableName(), 'php_code', $this->text()->defaultValue(''));
+        $this->addColumn(Text::tableName(), 'php_code', $this->text());
     }
 
     public function safeDown()
