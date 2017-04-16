@@ -46,6 +46,7 @@ class m170319_235900_menu extends \yii\db\Migration
             'link_params'    => Schema::TYPE_TEXT,
             'layout_path'    => Schema::TYPE_STRING . '(1024)',
             'access_rule'    => Schema::TYPE_STRING . '(50)',
+            'metatitle'      => Schema::TYPE_STRING . '(255)',
             'metakey'        => Schema::TYPE_STRING,
             'metadesc'       => Schema::TYPE_STRING . '(2048)',
             'robots'         => Schema::TYPE_STRING . '(50)',
@@ -70,6 +71,24 @@ class m170319_235900_menu extends \yii\db\Migration
         $this->createIndex('Alias_idx', '{{%menu_item}}', 'alias');
         $this->createIndex('Status_idx', '{{%menu_item}}', 'status');
 
+        $this->batchInsert('{{%menu_type}}',
+            ["id", "title", "alias", "path", "note", "created_at", "updated_at", "created_by", "updated_by", "lock"],
+            [
+                [
+                    'id' => '1',
+                    'title' => 'Main menu',
+                    'alias' => 'main-menu',
+                    'path' => null,
+                    'note' => '',
+                    'created_at' => '1492343793',
+                    'updated_at' => '1492343793',
+                    'created_by' => '1',
+                    'updated_by' => '1',
+                    'lock' => '1',
+                ],
+            ]
+        );
+
         // Вставляєм рутовий елемент
         $this->insert('{{%menu_item}}', [
             'menu_type_id' => 0,
@@ -83,6 +102,45 @@ class m170319_235900_menu extends \yii\db\Migration
             'level'        => 1,
             'ordering'     => 1
         ]);
+
+        $this->batchInsert('{{%menu_item}}',
+            ["id", "menu_type_id", "parent_id", "translation_id", "status", "language", "title", "alias", "path", "note", "link", "link_type", "link_weight", "link_params", "layout_path", "access_rule", "metatitle", "metakey", "metadesc", "robots", "secure", "created_at", "updated_at", "created_by", "updated_by", "lft", "rgt", "level", "ordering", "hits", "lock"],
+            [
+                [
+                    'id' => '2',
+                    'menu_type_id' => '1',
+                    'parent_id' => '1',
+                    'translation_id' => '2',
+                    'status' => '2',
+                    'language' => 'ru-RU',
+                    'title' => 'Home',
+                    'alias' => 'home',
+                    'path' => 'home',
+                    'note' => '',
+                    'link' => 'content/page/view?slug=home',
+                    'link_type' => '1',
+                    'link_weight' => '0',
+                    'link_params' => '{"title":"","class":"","style":"","target":"","onclick":"","rel":""}',
+                    'layout_path' => '',
+                    'access_rule' => '',
+                    'metatitle' => '',
+                    'metakey' => '',
+                    'metadesc' => '',
+                    'robots' => '',
+                    'secure' => null,
+                    'created_at' => '1492344083',
+                    'updated_at' => '1492344083',
+                    'created_by' => '1',
+                    'updated_by' => '1',
+                    'lft' => '2',
+                    'rgt' => '3',
+                    'level' => '2',
+                    'ordering' => '1',
+                    'hits' => null,
+                    'lock' => '1',
+                ],
+            ]
+        );
     }
 
     public function down()

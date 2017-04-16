@@ -62,13 +62,12 @@ if (YII_ENV_DEV) {
                 'template' => 'OakCMS',
                 'messageCategory' => 'oakcms'
             ],
-//            'migrik' => [
-//                'class'     => \insolita\migrik\gii\StructureGenerator::class,
-//                'templates' =>
-//                    [
-//                        'custom' => '@adminTemplate/views/_gii/default_structure',
-//                    ],
-//            ],
+            'migrik' => [
+                'class'     => \insolita\migrik\gii\StructureGenerator::class,
+            ],
+            'migrikdata'=>[
+                'class'=>\insolita\migrik\gii\DataGenerator::class,
+            ],
         ]
     ];
     //$config['components']['assetManager']['forceCopy'] = true;

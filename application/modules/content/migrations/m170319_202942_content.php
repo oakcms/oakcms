@@ -167,6 +167,61 @@ class m170319_202942_content extends Migration
         ], $tableOptions);
 
         $this->createIndex('name', '{{%content_tags}}', 'name', false);
+
+        $this->batchInsert('{{%content_pages}}',
+            ["id", "lft", "rgt", "level", "parent_id", "layout", "background_image", "icon_image", "status", "created_at", "updated_at", "ordering"],
+            [
+                [
+                    'id' => '1',
+                    'lft' => '1',
+                    'rgt' => '12',
+                    'level' => '0',
+                    'parent_id' => '0',
+                    'layout' => '',
+                    'background_image' => '',
+                    'icon_image' => '',
+                    'status' => '1',
+                    'created_at' => '1476250048',
+                    'updated_at' => '1483477411',
+                    'ordering' => '1',
+                ],
+                [
+                    'id' => '2',
+                    'lft' => '2',
+                    'rgt' => '3',
+                    'level' => '1',
+                    'parent_id' => '1',
+                    'layout' => 'default',
+                    'background_image' => '',
+                    'icon_image' => '',
+                    'status' => '1',
+                    'created_at' => '1492344072',
+                    'updated_at' => '1492344072',
+                    'ordering' => '1',
+                ],
+            ]
+        );
+
+        $this->batchInsert('{{%content_pages_lang}}',
+            ["id", "content_pages_id", "title", "subtitle", "title_h1", "slug", "description", "content", "meta_title", "meta_keywords", "meta_description", "settings", "language"],
+            [
+                [
+                    'id' => '2',
+                    'content_pages_id' => '2',
+                    'title' => 'Home',
+                    'subtitle' => '',
+                    'title_h1' => '',
+                    'slug' => 'home',
+                    'description' => '',
+                    'content' => '<p>Some home page</p>',
+                    'meta_title' => '',
+                    'meta_keywords' => '',
+                    'meta_description' => '',
+                    'settings' => '[]',
+                    'language' => 'ru-ru',
+                ],
+            ]
+        );
     }
 
     public function safeDown()

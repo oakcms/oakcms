@@ -8,6 +8,7 @@
 
 namespace app\modules\form_builder\migrations;
 
+use yii\db\Exception;
 use yii\db\Migration;
 
 class m170309_200111_form_builder extends Migration

@@ -109,9 +109,10 @@ class ArticleController extends BackendController
      * Updates an existing ContentArticles model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
-     * @param string $language
+     * @param string|boolean $language
      * @return mixed
      */
+
     public function actionUpdate($id, $language = false)
     {
         $lang = $this->getDefaultLanguage($language);

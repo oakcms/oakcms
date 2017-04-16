@@ -9,10 +9,6 @@ $this->beginContent('@app/templates/frontend/base/views/layouts/content.php'); ?
 
 <?= Text::get('header') ?>
 
-<?= $this->renderFile('@app/templates/frontend/base/views/layouts/blocks/slider.php', ['assets'=>$bundle])?>
-<?= $this->renderFile('@app/templates/frontend/base/views/layouts/blocks/vacancy.php', ['assets'=>$bundle])?>
-<?= $this->renderFile('@app/templates/frontend/base/views/layouts/blocks/fixed_right_bord_phone.php', ['assets'=>$bundle])?>
-
 <?= Text::get('position_top_1'); ?>
 <?= Text::get('position_top_2'); ?>
 <?= Text::get('position_top_3'); ?>

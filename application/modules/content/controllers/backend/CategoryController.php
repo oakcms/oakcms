@@ -112,7 +112,7 @@ class CategoryController extends \app\components\CategoryController
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if(Yii::$app->request->isAjax){
+            if(Yii::$app->request->isAjax) {
                 Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return ActiveForm::validate($model);
             } else {
@@ -123,8 +123,7 @@ class CategoryController extends \app\components\CategoryController
                 }
                 return $this->refresh();
             }
-        }
-        else {
+        } else {
             return $this->render('update', [
                 'model' => $model,
                 'lang' => $lang,

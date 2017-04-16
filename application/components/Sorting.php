@@ -4,12 +4,11 @@
 namespace app\components;
 
 use yii\base\Action;
-use yii\db\ActiveQuery;
 use yii\web\BadRequestHttpException;
 
 class Sorting extends Action
 {
-    /** @var ActiveQuery */
+    /** @var \yii\db\ActiveQuery */
     public $query;
 
     /** @var string */
