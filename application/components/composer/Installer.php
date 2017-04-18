@@ -49,7 +49,7 @@ class Installer
 
         if ($count > 0) {
             file_put_contents('.env', $content);
-            echo shell_exec('application/yii migrate --interactive=0');
+            echo shell_exec('php application/yii migrate --interactive=0');
         }
     }
 
