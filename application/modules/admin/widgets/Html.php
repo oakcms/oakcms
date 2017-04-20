@@ -27,35 +27,35 @@ class Html extends \yii\bootstrap\Html
      */
     public static function settingField($key, $item, $translateCategory, $model = 'Settings')
     {
-        $name               = $model.'['.$key.']';
-        $elementOptions     = ['class' => 'form-control'];
+        $name = $model . '[' . $key . ']';
+        $elementOptions = ['class' => 'form-control'];
 
-        foreach ($item as $k=>$el) {
+        foreach ($item as $k => $el) {
             if ($el instanceof \Closure) {
                 $item[$k] = call_user_func($el);
             }
         }
 
-        $value              = ArrayHelper::getValue($item, 'value');
-        $items              = ArrayHelper::getValue($item, 'items', []);
-        $type               = ArrayHelper::getValue($item, 'type', 'textInput');
-        $options            = ArrayHelper::getValue($item, 'options', []);
+        $value = ArrayHelper::getValue($item, 'value');
+        $items = ArrayHelper::getValue($item, 'items', []);
+        $type = ArrayHelper::getValue($item, 'type', 'textInput');
+        $options = ArrayHelper::getValue($item, 'options', []);
 
-        if(isset($options['elementOptions'])) {
+        if (isset($options['elementOptions'])) {
             $elementOptions = array_merge($elementOptions, $options['elementOptions']);
         }
 
-        if(!isset($elementOptions['id'])) {
-            $elementOptions['id'] = 'field_'.$key;
+        if (!isset($elementOptions['id'])) {
+            $elementOptions['id'] = 'field_' . $key;
         }
 
         switch ($type) {
             case 'checkbox':
                 $element = self::hiddenInput($name, 0) .
                     \oakcms\bootstrapswitch\Switcher::widget([
-                        'id' => 'wid'.uniqid(),
-                        'name' => $name,
-                        'checked' => $value
+                        'id'      => 'wid' . uniqid(),
+                        'name'    => $name,
+                        'checked' => $value,
                     ]);
                 break;
             case 'checkboxList':
@@ -69,11 +69,11 @@ class Html extends \yii\bootstrap\Html
                 break;
             case 'mediaInput':
                 $element = InputFile::widget([
-                    'id' => 'wid'.uniqid(),
-                    'language'   => \Yii::$app->language,
-                    'filter'     => 'image',
-                    'name'       => $name,
-                    'value'      => $value,
+                    'id'       => 'wid' . uniqid(),
+                    'language' => \Yii::$app->language,
+                    'filter'   => 'image',
+                    'name'     => $name,
+                    'value'    => $value,
                 ]);
                 break;
             case 'menuType':
@@ -86,10 +86,10 @@ class Html extends \yii\bootstrap\Html
                 break;
             case 'select2':
                 $element = Select2::widget([
-                    'name'       => $name,
-                    'value'      => $value,
-                    'data'       => $items,
-                    'options'    => $elementOptions
+                    'name'    => $name,
+                    'value'   => $value,
+                    'data'    => $items,
+                    'options' => $elementOptions,
                 ]);
                 break;
             case 'select':
@@ -99,11 +99,11 @@ class Html extends \yii\bootstrap\Html
                 break;
             case 'aceEditor':
                 $element = AceEditor::widget([
-                    'id'    => $key.'_ace',
-                    'mode'  => isset($item['mode']) ? $item['mode']: 'html',
-                    'name'  => $name,
-                    'value' => $value,
-                    'readOnly' => 'false'
+                    'id'       => $key . '_ace',
+                    'mode'     => isset($item['mode']) ? $item['mode'] : 'html',
+                    'name'     => $name,
+                    'value'    => $value,
+                    'readOnly' => 'false',
                 ]);
                 break;
             case 'formBuilder':
@@ -138,27 +138,27 @@ class Html extends \yii\bootstrap\Html
      */
     protected static function render($key, $item, $element, $elementId, $translateCategory)
     {
-        $options            = [];
-        $template           = "<div class='form-group'>{label}\n<div class=\"col-md-9\">{element}\n{hint}</div></div>";
-        $labelOptions       = ['class' => 'col-md-3 control-label'];
-        $hintOptions        = ['class' => 'hint-block'];
-        $parts              = [];
+        $options = [];
+        $template = "<div class="form - group">{label}\n<div class=\"col-md-9\">{element}\n{hint}</div></div>";
+        $labelOptions = ['class' => 'col-md-3 control-label'];
+        $hintOptions = ['class' => 'hint-block'];
+        $parts = [];
 
-        $hint    = ArrayHelper::getValue($item, 'hint');
+        $hint = ArrayHelper::getValue($item, 'hint');
 
-        if(isset($item['template'])) {
+        if (isset($item['template'])) {
             $template = $item['template'];
         }
 
-        if(isset($item['options'])) {
+        if (isset($item['options'])) {
             $options = array_merge($options, $item['options']);
         }
 
-        if(isset($options['labelOptions'])) {
+        if (isset($options['labelOptions'])) {
             $labelOptions = array_merge($labelOptions, $options['labelOptions']);
         }
 
-        if(isset($options['hintOptions'])) {
+        if (isset($options['hintOptions'])) {
             $hintOptions = array_merge($hintOptions, $options['hintOptions']);
         }
 
@@ -171,7 +171,7 @@ class Html extends \yii\bootstrap\Html
         }
 
         if (!isset($parts['{hint}'])) {
-            if($hint !== null) {
+            if ($hint !== null) {
                 $parts['{hint}'] = self::tag('div', $hint, $hintOptions);
             } else {
                 $parts['{hint}'] = '';
@@ -180,5 +180,35 @@ class Html extends \yii\bootstrap\Html
 
         $content = strtr($template, $parts);
         return $content;
+    }
+
+
+    /**
+     * Return value for is php code
+     *
+     * @param $value
+     *
+     * @return mixed
+     */
+    public static function isCode($value)
+    {
+        if (self::hasCode($value)) {
+            return eval($value);
+        }
+
+        return $value;
+    }
+
+
+    /**
+     * Has string php code
+     *
+     * @param $value
+     *
+     * @return bool
+     */
+    public static function hasCode($value)
+    {
+        return (strpos($value, '<code>') !== false);
     }
 }
