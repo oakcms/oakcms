@@ -62,7 +62,7 @@ class m170319_234459_system extends Migration
                 [
                     'id'          => '5',
                     'param_name'  => 'themeFrontend',
-                    'param_value' => 'base',
+                    'param_value' => 'mu_mebel',
                     'type'        => 'getThemeFrontend',
                 ],
                 [
