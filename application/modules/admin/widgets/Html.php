@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\admin\widgets;
@@ -11,7 +11,6 @@ namespace app\modules\admin\widgets;
 use app\modules\form_builder\models\FormBuilderForms;
 use app\modules\menu\models\MenuType;
 use app\modules\widgets\models\Widgetkit;
-use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Inflector;
 
@@ -29,14 +28,13 @@ class Html extends \yii\bootstrap\Html
     {
         $name               = $model.'['.$key.']';
         $elementOptions     = ['class' => 'form-control'];
-
         foreach ($item as $k=>$el) {
             if ($el instanceof \Closure) {
                 $item[$k] = call_user_func($el);
             }
         }
-
         $value              = ArrayHelper::getValue($item, 'value');
+        $value              = self::isCode($value);
         $items              = ArrayHelper::getValue($item, 'items', []);
         $type               = ArrayHelper::getValue($item, 'type', 'textInput');
         $options            = ArrayHelper::getValue($item, 'options', []);
@@ -57,9 +55,6 @@ class Html extends \yii\bootstrap\Html
                         'name' => $name,
                         'checked' => $value
                     ]);
-                break;
-            case 'checkboxList':
-                $element = self::checkboxList($name, $value, $items, $elementOptions);
                 break;
             case 'textInput':
                 $element = self::textInput($name, $value, $elementOptions);
@@ -84,18 +79,13 @@ class Html extends \yii\bootstrap\Html
                 $widgets = ArrayHelper::map(Widgetkit::find()->all(), 'id', 'name');
                 $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
-            case 'select2':
-                $element = Select2::widget([
-                    'name'       => $name,
-                    'value'      => $value,
-                    'data'       => $items,
-                    'options'    => $elementOptions
-                ]);
-                break;
             case 'select':
             case 'dropDownList':
-            case 'dropdownList':
                 $element = self::dropDownList($name, $value, $items, $elementOptions);
+                break;
+            case 'radioList':
+                $element = self::hiddenInput($name, '') .
+                    self::radioList($name, $value, $items, $elementOptions);
                 break;
             case 'aceEditor':
                 $element = AceEditor::widget([
@@ -180,5 +170,28 @@ class Html extends \yii\bootstrap\Html
 
         $content = strtr($template, $parts);
         return $content;
+    }
+
+    /**
+     * Return value for is php code
+     * @param $value
+     * @return mixed
+     */
+    public static function isCode($value) {
+        if (self::hasCode($value)) {
+            return eval($value);
+        }
+
+        return $value;
+    }
+
+
+    /**
+     * Has string php code
+     * @param $value
+     * @return bool
+     */
+    public static function hasCode($value) {
+        return (strpos($value, '<code>') !== false);
     }
 }
