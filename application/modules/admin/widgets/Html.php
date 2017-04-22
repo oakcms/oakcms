@@ -36,9 +36,9 @@ class Html extends \yii\bootstrap\Html
             }
         }
 
-        $value = ArrayHelper::getValue($item, 'value');
-        $items = ArrayHelper::getValue($item, 'items', []);
-        $type = ArrayHelper::getValue($item, 'type', 'textInput');
+        $value   = ArrayHelper::getValue($item, 'value');
+        $items   = ArrayHelper::getValue($item, 'items', []);
+        $type    = ArrayHelper::getValue($item, 'type', 'textInput');
         $options = ArrayHelper::getValue($item, 'options', []);
 
         if (isset($options['elementOptions'])) {
@@ -58,15 +58,24 @@ class Html extends \yii\bootstrap\Html
                         'checked' => $value,
                     ]);
                 break;
+
             case 'checkboxList':
                 $element = self::checkboxList($name, $value, $items, $elementOptions);
                 break;
+
+            case 'radioList':
+                $element = self::hiddenInput($name, '') .
+                    self::radioList($name, $value, $items, $elementOptions);
+                break;
+
             case 'textInput':
                 $element = self::textInput($name, $value, $elementOptions);
                 break;
+
             case 'textarea':
                 $element = self::textarea($name, $value, $elementOptions);
                 break;
+
             case 'mediaInput':
                 $element = InputFile::widget([
                     'id'       => 'wid' . uniqid(),
@@ -76,14 +85,17 @@ class Html extends \yii\bootstrap\Html
                     'value'    => $value,
                 ]);
                 break;
+
             case 'menuType':
                 $menus = ArrayHelper::map(MenuType::find()->all(), 'id', 'title');
                 $element = self::dropDownList($name, $value, $menus, $elementOptions);
                 break;
+
             case 'widgetkit':
                 $widgets = ArrayHelper::map(Widgetkit::find()->all(), 'id', 'name');
                 $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
+
             case 'select2':
                 $element = Select2::widget([
                     'name'    => $name,
@@ -92,11 +104,13 @@ class Html extends \yii\bootstrap\Html
                     'options' => $elementOptions,
                 ]);
                 break;
+
             case 'select':
             case 'dropDownList':
             case 'dropdownList':
                 $element = self::dropDownList($name, $value, $items, $elementOptions);
                 break;
+
             case 'aceEditor':
                 $element = AceEditor::widget([
                     'id'       => $key . '_ace',
@@ -106,6 +120,7 @@ class Html extends \yii\bootstrap\Html
                     'readOnly' => 'false',
                 ]);
                 break;
+
             case 'formBuilder':
                 $widgets = ArrayHelper::map(
                     FormBuilderForms::find()
@@ -116,9 +131,11 @@ class Html extends \yii\bootstrap\Html
                 );
                 $element = self::dropDownList($name, $value, $widgets, $elementOptions);
                 break;
+
             case 'hiddenInput':
                 $element = self::hiddenInput($name, $value, $elementOptions);
                 break;
+
             default:
                 $element = '';
                 break;
@@ -138,11 +155,11 @@ class Html extends \yii\bootstrap\Html
      */
     protected static function render($key, $item, $element, $elementId, $translateCategory)
     {
-        $options = [];
-        $template = "<div class="form - group">{label}\n<div class=\"col-md-9\">{element}\n{hint}</div></div>";
+        $options      = [];
+        $template     = "<div class=\"form-group\">{label}\n<div class=\"col-md-9\">{element}\n{hint}</div></div>";
         $labelOptions = ['class' => 'col-md-3 control-label'];
-        $hintOptions = ['class' => 'hint-block'];
-        $parts = [];
+        $hintOptions  = ['class' => 'hint-block'];
+        $parts        = [];
 
         $hint = ArrayHelper::getValue($item, 'hint');
 
