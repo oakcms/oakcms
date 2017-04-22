@@ -37,3 +37,4 @@ phpunit.phar
 # server log
 error.log
 access.log
+Будет удалено base/
