@@ -1,16 +1,24 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
-use yii\helpers\Html;
 use app\modules\admin\widgets\Button;
 use app\modules\admin\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\modules\content\models\ContentCategory */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $lang \app\modules\language\models\Language */
+
 $asset = \app\templates\backend\base\assets\BaseAsset::register($this);
 
-if(isset($parent))
+if (isset($parent)) {
     $model->parent = $parent;
+}
 
 if($model->isNewRecord) {
     $langueBtn = [
@@ -122,7 +130,7 @@ $this->params['actions_buttons'] = [
 
             <!--<li class="">
                 <a href="#tab_4" data-toggle="tab" aria-expanded="false">
-                    <i class="fa fa-gear"></i> <?/*= Yii::t('content', 'Settings') */?>
+                    <i class="fa fa-gear"></i> <?php /*= Yii::t('content', 'Settings') */ ?>
                 </a>
             </li>-->
 
@@ -168,9 +176,9 @@ $this->params['actions_buttons'] = [
             </div>
             <!-- /.tab-pane -->
             <!--<div class="tab-pane" id="tab_5">
-                <?/*foreach ($model->settings as $key=>$setting):*/?>
-                    <?/*= Html::settingField($key, $setting, 'content') */?>
-                <?/*endforeach;*/?>
+                <?php /*foreach ($model->settings as $key=>$setting):*/ ?>
+                    <?php /*= Html::settingField($key, $setting, 'content') */ ?>
+                <?php /*endforeach;*/ ?>
             </div>-->
             <!-- /.tab-pane -->
         </div>

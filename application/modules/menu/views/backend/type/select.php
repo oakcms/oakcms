@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
@@ -9,15 +15,10 @@ use kartik\grid\GridView;
  * @var app\modules\menu\models\MenuTypeSearch $searchModel
  */
 
-$this->title = Yii::t('gromver.platform', 'Select Menu');
+$this->title = Yii::t('menu', 'Select Menu');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-index">
-
-	<?/*<h1><?= Html::encode($this->title) ?></h1>*/?>
-
-	<?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
 	<?= GridView::widget([
 		'dataProvider' => $dataProvider,
 		'filterModel' => $searchModel,
@@ -43,22 +44,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html'
             ],
             [
-                'header' => Yii::t('gromver.platform', 'Action'),
-                'hAlign' => GridView::ALIGN_CENTER,
-                'vAlign' => GridView::ALIGN_MIDDLE,
-                'value' => function($model) {
-                    return Html::a(Yii::t('gromver.platform', 'Select'), '#', [
-                        'class' => 'btn btn-primary btn-xs',
-                        'onclick' => \gromver\widgets\ModalIFrame::postDataJs([
-                                'id' => $model->id,
-                                'description' => Yii::t('gromver.platform', 'Menu Type: {title}', ['title' => $model->title]),
-                                'value' => $model->id . ':' . $model->alias
+                'header'      => Yii::t('menu', 'Action'),
+                'hAlign'      => GridView::ALIGN_CENTER,
+                'vAlign'      => GridView::ALIGN_MIDDLE,
+                'value'       => function($model) {
+                    return Html::a(Yii::t('menu', 'Select'), '#', [
+                        'class'   => 'btn btn-primary btn-xs',
+                        'onclick' => \app\widgets\ModalIFrame::postDataJs([
+                            'id'          => $model->id,
+                            'description' => Yii::t('menu', 'Menu Type: {title}', ['title' => $model->title]),
+                            'value'       => $model->id . ':' . $model->alias
                             ]),
                     ]);
                 },
-                'width' => '80px',
+                'width'       => '80px',
                 'mergeHeader' => true,
-                'format'=>'raw'
+                'format'      =>'raw'
             ]
 		],
         'responsive' => true,
@@ -68,11 +69,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'floatHeaderOptions' => ['scrollingTop' => 0],
         'bordered' => false,
         'panel' => [
-            'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-th-list"></i> ' . Html::encode($this->title) . ' </h3>',
-            'type' => 'info',
-            'after' => Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . Yii::t('gromver.platform', 'Reset List'), [null], ['class' => 'btn btn-info']),
+            'heading'    => '<h3 class="panel-title"><i class="glyphicon glyphicon-th-list"></i> ' . Html::encode($this->title) . ' </h3>',
+            'type'       => 'info',
+            'after'      => Html::a('<i class="glyphicon glyphicon-repeat"></i> ' . Yii::t('menu', 'Reset List'), [null], ['class' => 'btn btn-info']),
             'showFooter' => false,
         ],
 	]) ?>
-
 </div>
