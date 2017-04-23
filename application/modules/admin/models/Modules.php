@@ -10,21 +10,20 @@ namespace app\modules\admin\models;
 
 use app\components\ActiveRecord;
 use app\modules\system\helpers\Data;
-use himiklab\sortablegrid\SortableGridBehavior;
 use Yii;
 
 /**
  * This is the model class for table "{{%admin_modules}}".
  *
  * @property integer $module_id
- * @property string $isFrontend
- * @property string $name
- * @property string $class
+ * @property string  $isFrontend
+ * @property string  $name
+ * @property string  $class
  * @property integer $isAdmin
- * @property string $title
- * @property string $icon
- * @property string $settings
- * @property integer $order
+ * @property string  $title
+ * @property string  $icon
+ * @property string  $settings
+ * @property integer $ordering
  * @property integer $status
  */
 class Modules extends ActiveRecord
@@ -47,8 +46,9 @@ class Modules extends ActiveRecord
     {
         return [
             'sortable' => [
-                'class' => \kotchuprik\sortable\behaviors\Sortable::className(),
-                'query' => self::find(),
+                'class'          => \kotchuprik\sortable\behaviors\Sortable::className(),
+                'query'          => self::find(),
+                'orderAttribute' => 'ordering',
             ],
         ];
     }
@@ -60,7 +60,7 @@ class Modules extends ActiveRecord
     {
         return [
             [['name', 'class', 'isAdmin', 'isFrontend', 'title'], 'required'],
-            [['isAdmin', 'isFrontend', 'order', 'status'], 'integer'],
+            [['isAdmin', 'isFrontend', 'ordering', 'status'], 'integer'],
             //[['settings'], 'string'],
             [['name'], 'string', 'max' => 64],
             [['class', 'bootstrapClass', 'title'], 'string', 'max' => 128],
@@ -85,7 +85,7 @@ class Modules extends ActiveRecord
             'title'      => Yii::t('admin', 'Title'),
             'icon'       => Yii::t('admin', 'Icon'),
             'settings'   => Yii::t('admin', 'Settings'),
-            'order'      => Yii::t('admin', 'Order'),
+            'ordering'   => Yii::t('admin', 'ordering'),
             'status'     => Yii::t('admin', 'Status'),
         ];
     }
@@ -134,7 +134,7 @@ class Modules extends ActiveRecord
         return Data::cache(self::CACHE_KEY_FRONTEND, 3600, function () {
             $result = [];
             try {
-                foreach (self::find()->where(['status' => self::STATUS_PUBLISHED])->orderBy('order')->all() as $module) {
+                foreach (self::find()->where(['status' => self::STATUS_PUBLISHED])->orderBy('ordering')->all() as $module) {
                     $module->trigger(self::EVENT_AFTER_FIND);
                     $result[$module->name] = (object)$module->attributes;
                 }
@@ -154,7 +154,7 @@ class Modules extends ActiveRecord
                     self::find()->where([
                         'status' => self::STATUS_PUBLISHED,
                         'isAdmin' => self::STATUS_PUBLISHED
-                    ])->orderBy('order')->all() as $module) {
+                    ])->orderBy('ordering')->all() as $module) {
                     $module->trigger(self::EVENT_AFTER_FIND);
                     $result[$module->name] = (object)$module->attributes;
                 }

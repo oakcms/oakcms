@@ -1,4 +1,5 @@
 <?php
+
 namespace app\modules\admin\components\behaviors;
 
 use yii\db\ActiveRecord;
@@ -9,6 +10,8 @@ use yii\db\ActiveRecord;
  */
 class SortableModel extends \yii\base\Behavior
 {
+    public $orderAttribute = 'ordering';
+
     public function events()
     {
         return [
@@ -18,12 +21,12 @@ class SortableModel extends \yii\base\Behavior
 
     public function findMaxOrderNum()
     {
-        if(!$this->owner->order) {
+        if (!$this->owner->{$this->orderAttribute}) {
             $maxOrderNum = (int)(new \yii\db\Query())
-                ->select('MAX(`order`)')
+                ->select('MAX(`' . $this->orderAttribute . '`)')
                 ->from($this->owner->tableName())
                 ->scalar();
-            $this->owner->order = ++$maxOrderNum;
+            $this->owner->{$this->orderAttribute} = ++$maxOrderNum;
         }
     }
 }

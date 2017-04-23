@@ -24,7 +24,7 @@ class ModulesSearch extends Modules
     public function rules()
     {
         return [
-            [['module_id', 'isFrontend', 'isAdmin', 'order', 'status'], 'integer'],
+            [['module_id', 'isFrontend', 'isAdmin', 'ordering', 'status'], 'integer'],
             [['name', 'class', 'controllerNamespace', 'viewPath', 'BackendControllerNamespace', 'AdminViewPath', 'title', 'icon', 'settings'], 'safe'],
         ];
     }
@@ -51,7 +51,7 @@ class ModulesSearch extends Modules
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'sort'=> ['defaultOrder' => ['order' => SORT_ASC]]
+            'sort'  => ['defaultOrder' => ['ordering' => SORT_ASC]],
         ]);
 
         $this->load($params);
@@ -63,11 +63,11 @@ class ModulesSearch extends Modules
         }
 
         $query->andFilterWhere([
-            'module_id' => $this->module_id,
+            'module_id'  => $this->module_id,
             'isFrontend' => $this->isFrontend,
-            'isAdmin' => $this->isAdmin,
-            'order' => $this->order,
-            'status' => $this->status,
+            'isAdmin'    => $this->isAdmin,
+            'ordering'   => $this->ordering,
+            'status'     => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])

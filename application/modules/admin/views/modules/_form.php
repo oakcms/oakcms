@@ -59,7 +59,6 @@ $this->params['actions_buttons'] = [
     <?= $form->field($model, 'isAdmin')->widget(\oakcms\bootstrapswitch\Switcher::className()) ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'icon')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'order')->textInput() ?>
 
     <?php ActiveForm::end(); ?>
 
