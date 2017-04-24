@@ -12,20 +12,15 @@ use app\components\ActiveQuery;
 use app\modules\form_builder\models\FormBuilder;
 use app\modules\form_builder\models\FormBuilderField;
 use app\modules\form_builder\models\search\FormBuilderFieldSearch;
-use kartik\builder\BaseForm;
 use Yii;
 use app\modules\form_builder\models\FormBuilderForms;
 use app\modules\form_builder\models\search\FormBuilderFormsSearch;
 use app\components\BackendController;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use yii\helpers\Json;
-use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use kartik\form\ActiveForm;
-use kartik\builder\Form;
 
 /**
  * FormsController implements the CRUD actions for FormBuilderForms model.
@@ -252,6 +247,7 @@ class FormsController extends BackendController
 
     public function actionSortingFields($id) {
         $transaction = \Yii::$app->db->beginTransaction();
+        $getid = $id;
         try {
             foreach (\Yii::$app->request->post('sorting') as $order => $id) {
                 $model = FormBuilderField::findOne($id);
@@ -436,9 +432,6 @@ class FormsController extends BackendController
                 $model->data = Json::encode($saveData);
                 if ($model->save()) {
                     $this->flash('success', Yii::t('form_builder', '{fieldName} saved.', ['fieldName' => $fieldData['title']]));
-                } else {
-                    var_dump($model->getErrors());
-                    exit;
                 }
             }
 

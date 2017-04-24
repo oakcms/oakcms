@@ -8,6 +8,7 @@
 
 Yii::setAlias('@adminTemplate', realpath(__DIR__ . '/../templates/backend/base'));
 Yii::setAlias('@adminTemplate', realpath(__DIR__ . '/../templates/backend/base'));
+
 Yii::setAlias('@media', realpath(__DIR__ . '/../media'));
 $basePath =  dirname(__DIR__);
 $webRoot = dirname($basePath);
@@ -22,6 +23,10 @@ $config = [
     'defaultRoute' => '',
     'runtimePath' => $webRoot . '/runtime',
     'vendorPath' => $webRoot . '/vendor',
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
+    ],
     'bootstrap' => [
         'log',
         'app\modules\system\Bootstrap',
