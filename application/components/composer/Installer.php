@@ -11,6 +11,7 @@ namespace app\components\composer;
 class Installer
 {
     private static $_db_host     = 'localhost';
+    private static $_db_port     = '3306';
     private static $_db_name     = 'oakcms';
     private static $_db_username = 'root';
     private static $_db_password = '';
@@ -30,6 +31,7 @@ class Installer
         $content = preg_replace(
             [
                 '/DB_HOST(.*)=(.*)(\r|\n)/',
+                '/DB_PORT(.*)=(.*)(\r|\n)/',
                 '/DB_NAME(.*)=(.*)(\r|\n)/',
                 '/DB_USERNAME(.*)=(.*)(\r|\n)/',
                 '/DB_PASSWORD(.*)=(.*)(\r|\n)/',
@@ -37,6 +39,7 @@ class Installer
             ],
             [
                 'DB_HOST$1= '.self::$_db_host.'$3',
+                'DB_PORT$1= '.self::$_db_port.'$3',
                 'DB_NAME$1= '.self::$_db_name.'$3',
                 'DB_USERNAME$1= '.self::$_db_username.'$3',
                 'DB_PASSWORD$1= '.self::$_db_password.'$3',
@@ -56,6 +59,7 @@ class Installer
 
     protected static function hasDbConnect() {
         self::$_db_host     = self::readStdinUser('Data Base Host', 'localhost');
+        self::$_db_port     = self::readStdinUser('Data Base Port', '3306');
         self::$_db_name     = self::readStdinUser('Data Base Name', 'oakcms');
         self::$_db_username = self::readStdinUser('Data Base User Name', 'root');
         self::$_db_password = self::readStdinUser('Data Base User Password');
@@ -69,7 +73,7 @@ class Installer
 
             if($confirm == 'yes' || $confirm == 'y') {
                 $connection = new \yii\db\Connection([
-                    'dsn' => 'mysql:host='.self::$_db_host.';port=3306;dbname='.self::$_db_name,
+                    'dsn' => 'mysql:host='.self::$_db_host.';port='.self::$_db_port.';dbname='.self::$_db_name,
                     'username' => self::$_db_username,
                     'password' => self::$_db_password,
                 ]);
