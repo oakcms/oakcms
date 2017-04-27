@@ -13,7 +13,7 @@ use app\components\UrlManager;
 use app\modules\admin\widgets\events\MenuItemsEvent;
 use app\modules\admin\widgets\Menu;
 
-class Module extends \yii\base\Module implements ModuleEventsInterface
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
 
     /** @var UrlManager The rules to be used in Backend Url management. */

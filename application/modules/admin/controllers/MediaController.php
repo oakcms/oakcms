@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 12.07.2016
@@ -78,8 +85,8 @@ class MediaController extends BackendController
                         @unlink($photoOld->bigImageUrl);
                         @unlink($photoOld->thumbImageUrl);
                         $success = [
-                            'message' => Yii::t('backend', 'Photo uploaded'),
-                            'photo' => [
+                            'message' => Yii::t('admin', 'Photo uploaded'),
+                            'photo'   => [
                                 'image'         => str_replace('//', '/', $photo->file_url),
                                 'thumb'         => str_replace('//', '/', $photo->file_url_thumb),
                             ]

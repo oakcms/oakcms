@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 /**
  * Created by Vladimir Hryvinskyy.
@@ -19,23 +25,11 @@ class BaseAsset extends AssetBundle
     public $basePath = '@app/templates/frontend/base/web/';
 
     public $css = [
-        'css/animations.css',
-        'external/owl.carousel/dist/assets/owl.carousel.min.css',
-        'css/sweetalert.css',
-        'css/concated.css',
-        'css/main.css',
-        '//fonts.googleapis.com/css?family=Roboto:400,500,700&subset=cyrillic-ext'
+        'css/style.css',
     ];
 
     public $js = [
-        'external/jquery.browser/dist/jquery.browser.min.js',
-        'external/wow/dist/wow.js',
-        'external/owl.carousel/dist/owl.carousel.min.js',
-        'external/textillate/jquery.textillate.js',
-        'external/letteringjs/jquery.lettering.js',
-        'js/sweetalert.min.js',
-        'js/validate.js',
-        'js/main.js',
+        'js/script.js',
     ];
 
     public $depends = [

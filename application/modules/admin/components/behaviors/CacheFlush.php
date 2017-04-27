@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 namespace app\modules\admin\components\behaviors;
 
 use Yii;
@@ -6,7 +13,7 @@ use yii\db\ActiveRecord;
 
 /**
  * CacheFlush behavior
- * @package yii\easyii\behaviors
+ * @package yii\content\behaviors
  * @inheritdoc
  */
 class CacheFlush extends \yii\base\Behavior

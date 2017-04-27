@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 namespace app\components;
 
 use Yii;
@@ -7,7 +14,7 @@ use creocoder\nestedsets\NestedSetsBehavior;
 
 /**
  * Base CategoryModel. Shared by categories
- * @package yii\easyii\components
+ * @package yii\content\components
  * @inheritdoc
  */
 class CategoryModel extends ActiveRecord

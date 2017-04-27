@@ -163,7 +163,7 @@ class ModulesController extends BackendController
                 else
                     return $this->redirect(['index']);
             } else {
-                $this->flash('error', Yii::t('easyii', Yii::t('easyii', 'Update error. {0}', $model->formatErrors())));
+                $this->flash('error', Yii::t('content', Yii::t('content', 'Update error. {0}', $model->formatErrors())));
 
                 return $this->redirect(['settings', 'id' => $model->id]);
             }

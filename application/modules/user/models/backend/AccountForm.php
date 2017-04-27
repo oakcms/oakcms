@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 namespace app\modules\user\models\backend;
 
 use Yii;
@@ -24,9 +31,9 @@ class AccountForm extends Model
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
             ['username', 'unique',
-             'targetClass'=>'\app\modules\user\models\User',
-             'message' => Yii::t('backend', 'This username has already been taken.'),
-             'filter' => function ($query) {
+                'targetClass' => '\app\modules\user\models\User',
+                'message'     => Yii::t('admin', 'This username has already been taken.'),
+                'filter'      => function ($query) {
                  $query->andWhere(['not', ['id'=>Yii::$app->user->id]]);
              }
             ],
@@ -35,9 +42,9 @@ class AccountForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'unique',
-             'targetClass'=>'\app\modules\user\models\User',
-             'message' => Yii::t('backend', 'This email has already been taken.'),
-             'filter' => function ($query) {
+                'targetClass' => '\app\modules\user\models\User',
+                'message'     => Yii::t('admin', 'This email has already been taken.'),
+                'filter'      => function ($query) {
                  $query->andWhere(['not', ['id' => Yii::$app->user->getId()]]);
              }
             ],
@@ -53,10 +60,10 @@ class AccountForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('backend', 'Username'),
-            'email' => Yii::t('backend', 'Email'),
-            'password' => Yii::t('backend', 'Password'),
-            'password_confirm' => Yii::t('backend', 'Password Confirm')
+            'username'         => Yii::t('admin', 'Username'),
+            'email'            => Yii::t('admin', 'Email'),
+            'password'         => Yii::t('admin', 'Password'),
+            'password_confirm' => Yii::t('admin', 'Password Confirm'),
         ];
     }
 }

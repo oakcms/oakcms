@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @version    0.0.1-beta.0.1
  */
 
 use yii\bootstrap\Html;
@@ -84,8 +84,8 @@ $this->params['actions_buttons'] = [
 <?= $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
 <?= $form->field($model, 'locale')->dropDownlist(\yii\helpers\ArrayHelper::map(\app\modules\language\models\Language::getLanguages(), 'language_id', 'name')) ?>
 <?= $form->field($model, 'gender')->dropDownlist([
-    UserProfile::GENDER_FEMALE => Yii::t('backend', 'Female'),
-    UserProfile::GENDER_MALE => Yii::t('backend', 'Male')
+    UserProfile::GENDER_FEMALE => Yii::t('admin', 'Female'),
+    UserProfile::GENDER_MALE   => Yii::t('admin', 'Male'),
 ]) ?>
 
 <?php ActiveForm::end(); ?>

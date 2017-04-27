@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Url;
 use app\modules\admin\widgets\Html;
@@ -53,18 +59,18 @@ $this->registerJs("var photoTemplate = '{$photoTemplate}'", \yii\web\View::POS_H
 // Language
 if($model->isNewRecord) {
     $langueBtn = [
-        'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.Yii::t('backend', 'Language'),
-        'options' => [
+        'label'       => '<img src="' . $asset->baseUrl . '/images/flags/' . $lang->url . '.png" alt="' . $lang->url . '"/> ' . Yii::t('admin', 'Language'),
+        'options'     => [
             'form' => 'portfolio-id',
             'type' => 'submit',
         ],
         'encodeLabel' => false,
-        'icon' => false,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-default'
+        'icon'        => false,
+        'size'        => Button::SIZE_SMALL,
+        'disabled'    => false,
+        'block'       => false,
+        'type'        => Button::TYPE_CIRCLE,
+        'color'       => 'btn-default',
     ];
 } else {
     $allLang = Language::getLanguages();

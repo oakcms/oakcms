@@ -108,7 +108,7 @@ return [
             'db' => [
                 'class'    => 'yii\log\DbTarget',
                 'levels'   => ['error', 'warning'],
-                'except'   => ['yii\web\HttpException:*', 'yii\i18n\I18N\*'],
+                'except'   => ['yii\web\HttpException:*', 'yii\i18n\I18N\*', 'yii\i18n\PhpMessageSource:*'],
                 'prefix'   => function () {
                     $url = !Yii::$app->request->isConsoleRequest ? Yii::$app->request->getUrl() : null;
 
@@ -122,6 +122,15 @@ return [
     'i18n'         => [
         'translations' => [
             '*' => [
+                'class'   => 'yii\i18n\PhpMessageSource',
+                //'basePath' => '@app/messages',
+                //'sourceLanguage' => 'en-US',
+                'fileMap' => [
+                    'app' => 'app.php',
+                ],
+            ],
+            /*
+            '*' => [
                 'class'              => 'yii\i18n\DbMessageSource',
                 'db'                 => 'db',
                 'sourceLanguage'     => 'en-US',
@@ -130,6 +139,7 @@ return [
                 'cachingDuration'    => 86400,
                 'enableCaching'      => false,
             ],
+            */
         ],
     ],
     'opengraph' => [

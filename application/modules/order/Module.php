@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 namespace app\modules\order;
 
 use app\components\module\ModuleEventsInterface;
@@ -134,7 +141,7 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
     public function addAdminMenuItem($event)
     {
         $event->items['text'] = [
-            'label' => \Yii::t('text', 'Orders'),
+            'label' => \Yii::t('order', 'Orders'),
             'icon'  => '<i class="fa fa-font"></i>',
             'url'   => ['/admin/order/order/index'],
         ];

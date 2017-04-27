@@ -30,7 +30,7 @@ use yii\helpers\Html;
         <?php } ?>
 
         <?= Html::a('<i class="fa fa-trash"></i>', [$widget->deleteUrl, 'id' => $category[$widget->idField]], [
-            'title'        => \Yii::t('backend', 'Delete'),
+            'title'        => \Yii::t('admin', 'Delete'),
             'aria-label'   => \Yii::t('yii', 'Delete'),
             'data-confirm' => \Yii::t('yii', 'Are you sure you want to delete this item?'),
             'data-method'  => 'post',

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 /**
  * Created by Vladimir Hryvinskyy.
@@ -155,7 +161,7 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                     <div class="bs-reset">
                         <div class="col-xs-12 bs-reset">
                             <div class="login-copyright">
-                                <?= Yii::t('backend', '2015-{year} &copy; Hrivinskiy Vladunur. <a href="http://codice.in.ua/" target="_blank">codice.in.ua</a> <a href="http://www.design4web.biz/" target="_blank">design4web.biz</a>. All rights reserved.', ['year'=>date('Y')]) ?>
+                                <?= Yii::t('admin', 'Copyright &copy; 2015-{year} Hrivinskiy Vladumur. <a href="http://hryvinskyi.com/" target="_blank">hryvinskyi.com</a> <a href="http://www.design4web.biz/" target="_blank">design4web.biz</a>. All rights reserved.', ['year' => date('Y')]) ?>
                             </div>
                         </div>
                     </div>

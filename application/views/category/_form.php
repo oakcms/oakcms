@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -17,18 +23,18 @@ if(isset($parent))
 
 if($model->isNewRecord) {
     $langueBtn = [
-        'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.Yii::t('backend', $lang->name),
-        'options' => [
+        'label'       => '<img src="' . $asset->baseUrl . '/images/flags/' . $lang->url . '.png" alt="' . $lang->url . '"/> ' . Yii::t('admin', $lang->name),
+        'options'     => [
             'form' => 'portfolio-id',
             'type' => 'submit',
         ],
         'encodeLabel' => false,
-        'icon' => false,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-default'
+        'icon'        => false,
+        'size'        => Button::SIZE_SMALL,
+        'disabled'    => false,
+        'block'       => false,
+        'type'        => Button::TYPE_CIRCLE,
+        'color'       => 'btn-default',
     ];
 }
 else {

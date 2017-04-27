@@ -1,10 +1,9 @@
 <?php
 /**
- * @link https://github.com/gromver/yii2-platform-basic.git#readme
- * @copyright Copyright (c) Gayazov Roman, 2014
- * @license https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
- * @package yii2-platform-basic
- * @version 1.0.0
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\menu\controllers\backend;
@@ -131,7 +130,7 @@ class TypeController extends \app\components\BackendController
         $model = $this->findModel($id);
 
         if ($model->getItems()->count()) {
-            Yii::$app->session->setFlash(Alert::TYPE_DANGER, Yii::t('gromver.platform', "It's impossible to remove menu type so far the menu items are attached to it.", ['id' => $model->id]));
+            Yii::$app->session->setFlash(Alert::TYPE_DANGER, Yii::t('menu', "It's impossible to remove menu type so far the menu items are attached to it.", ['id' => $model->id]));
         } else {
             $model->delete();
         }
@@ -155,7 +154,7 @@ class TypeController extends \app\components\BackendController
         if (($model = MenuType::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException(Yii::t('gromver.platform', 'The requested page does not exist.'));
+            throw new NotFoundHttpException(Yii::t('menu', 'The requested page does not exist.'));
         }
     }
 }

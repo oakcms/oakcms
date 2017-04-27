@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 use app\components\CategoryModel;
 use yii\helpers\Url;
 use app\modules\admin\widgets\Button;
@@ -50,17 +57,28 @@ $this->params['actions_buttons'] = [
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="<?= Url::to([$baseUrl.'/category/create', 'parent' => $cat->id]) ?>"><i class="glyphicon glyphicon-plus font-12"></i> <?= Yii::t('easyii', 'Add subcategory') ?></a></li>
+                                    <a href="<?= Url::to([$baseUrl . '/category/create', 'parent' => $cat->id]) ?>"><i class="glyphicon glyphicon-plus font-12"></i> <?= Yii::t('content', 'Add subcategory') ?>
+                                    </a></li>
                                 <li role="presentation" class="divider"></li>
-                                <li><a href="<?= Url::to([$baseUrl.'/category/up', 'id' => $cat->id]) ?>"><i class="glyphicon glyphicon-arrow-up font-12"></i> <?= Yii::t('easyii', 'Move up') ?></a></li>
-                                <li><a href="<?= Url::to([$baseUrl.'/category/down', 'id' => $cat->id]) ?>"><i class="glyphicon glyphicon-arrow-down font-12"></i> <?= Yii::t('easyii', 'Move down') ?></a></li>
+                                <li>
+                                    <a href="<?= Url::to([$baseUrl . '/category/up', 'id' => $cat->id]) ?>"><i class="glyphicon glyphicon-arrow-up font-12"></i> <?= Yii::t('content', 'Move up') ?>
+                                    </a></li>
+                                <li>
+                                    <a href="<?= Url::to([$baseUrl . '/category/down', 'id' => $cat->id]) ?>"><i class="glyphicon glyphicon-arrow-down font-12"></i> <?= Yii::t('content', 'Move down') ?>
+                                    </a></li>
                                 <li role="presentation" class="divider"></li>
                                 <?php if($cat->status == CategoryModel::STATUS_ON) :?>
-                                    <li><a href="<?= Url::to([$baseUrl.'/category/off', 'id' => $cat->id]) ?>" title="<?= Yii::t('easyii', 'Turn Off') ?>'"><i class="glyphicon glyphicon-eye-close font-12"></i> <?= Yii::t('easyii', 'Turn Off') ?></a></li>
+                                    <li>
+                                        <a href="<?= Url::to([$baseUrl . '/category/off', 'id' => $cat->id]) ?>" title="<?= Yii::t('content', 'Turn Off') ?>'"><i class="glyphicon glyphicon-eye-close font-12"></i> <?= Yii::t('content', 'Turn Off') ?>
+                                        </a></li>
                                 <?php else : ?>
-                                    <li><a href="<?= Url::to([$baseUrl.'/category/on', 'id' => $cat->id]) ?>" title="<?= Yii::t('easyii', 'Turn On') ?>"><i class="glyphicon glyphicon-eye-open font-12"></i> <?= Yii::t('easyii', 'Turn On') ?></a></li>
+                                    <li>
+                                        <a href="<?= Url::to([$baseUrl . '/category/on', 'id' => $cat->id]) ?>" title="<?= Yii::t('content', 'Turn On') ?>"><i class="glyphicon glyphicon-eye-open font-12"></i> <?= Yii::t('content', 'Turn On') ?>
+                                        </a></li>
                                 <?php endif; ?>
-                                <li><a href="<?= Url::to([$baseUrl.'/category/delete', 'id' => $cat->id]) ?>" class="confirm-delete" data-reload="1" title="<?= Yii::t('easyii', 'Delete item') ?>"><i class="glyphicon glyphicon-remove font-12"></i> <?= Yii::t('easyii', 'Delete') ?></a></li>
+                                <li>
+                                    <a href="<?= Url::to([$baseUrl . '/category/delete', 'id' => $cat->id]) ?>" class="confirm-delete" data-reload="1" title="<?= Yii::t('content', 'Delete item') ?>"><i class="glyphicon glyphicon-remove font-12"></i> <?= Yii::t('content', 'Delete') ?>
+                                    </a></li>
                             </ul>
                         </div>
                     </td>

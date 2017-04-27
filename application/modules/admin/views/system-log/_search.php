@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
@@ -28,8 +34,8 @@ use yii\bootstrap\ActiveForm;
     <?php echo $form->field($model, 'message') ?>
 
     <div class="form-group">
-        <?php echo Html::submitButton(Yii::t('backend', 'Search'), ['class' => 'btn btn-primary']) ?>
-        <?php echo Html::resetButton(Yii::t('backend', 'Reset'), ['class' => 'btn btn-default']) ?>
+        <?php echo Html::submitButton(Yii::t('admin', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?php echo Html::resetButton(Yii::t('admin', 'Reset'), ['class' => 'btn btn-default']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

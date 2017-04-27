@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 06.04.2016
@@ -47,9 +54,9 @@ $this->bodyClass[] = Yii::$app->controller->id.'_'.Yii::$app->controller->action
 </head>
 <body class="<?= implode(' ', (array)$this->bodyClass) ?>">
 <?php $this->beginBody() ?>
-    <?= $content ?>
-<?= \app\modules\text\api\Text::get('modal_form'); ?>
-<div id="overlay"></div>
+
+<?= $content ?>
+
 <?php $this->endBody() ?>
 </body>
 </html>

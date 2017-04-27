@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 03.07.2015
@@ -82,14 +89,14 @@ use app\modules\admin\widgets\Button;
                         if(in_array(Yii::$app->controller->action->id, ['update', 'create', 'setting'])) {
                             echo Button::widget(
                                     [
-                                        'label' => Yii::t('backend', 'Back'),
-                                        'options' => ['onclick' => 'window.history.back()'],
-                                        'icon' => 'fa fa-angle-left',
+                                        'label'        => Yii::t('admin', 'Back'),
+                                        'options'      => ['onclick' => 'window.history.back()'],
+                                        'icon'         => 'fa fa-angle-left',
                                         'iconPosition' => Button::ICON_POSITION_LEFT,
-                                        'size' => Button::SIZE_SMALL,
-                                        'disabled' => false,
-                                        'block' => false,
-                                        'type' => Button::TYPE_CIRCLE,
+                                        'size'         => Button::SIZE_SMALL,
+                                        'disabled'     => false,
+                                        'block'        => false,
+                                        'type'         => Button::TYPE_CIRCLE,
                                     ]
                                 ).' ';
                         }

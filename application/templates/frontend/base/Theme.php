@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 12.12.2016
@@ -31,16 +38,16 @@ class Theme extends \app\components\ThemeFrontend
     {
         parent::init();
 
-        Yii::$app->getAssetManager()->bundles['yii\bootstrap\BootstrapAsset'] = [
-            'css' => []
-        ];
-        Yii::$app->getAssetManager()->bundles['yii\bootstrap\BootstrapPluginAsset'] = [
-            'js' => []
-        ];
-        Yii::$app->getAssetManager()->bundles['yii\web\JqueryAsset'] = [
-            'js' => ['//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'],
-            'jsOptions' => ['position' => View::POS_HEAD]
-        ];
+//        Yii::$app->getAssetManager()->bundles['yii\bootstrap\BootstrapAsset'] = [
+//            'css' => []
+//        ];
+//        Yii::$app->getAssetManager()->bundles['yii\bootstrap\BootstrapPluginAsset'] = [
+//            'js' => []
+//        ];
+//        Yii::$app->getAssetManager()->bundles['yii\web\JqueryAsset'] = [
+//            'js' => ['//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js'],
+//            'jsOptions' => ['position' => View::POS_HEAD]
+//        ];
 
         $this->basePath = '@app/templates/frontend/base';
         $this->baseUrl = '@web/templates/frontend/base/web';

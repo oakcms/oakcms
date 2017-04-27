@@ -133,7 +133,7 @@ if (!$model->isNewRecord) {
         'label'        => '',
         'options'      => [
             'href'         => Url::toRoute(['product/delete', 'id' => $model->id]),
-            'data-confirm' => Yii::t('admin', 'Вы уверены, что хотите удалить этот элемент?'),
+            'data-confirm' => Yii::t('admin', 'Are you sure you want to delete this item?'),
             'data-method'  => 'post',
             'data-pjax'    => '0',
         ],

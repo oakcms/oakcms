@@ -1,30 +1,37 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
-use yii\helpers\Html;
 use app\modules\admin\widgets\Button;
 use app\modules\admin\widgets\ActiveForm;
 use app\modules\language\models\Language;
 
 $asset = \app\templates\backend\base\assets\BaseAsset::register($this);
+
 /* @var $this yii\web\View */
 /* @var $model app\modules\content\models\ContentPages */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $lang Language */
 /* @var $layouts */
 
 if($model->isNewRecord) {
     $langueBtn = [
-        'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.Yii::t('backend', 'Language'),
-        'options' => [
+        'label'       => '<img src="' . $asset->baseUrl . '/images/flags/' . $lang->url . '.png" alt="' . $lang->url . '"/> ' . Yii::t('admin', 'Language'),
+        'options'     => [
             'form' => 'portfolio-id',
             'type' => 'submit',
         ],
         'encodeLabel' => false,
-        'icon' => false,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-default'
+        'icon'        => false,
+        'size'        => Button::SIZE_SMALL,
+        'disabled'    => false,
+        'block'       => false,
+        'type'        => Button::TYPE_CIRCLE,
+        'color'       => 'btn-default',
     ];
 } else {
     $allLang = Language::getLanguages();

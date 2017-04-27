@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -7,8 +13,8 @@ use yii\widgets\DetailView;
 /* @var $model app\modules\menu\models\MenuItem */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('gromver.platform', 'Menu Items'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => Yii::t('gromver.platform', $model->menuType->title), 'url' => ['index', 'MenuItemSearch' => ['menu_type_id' => $model->menu_type_id]]];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('menu', 'Menu Items'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('menu', $model->menuType->title), 'url' => ['index', 'MenuItemSearch' => ['menu_type_id' => $model->menu_type_id]]];
 /*if (($parent = $model->parent) && !$parent->isRoot()) {
     $this->params['breadcrumbs'][] = ['label' => $parent->title, 'url' => ['index', 'MenuItemSearch' => ['parent_id' => $parent->id]]];
 }*/
@@ -19,13 +25,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<i class="glyphicon glyphicon-plus"></i> ' . Yii::t('gromver.platform', 'Add'), ['create', 'menuTypeId' => $model->menu_type_id, 'parentId' => $model->parent_id, 'language' => $model->language], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('gromver.platform', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('<i class="glyphicon glyphicon-trash"></i> ' . Yii::t('gromver.platform', 'Delete'), ['delete', 'id' => $model->id], [
+        <?= Html::a('<i class="glyphicon glyphicon-plus"></i> ' . Yii::t('menu', 'Add'), ['create', 'menuTypeId' => $model->menu_type_id, 'parentId' => $model->parent_id, 'language' => $model->language], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-pencil"></i> ' . Yii::t('menu', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="glyphicon glyphicon-trash"></i> ' . Yii::t('menu', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger pull-right',
             'data' => [
-                'confirm' => Yii::t('gromver.platform', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
+                'confirm' => Yii::t('menu', 'Are you sure you want to delete this item?'),
+                'method'  => 'post',
             ],
         ]) ?>
     </p>

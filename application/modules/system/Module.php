@@ -8,11 +8,10 @@
 
 namespace app\modules\system;
 
-
 /**
  * system module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \app\components\module\Module
 {
 
     const VERSION = 'v0.0.1-beta.0.1';
@@ -46,7 +45,7 @@ class Module extends \yii\base\Module
      **/
     public static function powered()
     {
-        return \Yii::t('yii', 'Powered by {OakCMS}', [
+        return \Yii::t('system', 'Powered by {OakCMS}', [
             'OakCMS' => '<a href="http://www.oakcms.com/" rel="external">' . \Yii::t('yii', 'OakCMS') . '</a>'
         ]);
     }

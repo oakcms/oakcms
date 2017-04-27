@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use app\modules\admin\widgets\Html;
 use app\modules\admin\widgets\Button;
@@ -18,18 +24,18 @@ $asset = BaseAsset::register($this);
 // Language
 if($model->isNewRecord) {
     $langueBtn = [
-        'label' => '<img src="'.$asset->baseUrl.'/images/flags/'.$lang->url.'.png" alt="'.$lang->url.'"/> '.Yii::t('backend', 'Language'),
-        'options' => [
+        'label'       => '<img src="' . $asset->baseUrl . '/images/flags/' . $lang->url . '.png" alt="' . $lang->url . '"/> ' . Yii::t('admin', 'Language'),
+        'options'     => [
             'form' => 'portfolio-id',
             'type' => 'submit',
         ],
         'encodeLabel' => false,
-        'icon' => false,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-default'
+        'icon'        => false,
+        'size'        => Button::SIZE_SMALL,
+        'disabled'    => false,
+        'block'       => false,
+        'type'        => Button::TYPE_CIRCLE,
+        'color'       => 'btn-default',
     ];
 } else {
     $allLang = Language::getLanguages();
@@ -63,31 +69,31 @@ if($model->isNewRecord) {
 $this->params['actions_buttons'] = [
     $langueBtn,
     [
-        'label' => $model->isNewRecord ? Yii::t('carousel', 'Create') : Yii::t('carousel', 'Update'),
-        'options' => [
+        'label'        => $model->isNewRecord ? Yii::t('admin', 'Create') : Yii::t('admin', 'Update'),
+        'options'      => [
             'form' => 'text-id',
             'type' => 'submit'
         ],
-        'icon' => 'fa fa-save',
+        'icon'         => 'fa fa-save',
         'iconPosition' => Button::ICON_POSITION_LEFT,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-success'
+        'size'         => Button::SIZE_SMALL,
+        'disabled'     => false,
+        'block'        => false,
+        'type'         => Button::TYPE_CIRCLE,
+        'color'        => 'btn-success',
     ],
     [
-        'label' => Yii::t('carousel', 'Save & Continue Edit'),
-        'options' => [
+        'label'        => Yii::t('admin', 'Save & Continue Edit'),
+        'options'      => [
             'onclick' => 'sendFormReload("#text-id")',
         ],
-        'icon' => 'fa fa-check-circle',
+        'icon'         => 'fa fa-check-circle',
         'iconPosition' => Button::ICON_POSITION_LEFT,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
-        'color' => 'btn-success'
+        'size'         => Button::SIZE_SMALL,
+        'disabled'     => false,
+        'block'        => false,
+        'type'         => Button::TYPE_CIRCLE,
+        'color'        => 'btn-success',
     ]
 ]
 ?>
@@ -103,7 +109,7 @@ $this->params['actions_buttons'] = [
         <ul class="nav nav-tabs">
             <li class="active">
                 <a href="#tab_1" data-toggle="tab" aria-expanded="true">
-                    <i class="fa fa-file-text-o"></i> <?= Yii::t('text', 'content') ?>
+                    <i class="fa fa-file-text-o"></i> <?= Yii::t('text', 'Content') ?>
                 </a>
             </li>
             <li>
@@ -128,7 +134,7 @@ $this->params['actions_buttons'] = [
 
                 <?= $form->field($model, 'subtitle')->textInput(['maxlength' => true])->translatable() ?>
 
-                <?= $form->field($model, 'slug')->dropDownList($positions, ['prompt' => Yii::t('text', 'Select position')]) ?>
+                <?= $form->field($model, 'slug')->dropDownList($positions, ['prompt' => Yii::t('text', 'Select Position')]) ?>
 
                 <?= $form->field($model, 'published_at')->widget(\kartik\datetime\DateTimePicker::className()) ?>
 

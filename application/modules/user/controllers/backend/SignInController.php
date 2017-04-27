@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+/**
  * Created by PhpStorm.
  * User: zein
  * Date: 8/2/14
@@ -86,8 +93,8 @@ class SignInController extends Controller
         $model = Yii::$app->user->identity->userProfile;
         if ($model->load($_POST) && $model->save()) {
             Yii::$app->session->setFlash('alert', [
-                'options'=>['class'=>'alert-success'],
-                'body'=>Yii::t('backend', 'Your profile has been successfully saved', [], $model->locale)
+                'options' => ['class' => 'alert-success'],
+                'body'    => Yii::t('admin', 'Your profile has been successfully saved', [], $model->locale),
             ]);
             return $this->refresh();
         }
@@ -108,8 +115,8 @@ class SignInController extends Controller
             }
             $user->save();
             Yii::$app->session->setFlash('alert', [
-                'options'=>['class'=>'alert-success'],
-                'body'=>Yii::t('backend', 'Your account has been successfully saved')
+                'options' => ['class' => 'alert-success'],
+                'body'    => Yii::t('admin', 'Your account has been successfully saved'),
             ]);
             return $this->refresh();
         }

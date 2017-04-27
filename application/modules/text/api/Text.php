@@ -19,7 +19,7 @@ use yii\helpers\Html;
 
 /**
  * Text module API
- * @package yii\easyii\modules\text\api
+ * @package yii\content\modules\text\api
  * @property $_text array
  * @property $cache array
  * @property $cacheDependency
@@ -79,6 +79,7 @@ class Text extends API
         }
 
         $blocks = '';
+        $activeMenu = Yii::$app->menuManager->activeMenu;
         foreach ($texts as $text) {
             if(isset($text->where_to_place)) {
                 switch ($text->where_to_place) {
@@ -90,9 +91,9 @@ class Text extends API
                         break;
                     case '1':
                         if(
-                            isset(Yii::$app->menuManager->activeMenu) &&
-                            ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
-                            in_array(Yii::$app->menuManager->activeMenu->id, $text->links) &&
+                            isset($activeMenu) &&
+                            $activeMenu->isProperContext() &&
+                            in_array($activeMenu->id, $text->links) &&
                             $this->hasPhpCode($text)
                         ) {
                             $return = true;
@@ -102,9 +103,9 @@ class Text extends API
                         break;
                     case '-1':
                         if(
-                            isset(Yii::$app->menuManager->activeMenu) &&
-                            ($activeMenu = Yii::$app->menuManager->activeMenu->id) &&
-                            in_array(Yii::$app->menuManager->activeMenu->id, $text->links) &&
+                            isset($activeMenu) &&
+                            $activeMenu->isProperContext() &&
+                            in_array($activeMenu->id, $text->links) &&
                             $this->hasPhpCode($text)
                         ) {
                             $return = false;
@@ -161,7 +162,7 @@ class Text extends API
     {
         $text = '';
         if(!Yii::$app->user->isGuest && LIVE_EDIT) {
-            $text = Html::tag('div', Html::a(Yii::t('text', 'Create text'), ['/admin/text/default/create', 'slug' => $id_slug], ['target' => '_blank']));
+            $text = Html::tag('div', Html::a(Yii::t('text', 'Create custom block'), ['/admin/text/default/create', 'slug' => $id_slug], ['target' => '_blank']));
         }
         return $text;
     }

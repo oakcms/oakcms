@@ -151,7 +151,7 @@ $this->params['actions_buttons'] = [
                         },
                         'delete'  => function ($url, $model) use ($system_modules) {
                             $options = [
-                                'title' => \Yii::t('admin', 'Удалить'),
+                                'title' => \Yii::t('admin', 'Delete'),
                                 'class' => 'btn red btn-xs' . (in_array($model->name, $system_modules) ? ' disabled' : ''),
                                 'data'  => [
                                     'toggle'  => 'tooltip',

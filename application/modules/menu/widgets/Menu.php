@@ -1,10 +1,9 @@
 <?php
 /**
- * @link https://github.com/gromver/yii2-platform-basic.git#readme
- * @copyright Copyright (c) Gayazov Roman, 2014
- * @license https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
- * @package yii2-platform-basic
- * @version 1.0.0
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\menu\widgets;
@@ -38,7 +37,7 @@ class Menu extends Widget
      * @var string
      * @field modal
      * @url /grom/menu/backend/type/select
-     * @translation gromver.platform
+     * @translation menu
      * @label Menu Type
      */
     public $type;
@@ -46,12 +45,12 @@ class Menu extends Widget
      * @field list
      * @items languages
      * @empty Autodetect
-     * @translation gromver.platform
+     * @translation menu
      */
     public $language;
     /**
      * @field yesno
-     * @translation gromver.platform
+     * @translation menu
      */
     public $showInaccessible = false;
     /**
@@ -87,7 +86,7 @@ class Menu extends Widget
     public function init()
     {
         if (empty($this->type)) {
-            throw new InvalidConfigException(Yii::t('gromver.platform', 'Menu type must be set.'));
+            throw new InvalidConfigException(Yii::t('menu', 'Menu type must be set.'));
         }
 
         $this->language or $this->language = Yii::$app->language;
@@ -221,14 +220,14 @@ class Menu extends Widget
     {
         return [
             [
-                'url' => ['/grom/menu/backend/item/create', 'menuTypeId' => (int)$this->type, 'backUrl' => $this->getBackUrl()],
-                'label' => '<i class="glyphicon glyphicon-plus"></i>',
-                'options' => ['title' => Yii::t('gromver.platform', 'Create Menu Item')]
+                'url'     => ['/grom/menu/backend/item/create', 'menuTypeId' => (int)$this->type, 'backUrl' => $this->getBackUrl()],
+                'label'   => '<i class="glyphicon glyphicon-plus"></i>',
+                'options' => ['title' => Yii::t('menu', 'Create Menu Item')],
             ],
             [
-                'url' => ['/grom/menu/backend/item/index', 'MenuItemSearch' => ['menu_type_id' => (int)$this->type, 'language' => $this->language]],
-                'label' => '<i class="glyphicon glyphicon-th-list"></i>',
-                'options' => ['title' => Yii::t('gromver.platform', 'Menu Items list'), 'target' => '_blank']
+                'url'     => ['/grom/menu/backend/item/index', 'MenuItemSearch' => ['menu_type_id' => (int)$this->type, 'language' => $this->language]],
+                'label'   => '<i class="glyphicon glyphicon-th-list"></i>',
+                'options' => ['title' => Yii::t('menu', 'Menu Items list'), 'target' => '_blank'],
             ],
         ];
     }

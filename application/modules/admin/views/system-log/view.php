@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -6,14 +12,14 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\SystemLog */
 
-$this->title = Yii::t('backend', 'Error #{id}', ['id'=>$model->id]);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('backend', 'System Logs'), 'url' => ['index']];
+$this->title = Yii::t('admin', 'Error #{id}', ['id' => $model->id]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('admin', 'System Logs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="system-log-view">
 
     <p>
-        <?php echo Html::a(Yii::t('backend', 'Delete'), ['delete', 'id'=>$model->id], ['class' => 'btn btn-danger', 'data'=>['method'=>'post']]) ?>
+        <?php echo Html::a(Yii::t('admin', 'Delete'), ['delete', 'id' => $model->id], ['class' => 'btn btn-danger', 'data' => ['method' => 'post']]) ?>
     </p>
 
     <?php echo DetailView::widget([

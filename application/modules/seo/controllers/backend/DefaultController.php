@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\seo\controllers\backend;
 
@@ -87,7 +93,7 @@ class DefaultController extends BackendController
                 else
                     return $this->redirect(['index']);
             } else {
-                $this->flash('error', Yii::t('easyii', Yii::t('easyii', 'Update error. {0}', $model->formatErrors())));
+                $this->flash('error', Yii::t('content', Yii::t('content', 'Update error. {0}', $model->formatErrors())));
                 return $this->redirect(['update', 'id' => $model->id]);
             }
         } else {

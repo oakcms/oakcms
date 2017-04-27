@@ -178,7 +178,7 @@ $this->params['actions_buttons'] = [
             selection = $grid.yiiGridView('getSelectedRows'),
             data = {}
         if (!selection.length) {
-            alert(<?= json_encode(Yii::t('gromver.platform', 'Select items.')) ?>)
+            alert(<?= json_encode(Yii::t('menu', 'Select items.')) ?>)
             return
         }
         $.each(selection, function (index, value) {
@@ -194,7 +194,7 @@ $this->params['actions_buttons'] = [
             $grid = $('#table-grid'),
             selection = $grid.yiiGridView('getSelectedRows')
         if (!selection.length) {
-            alert(<?= json_encode(Yii::t('gromver.platform', 'Select items.')) ?>)
+            alert(<?= json_encode(Yii::t('menu', 'Select items.')) ?>)
             return
         }
 

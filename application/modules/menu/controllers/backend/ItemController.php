@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\menu\controllers\backend;
 
@@ -200,7 +206,7 @@ class ItemController extends BackendController
         if (($model = MenuItem::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException(Yii::t('gromver.platform', 'The requested page does not exist.'));
+            throw new NotFoundHttpException(Yii::t('menu', 'The requested page does not exist.'));
         }
     }
 
@@ -334,7 +340,7 @@ class ItemController extends BackendController
         $model = $this->findModel($id);
 
         if ($model->children()->count()) {
-            Yii::$app->session->setFlash(Alert::TYPE_DANGER, Yii::t('gromver.platform', "It's impossible to remove menu item ID:{id} so far it contains descendants.", ['id' => $model->id]));
+            Yii::$app->session->setFlash(Alert::TYPE_DANGER, Yii::t('menu', "It's impossible to remove menu item ID:{id} so far it contains descendants.", ['id' => $model->id]));
         } else {
             $model->delete();
         }
@@ -480,7 +486,7 @@ class ItemController extends BackendController
                 $root = MenuItem::find()->roots()->one();
                 array_unshift($out, [
                     'id'   => $root->id,
-                    'name' => Yii::t('gromver.platform', 'Root'),
+                    'name' => Yii::t('menu', 'Root'),
                 ]);
 
                 echo Json::encode(['output' => $out, 'selected' => $selected ? $selected : $root->id]);

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
@@ -11,7 +17,7 @@ use app\modules\system\models\Language;
 /* @var $model UserProfile */
 /* @var $form yii\bootstrap\ActiveForm */
 
-$this->title = Yii::t('backend', 'Edit profile');
+$this->title = Yii::t('admin', 'Edit profile');
 
 $this->params['actions_buttons'] = [
     [
@@ -53,8 +59,8 @@ $this->params['actions_buttons'] = [
     <?= $form->field($model, 'lastname')->textInput(['maxlength' => 255]) ?>
     <?= $form->field($model, 'locale')->dropDownlist(ArrayHelper::map(\app\modules\language\models\Language::getLanguages(), 'language_id', 'name')) ?>
     <?= $form->field($model, 'gender')->dropDownlist([
-        UserProfile::GENDER_FEMALE => Yii::t('backend', 'Female'),
-        UserProfile::GENDER_MALE => Yii::t('backend', 'Male')
+        UserProfile::GENDER_FEMALE => Yii::t('admin', 'Female'),
+        UserProfile::GENDER_MALE   => Yii::t('admin', 'Male'),
     ]) ?>
     <?php ActiveForm::end(); ?>
 </div>

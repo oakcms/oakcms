@@ -116,7 +116,7 @@ class FormController extends \app\components\Controller
 
             } else {
                 if($format == 'json') {
-                    $this->error = Yii::t('form_builder', 'Email not sending');
+                    $this->error = Yii::t('form_builder', 'Email not sending.');
                 } else {
                     $this->flash('error', Yii::t('form_builder', 'Email not sending.'));
                 }

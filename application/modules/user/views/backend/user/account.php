@@ -16,7 +16,7 @@ use yii\helpers\Html;
 use app\modules\admin\widgets\Button;
 use app\modules\admin\widgets\ActiveForm;
 
-$this->title = Yii::t('backend', 'Edit account');
+$this->title = Yii::t('admin', 'Edit account');
 $ga = new \Google\Authenticator\GoogleAuthenticator();
 
 $this->params['actions_buttons'] = [

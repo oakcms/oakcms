@@ -114,9 +114,9 @@ class CategoryController extends BackendController
         }
 
         if($i == 0) {
-            $success['success'] = Yii::t('backend', 'Menu items updated');
+            $success['success'] = Yii::t('admin', 'Menu items updated');
         } else {
-            $this->error = Yii::t('backend', 'error');
+            $this->error = Yii::t('admin', 'error');
         }
 
         return $this->formatResponse($success);

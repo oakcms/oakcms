@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+/**
  * Created by Vladimir Hryvinskyy.
  * Site: http://codice.in.ua/
  * Date: 09.10.2016
@@ -155,7 +162,7 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                     <a href="<?= \yii\helpers\Url::to(['/admin/user/user/login']); ?>"><?= Yii::t('user', 'Or sign in as a different user') ?></a>
                 </div>
                 <div class="lockscreen-footer text-center">
-                    <?= Yii::t('admin', '2015-{year} &copy; Hrivinskiy Vladunur. <a href="http://codice.in.ua/" target="_blank">codice.in.ua</a> <a href="http://www.design4web.biz/" target="_blank">design4web.biz</a>. All rights reserved.', ['year'=>date('Y')]) ?>
+                    <?= Yii::t('admin', 'Copyright &copy; 2015-{year} Hrivinskiy Vladumur. <a href="http://hryvinskyi.com/" target="_blank">hryvinskyi.com</a> <a href="http://www.design4web.biz/" target="_blank">design4web.biz</a>. All rights reserved.', ['year' => date('Y')]) ?>
                 </div>
             </div>
         </div>

@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 namespace app\components;
 
 use Yii;
@@ -8,7 +15,7 @@ use yii\web\UploadedFile;
 
 /**
  * Category controller component
- * @package yii\easyii\components
+ * @package yii\content\components
  */
 class CategoryController extends BackendController
 {
@@ -141,14 +148,14 @@ class CategoryController extends BackendController
         $model = $class::findOne($id);
 
         if($model === null){
-            $this->flash('error', Yii::t('easyii', 'Not found'));
+            $this->flash('error', Yii::t('content', 'Not found'));
         }
         elseif($model->image){
             $model->image = '';
             if($model->update()){
-                $this->flash('success', Yii::t('easyii', 'Image cleared'));
+                $this->flash('success', Yii::t('content', 'Image cleared'));
             } else {
-                $this->flash('error', Yii::t('easyii', 'Update error. {0}', $model->formatErrors()));
+                $this->flash('error', Yii::t('content', 'Update error. {0}', $model->formatErrors()));
             }
         }
         return $this->back();
@@ -271,7 +278,7 @@ class CategoryController extends BackendController
             }
         }
         else {
-            $this->flash('error', Yii::t('easyii', 'Not found'));
+            $this->flash('error', Yii::t('content', 'Not found'));
         }
         return $this->back();
     }

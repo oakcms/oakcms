@@ -114,6 +114,8 @@ class Text extends ActiveRecord
             'layout'          => Yii::t('text', 'Layout'),
             'links'           => Yii::t('text', 'Links'),
             'where_to_place'  => Yii::t('text', 'Where To Place'),
+            'published_at'    => Yii::t('admin', 'Published'),
+            'status'          => Yii::t('admin', 'Status'),
         ];
     }
 

@@ -1,12 +1,17 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 namespace app\components;
 
-use Yii;
 use yii\imagine\Image;
 
 /**
  * Class ApiObject
- * @package yii\easyii\components
  */
 class ApiObject extends \yii\base\Object
 {
@@ -17,10 +22,11 @@ class ApiObject extends \yii\base\Object
      * Generates ApiObject, attaching all settable properties to the child object
      * @param \yii\base\Model $model
      */
-    public function __construct($model){
+    public function __construct($model)
+    {
         $this->model = $model;
 
-        foreach($model->attributes as $attribute => $value){
+        foreach ($model->attributes as $attribute => $value) {
             if($this->canSetProperty($attribute)){
                 $this->{$attribute} = $value;
             }

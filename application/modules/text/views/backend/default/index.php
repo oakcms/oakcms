@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -9,22 +15,22 @@ use app\modules\text\models\Text;
 /* @var $searchModel app\modules\text\models\search\TextSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('carousel', 'Texts');
+$this->title = Yii::t('text', 'Custom Blocks');
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['actions_buttons'] = [
     [
-        'tagName' => 'a',
-        'label' => Yii::t('carousel', 'Create'),
-        'options' => [
+        'tagName'      => 'a',
+        'label'        => Yii::t('admin', 'Create'),
+        'options'      => [
             'href' => Url::to(['create'])
         ],
-        'icon' => 'fa fa-plus',
+        'icon'         => 'fa fa-plus',
         'iconPosition' => Button::ICON_POSITION_LEFT,
-        'size' => Button::SIZE_SMALL,
-        'disabled' => false,
-        'block' => false,
-        'type' => Button::TYPE_CIRCLE,
+        'size'         => Button::SIZE_SMALL,
+        'disabled'     => false,
+        'block'        => false,
+        'type'         => Button::TYPE_CIRCLE,
     ],
     [
         'label' => Yii::t('admin', 'Control'),
@@ -67,24 +73,23 @@ $this->params['actions_buttons'] = [
 ?>
 <div class="text-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
         <?= \yii\grid\GridView::widget([
-            'id' => 'grid',
+            'id'           => 'grid',
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
-            'options' => [
+            'options'      => [
                 'class' => 'grid-view',
                 'data' => [
                     'sortable-widget' => 1,
                     'sortable-url' => \yii\helpers\Url::toRoute(['sorting']),
                 ],
             ],
-            'rowOptions' => function ($model, $key, $index, $grid) {
+            'rowOptions'   => function ($model) {
                 return ['data-sortable-id' => $model->id];
             },
             'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'columns' => [
+            'filterModel'  => $searchModel,
+            'columns'      => [
                 [
                     'class' => \kotchuprik\sortable\grid\Column::className(),
                 ],
@@ -114,11 +119,11 @@ $this->params['actions_buttons'] = [
                     ), ['class'=>'form-control', 'prompt' => Yii::t('text', 'Select Position')]),
                 ],
                 [
-                    'class' => \app\modules\admin\components\grid\EnumColumn::className(),
+                    'class'     => \app\modules\admin\components\grid\EnumColumn::className(),
                     'attribute' => 'status',
-                    'format' => 'raw',
-                    'options' => ['width' => '50px'],
-                    'value' => function ($model, $index, $widget) {
+                    'format'    => 'raw',
+                    'options'   => ['width' => '50px'],
+                    'value'     => function ($model) {
                         return Html::checkbox('', $model->status == Text::STATUS_PUBLISHED, [
                             'class' => 'switch toggle',
                             'data-id' => $model->primaryKey,
@@ -126,7 +131,7 @@ $this->params['actions_buttons'] = [
                             'data-reload' => '0'
                         ]);
                     },
-                    'enum' => [
+                    'enum'      => [
                         Yii::t('admin', 'Off'),
                         Yii::t('admin', 'On')
                     ]
