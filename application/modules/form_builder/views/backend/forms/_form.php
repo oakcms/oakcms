@@ -162,7 +162,7 @@ $this->params['actions_buttons'] = [
                                     'class' => 'grid-view',
                                     'data' => [
                                         'sortable-widget' => 1,
-                                        'sortable-url' => Url::toRoute(['sorting-fields', 'id' => $model->id]),
+                                        'sortable-url' => Url::toRoute(['sorting-fields']),
                                     ],
                                 ],
                                 'rowOptions' => function ($model, $key, $index, $grid) {

@@ -21,8 +21,14 @@ class Module extends \app\components\module\Module
     const EVENT_MODULE_AFTER_ACTIVATION = 'module_after_activation';
     const EVENT_MODULE_AFTER_DEACTIVATION = 'module_after_deactivation';
 
+    /**
+     * @var array
+     */
     public $activeModules;
 
+    /**
+     * @var array
+     */
     public $menuSidebar = [];
 
 

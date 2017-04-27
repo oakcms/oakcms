@@ -6,13 +6,6 @@
  * @version    0.0.1-beta.0.1
  */
 
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 12.07.2016
- * Project: events.timhome.vn.loc
- * File name: MediaController.php
- */
 
 namespace app\modules\admin\controllers;
 
@@ -21,7 +14,6 @@ use Imagine\Image\ManipulatorInterface;
 use Yii;
 use app\components\BackendController;
 use app\modules\admin\models\Medias;
-use yii\helpers\VarDumper;
 use yii\imagine\Image;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -47,7 +39,7 @@ class MediaController extends BackendController
             if(Yii::$app->request->post('title'))
             {
                 $model->file_title = Yii::$app->request->post('title');
-                if(!$model->update()) {
+                if($model->update() === false) {
                     $this->flash('danger', Yii::t('admin', 'Update error. {0}', $model->formatErrors()));
                 }
             }
@@ -82,8 +74,8 @@ class MediaController extends BackendController
                     $photo->file_url        = '/uploads/media/'.$photoName;
                     $photo->file_url_thumb  = '/uploads/media/resized/'.$photoName;
                     if($photo->save()){
-                        @unlink($photoOld->bigImageUrl);
-                        @unlink($photoOld->thumbImageUrl);
+                        unlink($photoOld->bigImageUrl);
+                        unlink($photoOld->thumbImageUrl);
                         $success = [
                             'message' => Yii::t('admin', 'Photo uploaded'),
                             'photo'   => [

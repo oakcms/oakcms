@@ -31,24 +31,16 @@ class Bootstrap implements BootstrapInterface
 
     public function bootstrap($app)
     {
-        /**
-         *
-         * @var Module                   $adminModule
-         * @var \app\modules\user\Module $userModule
-         *
-         */
-
-        if ($app instanceof \yii\console\Application) {
-            $this->controllerNamespace = 'app\modules\example_commands\commands';
-        }
-
         if (!$app->hasModule('admin')) {
             $app->setModule('admin', [
                 'class' => 'app\modules\admin\Module'
             ]);
         }
-        $adminModule = $app->getModule('admin');
 
+        /**
+         * @var $adminModule Module
+         */
+        $adminModule = $app->getModule('admin');
 
         /**
          * автоматична загрузка модулів
@@ -67,13 +59,21 @@ class Bootstrap implements BootstrapInterface
 
                         $modules_backend[$name]['class'] = $module->class;
 
-                        if ($class->hasProperty('controllerNamespace') && $class->getStaticPropertyValue('controllerNamespace', '') != '') {
-                            $modules_backend[$name]['controllerNamespace'] = $class->getStaticPropertyValue('controllerNamespace');
+                        if (
+                            $class->hasProperty('controllerNamespace') &&
+                            $class->getStaticPropertyValue('controllerNamespace', '') != ''
+                        ) {
+                            $modules_backend[$name]['controllerNamespace'] =
+                                $class->getStaticPropertyValue('controllerNamespace');
                         } else {
-                            $modules_backend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\backend';
+                            $modules_backend[$name]['controllerNamespace'] =
+                                'app\modules\\' . $module->name . '\controllers\backend';
                         }
 
-                        if ($class->hasProperty('viewPath') && $class->getStaticPropertyValue('viewPath', '') != '') {
+                        if (
+                            $class->hasProperty('viewPath') &&
+                            $class->getStaticPropertyValue('viewPath', '') != ''
+                        ) {
                             $modules_backend[$name]['viewPath'] = $class->getStaticPropertyValue('viewPath');
                         } else {
                             $modules_backend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/backend';
@@ -103,8 +103,10 @@ class Bootstrap implements BootstrapInterface
                     }
                     if ($module->isFrontend) {
                         $modules_frontend[$name]['class'] = $module->class;
-                        $modules_frontend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\frontend';
-                        $modules_frontend[$name]['viewPath'] = '@app/modules/' . $module->name . '/views/frontend';
+                        $modules_frontend[$name]['controllerNamespace'] = 'app\modules\\' . $module->name .
+                            '\controllers\frontend';
+                        $modules_frontend[$name]['viewPath'] = '@app/modules/' . $module->name .
+                            '/views/frontend';
 
                         if (isset($module->settings) AND is_array($module->settings)) {
                             $modules_frontend[$name]['settings'] = $module->settings;
@@ -112,7 +114,8 @@ class Bootstrap implements BootstrapInterface
                     }
                 } else {
                     $modules_console[$name]['class'] = $module->class;
-                    $modules_console[$name]['controllerNamespace'] = 'app\modules\\' . $module->name . '\controllers\console';
+                    $modules_console[$name]['controllerNamespace'] = 'app\modules\\' . $module->name .
+                        '\controllers\console';
                 }
             }
 

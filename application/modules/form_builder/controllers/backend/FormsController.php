@@ -245,9 +245,8 @@ class FormsController extends BackendController
         return $this->changeStatus($id, FormBuilderForms::STATUS_DRAFT);
     }
 
-    public function actionSortingFields($id) {
+    public function actionSortingFields() {
         $transaction = \Yii::$app->db->beginTransaction();
-        $getid = $id;
         try {
             foreach (\Yii::$app->request->post('sorting') as $order => $id) {
                 $model = FormBuilderField::findOne($id);
