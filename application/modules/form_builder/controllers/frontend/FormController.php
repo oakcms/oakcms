@@ -22,7 +22,7 @@ use yii\web\UploadedFile;
 class FormController extends \app\components\Controller
 {
 
-    function actionView($slug) {
+    public function actionView($slug) {
         $success = '';
         $model = $this->findModel($slug);
 

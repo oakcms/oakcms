@@ -135,120 +135,127 @@ class FormBuilderForms extends \app\components\ActiveRecord
                 $attr = \Symfony\Component\Yaml\Yaml::parse($additionalAttr);
             }
 
-            if ($field->type == 'button') {
-                $element = Html::button(ArrayHelper::getValue($fieldData, 'value', 'Send'), array_merge(
-                    $attr,
-                    [
-                        'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
-                        'class' => ArrayHelper::getValue($fieldData, 'cssClass'),
-                    ]
-                ));
-            } elseif($field->type == 'radioList') {
-                $element = \app\modules\admin\widgets\Html::settingField(
-                    $field->slug,
-                    [
-                        'type'     => $field->type,
-                        'value'    => ArrayHelper::getValue($fieldData, 'value', ''),
-                        'options'  => [
-                            'elementOptions' => array_merge(
-                                $attr,
-                                [
-                                    'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
-                                    'id'    => Html::getInputId($this->modelForm, $field->slug),
-                                    'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
-                                ]
-                            ),
-                        ],
-                        'items'    => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items')),
-                        'hint'     => ArrayHelper::getValue($fieldData, 'helpText', ''),
-                        'template' => '{element}',
-                    ],
-                    'form_builder',
-                    'FormBuilder'
-                );
-                $attributesForm[$field->slug] = [
-                    'type'  => $field->type,
-                    'items' => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items'))
-                ];
-            } elseif($field->type == 'dropdownList') {
-                $element = \app\modules\admin\widgets\Html::settingField(
-                    $field->slug,
-                    [
-                        'type'     => $field->type,
-                        'value'    => ArrayHelper::getValue($fieldData, 'value', ''),
-                        'items'    => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items')),
-                        'options'  => [
-                            'elementOptions' => array_merge(
-                                $attr,
-                                [
-                                    'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
-                                    'id'    => Html::getInputId($this->modelForm, $field->slug),
-                                    'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
-                                ]
-                            ),
-                        ],
-                        'hint'     => ArrayHelper::getValue($fieldData, 'helpText', ''),
-                        'template' => '{element}',
-                    ],
-                    'form_builder',
-                    'FormBuilder'
-                );
-                $attributesForm[$field->slug] = [
-                    'type' => $field->type,
-                    'items' => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items'))
-                ];
-            } elseif($field->type == 'fileInput') {
-                $element = \app\modules\admin\widgets\Html::fileInput(
-                    "FormBuilder[{$field->slug}]",
-                    null,
-                    array_merge(
+            switch ($field->type) {
+                case 'button':
+                    $element = Html::button(ArrayHelper::getValue($fieldData, 'value', 'Send'), array_merge(
                         $attr,
                         [
-                            'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
-                            'id'    => Html::getInputId($this->modelForm, $field->slug),
+                            'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
+                            'class' => ArrayHelper::getValue($fieldData, 'cssClass'),
                         ]
-                    )
-                );
-                $attributesForm[$field->slug] = [
-                    'type' => $field->type,
-                    'items' => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items'))
-                ];
-            } elseif($field->type == 'checkbox') {
-                $uniqeId = uniqid($field->slug.'_');
-                $element = Html::hiddenInput("FormBuilder[{$field->slug}]", 0).
-                    Html::checkbox(
-                    "FormBuilder[{$field->slug}]",
-                    ArrayHelper::getValue($fieldData, 'value', 0),
-                    ['id' => $uniqeId]
-                ). Html::label($field->label, $uniqeId);
-                $attributesForm[$field->slug] = [
-                    'type' => $field->type,
-                ];
-            } else {
-                $element = \app\modules\admin\widgets\Html::settingField(
-                    $field->slug,
-                    [
-                        'type'     => $field->type,
-                        'value'    => ArrayHelper::getValue($fieldData, 'value', ''),
-                        'options'  => [
-                            'elementOptions' => array_merge(
-                                $attr,
-                                [
-                                    'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
-                                    'id'    => Html::getInputId($this->modelForm, $field->slug),
-                                    'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
-                                ]
-                            ),
+                    ));
+                    break;
+                case 'radioList':
+                    $element = \app\modules\admin\widgets\Html::settingField(
+                        $field->slug,
+                        [
+                            'type'     => $field->type,
+                            'value'    => ArrayHelper::getValue($fieldData, 'value', ''),
+                            'options'  => [
+                                'elementOptions' => array_merge(
+                                    $attr,
+                                    [
+                                        'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
+                                        'id'    => Html::getInputId($this->modelForm, $field->slug),
+                                        'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
+                                    ]
+                                ),
+                            ],
+                            'items'    => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items')),
+                            'hint'     => ArrayHelper::getValue($fieldData, 'helpText', ''),
+                            'template' => '{element}',
                         ],
-                        'hint'     => ArrayHelper::getValue($fieldData, 'helpText', ''),
-                        'template' => '{element}',
-                    ],
-                    'form_builder',
-                    'FormBuilder'
-                );
-                $attributesForm[$field->slug] = [
-                    'type' => $field->type
-                ];
+                        'form_builder',
+                        'FormBuilder'
+                    );
+                    $attributesForm[$field->slug] = [
+                        'type'  => $field->type,
+                        'items' => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items'))
+                    ];
+                    break;
+                case 'dropdownList':
+                    $element = \app\modules\admin\widgets\Html::settingField(
+                        $field->slug,
+                        [
+                            'type'     => $field->type,
+                            'value'    => ArrayHelper::getValue($fieldData, 'value', ''),
+                            'items'    => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items')),
+                            'options'  => [
+                                'elementOptions' => array_merge(
+                                    $attr,
+                                    [
+                                        'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
+                                        'id'    => Html::getInputId($this->modelForm, $field->slug),
+                                        'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
+                                    ]
+                                ),
+                            ],
+                            'hint'     => ArrayHelper::getValue($fieldData, 'helpText', ''),
+                            'template' => '{element}',
+                        ],
+                        'form_builder',
+                        'FormBuilder'
+                    );
+                    $attributesForm[$field->slug] = [
+                        'type' => $field->type,
+                        'items' => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items'))
+                    ];
+                    break;
+                case 'fileInput':
+                    $element = \app\modules\admin\widgets\Html::fileInput(
+                        "FormBuilder[{$field->slug}]",
+                        null,
+                        array_merge(
+                            $attr,
+                            [
+                                'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
+                                'id'    => Html::getInputId($this->modelForm, $field->slug),
+                            ]
+                        )
+                    );
+                    $attributesForm[$field->slug] = [
+                        'type' => $field->type,
+                        'items' => \Symfony\Component\Yaml\Yaml::parse(ArrayHelper::getValue($fieldData, 'items'))
+                    ];
+                    break;
+                case 'checkbox':
+                    $uniqeId = uniqid($field->slug.'_');
+                    $element = Html::hiddenInput("FormBuilder[{$field->slug}]", 0).
+                        Html::checkbox(
+                            "FormBuilder[{$field->slug}]",
+                            ArrayHelper::getValue($fieldData, 'value', 0),
+                            ['id' => $uniqeId]
+                        ). Html::label($field->label, $uniqeId);
+                    $attributesForm[$field->slug] = [
+                        'type' => $field->type,
+                    ];
+                    break;
+                default:
+                    $element = \app\modules\admin\widgets\Html::settingField(
+                        $field->slug,
+                        [
+                            'type'     => $field->type,
+                            'value'    => ArrayHelper::getValue($fieldData, 'value', ''),
+                            'options'  => [
+                                'elementOptions' => array_merge(
+                                    $attr,
+                                    [
+                                        'class' => ArrayHelper::getValue($fieldData, 'cssClass', ''),
+                                        'id'    => Html::getInputId($this->modelForm, $field->slug),
+                                        'type'  => ArrayHelper::getValue($fieldData, 'type', 'text'),
+                                    ]
+                                ),
+                            ],
+                            'hint'     => ArrayHelper::getValue($fieldData, 'helpText', ''),
+                            'template' => '{element}',
+                        ],
+                        'form_builder',
+                        'FormBuilder'
+                    );
+                    $attributesForm[$field->slug] = [
+                        'type' => $field->type
+                    ];
+                    break;
             }
 
             $html = str_replace(
