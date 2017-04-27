@@ -25,7 +25,7 @@ $this->bodyClass = ['error'];
             <div class="line mb-20">
                 <img src="uploads/page-404.png" alt="404" class="img-responsive center-block">
             </div>
-            <?
+            <?php
         } else {
             ?>
             <div class="mb-30 font-20" style="text-transform: uppercase"><?= Html::encode($this->title) ?></div>

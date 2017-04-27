@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\user\models;
 
@@ -143,10 +149,7 @@ class User extends ActiveRecord implements IdentityInterface
         $profile->user_id   = $this->id;
         $profile->gender    = UserProfile::GENDER_MALE;
         $profile->locale    = 'ru-RU';
-        if(!$profile->save()) {
-            var_dump($profile->rules());
-            var_dump($profile->getErrors());
-        }
+        $profile->save();
     }
 
     /**

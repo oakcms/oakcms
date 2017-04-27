@@ -90,7 +90,7 @@ class Tree extends \yii\base\Widget
             <?php foreach ($items as $it): ?>
                 <li class="dd-item dd3-item" data-id="<?= $it->shop_category_id ?>">
 
-                    <? showNested($it->shop_category_id); ?>
+                    <?php showNested($it->shop_category_id); ?>
                 </li>
             <?php endforeach ?>
         </ol>

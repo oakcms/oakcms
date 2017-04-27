@@ -1,16 +1,20 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\content\controllers\backend;
 
 use app\modules\admin\components\behaviors\StatusController;
 use app\modules\system\models\DbState;
-use Guzzle\Inflection\Inflector;
 use Yii;
 use app\modules\content\models\ContentPages;
 use app\modules\content\models\search\ContentPagesSearch;
 use app\components\BackendController;
 use yii\base\Response;
-use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -250,11 +254,6 @@ class PagesController extends BackendController
         }
 
         return $layouts;
-    }
-
-    public function actionSystem() {
-        $model = ContentPages::findOne(1);
-        var_dump($model->reorderNode('lft'));
     }
 
     /**
