@@ -36,7 +36,7 @@ class ModuleEvent
     /**
      * @param string $name название события
      * @param Event $event обьект события
-     * @param string $returnProperty своиство объекта $event для возврата
+     * @param mixed $returnProperty своиство объекта $event для возврата
      * @return mixed
      */
     static public function trigger($name, Event $event, $returnProperty = null)

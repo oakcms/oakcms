@@ -104,7 +104,7 @@ class Medias extends \yii\db\ActiveRecord
     public function afterDelete()
     {
         parent::afterDelete();
-        @unlink($this->getBigImageUrl());
-        @unlink($this->getThumbImageUrl());
+        unlink($this->getBigImageUrl());
+        unlink($this->getThumbImageUrl());
     }
 }

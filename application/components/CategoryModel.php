@@ -104,7 +104,6 @@ class CategoryModel extends ActiveRecord
     {
         $collection = static::find()->sort()->all();
         $trees = array();
-        $l = 0;
 
         if (count($collection) > 0) {
             // Node Stack. Used to help building the hierarchy

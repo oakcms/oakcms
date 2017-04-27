@@ -41,12 +41,15 @@ class BackendController extends CoreController
 
     public function goBack($defaultUrl = null)
     {
-        $backUrl = Yii::$app->getUser()->getReturnUrl($defaultUrl);
 
-        if($backUrl == Url::to(['/admin/user/lock-screen'])) {
-            return Yii::$app->getResponse()->redirect($defaultUrl);
-        } else {
-            return Yii::$app->getResponse()->redirect($backUrl);
+        if(Yii::$app instanceof Application) {
+            $backUrl = Yii::$app->getUser()->getReturnUrl($defaultUrl);
+
+            if ($backUrl == Url::to(['/admin/user/lock-screen'])) {
+                return Yii::$app->getResponse()->redirect($defaultUrl);
+            } else {
+                return Yii::$app->getResponse()->redirect($backUrl);
+            }
         }
     }
 

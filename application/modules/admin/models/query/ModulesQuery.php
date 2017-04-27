@@ -15,21 +15,5 @@ namespace app\modules\admin\models\query;
  */
 class ModulesQuery extends \yii\db\ActiveQuery
 {
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Modules[]|array
-     */
-    public function all($db = null)
-    {
-        return parent::all($db);
-    }
 
-    /**
-     * @inheritdoc
-     * @return \app\modules\admin\models\Modules|array|null
-     */
-    public function one($db = null)
-    {
-        return parent::one($db);
-    }
 }

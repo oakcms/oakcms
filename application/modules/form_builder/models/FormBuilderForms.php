@@ -375,6 +375,8 @@ class FormBuilderForms extends \app\components\ActiveRecord
 
 
             $model = self::findOne($id);
+
+            /** @var $fields self::getFields() */
             $fields = $model->fields;
             $model->id = null;
             $model->title = StringHelper::increment($model->title);
@@ -386,7 +388,7 @@ class FormBuilderForms extends \app\components\ActiveRecord
                     /** @var $field FormBuilderField */
                     $field->form_id = $model->id;
                     $field->id = null;
-                    $field->isNewRecord = true;
+                    $field->isNewRecord = true; 
                     $field->save();
                 }
             }

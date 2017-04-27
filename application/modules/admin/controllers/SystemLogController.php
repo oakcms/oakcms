@@ -8,6 +8,7 @@
 
 namespace app\modules\admin\controllers;
 
+use app\components\ActiveQuery;
 use Yii;
 use app\modules\admin\models\SystemLog;
 use app\modules\admin\models\search\SystemLogSearch;
@@ -44,7 +45,9 @@ class SystemLogController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         if (strcasecmp(Yii::$app->request->method, 'delete') == 0) {
-            SystemLog::deleteAll($dataProvider->query->where);
+            /** @var ActiveQuery $query */
+            $query = $dataProvider->query;
+            SystemLog::deleteAll($query->where);
             Yii::$app->db->createCommand('ALTER TABLE '.SystemLog::tableName().' AUTO_INCREMENT = 1;')->execute();
             return $this->refresh();
         }

@@ -1,11 +1,14 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\admin\widgets;
 
-use mihaildev\elfinder\AssetsCallBack;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\helpers\VarDumper;
 
 class ActiveField extends \yii\widgets\ActiveField {
 
@@ -127,7 +130,7 @@ class ActiveField extends \yii\widgets\ActiveField {
         $text = ArrayHelper::remove($options, 'text', null);
 
         $options = array_merge($options, $this->inputOptions);
-        
+
         if ($text) {
             $addon = Html::tag('span', Html::tag('span', $text, $textOptions), ['class' => 'input-group-addon']);
             $position = ArrayHelper::remove($options, 'position', self::ICON_POSITION_LEFT);

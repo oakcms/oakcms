@@ -14,6 +14,12 @@ use app\modules\user\models\User;
 use app\modules\language\models\Language;
 use app\templates\backend\base\assets\BaseAsset;
 
+
+/* @var $this yii\web\View */
+/* @var $model app\modules\content\models\ContentArticles */
+/* @var $form ActiveForm */
+/* @var $lang Language */
+
 $asset = BaseAsset::register($this);
 \app\templates\frontend\base\assets\FancyboxAsset::register($this);
 
@@ -50,11 +56,6 @@ $photoTemplate = '
 
 $photoTemplate = \rmrevin\yii\minify\HtmlCompressor::compress($photoTemplate, ['extra' => true]);
 $this->registerJs("var photoTemplate = '{$photoTemplate}'", \yii\web\View::POS_HEAD);
-
-/* @var $this yii\web\View */
-/* @var $model app\modules\content\models\ContentArticles */
-/* @var $form ActiveForm */
-/* @var $lang \app\modules\system\models\Language */
 
 // Language
 if($model->isNewRecord) {
