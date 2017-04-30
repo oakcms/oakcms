@@ -6,8 +6,6 @@
  * @version    0.0.1
  */
 
-use yii\helpers\Html;
-
 /* @var $this yii\web\View */
 /* @var $model app\modules\shop\models\Category */
 

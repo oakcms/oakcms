@@ -2,8 +2,8 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\shop\models;
@@ -65,7 +65,7 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
     public function rules()
     {
         return [
-            [['name', 'product_id'], 'required'],
+            [['price', 'product_id'], 'required'],
             [['sort', 'amount', 'product_id'], 'integer'],
             [['price'], 'number'],
             [['name', 'available', 'code', 'create_time', 'update_time', 'filter_values'], 'string'],
@@ -107,7 +107,6 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
             'product_id' => 'Товар',
             'name' => 'Название',
             'code' => 'Код (актикул)',
-            'price' => 'Цена',
             'images' => 'Картинки',
             'available' => 'В наличии',
             'sort' => 'Сортировка',
@@ -168,7 +167,7 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
 
     public function getCartPrice()
     {
-        return $this->price;
+        return 1;//$this->price;
     }
 
     public function getCartOptions()
@@ -188,14 +187,21 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
 
     public function getPrices()
     {
-        $return = $this->hasMany(Price::className(), ['product_id' => 'id'])->orderBy('price ASC');
+        $return = $this->hasMany(Price::className(), ['modification_id' => 'id'])->orderBy('price ASC');
 
         return $return;
     }
 
-    public function getPrice($type = 'lower')
+    public function getPriceAction()
     {
-        $price = $this->hasOne(Price::className(), ['product_id' => 'product_id']);
+        $return = $this->hasMany(Price::className(), ['modification_id' => 'id'])->orderBy('price ASC');
+
+        return $return;
+    }
+
+    public function getPrice($type = 'lower', $model = false)
+    {
+        $price = $this->hasOne(Price::className(), ['modification_id' => 'id']);
 
         if($type == 'lower') {
             $price = $price->orderBy('price ASC')->one();
@@ -207,10 +213,13 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
             $price = $price->orderBy('price DESC')->one();
         }
 
+        if($model && $price) {
+            return $price;
+        }
+
         if($price) {
             return $price->price;
         }
-
         return null;
     }
 

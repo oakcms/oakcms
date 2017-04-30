@@ -25,6 +25,7 @@ use yii\widgets\ActiveForm;
     ) ?>
 
     <?= $form->field($model, 'price')->textInput() ?>
+    <?= $form->field($model, 'price_action')->textInput() ?>
 
     <?= $form->field($model, 'code')->textInput() ?>
 

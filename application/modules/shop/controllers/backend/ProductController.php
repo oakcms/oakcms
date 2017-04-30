@@ -10,6 +10,7 @@ use app\modules\gallery\models\Image;
 use app\modules\shop\events\ProductEvent;
 use app\modules\shop\models\Modification;
 use app\modules\shop\models\modification\ModificationSearch;
+use app\modules\shop\models\Price;
 use app\modules\shop\models\price\PriceSearch;
 use app\modules\shop\models\PriceType;
 use app\modules\shop\models\Product;
@@ -19,6 +20,7 @@ use app\modules\shop\Module;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -67,8 +69,8 @@ class ProductController extends BackendController
 
     protected function findModel($id)
     {
-        $model = $this->module->getService('product');
-        if (($model = $model::findOne($id)) !== null) {
+
+        if (($model = Product::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -77,36 +79,16 @@ class ProductController extends BackendController
 
     public function actionCreate()
     {
-        $model = $this->module->getService('product');
-
-        $priceModel = $this->module->getService('price');
-
-        $priceTypes = PriceType::find()->orderBy('sort DESC')->all();
+        $model = new Product();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            if ($prices = Yii::$app->request->post('Price')) {
-                foreach ($prices as $typeId => $price) {
-                    $type = PriceType::findOne($typeId);
-                    $price = new $priceModel($price);
-                    $price->type_id = $typeId;
-                    $price->name = $type->name;
-                    $price->sort = $type->sort;
-                    $price->product_id = $model->id;
-                    $price->save();
-                }
-            }
-
-            $module = $this->module;
+            $this->addModification(Yii::$app->request->post(), $model);
             $productEvent = new ProductEvent(['model' => $model]);
-            $this->module->trigger($module::EVENT_PRODUCT_CREATE, $productEvent);
-
+            $this->module->trigger(Module::EVENT_PRODUCT_CREATE, $productEvent);
             return $this->redirect(['update', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model'      => $model,
-                'priceModel' => $priceModel,
-                'priceTypes' => $priceTypes,
+                'model'      => $model
             ]);
         }
     }
@@ -123,15 +105,13 @@ class ProductController extends BackendController
         $typeParams = Yii::$app->request->queryParams;
         $typeParams['PriceSearch']['product_id'] = $id;
         $dataProvider = $searchModel->search($typeParams);
-        $priceModel = $this->module->getService('price');
 
-        $modificationModel = $this->module->getService('modification');
+        $modificationModel = new ModificationSearch();
         $searchModificationModel = new ModificationSearch();
         $typeParams['ModificationSearch']['product_id'] = $id;
-        //var_dump($typeParams);
+
         $modificationDataProvider = $searchModificationModel->search($typeParams);
 
-        $priceTypes = PriceType::find()->orderBy('sort DESC')->all();
         if (
             $model->load(Yii::$app->request->post()) &&
             $this->addModification(Yii::$app->request->post(), $model) &&
@@ -144,7 +124,7 @@ class ProductController extends BackendController
             if ($prices = yii::$app->request->post('Price')) {
                 foreach ($prices as $typeId => $price) {
                     $type = PriceType::findOne($typeId);
-                    $price = new $priceModel($price);
+                    $price = new Price($price);
                     $price->type_id = $typeId;
                     $price->name = $type->name;
                     $price->sort = $type->sort;
@@ -165,7 +145,6 @@ class ProductController extends BackendController
                 'module'                   => $this->module,
                 'dataProvider'             => $dataProvider,
                 'searchModel'              => $searchModel,
-                'priceModel'               => $priceModel,
                 'StockSearch'              => $StockSearch,
                 'StockDataProvider'        => $StockDataProvider
             ]);
@@ -175,10 +154,12 @@ class ProductController extends BackendController
     /**
      * @param $post
      * @param $model Product
+     * @return boolean
      */
-    private function addModification($post, $model)
+    private function addModification($post, &$model)
     {
         $countProducts = count($post['variants']['mainImageSlug']);
+
         $changeImage = false;
 
         for ($i = 0; $i < $countProducts; $i++) {
@@ -192,63 +173,58 @@ class ProductController extends BackendController
             } else {
                 $modification = new Modification();
             }
-            if($post['variants']['price'][$i] != '' && $post['variants']['name'][$i] != '') {
-                $modification->product_id       = $model->id;
-                $modification->price            = $post['variants']['price'][$i];
-                $modification->code             = $post['variants']['code'][$i];
-                $modification->available        = $post['variants']['available'][$i];
-                $modification->name             = $post['variants']['name'][$i];
-                $modification->amount           = $post['variants']['amount'][$i];
-                $modification->filter_values    = serialize($post['variants']['filter_values'][$i]);
-                $modification->sort             = $i;
 
-                if(!$modification->save()) {
-                    if(count($modification->getErrors())) {
-                        $err = '';
-                        foreach ($modification->getErrors() as $errors) {
-                            foreach ($errors as $error) {
-                                $err .= $error.'<br>';
-                            }
-                        }
-                        $this->flash('error', $err);
-                    }
-                    return false;
+            $modification->product_id       = $model->id;
+            $modification->price            = $post['variants']['price'][$i];
+            $modification->code             = $post['variants']['code'][$i];
+            $modification->available        = $post['variants']['available'][$i];
+            $modification->name             = $post['variants']['name'][$i];
+            $modification->amount           = $post['variants']['amount'][$i];
+            $modification->filter_values    = serialize(ArrayHelper::getValue($post, 'variants.filter_values.' . $i, []));
+            $modification->sort             = $i;
+
+            if(!$modification->save()) {
+                $model->addErrors($modification->getErrors());
+                return false;
+            }
+
+            $photoUpload = UploadedFile::getInstanceByName('image'.$i);
+            if ($photoUpload) {
+                $uploadsPath = Yii::getAlias(Yii::$app->getModule('gallery')->imagesStorePath.'/');
+                if (!file_exists($uploadsPath)) {
+                    mkdir($uploadsPath, 0777, true);
                 }
 
-                $photoUpload = UploadedFile::getInstanceByName('image'.$i);
-                if ($photoUpload) {
-                    $uploadsPath = Yii::getAlias(Yii::$app->getModule('gallery')->imagesStorePath.'/');
-                    if (!file_exists($uploadsPath)) {
-                        mkdir($uploadsPath, 0777, true);
-                    }
+                $photoUpload->saveAs("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
 
-                    $photoUpload->saveAs("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
+                foreach ($modification->getImages() as $image) {
+                    $image->delete();
+                }
+                $modification->attachImage("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
+                $this->flash('success', 'Image change');
+            } else {
+                if(!$changeImage && $post['variants']['mainImageSlug'][$i] != '') {
 
-                    foreach ($modification->getImages() as $image) {
-                        $image->delete();
-                    }
-                    $modification->attachImage("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
-                } else {
-                    if(!$changeImage && $post['variants']['mainImageSlug'][$i] != '') {
+                    $image = Image::find()->where([
+                        'urlAlias' => $post['variants']['mainImageSlug'][$i],
+                    ])->one();
 
-                        $image = Image::find()->where([
-                            'urlAlias' => $post['variants']['mainImageSlug'][$i],
-                        ])->one();
+                    if($image) {
+                        $newImage = new Image();
 
-                        if($image) {
-                            $newImage = new Image();
-
-                            $newImage->filePath     = $image->filePath;
-                            $newImage->itemId       = $modification->id;
-                            $newImage->modelName    = $image->modelName;
-                            $newImage->urlAlias     = $image->urlAlias;
-                            $newImage->save();
+                        $newImage->filePath     = $image->filePath;
+                        $newImage->itemId       = $modification->id;
+                        $newImage->modelName    = $image->modelName;
+                        $newImage->urlAlias     = $image->urlAlias;
+                        if($newImage->save()) {
+                            $this->flash('success', 'Image change');
+                        } else {
+                            $this->flash('error', 'Image not changed');
                         }
                     }
                 }
             }
         }
-
         return true;
     }
 
@@ -278,9 +254,8 @@ class ProductController extends BackendController
             $model = $this->findModel($id);
             $model->delete();
 
-            $module = $this->module;
             $productEvent = new ProductEvent(['model' => $model]);
-            $this->module->trigger($module::EVENT_PRODUCT_DELETE, $productEvent);
+            $this->module->trigger(Module::EVENT_PRODUCT_DELETE, $productEvent);
         }
         return $this->back();
     }
@@ -289,9 +264,7 @@ class ProductController extends BackendController
     {
         $productCode = (int)yii::$app->request->post('productCode');
 
-        $model = $this->module->getService('product');
-
-        if ($model = $model::find()->where('code=:code OR id=:code', [':code' => $productCode])->one()) {
+        if ($model = Product::find()->where('code=:code OR id=:code', [':code' => $productCode])->one()) {
             $json = [
                 'status' => 'success',
                 'name'   => $model->name,

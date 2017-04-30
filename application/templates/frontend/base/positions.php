@@ -6,14 +6,6 @@
  * @version    0.0.1-beta.0.1
  */
 
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 16.09.2016
- * Project: osnovasite
- * File name: positions.php
- */
-
 return [
     'header'  => 'Header',
     'slider'  => 'Slider',

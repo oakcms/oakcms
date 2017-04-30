@@ -3,18 +3,17 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @version    0.0.1-alpha.0.4
  */
 
 /**
  * @var $this yii\web\View
- * @var $model app\modules\content\models\ContentArticles
+ * @var $model \app\modules\shop\models\Product
  * @var $form ActiveForm
  * @var $lang Language
  */
 
 use app\modules\admin\widgets\Button;
-use app\modules\gallery\widgets\Gallery;
 use app\modules\language\models\Language;
 use app\modules\shop\models\Category;
 use app\modules\shop\models\Producer;
@@ -70,13 +69,16 @@ $variantTemplate = '
         ' . $selectFilter . '
     </td>
     <td>
-        <input type="text" name="variants[price][]"  id="" class="form-control" value="{{price}}">
+        <div class="w100">
+            <input type="text" name="variants[price][]" class="form-control" value="{{price}}">
+        </div>
+        <div>{{prices}}</div>
+    </td> 
+    <td>
+        <input type="text" name="variants[code][]" id="" class="form-control" value="{{code}}">
     </td>
     <td>
-        <input type="text" name="variants[code][]"  id="" class="form-control" value="{{code}}">
-    </td>
-    <td>
-        <input type="text" name="variants[amount][]"  id="" class="form-control" value="{{amount}}">
+        <input type="text" name="variants[amount][]" id="" class="form-control" value="{{amount}}">
     </td>
     <td>' . Html::dropDownList(
         'variants[available][]',
@@ -96,7 +98,7 @@ $variantTemplate = '
 </tr>
 ';
 $variantTemplate = \rmrevin\yii\minify\HtmlCompressor::compress($variantTemplate, ['extra' => true]);
-$this->registerJs("var variantTemplate = '{$variantTemplate}'", \yii\web\View::POS_HEAD);
+$this->registerJs("var variantTemplate = '".str_replace("'", "\\'", $variantTemplate)."';", \yii\web\View::POS_HEAD);
 
 // Language
 $this->params['actions_buttons'] = [
@@ -160,6 +162,7 @@ if (!$model->isNewRecord) {
             ]
         ]
     ]); ?>
+    <?= $form->errorSummary([$model]) ?>
     <?php if(!$model->isNewRecord):?>
         <?= $form->field($model, 'id')->hiddenInput(['id' => 'Product_Id'])->label(false) ?>
     <?php endif?>
@@ -168,7 +171,170 @@ if (!$model->isNewRecord) {
             <?= $form->field($model, 'name')->textInput() ?>
         </div>
         <div class="col-lg-6 col-xs-6">
-            <?= $form->field($model, 'slug')->textInput(['placeholder' => 'Не обязательно']) ?>
+            <?= $form->field($model, 'slug')->textInput(['placeholder' => 'Not necessary']) ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 col-xs-2">
+            <?php if ($model->isNewRecord) $model->available = 'yes'; ?>
+            <?= $form->field($model, 'available')->radioList([
+                'yes' => Yii::t('admin', 'Yes'),
+                'no' => Yii::t('admin', 'No'),
+            ]); ?>
+        </div>
+        <div class="col-lg-2 col-xs-2">
+            <?php if ($model->isNewRecord) $model->is_new = 'no'; ?>
+            <?= $form->field($model, 'is_new')->radioList([
+                'yes' => Yii::t('admin', 'Yes'),
+                'no' => Yii::t('admin', 'No'),
+            ]); ?>
+        </div>
+        <div class="col-lg-2 col-xs-2">
+            <?php if ($model->isNewRecord) $model->is_popular = 'no'; ?>
+            <?= $form->field($model, 'is_popular')->radioList([
+                'yes' => Yii::t('admin', 'Yes'),
+                'no' => Yii::t('admin', 'No'),
+            ]); ?>
+        </div>
+        <div class="col-lg-2 col-xs-2">
+            <?php if ($model->isNewRecord) $model->is_promo = 'no'; ?>
+            <?= $form->field($model, 'is_promo')->radioList([
+                'yes' => Yii::t('admin', 'Yes'),
+                'no' => Yii::t('admin', 'No'),
+            ]); ?>
+        </div>
+        <div class="col-lg-2 col-xs-2">
+            <?= $form->field($model, 'sort')->textInput() ?>
+        </div>
+    </div>
+
+    <div class="portlet box box-success<?php //echo (count($model->modifications) == 0) ? ' collapsed-box' : '' ?>">
+        <div class="box-header">
+            <h3 class="box-title"><i class="fa fa-object-group"></i> <?= Yii::t('shop', 'Product Modifications') ?></h3>
+            <div class="box-tools pull-right">
+                <?php if(count($model->modifications) == 0):?>
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                <?php else:?>
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                <?php endif?>
+            </div>
+        </div>
+        <div class="box-body">
+            <table id="modifications-table" class="table table-bordered table-striped table-advance table-hover table-condensed">
+                <thead class="font-12">
+                <tr>
+                    <th style="width: 120px"> <?= Yii::t('shop', 'Image') ?> </th>
+                    <th style="width: 150px"> <?= Yii::t('shop', 'Filter') ?> </th>
+                    <th> <?= Yii::t('shop', 'Price') ?> <span class="text-red">*</span></th>
+                    <th> <?= Yii::t('shop', 'Vendor code') ?> </th>
+                    <th> <?= Yii::t('shop', 'Amount') ?> </th>
+                    <th> <?= Yii::t('shop', 'Available') ?> </th>
+                    <th> <?= Yii::t('shop', 'Name') ?> </th>
+                    <th width="56"></th>
+                </tr>
+                </thead>
+                <tbody class="sortable save_positions"
+                       data-path="<?= '/web/uploads/' ?>"
+                       data-delete="<?= Url::to(['modification/delete']) ?>">
+                <?php if(count($model->modifications)):?>
+                    <?php for($i = 0, $template = $variantTemplate; count($model->modifications) > $i; $i++, $template = $variantTemplate) : ?>
+                        <?php
+                        $variant = $model->modifications[$i];
+                        $selectFilter = unserialize($variant->filter_values);
+
+                        foreach ($selectFilter as $filter=>$value) {
+                            $template = preg_replace(
+                                '/name="variants\[filter_values\]\[\]\['.$filter.'\](.*)<option value="' . $value . '">/',
+                                'name="variants[filter_values][]['.$filter.']$1<option value="' . $value .  '" selected>',
+                                $template
+                            );
+                        }
+
+                        if($i == 0) {
+                            $template = str_ireplace('<button class="btn btn-small remove_variant tooltips" type="button" data-placement="top" data-original-title="Удалить"><i class="icon-trash"></i></button>', '', $template);
+                        }
+                        $prices = '<div>';
+                        $prices .= \app\widgets\ModalIFrame::widget([
+                            'label'         => Yii::t('shop', 'Manage price'),
+                            'url'           => ['price/index', 'modification_id' => $variant->id],
+                            'dataHandler'   => '',
+                            'actionHandler' => '',
+                            'options'       => ['class' => 'btn btn-default btn-block btn-sm', 'style' => 'margin-top:5px'],
+                            'popupOptions'  => ['width' => 600]
+                        ]);
+                        $prices .= '</div>';
+                        echo preg_replace(
+                            [
+                                '/{{id}}/',
+                                '/{{code}}/',
+                                '/{{price}}/',
+                                '/{{prices}}/',
+                                '/{{amount}}/',
+                                '/{{variantsId}}/',
+                                '/{{mainImageName}}/',
+                                '/{{mainImageSlug}}/',
+                                '/{{name}}/',
+                                '/name="variants\[available\]\[\]"(.*)<option value="' . $variant->available . '">/'
+                            ],
+                            [
+                                $i,
+                                $variant->code,
+                                $variant->price,
+                                $prices,
+                                $variant->amount,
+                                $variant->id,
+                                $variant->getImage()->getUrl('120x120'),
+                                $variant->getImage()->urlAlias,
+                                $variant->name,
+                                'name="variants[available][]"$1<option value="' . $variant->available . '" selected>'
+                            ],
+                            $template);
+
+                        ?>
+                    <?php endfor; ?>
+                <?php else:?>
+                    <?php
+                    $variantTemplate=str_ireplace('<button class="btn btn-small remove_variant tooltips" type="button" data-placement="top" data-original-title="Удалить"><i class="icon-trash"></i></button>','',$variantTemplate);
+                    ?>
+                    <?= str_replace(
+                        [
+                            '{{id}}',
+                            '{{code}}',
+                            '{{price}}',
+                            '{{prices}}',
+                            '{{amount}}',
+                            '{{variantsId}}',
+                            '{{mainImageName}}',
+                            '{{mainImageSlug}}',
+                            '{{name}}',
+                        ],
+                        [
+                            0,
+                            '',
+                            '',
+                            '',
+                            '',
+                            '',
+                            'https://placeholdit.imgix.net/~text?txtsize=20&txt=120%C3%97120&w=120&h=120',
+                            '',
+                            '',
+                        ],
+                        $variantTemplate)
+                    ?>
+                <?php endif?>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="8">
+                        <button type="button" class="btn purple-plum" id="addVariant">
+                            <i class="fa fa-plus"></i>
+                            <?= Yii::t('shop', 'Add option') ?>
+                        </button>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 
@@ -180,29 +346,6 @@ if (!$model->isNewRecord) {
             <?= $form->field($model, 'code')->textInput() ?>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-lg-2 col-xs-2">
-            <?php if ($model->isNewRecord) $model->available = 'yes'; ?>
-            <?= $form->field($model, 'available')->radioList(['yes' => 'Да', 'no' => 'Нет']); ?>
-        </div>
-        <div class="col-lg-2 col-xs-2">
-            <?php if ($model->isNewRecord) $model->is_new = 'no'; ?>
-            <?= $form->field($model, 'is_new')->radioList(['yes' => 'Да', 'no' => 'Нет']); ?>
-        </div>
-        <div class="col-lg-2 col-xs-2">
-            <?php if ($model->isNewRecord) $model->is_popular = 'no'; ?>
-            <?= $form->field($model, 'is_popular')->radioList(['yes' => 'Да', 'no' => 'Нет']); ?>
-        </div>
-        <div class="col-lg-2 col-xs-2">
-            <?php if ($model->isNewRecord) $model->is_promo = 'no'; ?>
-            <?= $form->field($model, 'is_promo')->radioList(['yes' => 'Да', 'no' => 'Нет']); ?>
-        </div>
-        <div class="col-lg-2 col-xs-2">
-            <?= $form->field($model, 'sort')->textInput() ?>
-        </div>
-    </div>
-
 
     <div class="row">
         <div class="col-lg-6 col-xs-6">
@@ -239,151 +382,9 @@ if (!$model->isNewRecord) {
         </div>
     </div>
 
-    <div class="portlet box box-success<?= (count($model->modifications) == 0) ? ' collapsed-box' : '' ?>">
-        <div class="box-header">
-            <h3 class="box-title"><i class="fa fa-object-group"></i> <?= Yii::t('shop', 'Product Modifications') ?></h3>
-            <div class="box-tools pull-right">
-                <?php if(count($model->modifications) == 0):?>
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-                <?php else:?>
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                <?php endif?>
-            </div>
-        </div>
-        <div class="box-body">
-            <table id="modifications-table" class="table table-bordered table-striped table-condensed">
-                <thead class="font-12">
-                    <tr>
-                        <th style="width: 120px"> <?= Yii::t('shop', 'Image') ?> </th>
-                        <th style="width: 150px"> <?= Yii::t('shop', 'Filter') ?> </th>
-                        <th> <?= Yii::t('shop', 'Price') ?> </th>
-                        <th> <?= Yii::t('shop', 'Vendor code') ?> </th>
-                        <th> <?= Yii::t('shop', 'Amount') ?> </th>
-                        <th> <?= Yii::t('shop', 'Available') ?> </th>
-                        <th> <?= Yii::t('shop', 'Name') ?> </th>
-                        <th width="56"></th>
-                    </tr>
-                </thead>
-                <tbody class="sortable save_positions"
-                       data-path="<?= '/web/uploads/' ?>"
-                       data-delete="<?= Url::to(['modification/delete']) ?>">
-                <?php if(count($model->modifications)):?>
-                    <?php foreach($model->modifications as $k=>$variant) : ?>
-                        <?php
-                        $selectFilter = unserialize($variant->filter_values);
-
-                        foreach ($selectFilter as $filter=>$value) {
-                            $variantTemplate = preg_replace(
-                                '/name="variants\[filter_values\]\[\]\['.$filter.'\](.*)<option value="' . $value . '">/',
-                                'name="variants[filter_values][]['.$filter.']"$1<option value="' . $value .  '" selected>',
-                                $variantTemplate
-                            );
-                        }
-
-                        if($k == 0) {
-                            $template = str_ireplace('<button class="btn btn-small remove_variant tooltips" type="button" data-placement="top" data-original-title="Удалить"><i class="icon-trash"></i></button>', '', $variantTemplate);
-                            echo preg_replace(
-                                [
-                                    '/{{id}}/',
-                                    '/{{price}}/',
-                                    '/{{code}}/',
-                                    '/{{amount}}/',
-                                    '/{{variantsId}}/',
-                                    '/{{mainImageName}}/',
-                                    '/{{mainImageSlug}}/',
-                                    '/{{name}}/',
-                                    '/name="variants\[available\]\[\]"(.*)<option value="' . $variant->available . '">/'
-                                ],
-                                [
-                                    $k,
-                                    $variant->price,
-                                    $variant->code,
-                                    $variant->amount,
-                                    $variant->id,
-                                    $variant->getImage()->getUrl('120x120'),
-                                    $variant->getImage()->urlAlias,
-                                    $variant->name,
-                                    'name="variants[available][]"$1<option value="' . $variant->available . '" selected>'
-                                ],
-                                $template);
-                        } else {
-                            echo preg_replace(
-                                [
-                                    '/{{id}}/',
-                                    '/{{price}}/',
-                                    '/{{code}}/',
-                                    '/{{amount}}/',
-                                    '/{{variantsId}}/',
-                                    '/{{mainImageName}}/',
-                                    '/{{mainImageSlug}}/',
-                                    '/{{name}}/',
-                                    '/name="variants\[available\]\[\]"(.*)<option value="' . $variant->available . '">/'
-                                ],
-                                [
-                                    $k,
-                                    $variant->price,
-                                    $variant->code,
-                                    $variant->amount,
-                                    $variant->id,
-                                    $variant->getImage()->getUrl('120x120'),
-                                    $variant->getImage()->urlAlias,
-                                    $variant->name,
-                                    'name="variants[available][]"$1<option value="' . $variant->available . '" selected>'
-                                ],
-                                $variantTemplate);
-                        }
-                        ?>
-                    <?php endforeach; ?>
-                <?php else:?>
-                    <?php
-                    $variantTemplate=str_ireplace('<button class="btn btn-small remove_variant tooltips" type="button" data-placement="top" data-original-title="Удалить"><i class="icon-trash"></i></button>','',$variantTemplate);
-                    ?>
-                    <?= str_replace(
-                        [
-                            '{{id}}',
-                            '{{price}}',
-                            '{{code}}',
-                            '{{amount}}',
-                            '{{variantsId}}',
-                            '{{mainImageName}}',
-                            '{{mainImageSlug}}',
-                            '{{name}}',
-                        ],
-                        [
-                            0,
-                            '',
-                            '',
-                            '',
-                            '',
-                            'https://placeholdit.imgix.net/~text?txtsize=20&txt=120%C3%97120&w=120&h=120',
-                            '',
-                            '',
-                        ],
-                        $variantTemplate)
-                    ?>
-                <?php endif?>
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="8">
-                        <button type="button" class="btn purple-plum" id="addVariant">
-                            <i class="fa fa-plus"></i>
-                            Добавить вариант
-                        </button>
-                    </td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-
     <?= $form->field($model, 'text')->widget(\app\widgets\Editor::className()) ?>
 
     <?= $form->field($model, 'short_text')->textInput(['maxlength' => true]) ?>
-
-    <div class="mb-20">
-        <?= Gallery::widget(['model' => $model]); ?>
-    </div>
 
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Связанные продукты</strong></div>
@@ -391,15 +392,5 @@ if (!$model->isNewRecord) {
             <?= \app\modules\relations\widgets\Constructor::widget(['model' => $model]); ?>
         </div>
     </div>
-    <?php if (isset($priceTypes)): ?>
-        <?php if ($priceTypes): ?>
-            <h3>Цены</h3>
-            <?php $i = 1; ?>
-            <?php foreach ($priceTypes as $priceType): ?>
-                <?= $form->field($priceModel, "[{$priceType->id}]price")->label($priceType->name); ?>
-                <?php $i++; ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    <?php endif; ?>
     <?php ActiveForm::end(); ?>
 </div>

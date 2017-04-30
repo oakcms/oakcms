@@ -5,6 +5,8 @@
 
 namespace app\modules\shop\controllers\backend;
 
+use app\modules\shop\models\Price;
+use app\modules\shop\models\price\PriceSearch;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -33,6 +35,27 @@ class PriceController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionIndex($modification_id)
+    {
+        $model = new Price();
+        Yii::$app->getView()->applyModalLayout();
+        $searchModel = new PriceSearch();
+        $typeParams = Yii::$app->request->queryParams;
+        $typeParams['PriceSearch']['modification_id'] = $modification_id;
+        $dataProvider = $searchModel->search($typeParams);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $model = new Price();
+        }
+
+        return $this->render('index', [
+            'model'             => $model,
+            'modification_id'   => $modification_id,
+            'dataProvider'      => $dataProvider,
+            'searchModel'       => $searchModel
+        ]);
     }
 
     public function actionCreate()

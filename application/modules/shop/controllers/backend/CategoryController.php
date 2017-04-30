@@ -2,13 +2,14 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\shop\controllers\backend;
 
 use app\components\BackendController;
+use app\modules\shop\models\Category;
 use Yii;
 use app\modules\shop\models\category\CategorySearch;
 use yii\web\NotFoundHttpException;
@@ -67,7 +68,7 @@ class CategoryController extends BackendController
 
     public function actionCreate()
     {
-        $model = $this->module->getService('category');
+        $model = new Category();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->id]);
@@ -114,9 +115,9 @@ class CategoryController extends BackendController
         }
 
         if($i == 0) {
-            $success['success'] = Yii::t('admin', 'Menu items updated');
+            $success['success'] = Yii::t('backend', 'Menu items updated');
         } else {
-            $this->error = Yii::t('admin', 'error');
+            $this->error = Yii::t('backend', 'error');
         }
 
         return $this->formatResponse($success);
@@ -163,9 +164,7 @@ class CategoryController extends BackendController
 
     protected function findModel($id)
     {
-        $model = $this->module->getService('category');
-
-        if (($model = $model::findOne($id)) !== null) {
+        if (($model = Category::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested product does not exist.');
@@ -174,9 +173,7 @@ class CategoryController extends BackendController
 
     protected function findModelBySlug($slug)
     {
-        $model = $this->module->getService('category');
-
-        if (($model = $model::findOne(['slug' => $slug])) !== null) {
+        if (($model = Category::findOne(['slug' => $slug])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested product does not exist.');

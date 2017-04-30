@@ -9,7 +9,7 @@
 
 namespace app\widgets;
 
-use mihaildev\ckeditor\CKEditor;
+use dosamigos\ckeditor\CKEditor;
 use mihaildev\elfinder\ElFinder;
 
 class Editor extends CKEditor
@@ -17,15 +17,12 @@ class Editor extends CKEditor
     public function init()
     {
         parent::init();
-
-        $bundle = \yii\bootstrap\BootstrapAsset::register(\Yii::$app->view);
-
-        $this->editorOptions = ElFinder::ckeditorOptions('/admin/file-manager-elfinder', [
-            'preset'         => 'full',
+        $this->clientOptions = ElFinder::ckeditorOptions('/admin/file-manager-elfinder', [
             'entities'       => false,
             'allowedContent' => true,
             'baseHref'       => \Yii::$app->homeUrl,
             'filebrowserBrowseUrl' => [\Yii::$app->homeUrl.'admin/menu/item/ckeditor-select'],
+            'preset' => ''
         ]);
     }
 }

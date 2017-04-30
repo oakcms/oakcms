@@ -8,8 +8,6 @@
 
 namespace app\modules\field\models;
 
-use yii;
-
 class FieldValue extends \yii\db\ActiveRecord
 {
     public static function tableName()
@@ -21,7 +19,6 @@ class FieldValue extends \yii\db\ActiveRecord
     {
         return [
             [['field_id', 'item_id'], 'required'],
-            [[], 'required'],
             [['value', 'variant_id'], 'required', 'when' => function ($model) {
                 return empty($model->variant_id) && empty($model->value);
             }],
@@ -43,24 +40,25 @@ class FieldValue extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'field_id' => 'Фильтр',
-            'item_id' => 'Элемент',
-            'variant_id' => 'Вариант',
-            'value' => 'Значение',
+            'id'            => 'ID',
+            'field_id'      => 'Фильтр',
+            'item_id'       => 'Элемент',
+            'variant_id'    => 'Вариант',
+            'value'         => 'Значение',
             'numeric_value' => 'Числовое значение',
         ];
     }
 
-    public function afterSave($insert, $changedAttributes) {
+    public function afterSave($insert, $changedAttributes)
+    {
         parent::afterSave($insert, $changedAttributes);
 
-        if(empty($this->value) && !empty($this->variant_id)) {
+        if (empty($this->value) && !empty($this->variant_id)) {
             $this->value = $this->variant->value;
             $this->save(false);
         }
 
-        if($this->numeric_value != (int)$this->value) {
+        if ($this->numeric_value != (int)$this->value) {
             $this->numeric_value = (int)$this->value;
             $this->save(false);
         }

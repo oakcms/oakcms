@@ -18,6 +18,7 @@ $(function() {
             variantTemplate
                 .replace(/\{\{id\}\}/g, countVarRows)
                 .replace(/\{\{variantsId\}\}/g, '')
+                .replace(/\{\{prices\}\}/g, '')
                 .replace(/\{\{price\}\}/g, '')
                 .replace(/\{\{code\}\}/g, '')
                 .replace(/\{\{amount\}\}/g, '')

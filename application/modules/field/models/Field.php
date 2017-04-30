@@ -9,7 +9,7 @@
 namespace app\modules\field\models;
 
 use Yii;
-use yii\helpers\ArrayHelper;
+
 
 class Field extends \yii\db\ActiveRecord
 {

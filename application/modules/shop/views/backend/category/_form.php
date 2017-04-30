@@ -26,7 +26,7 @@ use app\modules\seo\widgets\SeoForm;
 
     <?= $form->field($model, 'parent_id')->dropDownList(Category::buildTextTree(null, 1, [$model->id]), ['prompt' => Yii::t('shop', 'Select category')]); ?>
 
-    <?php //= Gallery::widget(['model' => $model]);?>
+    <?//= Gallery::widget(['model' => $model]);?>
 
 
     <div class="form-group">

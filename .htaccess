@@ -2,7 +2,7 @@
 
     RewriteEngine On
 
-    RewriteBase /oakcms
+    RewriteBase /
 
     Options +FollowSymLinks
     IndexIgnore */*

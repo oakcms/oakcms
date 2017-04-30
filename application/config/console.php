@@ -64,13 +64,11 @@ $config = [
         'i18n'         => [
             'translations' => [
                 '*' => [
-                    'class'              => 'yii\i18n\DbMessageSource',
-                    'db'                 => 'db',
-                    'sourceLanguage'     => 'en-US',
-                    'sourceMessageTable' => '{{%language_source}}',
-                    'messageTable'       => '{{%language_translate}}',
-                    'cachingDuration'    => 86400,
-                    'enableCaching'      => false,
+                    'class'   => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                    ],
                 ],
             ],
         ],
@@ -80,7 +78,6 @@ $config = [
 ];
 
 if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',

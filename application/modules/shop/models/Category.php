@@ -2,10 +2,9 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
-
 
 namespace app\modules\shop\models;
 
@@ -21,30 +20,36 @@ use yii\helpers\Url;
  * @property integer $id
  * @property integer $parent_id
  * @property integer $sort
- * @property string $text
- * @property string $code
- * @property string $name
- * @property string $title_h1
- * @property string $slug
+ * @property string  $text
+ * @property string  $code
+ * @property string  $name
+ * @property string  $slug
+ *
+ * @mixin \app\modules\field\behaviors\AttachFields
  */
 class Category extends \yii\db\ActiveRecord
 {
-    function behaviors()
-    {
-        return [
-            'images' => [
-                'class' => 'app\modules\gallery\behaviors\AttachImages',
-                'mode' => 'single',
-            ],
-            'field' => [
-                'class' => 'app\modules\field\behaviors\AttachFields',
-            ],
-        ];
-    }
-
     public static function tableName()
     {
         return '{{%shop_category}}';
+    }
+
+    public static function buldTree($parent_id = null)
+    {
+        $return = [];
+
+        if (empty($parent_id)) {
+            $categories = Category::find()->where('parent_id = 0 OR parent_id is null')->orderBy('sort DESC')->asArray()->all();
+        } else {
+            $categories = Category::find()->where(['parent_id' => $parent_id])->orderBy('sort DESC')->asArray()->all();
+        }
+
+        foreach ($categories as $level1) {
+            $return[$level1['id']] = $level1;
+            $return[$level1['id']]['childs'] = self::buldTree($level1['id']);
+        }
+
+        return $return;
     }
 
     static function find()
@@ -52,12 +57,48 @@ class Category extends \yii\db\ActiveRecord
         return new CategoryQuery(get_called_class());
     }
 
+    public static function buildTextTree($id = null, $level = 1, $ban = [])
+    {
+        $return = [];
+
+        $prefix = str_repeat('--', $level);
+        $level++;
+
+        if (empty($id)) {
+            $categories = Category::find()->where('parent_id = 0 OR parent_id is null')->orderBy('sort DESC')->asArray()->all();
+        } else {
+            $categories = Category::find()->where(['parent_id' => $id])->orderBy('sort DESC')->asArray()->all();
+        }
+
+        foreach ($categories as $category) {
+            if (!in_array($category['id'], $ban)) {
+                $return[$category['id']] = "$prefix {$category['name']}";
+                $return = $return + self::buildTextTree($category['id'], $level, $ban);
+            }
+        }
+
+        return $return;
+    }
+
+    function behaviors()
+    {
+        return [
+            'images' => [
+                'class' => 'app\modules\gallery\behaviors\AttachImages',
+                'mode'  => 'single',
+            ],
+            'field'  => [
+                'class' => 'app\modules\field\behaviors\AttachFields',
+            ],
+        ];
+    }
+
     public function rules()
     {
         return [
             [['parent_id', 'sort'], 'integer'],
             [['name'], 'required'],
-            [['text', 'title_h1', 'code'], 'string'],
+            [['text', 'code'], 'string'],
             [['name', 'code', 'slug'], 'string', 'max' => 55],
             [['slug'], 'filter', 'filter' => 'trim'],
             [['slug'], 'filter', 'filter' => function ($value) {
@@ -74,15 +115,14 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'parent_id' => 'Родительская категория',
-            'name' => 'Имя категории',
-            'title_h1' => Yii::t('shop', 'Title H1'),
-            'slug' => 'Сео имя',
-            'text' => 'Описание',
-            'image' => 'Картинка',
-            'sort' => 'Сортировка',
-            'description' => 'Описание',
+            'id'          => Yii::t('shop', 'ID'),
+            'parent_id'   => Yii::t('shop', 'Parent'),      // Родительская категория
+            'name'        => Yii::t('shop', 'Name'),        // Имя категории
+            'slug'        => Yii::t('shop', 'Slug'),        // Сео имя
+            'text'        => Yii::t('shop', 'Text'),        // Текст
+            'image'       => Yii::t('shop', 'Image'),       // Картинка
+            'sort'        => Yii::t('shop', 'Sort'),        // Сортировка
+            'description' => Yii::t('shop', 'Description'), // Описание
         ];
     }
 
@@ -94,52 +134,10 @@ class Category extends \yii\db\ActiveRecord
         return ['shop/category/view', 'id' => $this->id, 'alias' => $this->slug];
     }
 
-
-    public static function buldTree($parent_id = null)
-    {
-        $return = [];
-
-        if(empty($parent_id)) {
-            $categories = Category::find()->where('parent_id = 0 OR parent_id is null')->orderBy('sort DESC')->asArray()->all();
-        } else {
-            $categories = Category::find()->where(['parent_id' => $parent_id])->orderBy('sort DESC')->asArray()->all();
-        }
-
-        foreach($categories as $level1) {
-            $return[$level1['id']] = $level1;
-            $return[$level1['id']]['childs'] = self::buldTree($level1['id']);
-        }
-
-        return $return;
-    }
-
-    public static function buildTextTree($id = null, $level = 1, $ban = [])
-    {
-        $return = [];
-
-        $prefix = str_repeat('--', $level);
-        $level++;
-
-        if(empty($id)) {
-            $categories = Category::find()->where('parent_id = 0 OR parent_id is null')->orderBy('sort DESC')->asArray()->all();
-        } else {
-            $categories = Category::find()->where(['parent_id' => $id])->orderBy('sort DESC')->asArray()->all();
-        }
-
-        foreach($categories as $category) {
-            if(!in_array($category['id'], $ban)) {
-                $return[$category['id']] = "$prefix {$category['name']}";
-                $return = $return + self::buildTextTree($category['id'], $level, $ban);
-            }
-        }
-
-        return $return;
-    }
-
     public function getProducts()
     {
         return $this->hasMany(Product::className(), ['id' => 'product_id'])
-             ->viaTable('{{%shop_product_to_category}}', ['category_id' => 'id'])->available();
+            ->viaTable('{{%shop_product_to_category}}', ['category_id' => 'id'])->available();
     }
 
     public function getChilds()
@@ -151,6 +149,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Category::className(), ['id' => 'parent_id']);
     }
+
 
     public function getLink()
     {

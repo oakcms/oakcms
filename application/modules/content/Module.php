@@ -21,7 +21,7 @@ use Yii;
 /**
  * content module definition class
  */
-class Module extends \yii\base\Module implements ModuleEventsInterface
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
     /** @var array The rules to be used in Backend Url management. */
     public static $urlRulesBackend = [];

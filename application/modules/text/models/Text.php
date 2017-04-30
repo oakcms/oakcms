@@ -11,7 +11,7 @@ namespace app\modules\text\models;
 use app\components\ActiveRecord;
 use app\helpers\StringHelper;
 use app\modules\admin\components\behaviors\SettingModel;
-use dosamigos\translateable\TranslateableBehavior;
+use app\components\behaviors\TranslateableBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 

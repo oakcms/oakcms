@@ -7,7 +7,7 @@ use app\modules\field\behaviors\AttachFields;
 use Yii;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
-use dosamigos\translateable\TranslateableBehavior;
+use app\components\behaviors\TranslateableBehavior;
 
 /**
  * This is the model class for table "{{%content_category}}".

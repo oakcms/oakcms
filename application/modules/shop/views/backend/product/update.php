@@ -16,88 +16,27 @@ $this->params['breadcrumbs'][] = 'Обновить';
 <div class="product-update">
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#product-product" data-toggle="tab">Карточка товара</a></li>
-            <li><a href="#product-prices" data-toggle="tab">Цены</a></li>
-            <li><a href="#product-stores" data-toggle="tab">Склады</a></li>
-            <li><a href="#product-filters" data-toggle="tab">Фильтры</a></li>
-            <li><a href="#product-fields" data-toggle="tab">Доп. поля</a></li>
+            <li class="active">
+                <a href="#product-product" data-toggle="tab"><?= Yii::t('shop', 'Card Product') ?></a>
+            </li>
+            <li>
+                <a href="#product-images" data-toggle="tab"><?= Yii::t('shop', 'Images') ?></a>
+            </li>
+            <li>
+                <a href="#product-stores" data-toggle="tab"><?= Yii::t('shop', 'Warehouses') ?></a>
+            </li>
+            <li>
+                <a href="#product-filters" data-toggle="tab"><?= Yii::t('shop', 'Filters') ?></a>
+            </li>
+            <li>
+                <a href="#product-fields" data-toggle="tab"><?= Yii::t('shop', 'Additional fields.') ?></a>
+            </li>
         </ul>
 
         <div class="tab-content product-updater">
             <div class="tab-pane active" id="product-product">
                 <?= $this->render('_form', [
                     'model' => $model
-                ]) ?>
-            </div>
-
-            <div class="tab-pane" id="product-prices">
-                <?php if ($dataProvider->getCount()) { ?>
-                    <?= GridView::widget([
-                        'dataProvider' => $dataProvider,
-                        'filterModel'  => $searchModel,
-                        'columns'      => [
-                            [
-                                'attribute' => 'id',
-                                'filter' => false,
-                                'options' => ['style' => 'width: 25px;']
-                            ],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'name',
-                                'url'             => ['price/edit-field'],
-                                'type'            => 'text',
-                                'filter'          => false,
-                                'editableOptions' => [
-                                    'mode' => 'inline',
-                                ],
-                                'options'         => ['style' => 'width: 75px;'],
-                            ],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'sort',
-                                'url'             => ['price/edit-field'],
-                                'type'            => 'text',
-                                'editableOptions' => [
-                                    'mode' => 'inline',
-                                ],
-                                'options'         => ['style' => 'width: 49px;'],
-                            ],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'available',
-                                'url'             => ['price/edit-field'],
-                                'type'            => 'select',
-                                'editableOptions' => [
-                                    'mode'   => 'inline',
-                                    'source' => ['yes', 'no'],
-                                ],
-                                'filter'          => false, /*Html::activeDropDownList(
-                                $searchModel,
-                                'available',
-                                ['no' => 'Нет', 'yes' => 'Да'],
-                                ['class' => 'form-control', 'prompt' => 'Наличие']
-                            ),*/
-                                'contentOptions'  => ['style' => 'width: 27px;'],
-                            ],
-                            [
-                                'class'           => EditableColumn::className(),
-                                'attribute'       => 'price',
-                                'url'             => ['price/edit-field'],
-                                'type'            => 'text',
-                                'editableOptions' => [
-                                    'mode' => 'inline',
-                                ],
-                                'options'         => ['style' => 'width: 40px;'],
-                            ],
-                            ['class' => 'yii\grid\ActionColumn', 'controller' => 'price', 'template' => '{delete}', 'buttonOptions' => ['class' => 'btn btn-default'], 'options' => ['style' => 'width: 30px;']],
-                        ],
-                    ]); ?>
-                <?php } else { ?>
-                    <p style="color: red;">У товара нет цен.</p>
-                <?php } ?>
-                <?= $this->render('price/_form', [
-                    'model'        => $priceModel,
-                    'productModel' => $model,
                 ]) ?>
             </div>
 
@@ -134,6 +73,12 @@ $this->params['breadcrumbs'][] = 'Обновить';
                         ],
                     ]); ?>
                 <?php } ?>
+            </div>
+
+            <div class="tab-pane" id="product-images">
+                <div class="mb-20">
+                    <?= \app\modules\gallery\widgets\Gallery::widget(['model' => $model]); ?>
+                </div>
             </div>
 
             <div class="tab-pane" id="product-filters">

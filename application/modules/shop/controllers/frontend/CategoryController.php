@@ -1,15 +1,14 @@
 <?php
-
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 11.12.2016
- * Project: oakcms
- * File name: CategoryController.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\shop\controllers\frontend;
 
+use app\modules\shop\models\Category;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
@@ -51,9 +50,7 @@ class CategoryController extends \app\components\Controller
 
     protected function findModel($id)
     {
-        $model = $this->module->getService('category');
-
-        if (($model = $model::findOne($id)) !== null) {
+        if (($model = Category::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested product does not exist.');
@@ -62,9 +59,7 @@ class CategoryController extends \app\components\Controller
 
     protected function findModelBySlug($slug)
     {
-        $model = $this->module->getService('category');
-
-        if (($model = $model::findOne(['slug' => $slug])) !== null) {
+        if (($model = Category::findOne(['slug' => $slug])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested product does not exist.');

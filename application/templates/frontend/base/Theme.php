@@ -6,18 +6,8 @@
  * @version    0.0.1-beta.0.1
  */
 
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 12.12.2016
- * Project: oakcms
- * File name: Theme.php
- */
 
 namespace app\templates\frontend\base;
-
-use Yii;
-use yii\web\View;
 
 /**
  * Class Theme

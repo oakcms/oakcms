@@ -16,7 +16,7 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'category_id', 'producer_id', 'price'], 'integer'],
+            [['id', 'category_id', 'producer_id'], 'integer'],
             [['name', 'text', 'short_text', 'available', 'code'], 'safe'],
         ];
     }
@@ -28,7 +28,7 @@ class ProductSearch extends Product
 
     public function search($params)
     {
-        $query = Product::find()->with('prices');
+        $query = Product::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

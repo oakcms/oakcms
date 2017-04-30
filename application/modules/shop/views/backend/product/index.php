@@ -5,7 +5,6 @@
 
 use app\modules\admin\widgets\Button;
 use app\modules\shop\models\Category;
-use app\modules\shop\models\Price;
 use app\modules\shop\models\Producer;
 use app\modules\shop\models\ProductOption;
 use yii\helpers\ArrayHelper;
@@ -64,17 +63,6 @@ $this->params['actions_buttons'] = [
     ],
 ];
 ?>
-<div class="product-index">
-    <?php if ($amount = $dataProvider->query->sum('amount')) { ?>
-    <div class="summary">
-        Всего остатков: Всего товаров:
-        <?= $amount; ?>
-    </div>
-    на сумму
-    <?= Price::find()->joinWith('product')->sum("shop_price.price*shop_product.amount"); ?>
-    руб.
-</div>
-<?php } ?>
 <?php
 echo \yii\grid\GridView::widget([
     'id' => 'grid',
@@ -90,27 +78,20 @@ echo \yii\grid\GridView::widget([
             'format'    => 'raw',
             'content'   => function ($model) {
                 /** @var  $model \app\modules\shop\models\Product */
-                if ($image = $model->getImage()->getUrl('50x50', true)) {
-                    return Html::a(
-                        "<img src=\"{$image}\" class=\"img-thumbnail pull-left img-circle\" style='margin-right: 10px' /> " .
-                        $model->name . ' ' .
-                        Html::a('<i class="fa fa-external-link"></i>', $model->getFrontendViewLink(), ['target' => '_blank']),
-                        ['update', 'id' => $model->id]
-                    );
+                if (($modification = $model->getModification()) !== null) {
+                    $image = $modification->getImage()->getUrl('50x50', true);
+                } else {
+                    $image = Yii::$app->getModule('gallery')->getPlaceHolder()->getUrl('50x50', true);
                 }
+                return Html::a(
+                    "<img src=\"{$image}\" class=\"img-thumbnail pull-left img-circle\" style='margin-right: 10px' /> " .
+                    $model->name . ' ' .
+                    Html::a('<i class="fa fa-external-link"></i>', $model->getFrontendViewLink(), ['target' => '_blank']),
+                    ['update', 'id' => $model->id]
+                );
             },
         ],
         'code',
-        [
-            'label'   => 'Остаток',
-            'content' => function ($model) {
-                return "<p>{$model->amount} (" . ($model->amount * $model->price) . ")</p>";
-            },
-        ],
-        [
-            'label' => 'Цена',
-            'value' => 'price',
-        ],
         [
             'attribute' => 'category_id',
             'filter'    => Html::activeDropDownList(
@@ -143,8 +124,6 @@ echo \yii\grid\GridView::widget([
         ],
     ],
 ]); ?>
-
-</div>
 
 <script>
     function deleteA() {

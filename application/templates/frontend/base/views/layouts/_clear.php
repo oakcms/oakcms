@@ -6,14 +6,6 @@
  * @version    0.0.1-beta.0.1
  */
 
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 06.04.2016
- * Project: oakcms
- * File name: _clear.php
- */
-
 /* @var $this \app\components\View */
 /* @var $content string */
 
@@ -54,9 +46,9 @@ $this->bodyClass[] = Yii::$app->controller->id.'_'.Yii::$app->controller->action
 </head>
 <body class="<?= implode(' ', (array)$this->bodyClass) ?>">
 <?php $this->beginBody() ?>
-
-<?= $content ?>
-
+    <?= $content ?>
+<?= \app\modules\text\api\Text::get('modal_form'); ?>
+<div id="overlay"></div>
 <?php $this->endBody() ?>
 </body>
 </html>

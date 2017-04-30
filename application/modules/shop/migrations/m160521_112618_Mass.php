@@ -8,19 +8,20 @@
 
 namespace app\modules\shop\migrations;
 
-use Yii;
+use yii\db\Exception;
 use yii\db\Schema;
 use yii\db\Migration;
 
-class m160521_112618_Mass extends Migration {
+class m160521_112618_Mass extends Migration
+{
 
-    public function safeUp() {
+    public function safeUp()
+    {
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
-        $connection = Yii::$app->db;
         try {
             $this->createTable('{{%shop_product}}', [
                 'id'               => Schema::TYPE_PK . "",
@@ -30,9 +31,11 @@ class m160521_112618_Mass extends Migration {
                 'related_products' => Schema::TYPE_TEXT . " COMMENT 'PHP serialize'",
                 'name'             => Schema::TYPE_STRING . "(200) NOT NULL",
                 'code'             => Schema::TYPE_STRING . "(155)",
-                'price'            => Schema::TYPE_DECIMAL . "(11, 2)",
                 'text'             => Schema::TYPE_TEXT . " ",
                 'short_text'       => Schema::TYPE_STRING . "(255)",
+                'is_new'           => "enum('yes','no')" . " DEFAULT 'no'",
+                'is_popular'       => "enum('yes','no')" . " DEFAULT 'no'",
+                'is_promo'         => "enum('yes','no')" . " DEFAULT 'no'",
                 'images'           => Schema::TYPE_TEXT . "",
                 'available'        => "enum('yes','no')" . " DEFAULT 'yes'",
                 'sort'             => Schema::TYPE_INTEGER . "(11)",
@@ -42,7 +45,6 @@ class m160521_112618_Mass extends Migration {
 
             $this->createIndex('category_id', '{{%shop_product}}', 'category_id', 0);
             $this->createIndex('producer_id', '{{%shop_product}}', 'producer_id', 0);
-
             $this->createTable('{{%shop_category}}', [
                 'id'        => Schema::TYPE_PK . "",
                 'parent_id' => Schema::TYPE_INTEGER . "(11)",
@@ -53,30 +55,32 @@ class m160521_112618_Mass extends Migration {
                 'image'     => Schema::TYPE_TEXT . "",
                 'sort'      => Schema::TYPE_INTEGER . "(11)",
             ], $tableOptions);
-
             $this->createTable('{{%shop_price_type}}', [
                 'id'        => Schema::TYPE_PK . "",
                 'name'      => Schema::TYPE_STRING . "(55) NOT NULL",
                 'sort'      => Schema::TYPE_INTEGER . "(11)",
                 'condition' => Schema::TYPE_TEXT . "",
             ], $tableOptions);
-
             $this->insert('{{%shop_price_type}}', [
                 'id'   => '1',
-                'name' => 'Основная цена',
+                'name' => 'Main Price',
             ]);
-
+            $this->insert('{{%shop_price_type}}', [
+                'id'   => '2',
+                'name' => 'Action Price',
+            ]);
             $this->createIndex('id', '{{%shop_category}}', 'id,parent_id', 0);
+
             $this->createTable('{{%shop_price}}', [
-                'id'         => Schema::TYPE_PK . "",
-                'code'       => Schema::TYPE_STRING . "(155) NOT NULL",
-                'name'       => Schema::TYPE_STRING . "(155) NOT NULL",
-                'price'      => Schema::TYPE_DECIMAL . "(11, 2)",
-                'sort'       => Schema::TYPE_INTEGER . "(11)",
-                'amount'     => Schema::TYPE_INTEGER . "(11)",
-                'type_id'    => Schema::TYPE_INTEGER . "(11)",
-                'product_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
-                'available'  => "enum('yes','no')" . " DEFAULT 'yes'",
+                'id'              => Schema::TYPE_PK . "",
+                'code'            => Schema::TYPE_STRING . "(155) NOT NULL",
+                'name'            => Schema::TYPE_STRING . "(155) NOT NULL",
+                'price'           => Schema::TYPE_DECIMAL . "(11, 2)",
+                'sort'            => Schema::TYPE_INTEGER . "(11)",
+                'amount'          => Schema::TYPE_INTEGER . "(11)",
+                'type_id'         => Schema::TYPE_INTEGER . "(11)",
+                'modification_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
+                'available'       => "enum('yes','no')" . " DEFAULT 'yes'",
             ], $tableOptions);
 
             $this->createTable('{{%shop_product_modification}}', [
@@ -86,6 +90,7 @@ class m160521_112618_Mass extends Migration {
                 'name'          => Schema::TYPE_STRING . "(200) NOT NULL",
                 'code'          => Schema::TYPE_STRING . "(155)",
                 'images'        => Schema::TYPE_TEXT . "",
+                'price'         => Schema::TYPE_DECIMAL . "(11, 2)",
                 'available'     => "enum('yes','no')" . " DEFAULT 'yes'",
                 'sort'          => Schema::TYPE_INTEGER . "(11)",
                 'slug'          => Schema::TYPE_STRING . "(255)",
@@ -94,7 +99,8 @@ class m160521_112618_Mass extends Migration {
                 'filter_values' => Schema::TYPE_TEXT,
             ], $tableOptions);
 
-            $this->createIndex('product_id', '{{%shop_price}}', 'product_id', 0);
+            $this->createIndex('product_id', '{{%shop_price}}', 'modification_id', 0);
+
             $this->createTable('{{%shop_producer}}', [
                 'id'    => Schema::TYPE_PK . "",
                 'code'  => Schema::TYPE_STRING . "(155)",
@@ -103,20 +109,17 @@ class m160521_112618_Mass extends Migration {
                 'text'  => Schema::TYPE_TEXT . "",
                 'slug'  => Schema::TYPE_STRING . "(255)",
             ], $tableOptions);
-
             $this->createTable('{{%shop_product_to_category}}', [
                 'id'          => Schema::TYPE_PK . "",
                 'product_id'  => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'category_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
             ], $tableOptions);
-
-            $this->createTable( '{{%shop_incoming}}',[
+            $this->createTable('{{%shop_incoming}}', [
                 'id'      => Schema::TYPE_PK . "",
                 'date'    => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'content' => Schema::TYPE_TEXT . "",
             ], $tableOptions);
-
-            $this->createTable( '{{%shop_outcoming}}',[
+            $this->createTable('{{%shop_outcoming}}', [
                 'id'         => Schema::TYPE_PK . "",
                 'date'       => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'stock_id'   => Schema::TYPE_INTEGER . "(11) NOT NULL",
@@ -125,70 +128,30 @@ class m160521_112618_Mass extends Migration {
                 'order_id'   => Schema::TYPE_INTEGER . "(11)",
                 'count'      => Schema::TYPE_INTEGER . "(11) NOT NULL",
             ], $tableOptions);
-
-            $this->createTable( '{{%shop_stock}}',[
+            $this->createTable('{{%shop_stock}}', [
                 'id'      => Schema::TYPE_PK . "",
                 'name'    => Schema::TYPE_STRING . "(255) NOT NULL",
                 'address' => Schema::TYPE_STRING . "(255) NOT NULL",
                 'text'    => Schema::TYPE_TEXT . "",
             ], $tableOptions);
-
             $this->createTable('{{%shop_stock_to_product}}', [
                 'id'         => Schema::TYPE_PK . "",
                 'product_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'stock_id'   => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'amount'     => Schema::TYPE_INTEGER . "(11) NOT NULL",
             ], $tableOptions);
-
             $this->createTable('{{%shop_stock_to_user}}', [
                 'id'       => Schema::TYPE_PK . "",
                 'user_id'  => Schema::TYPE_INTEGER . "(11) NOT NULL",
                 'stock_id' => Schema::TYPE_INTEGER . "(11) NOT NULL",
             ], $tableOptions);
-
-            $this->addForeignKey(
-                'fk_category', '{{%shop_product}}', 'category_id', '{{%shop_category}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_producer', '{{%shop_product}}', 'producer_id', '{{%shop_producer}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_product', '{{%shop_price}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_type', '{{%shop_price}}', 'type_id', '{{%shop_price_type}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_product_to_category', '{{%shop_product_to_category}}', 'category_id', '{{%shop_category}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_product_modification', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_product_to_category_1', '{{%shop_product_to_category}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_stock', '{{%shop_stock_to_user}}', 'stock_id', '{{%shop_stock}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
-            $this->addForeignKey(
-                'fk_product_modification_1', '{{%shop_product_modification}}', 'product_id', '{{%shop_product}}', 'id', 'CASCADE', 'CASCADE'
-            );
-
         } catch (Exception $e) {
             echo 'Catch Exception ' . $e->getMessage() . ' ';
         }
     }
 
-    public function safeDown() {
-        $connection = Yii::$app->db;
+    public function safeDown()
+    {
         try {
             $this->dropTable('{{%shop_product}}');
             $this->dropTable('{{%shop_category}}');

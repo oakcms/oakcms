@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['actions_buttons'] = [
     [
         'tagName' => 'a',
-        'label' => Yii::t('language', 'Create'),
+        'label' => Yii::t('admin', 'Create'),
         'options' => [
             'href' => Url::to(['create'])
         ],
@@ -83,15 +83,14 @@ $this->params['actions_buttons'] = [
                 ],
                 'language',
                 'country',
-                'url:url',
+                'url',
                 'name',
-                // 'name_ascii',
                 [
                     'class' => \app\modules\admin\components\grid\EnumColumn::className(),
                     'attribute' => 'status',
                     'format' => 'raw',
                     'options' => ['width' => '50px'],
-                    'value' => function ($model, $index, $widget) {
+                    'value' => function ($model) {
                         return Html::checkbox('', $model->status == Language::STATUS_PUBLISHED, [
                             'class' => 'switch toggle',
                             'data-id' => $model->primaryKey,

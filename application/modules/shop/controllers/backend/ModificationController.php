@@ -1,9 +1,6 @@
 <?php
 /**
- * @package    oakcms
- * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
  */
 
 namespace app\modules\shop\controllers\backend;
@@ -112,7 +109,7 @@ class ModificationController extends BackendController
     {
         $this->findModel($id)->delete();
 
-        return $this->formatResponse(['success' => Yii::t('admin', 'Menu items updated')]);
+        return $this->formatResponse(['success' => Yii::t('backend', 'Menu items updated')]);
     }
 
     public function actionEditField()

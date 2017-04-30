@@ -2,11 +2,13 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
-use yii\helpers\Html;
+/**
+ * @var $model \app\modules\shop\models\Category
+ */
 
 $this->title = 'Обновить категорию: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Категории', 'url' => ['index']];

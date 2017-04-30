@@ -15,7 +15,7 @@ class PriceSearch extends Price
     public function rules()
     {
         return [
-            [['id', 'product_id'], 'integer'],
+            [['id', 'modification_id'], 'integer'],
             [['name', 'available'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class PriceSearch extends Price
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'product_id' => $this->product_id,
+            'modification_id' => $this->modification_id,
             'available' => $this->available,
         ]);
 

@@ -12,8 +12,9 @@ use yii;
  * @package app\modules\shop\models
  * @property $id
  * @property $name
- * @property $product_id
+ * @property $modification_id
  * @property $price
+ * @property $price_action
  * @property $type_id
  * @property $amount
  * @property $sort
@@ -29,10 +30,11 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
     public function rules()
     {
         return [
-            [['name', 'product_id'], 'required'],
+            [['name', 'modification_id'], 'required'],
             [['name', 'available', 'code'], 'string', 'max' => 100],
-            [['price'], 'number'],
-            [['product_id', 'amount', 'type_id'], 'integer'],
+            [['price', 'price_action'], 'number'],
+            [['modification_id', 'amount', 'type_id'], 'integer'],
+            [['modification_id', 'type_id'], 'unique', 'targetAttribute' => ['modification_id', 'type_id']]
         ];
     }
 
@@ -41,8 +43,9 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
         return [
             'id' => 'ID',
             'name' => 'Название',
-            'product_id' => 'Продукт',
+            'modification_id' => 'Продукт',
             'price' => 'Цена',
+            'price_action' => 'Цена акция',
             'code' => 'Артикул',
             'available' => 'Наличие',
             'amount' => 'Остаток',
@@ -53,14 +56,14 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
 
     public function minusAmount($count)
     {
-        $this->amount = $this->product->amount-$count;
+        $this->amount = $this->modification->amount-$count;
 
         return $this->save(false);
     }
 
     public function plusAmount($count)
     {
-        $this->amount = $this->product->amount+$count;
+        $this->amount = $this->modification->amount + $count;
 
         return $this->save(false);
     }
@@ -70,7 +73,7 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
     }
 
     public function getCartName() {
-        return $this->product->name;
+        return $this->modification->name;
     }
 
     public function getCartPrice() {
@@ -82,14 +85,19 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
         return '';
     }
 
-    public function getProduct()
+    public function getModification()
     {
-        return $this->hasOne(Product::className(), ['id' => 'product_id']);
+        return $this->hasOne(Modification::className(), ['id' => 'modification_id']);
+    }
+
+    public function getType()
+    {
+        return $this->hasOne(PriceType::className(), ['id' => 'type_id']);
     }
 
     public static function editField($id, $name, $value)
     {
-        $setting = Price::findOne($id);
+        $setting = self::findOne($id);
         $setting->$name = $value;
         $setting->save();
     }

@@ -11,10 +11,6 @@ $this->params['breadcrumbs'][] = $this->title;
 \app\modules\shop\assets\BackendAsset::register($this);
 ?>
 <div class="category-create">
-    <div class="shop-menu">
-        <?=$this->render('../parts/menu');?>
-    </div>
-
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?= $this->render('_form', [

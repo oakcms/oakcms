@@ -14,7 +14,7 @@ use app\modules\admin\widgets\Menu;
 /**
  * language module definition class
  */
-class Module extends \yii\base\Module implements ModuleEventsInterface
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
 
     public $settings = [];

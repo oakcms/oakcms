@@ -44,7 +44,7 @@
                 <?php for ($i = $begin; $i <= $end; ++$i): ?>
                     <a href="#"
                        class="lines-item"
-                       onclick="_goToEditorCodeLine('C:\\xampp\\htdocs\\oakcms<?= str_replace(dirname(dirname(dirname(__DIR__))), '', str_replace('\\', '\\\\', $handler->htmlEncode($file))) ?>', '<?= (int) $i + 1 ?>'); return false;">
+                       onclick="_goToEditorCodeLine('<?= str_replace(dirname(dirname(dirname(__DIR__))), '', str_replace('\\', '\\\\', $handler->htmlEncode($file))) ?>', '<?= (int) $i + 1 ?>'); return false;">
                     <?= (int) $i + 1 ?>
                     </a>
                 <?php endfor; ?>

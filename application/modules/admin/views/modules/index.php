@@ -16,7 +16,7 @@ use app\modules\admin\models\Modules;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $system_modules array */
 
-$this->title = Yii::t('admin', 'Modules Modules');
+$this->title = Yii::t('admin', 'Modules');
 $this->params['breadcrumbs'][] = $this->title;
 
 $this->params['actions_buttons'] = [

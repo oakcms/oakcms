@@ -178,7 +178,7 @@ $this->registerJs($slider, \yii\web\View::POS_END, 'slider');
     <div class="row">
         <?php
         /** @var \app\modules\shop\models\Product $action */
-        foreach($this->context->module->getService('product')->getActionProducts() as $action):?>
+        foreach((new \app\modules\shop\models\Product())->getActionProducts() as $action):?>
         <div class="col-md-3 col-sm-6">
             <div class="one_product">
                 <?= Html::a(Html::img($action->getImage()->getUrl()), ['/shop/product/view', 'slug' => $action->slug]) ?>

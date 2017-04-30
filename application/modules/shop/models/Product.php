@@ -2,19 +2,18 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @version    0.0.1-alpha.0.4
  */
 
 namespace app\modules\shop\models;
 
+use Yii;
 use app\modules\filter\behaviors\AttachFilterValues;
 use app\modules\shop\models\product\ProductQuery;
 use app\modules\field\behaviors\AttachFields;
 use app\modules\gallery\behaviors\AttachImages;
-use dosamigos\transliterator\TransliteratorHelper;
 use yii\behaviors\SluggableBehavior;
-use yii\helpers\Inflector;
 use yii\helpers\Url;
 
 
@@ -29,6 +28,8 @@ use yii\helpers\Url;
  * @property string $short_text;
  * @property string $text;
  * @property string $related_ids
+ *
+ * @property Modification $modifications
  *
  * @mixin AttachImages
  * @mixin AttachFields
@@ -70,7 +71,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                 'class'        => \app\modules\relations\behaviors\AttachRelations::className(),
                 'relatedModel' => 'app\modules\shop\models\Product',
                 'inAttribute'  => 'related_ids',
-            ], //
+            ],
             'toCategory' => [
                 'class'     => \voskobovich\behaviors\ManyToManyBehavior::className(),
                 'relations' => [
@@ -110,19 +111,19 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     public function attributeLabels()
     {
         return [
-            'id'              => 'ID',
-            'code'            => 'Код (актикул)',
-            'category_id'     => 'Главная категория',
-            'producer_id'     => 'Бренд',
-            'name'            => 'Название',
-            'amount'          => 'Остаток',
-            'text'            => 'Текст',
-            'short_text'      => 'Короткий текст',
-            'images'          => 'Картинки',
-            'available'       => 'В наличии',
-            'sort'            => 'Сортировка',
-            'slug'            => 'СЕО-имя',
-            'amount_in_stock' => 'Количество на складах',
+            'id'              => Yii::t('shop', 'ID'),
+            'code'            => Yii::t('shop', 'Code'),               // Код (актикул)
+            'category_id'     => Yii::t('shop', 'Category'),           // Главная категория
+            'producer_id'     => Yii::t('shop', 'Producer'),           // Бренд
+            'name'            => Yii::t('shop', 'Name'),               // Название
+            'amount'          => Yii::t('shop', 'Amount'),             // Остаток
+            'text'            => Yii::t('shop', 'Text'),               // Текст
+            'short_text'      => Yii::t('shop', 'Short Text'),         // Короткий текст
+            'images'          => Yii::t('shop', 'Images'),             // Картинки
+            'available'       => Yii::t('shop', 'Available'),          // В наличии
+            'sort'            => Yii::t('shop', 'Sort'),               // Сортировка
+            'slug'            => Yii::t('shop', 'Slug'),               // СЕО-имя
+            'amount_in_stock' => Yii::t('shop', 'Amount in stock')     // Количество на складах
         ];
     }
 
@@ -147,63 +148,26 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return $this;
     }
 
-    public function setPrice($price, $type = 1)
+    public function setPrice($price, $modificationID)
     {
-        if ($priceModel = $this->getPriceModel()) {
+        if ($priceModel = $this->getPriceModel($modificationID)) {
             $priceModel->price = $price;
 
             return $priceModel->save(false);
-        } else {
-            if($typeModel = PriceType::findOne($type)) {
-                $priceModel = new Price;
-                $priceModel->product_id = $this->id;
-                $priceModel->price = $price;
-                $priceModel->type_id = $type;
-                $priceModel->name = $typeModel->name;
-
-                return $priceModel->save();
-            }
         }
 
         return false;
     }
 
-    public function getPriceModel($type = 'lower')
+    public function getPriceModel($modificationID, $type = null)
     {
-        $price = $this->hasOne(Price::className(), ['product_id' => 'id'])->andWhere(['not', ['price' => null]]);
+        $model = Modification::find()->where(['id' => $modificationID])->one();
 
-        if ($type == 'lower') {
-            $price = $price->orderBy('price ASC')->one();
-        } elseif ($type) {
-            $price = $price->where(['type_id' => $type])->one();
-        } elseif ($defaultType = \Yii::$app->getModule('shop')->getPriceTypeId($this)) {
-            $price = $price->where(['type_id' => $defaultType])->one();
-        } else {
-            $price = $price->orderBy('price DESC')->one();
+        if($type !== null && $model !== null) {
+            return $model->getPrice($type, true);
         }
 
-        return $price;
-    }
-
-    public function getPrices()
-    {
-        $return = $this->hasMany(Price::className(), ['product_id' => 'id'])->orderBy('price ASC');
-
-        return $return;
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return float|null
-     */
-    public function getPrice($type = 'lower')
-    {
-        if ($price = $this->getPriceModel($type)) {
-            return (float)$price->price;
-        }
-
-        return null;
+        return $model;
     }
 
     public function getProduct()
@@ -224,6 +188,10 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     public function getCartPrice()
     {
         return $this->getPrice();
+    }
+
+    public function getPrice() {
+
     }
 
     public function getPriceByOption($options) {
@@ -273,6 +241,16 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     {
         $return = $this->hasMany(Modification::className(), ['product_id' => 'id'])->orderBy('sort ASC');
 
+        return $return;
+    }
+
+    public function getModification($id = null)
+    {
+        if($id !== null) {
+            $return = Modification::find()->where(['id' => $id, 'product_id' => $this->id])->orderBy('sort ASC')->all();
+        } else {
+            $return = Modification::find()->where(['product_id' => $this->id])->orderBy('sort ASC')->one();
+        }
         return $return;
     }
 

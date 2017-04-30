@@ -60,6 +60,37 @@ class AttachFields extends Behavior
         return $this->getFieldValue($code);
     }
 
+    /**
+     * @var $value string
+     * @var $code string
+     * @return boolean
+     */
+    public function setField($value, $field_id) {
+
+        if(
+            ($model = FieldValue::find()
+                ->where(['item_id' => $this->owner->primaryKey, 'field_id' => $field_id])
+                ->one()) === null
+        ) {
+            $model = new FieldValue();
+        } else {
+            $field = Field::find()->where(['id' => $model->field_id])->one();
+            if($field->type == 'radio') {
+                FieldValue::deleteAll(['item_id' => $this->owner->primaryKey, 'field_id' => $field_id]);
+                $model = new FieldValue();
+            }
+        }
+
+        $model->item_id = $this->owner->primaryKey;
+        $model->field_id = $field_id;
+        $model->value = $value;
+
+        if ($model->save()) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @param $code

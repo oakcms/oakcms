@@ -27,7 +27,6 @@
         "bower-asset/wow": "^1.1.2",
         "bower-asset/fancybox": "^2.1.5",
         "bower-asset/lightslider": "1.*",
-        "bower-asset/formBuilder": "*",
 
         "codemix/yii2-localeurls": "^1.4",
 
@@ -47,9 +46,8 @@
 
         "dragonjet/yii2-opengraph": "dev-master",
 
-        "2amigos/yii2-translateable-behavior" : "*",
+        "2amigos/yii2-ckeditor-widget" : "2.0",
         "2amigos/yii2-transliterator-helper": "*",
-        "2amigos/yii2-packagist-component": "0.1.*",
         "2amigos/yii2-arrayquery-component": "0.1.*",
         "2amigos/yii2-pjax-filter-behavior": "0.1.*",
         "2amigos/yii2-grid-view-library" : "*",
@@ -75,7 +73,6 @@
 
         "mongosoft/yii2-upload-behavior": "*",
 
-        "mihaildev/yii2-ckeditor": "*",
         "mihaildev/yii2-elfinder": "*",
 
         "elisdn/yii2-hybrid-authmanager": "*",

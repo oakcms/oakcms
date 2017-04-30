@@ -15,7 +15,7 @@ use app\modules\content\models\query\ContentArticleQuery;
 use app\modules\field\behaviors\AttachFields;
 use app\modules\field\interfaces\CategoryFieldInterface;
 use dosamigos\taggable\Taggable;
-use dosamigos\translateable\TranslateableBehavior;
+use app\components\behaviors\TranslateableBehavior;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\SluggableBehavior;

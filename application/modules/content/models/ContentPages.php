@@ -16,7 +16,7 @@ use Yii;
 use app\components\ActiveQuery;
 use app\components\ActiveRecord;
 use app\modules\admin\components\behaviors\SettingModel;
-use dosamigos\translateable\TranslateableBehavior;
+use app\components\behaviors\TranslateableBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;

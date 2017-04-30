@@ -1,11 +1,12 @@
 <?php
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 21.12.2016
- * Project: oakcms
- * File name: view.php
- *
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+/**
  * @var $this  \app\components\CoreView;
  * @var $model \app\modules\shop\models\Product;
  */
@@ -15,12 +16,14 @@ use yii\helpers\Html;
 $this->setSeoData($model->name);
 
 Yii::$app->opengraph->set([
-    'title' => $model->name,
-    'description' => 'My_Article_Description',
-    'image' => 'http://image.for.my/article',
+    'title'       => $model->name,
+    'description' => $model->short_text,
+    'image'       => '',
 ]);
 
 $this->bodyClass[] = 'product_page';
+
+var_dump($model->category_id, $model->category);exit;
 
 $this->params['breadcrumbs'][] = [
     'url'   => ['/shop/category/view', 'slug' => $model->category->slug],
@@ -40,12 +43,12 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
     <div class="col-md-6 col-sm-12">
         <div class="block_header ">
 
-            <?php if($model->producer):?>
-            <div class="manufacturer text-left">
-                <img src="img/manufactured.png" alt="">
-                Производитель: <?= Html::a($model->producer->name, ['/shop/producer/view', 'slug' => $model->producer->slug]) ?>
-            </div>
-            <?php endif?>
+            <?php if ($model->producer): ?>
+                <div class="manufacturer text-left">
+                    <img src="img/manufactured.png" alt="">
+                    Производитель: <?= Html::a($model->producer->name, ['/shop/producer/view', 'slug' => $model->producer->slug]) ?>
+                </div>
+            <?php endif ?>
             <div class="question text-right">
                 <img src="img/question.png" alt="" style="height: 20px;">
                 <a href="#">Задать вопрос по этому товару</a>
@@ -117,7 +120,7 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
                 <?= \app\modules\cart\widgets\ChangeOptions::widget([
                     'model'    => $model,
                     'cssClass' => 'colors row',
-                    'type' => 'radio',
+                    'type'     => 'radio',
                 ]); ?>
             </div>
 
