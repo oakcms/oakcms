@@ -78,24 +78,24 @@ class FilterPanel extends \yii\base\Widget
                         }
                     }
 
-                    $fieldName = $this->fieldName . '[' . $filter->id . ']';
-
-                    $from = $min;
-                    $to = $max;
-
-                    $value = yii::$app->request->get($this->fieldName)[$filter->id];
-
-                    if ($value) {
-                        $values = explode(';', $value);
-                        $from = $values[0];
-                        $to = $values[1];
-                    }
-
-                    if (!empty($variants)) {
-                        $step = round($max / count($variants));
-                    } else {
-                        $step = 1;
-                    }
+//                    $fieldName = $this->fieldName . '[' . $filter->id . ']';
+//
+//                    $from = $min;
+//                    $to = $max;
+//
+//                    $value = yii::$app->request->get($this->fieldName)[$filter->id];
+//
+//                    if ($value) {
+//                        $values = explode(';', $value);
+//                        $from = $values[0];
+//                        $to = $values[1];
+//                    }
+//
+//                    if (!empty($variants)) {
+//                        $step = round($max / count($variants));
+//                    } else {
+//                        $step = 1;
+//                    }
 
                     /*$block = IonSlider::widget([
                         'name'          => $fieldName,
