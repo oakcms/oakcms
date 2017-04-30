@@ -91,7 +91,7 @@ class FormsController extends BackendController
             $fieldData = [];
             $modelFormField = null;
 
-            $this->FieldProcess($model, $fieldData, $modelFormField);
+            $model->FieldProcess($fieldData, $modelFormField);
 
             if(!$model->isNewRecord) {
                 return $this->redirect(['update-field', 'id' => $model->id]);
@@ -138,7 +138,7 @@ class FormsController extends BackendController
         $fieldData = [];
         $modelFormField = null;
 
-        $this->FieldProcess($model, $fieldData, $modelFormField);
+        $model->FieldProcess($fieldData, $modelFormField);
 
         return $this->render('field_modal', [
             'model'          => $model,
@@ -383,62 +383,6 @@ class FormsController extends BackendController
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    protected function FieldProcess(&$model, &$fieldData, &$modelFormField) {
-        if (is_file($fileL = Yii::getAlias('@app/modules/form_builder/views/backend/forms/field/' . $model->type . '/field.php'))) {
-            $fieldData = require $fileL;
-
-            // Перебираємо ключі
-            $attributes = [];
-            foreach (ArrayHelper::getValue($fieldData, 'attributes', []) as $k => $attribute) {
-                $attributes[] = $k;
-            }
-
-            $modelFormField = new FormBuilder($attributes);
-            foreach (ArrayHelper::getValue($fieldData, 'rules', []) as $rule) {
-                $modelFormField->addRule(
-                    ArrayHelper::getValue($rule, 0),
-                    ArrayHelper::getValue($rule, 1),
-                    ArrayHelper::getValue($rule, 2, [])
-                );
-            }
-
-            $modelFormField->addRule('name', 'match', ['pattern' => '/(^|.*\])([\w\.]+)(\[.*|$)/']);
-            $modelFormField->addRule('name', 'unique', [
-                'targetClass' => FormBuilderField::className(),
-                'targetAttribute' => 'slug',
-                'filter' => function ($query) use($model) {
-                    /** @var $query ActiveQuery */
-                    if($model->isNewRecord) {
-                        return $query->andWhere('form_id = :form_id', ['form_id' => $model->form_id]);
-                    } else {
-                        return $query->andWhere('form_id = :form_id AND id <> :id', ['form_id' => $model->form_id, 'id' => $model->id]);
-                    }
-                }
-            ]);
-
-            $modelFormField->load(['FormBuilder' => Json::decode($model->data)]);
-
-            if ($modelFormField->load(Yii::$app->request->post()) && $modelFormField->validate()) {
-                $saveData = [];
-                foreach ($modelFormField->attributes() as $attribute) {
-                    $saveData[$attribute] = $modelFormField->{$attribute};
-                }
-                $model->label = ArrayHelper::getValue($saveData, 'label');
-                $model->slug = ArrayHelper::getValue($saveData, 'name');
-                $model->data = Json::encode($saveData);
-                if ($model->save()) {
-                    $this->flash('success', Yii::t('form_builder', '{fieldName} saved.', ['fieldName' => $fieldData['title']]));
-                }
-            }
-
-            if (Json::decode($model->data)) {
-                foreach (Json::decode($model->data) as $k=>$item) {
-                    $fieldData['attributes'][$k]['options']['value'] = $item;
-                }
-            }
         }
     }
 }
