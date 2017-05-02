@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\language\controllers\backend;
@@ -39,10 +42,22 @@ class TranslateController extends BackendController
      */
     public function actionIndex()
     {
-        $searchModel = new LanguageTranslateSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$searchModel = new LanguageTranslateSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $languages = Language::getLanguages();
+
+        $messages = [];
+
+        foreach (Yii::$app->getI18n()->translations as $category => $translation) {
+            if(($category = trim($category, '*')) != '') {
+
+            }
+            //VarDumper::dump($category, 10, true);
+        }
+
+        VarDumper::dump(Yii::$app->getI18n(), 10, true);
+        exit;
 
         $categories = ArrayHelper::map(
             LanguageSource::find()->select('category')->distinct()->all(),

@@ -207,8 +207,6 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
             $price = $price->orderBy('price ASC')->one();
         } elseif($type) {
             $price = $price->where(['type_id' => $type])->one();
-        } elseif($defaultType = yii::$app->getModule('shop')->getPriceTypeId($this)) {
-            $price = $price->where(['type_id' => $defaultType])->one();
         } else {
             $price = $price->orderBy('price DESC')->one();
         }

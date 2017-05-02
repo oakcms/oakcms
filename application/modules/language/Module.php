@@ -38,11 +38,11 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
 //                    'url' => ['/admin/language/source/index'],
 //                    'icon'  => '<i class="fa fa-font"></i>'
 //                ],
-//                [
-//                    'label' => \Yii::t('language', 'Translation'),
-//                    'url' => ['/admin/language/translate/index'],
-//                    'icon'  => '<i class="fa fa-flag-checkered"></i>'
-//                ],
+                [
+                    'label' => \Yii::t('language', 'Translation'),
+                    'url' => ['/admin/language/translate/index'],
+                    'icon'  => '<i class="fa fa-flag-checkered"></i>'
+                ],
             ],
         ];
     }

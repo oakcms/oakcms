@@ -136,7 +136,7 @@ return [
     'Uploading. Please wait'                   => 'Загрузка. пожалуйста, подождите',
     'Username'                                 => 'Имя пользователя',
     'View all'                                 => 'Посмотреть все',
-    'Yes'                                      => 'Так',
+    'Yes'                                      => 'Да',
     'You have {num} log items'                 => 'У вас есть {num} элементов журнала',
     'Your account has been successfully saved' => 'Ваша учетная запись успешно сохранена',
     'Your profile has been successfully saved' => 'Ваш профиль был успешно сохранен',

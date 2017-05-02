@@ -23,8 +23,6 @@ Yii::$app->opengraph->set([
 
 $this->bodyClass[] = 'product_page';
 
-var_dump($model->category_id, $model->category);exit;
-
 $this->params['breadcrumbs'][] = [
     'url'   => ['/shop/category/view', 'slug' => $model->category->slug],
     'label' => $model->category->name,
@@ -126,7 +124,11 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
 
             <div class="container-fluid">
                 <div class="row">
-                    <?= \app\modules\shop\widgets\ShowPrice::widget(['model' => $model, 'htmlTag' => 'p', 'cssClass' => 'no_padding col-xs-12 mob_center']) ?>
+                    <?= \app\modules\shop\widgets\ShowPrice::widget([
+                        'model' => $model,
+                        'htmlTag' => 'p',
+                        'cssClass' => 'no_padding col-xs-12 mob_center'
+                    ]) ?>
                 </div>
             </div>
 

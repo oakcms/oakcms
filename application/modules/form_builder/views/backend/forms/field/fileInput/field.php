@@ -3,7 +3,7 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1-beta.0.1
+ * @version    0.0.1-alpha.0.5
  */
 
 use kartik\builder\BaseForm;
@@ -59,9 +59,7 @@ return [
         ],
         'destination' => [
             'type' => BaseForm::INPUT_TEXT,
-            'options' => [
-                'value' => '@webroot/uploads/form_builder'
-            ]
+            'value' => '@webroot/uploads/form_builder'
         ],
         'attach_file_to' => [
             'type' => BaseForm::INPUT_DROPDOWN_LIST,
@@ -80,9 +78,8 @@ return [
     ],
     'rules' => [
         [['label', 'name'], 'required'],
-        [['additionalAttributes', 'label', 'helpText', 'value', 'fileSize', 'extNames', 'destination'], 'string'],
+        [['additionalAttributes', 'label', 'helpText', 'value'], 'string'],
         [['cssClass', 'name'], 'string', ['max' => 100]],
-        [['attach_file_to'], 'safe'],
         [['required'], 'integer'],
     ]
 ];

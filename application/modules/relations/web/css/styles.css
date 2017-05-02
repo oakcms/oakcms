@@ -1,39 +1,78 @@
-.oakcms-relations-list {
+/*
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+.badge-default, .label-default {
+    background-color: #bac3d0;
+}
+.feeds {
+    margin: 0;
+    padding: 0;
     list-style: none;
-    margin: 2px;
-    padding: 2px;
 }
-.oakcms-relations-list a {
-    background-color: #f4f4f4;
-    border-top: 1px solid #333;
-    border-left: 1px solid #333;
-    border-right: 1px solid #333;
-    padding: 3px;
+.feeds .label {
+    border-radius: 0;
+}
+.feeds li {
+    background-color: #fafafa;
+    color: #82949a;
+    margin-bottom: 7px;
+}
+.feeds li:before,
+.feeds li:after {
+    display: table;
+    line-height: 0;
+    content: "";
+}
+.feeds li:after {
+    clear: both;
+}
+.feeds li:last-child {
+    margin-bottom: 0;
+}
+.feeds li .col1 {
+    float: left;
+    width: 100%;
+    clear: both;
+}
+.feeds li .col1 > .cont {
+    float: left;
+    margin-right: 75px;
+    overflow: hidden;
+}
+.feeds li .col1 > .cont > .cont-col1 {
+    float: left;
+    margin-right: -100%;
+}
+.feeds li .col1 > .cont > .cont-col1 > .label {
+    display: inline-block;
+    padding: 8px 4px 7px 5px;
+    border-radius: 0;
+    vertical-align: middle;
+    text-align: center;
+}
+.feeds li .col1 > .cont > .cont-col1 > .label > span {
+    text-align: center;
+    font-size: 14px;
+}
+.feeds li .col1 > .cont > .cont-col2 {
+    float: left;
+    width: 100%;
+}
+.feeds li .col1 > .cont > .cont-col2 > .desc {
+    margin-left: 60px;
+    padding-top: 4px;
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+.feeds li .col2 {
+    float: left;
+    width: 75px;
+    margin-left: -75px;
+}
+.feeds li .col2 .oakcms-relation-delete {
+    padding: 8px 9px 9px 8px;
     display: block;
-    color: black;
-}
-
-.oakcms-relations-list a:hover {
-    background-color: #fff;
-}
-
-.oakcms-relations-list a.selected {
-    border: 2px solid green;
-}
-
-.oakcms-relation-delete {
-    color: red;
-}
-
-.oakcms-relation-row {
-    padding: 2px;
-}
-
-.oakcms-relations-list p {
-    padding: 1px;
-    margin: 1px;
-}
-
-.oakcms-relations-search {
-    padding: 3px;
 }

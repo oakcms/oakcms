@@ -20,6 +20,7 @@ class RelationsAsset extends AssetBundle
 
     public function init()
     {
+        $this->publishOptions['forceCopy'] = true;
         $this->sourcePath = dirname(__DIR__).'/web';
         parent::init();
     }

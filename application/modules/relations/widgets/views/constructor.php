@@ -9,7 +9,7 @@
 ?>
 <div class="relations-constructor">
     <input type="hidden" name="send_relations" value="yes" />
-    <div class="oakcms-relations">
+    <div class="oakcms-relations feeds">
 
     </div>
     <div class="row oakcms-new-relation">

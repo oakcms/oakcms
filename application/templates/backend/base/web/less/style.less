@@ -3,11 +3,25 @@
 @import "../../../vendor/bower-asset/admin-lte/build/bootstrap-less/mixins";
 @import "../../../vendor/bower-asset/admin-lte/build/less/variables";
 @import "../../../vendor/bower-asset/admin-lte/build/less/mixins";
-// Components
+
+// Global
 @import 'global/buttons';
 @import 'global/colors';
 @import 'global/fonts';
 @import 'global/margin';
+
+// Components
+@import 'components/feeds';
+
+body {
+  font-family: "Open Sans", sans-serif!important;
+}
+
+a, button, code, div, img, input, label, li, p, pre, select, span, svg, table, td, textarea, th, ul {
+  -webkit-border-radius: 0!important;
+  -moz-border-radius: 0!important;
+  border-radius: 0!important;
+}
 
 .w55 {
   width: 55px;
@@ -569,4 +583,53 @@ span[class^='ion-'] {
 
 .photo_album-v img {
   .img-responsive();
+}
+
+.select2-container--krajee {
+  .select2-selection--single {
+    .select2-selection__arrow {
+      position: absolute!important;
+      bottom: 0!important;
+      right: 12px!important;
+      top: 0!important;
+      width: 4px!important;
+      border-left: none!important;
+
+      b {
+        border-color: #999 transparent transparent transparent!important;
+        border-style: solid!important;
+        border-width: 4px 4px 0 4px!important;
+        height: 0!important;
+        left: 0!important;
+        margin-left: -4px!important;
+        margin-top: -2px!important;
+        position: absolute!important;
+        top: 50%!important;
+        width: 0!important;
+      }
+    }
+  }
+
+  &.select2-container--focus .select2-selection,
+  &.select2-container--open .select2-selection {
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(147,161,187,0.6)!important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(147,161,187,0.6)!important;;
+    -webkit-transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s!important;;
+    -o-transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s!important;;
+    transition: border-color ease-in-out 0.15s,box-shadow ease-in-out 0.15s!important;;
+    border-color: #93a1bb!important;
+  }
+}
+
+.select2-selection__choice {
+  background-color: #eee !important;
+  border: 1px solid #eee !important;
+
+  .select2-selection__choice__remove {
+    font-weight: normal !important;
+  }
+}
+
+img.img-circle {
+  border-radius: 50%!important;
 }

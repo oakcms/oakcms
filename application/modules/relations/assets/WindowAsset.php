@@ -8,6 +8,7 @@ class WindowAsset extends AssetBundle
     public $depends = [
         'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapPluginAsset',
+        'app\assets\FontAwesome'
     ];
 
     public $js = [
@@ -21,6 +22,7 @@ class WindowAsset extends AssetBundle
     public function init()
     {
         $this->sourcePath = dirname(__DIR__).'/web';
+        $this->publishOptions['forceCopy'] = true;
         parent::init();
     }
 }

@@ -374,6 +374,7 @@ if (!$model->isNewRecord) {
                 ->widget(Select2::classname(), [
                     'data'          => Category::buildTextTree(),
                     'language'      => 'ru',
+                    'showToggleAll' => false,
                     'options'       => ['multiple' => true, 'placeholder' => 'Доп. категории ...'],
                     'pluginOptions' => [
                         'allowClear' => true,

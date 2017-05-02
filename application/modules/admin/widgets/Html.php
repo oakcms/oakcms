@@ -37,6 +37,7 @@ class Html extends \yii\bootstrap\Html
         }
 
         $value   = ArrayHelper::getValue($item, 'value');
+        $value   = self::isCode($value);
         $items   = ArrayHelper::getValue($item, 'items', []);
         $type    = ArrayHelper::getValue($item, 'type', 'textInput');
         $options = ArrayHelper::getValue($item, 'options', []);

@@ -1,6 +1,9 @@
 <?php
 /**
- * Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\shop\widgets;
@@ -31,10 +34,10 @@ class ShowPrice extends \yii\base\Widget
     public $template = '{priceTemplate}{priceActionTemplate}';
 
     /** @var string */
-    public $priceTemplate = '<div class="total_cost">{price}{currency}</div>';
+    public $priceTemplate = '<div class="total_cost">{main_price}{currency}</div>';
 
     /** @var string */
-    public $priceActionTemplate = '<div class="old_prise">{price}{currency}</div><div class="total_cost">{price_action}{currency}</div>';
+    public $priceActionTemplate = '<div class="old_prise">{main_price}{currency}</div><div class="total_cost">{price_action}{currency}</div>';
 
     /** @var string */
     public $currency = '';
@@ -66,7 +69,7 @@ class ShowPrice extends \yii\base\Widget
     public function run()
     {
         $return = '';
-        $notAvailable = Html::tag('div', \Yii::t('shop', 'Нет в наявности'), ['class' => 'not-aviable']);
+        $notAvailable = Html::tag('div', \Yii::t('shop', 'Not in fact'), ['class' => 'not-aviable']);
         $modifications = $this->model->modifications;
         $template = $this->template;
         if (count($modifications) > 0) {
@@ -74,16 +77,16 @@ class ShowPrice extends \yii\base\Widget
 
             $i = 0;
             foreach ($modifications as $modification) {
+                /** @var Modification */
                 $modPrice = $modification->getPrice($this->priceType, true);
 
                 $json[$modification->id] = [
                     'product_id'   => $modification->product_id,
                     'name'         => $modification->name,
                     'code'         => $modification->code,
-                    'price'        => $modPrice->price,
-                    'price_action' => $modPrice->price_action,
+                    'price'        => $modPrice ? $modPrice->price : $modification->price,
                     'amount'       => $modification->amount,
-                    'available'    => $modPrice->available,
+                    'available'    => $modPrice ? $modPrice->available :  $modification->available,
                     'filter_value' => $modification->filtervariants,
                     'index'        => $i,
                 ];
@@ -95,9 +98,12 @@ class ShowPrice extends \yii\base\Widget
             } else {
                 $modification = $this->model->modifications[0];
             }
-            
-            $modPrice = $modification->getPrice($this->priceType, true);
-            if ($modPrice !== null && $modPrice->available == 'yes') {
+
+            if(($modPrice = $modification->getPrice($this->priceType, true)) === null) {
+                $modPrice = $modification;
+            }
+
+            if ($modPrice->available == 'yes') {
                 if ($modPrice->price_action > 0) {
                     $this->parts['{price}'] = $modPrice->price;
                     $this->parts['{price_action}'] = '<span class="oakcms-shop-price oakcms-shop-price-' . $this->model->id . '">' .

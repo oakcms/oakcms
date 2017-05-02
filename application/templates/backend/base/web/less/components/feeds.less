@@ -1,0 +1,87 @@
+/*
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
+.feeds {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    background-color: #fafafa;
+    color: darken(#96A5AA, 7%);
+    margin-bottom: 7px;
+
+    &:before,
+    &:after {
+      display: table;
+      line-height: 0;
+      content: "";
+    }
+
+    &:after {
+      clear: both;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .col1 {
+      float: left;
+      width: 100%;
+      clear: both;
+
+      > .cont {
+        float: left;
+        margin-right: 75px;
+        overflow: hidden;
+
+        > .cont-col1 {
+          float: left;
+          margin-right: -100%;
+
+          > .label {
+            display: inline-block;
+            padding: 5px 4px 6px 5px;
+            vertical-align: middle;
+            text-align: center;
+
+            > i {
+              text-align: center;
+              font-size: 14px;
+            }
+          }
+        }
+
+        > .cont-col2 {
+          float: left;
+          width: 100%;
+
+          > .desc {
+            margin-left: 35px;
+            padding-top: 4px;
+            padding-bottom: 5px;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+
+    .col2 {
+      float: left;
+      width: 75px;
+      margin-left: -75px;
+
+      > .date {
+        padding: 4px 9px 5px 4px;
+        text-align: right;
+        font-style: italic;
+        color: #c1cbd0;
+      }
+    }
+  }
+}

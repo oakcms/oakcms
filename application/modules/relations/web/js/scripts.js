@@ -2,33 +2,45 @@ if (typeof oakcms == "undefined" || !oakcms) {
     var oakcms = {};
 }
 
-oakcms.relations = {
-    init: function () {
-        $('.oakcms-relations-variant').on('click', this.addRelation);
-        $(document).on('click', '.oakcms-relation-delete', this.deleteRelation)
-    },
-    deleteRelation: function() {
-        $(this).parent('.oakcms-delete-column').parent('.row').remove();
+oakcms.relations = function() {
+    var handleDeleteRelation = function() {
+        $(document).on('click', '.oakcms-relation-delete', function () {
+            $(this).closest('li.js-relation-row').remove();
+            return false;
+        });
+    };
+
+    var handleAddRelation = function() {
+        $(document).on('click', '.oakcms-relations-variant', function() {
+            $(this).addClass('selected');
+            setTimeout(function() { $('.selected').removeClass('selected') }, 200);
+            oakcms.relations.renderRow($(this).data('model'), $(this).data('id'), $(this).data('name'));
+
+            return false;
+        });
+    };
+
+    var handleRenderRow = function(model, id, name) {
+        if($('.oakcms-relations', window.parent.document).find('[data-id="'+id+'"]').length === 0) {
+            var idColumn = '<div class="cont-col1"><div class="label label-sm label-default">' + id + '<input type="hidden" name="relations_models[]" value="' + model + '" /><input type="hidden" name="relations_ids[]" value="' + id + '" /></div></div>';
+            var nameColumn = '<div class="cont-col2"><div class="desc">' + name + '</div></div>';
+            var deleteColumn = '<div class="oakcms-delete-column pull-right"><a href="javascript:void(0)" data-id="' + id + '" class="oakcms-relation-delete label label-sm label-danger"><i class="glyphicon glyphicon-trash"></i></a></div>';
+
+            $('.oakcms-relations', window.parent.document).append('<li data-id="' + id + '" class="js-relation-row"><div class="col1"><div class="cont">' + idColumn + nameColumn + '</div></div><div class="col2">' + deleteColumn + '</div></li>');
+
+            return true;
+        }
         return false;
-    },
-    addRelation: function() {
-        $(this).addClass('selected');
+    };
 
-        setTimeout(function() { $('.selected').removeClass('selected') }, 200);
-
-        oakcms.relations.renderRow($(this).data('model'), $(this).data('id'), $(this).data('name'));
-
-        return false;
-    },
-    renderRow: function(model, id, name) {
-        var idColumn = '<div class="col-lg-1 col-xs-1">'+id+'<input type="hidden" name="relations_models[]" value="'+model+'" /><input type="hidden" name="relations_ids[]" value="'+id+'" /></div>';
-        var nameColumn = '<div class="col-lg-6 col-xs-10">'+name+'</div>';
-        var deleteColumn = '<div class="col-lg-1 col-xs-1 oakcms-delete-column"><a href="#" class="oakcms-relation-delete glyphicon glyphicon-trash"></a></div>';
-
-        $('.oakcms-relations', window.parent.document).append('<div class="row oakcms-relation-row">'+idColumn+nameColumn+deleteColumn+'</div>');
-
-        return true;
+    return {
+        init: function () {
+            handleAddRelation();
+            handleDeleteRelation();
+        },
+        renderRow: function(model, id, name) {
+            handleRenderRow(model, id, name);
+        }
     }
-}
-
+}();
 oakcms.relations.init();
