@@ -3,26 +3,39 @@
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
  * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
- * @version    0.0.1
- */
-
-/**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 11.01.2017
- * Project: kn-group-site
- * File name: Theme.php
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\components;
 
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
-use yii\helpers\VarDumper;
 
 class ThemeFrontend extends \yii\base\Theme
 {
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        $this->registerTranslations();
+    }
+
+    public function registerTranslations()
+    {
+        if (preg_match('#app\\\\templates\\\\frontend\\\\(.*)\\\\#', self::className(), $idTemplate)) {
+            $template = ArrayHelper::getValue($idTemplate, '1', '');
+            \Yii::$app->i18n->translations['tpl_' . $template . '*'] = [
+                'class'          => 'yii\i18n\PhpMessageSource',
+                'sourceLanguage' => 'en-US',
+                'basePath'       => '@app/templates/frontend/' . $template . '/messages',
+            ];
+        }
+    }
 
     /**
      * Converts a file to a themed file if possible.
