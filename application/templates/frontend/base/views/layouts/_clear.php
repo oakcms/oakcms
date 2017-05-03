@@ -31,7 +31,7 @@ $this->bodyClass[] = Yii::$app->controller->id.'_'.Yii::$app->controller->action
 <head>
     <base href="<?= Yii::$app->homeUrl ?>">
     <meta charset="<?= Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <?php
     echo Html::csrfMetaTags();
     $this->registerLinkTag(['rel' => 'canonical', 'href' => Url::canonical()], 'canonical');
