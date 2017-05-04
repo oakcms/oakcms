@@ -9,6 +9,7 @@
 namespace app\modules\shop\widgets;
 
 use app\modules\shop\models\Modification;
+use app\modules\shop\models\PriceType;
 use app\modules\shop\models\Product;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -31,13 +32,7 @@ class ShowPrice extends \yii\base\Widget
     public $cssClass = '';
 
     /** @var string */
-    public $template = '{priceTemplate}{priceActionTemplate}';
-
-    /** @var string */
-    public $priceTemplate = '<div class="total_cost">{main_price}{currency}</div>';
-
-    /** @var string */
-    public $priceActionTemplate = '<div class="old_prise">{main_price}{currency}</div><div class="total_cost">{price_action}{currency}</div>';
+    public $template = '<div class="price">{main_price}{currency}</div><div class="price_action">{price id="1"}{currency}</div>';
 
     /** @var string */
     public $currency = '';
@@ -47,7 +42,7 @@ class ShowPrice extends \yii\base\Widget
 
     public $priceType = null;
 
-    public $parts = [];
+    protected $parts = [];
 
     public $options = [];
 
@@ -70,26 +65,35 @@ class ShowPrice extends \yii\base\Widget
     {
         $return = '';
         $notAvailable = Html::tag('div', \Yii::t('shop', 'Not in fact'), ['class' => 'not-aviable']);
+
+        /** @var $modifications Modification[] */
         $modifications = $this->model->modifications;
         $template = $this->template;
+
         if (count($modifications) > 0) {
             $json = [];
 
             $i = 0;
             foreach ($modifications as $modification) {
-                /** @var Modification */
                 $modPrice = $modification->getPrice($this->priceType, true);
 
                 $json[$modification->id] = [
                     'product_id'   => $modification->product_id,
                     'name'         => $modification->name,
                     'code'         => $modification->code,
-                    'price'        => $modPrice ? $modPrice->price : $modification->price,
+                    'prices'       => [
+                        'main' => $modification->price
+                    ],
                     'amount'       => $modification->amount,
                     'available'    => $modPrice ? $modPrice->available :  $modification->available,
                     'filter_value' => $modification->filtervariants,
                     'index'        => $i,
                 ];
+
+                foreach ($modification->getPrices()->select(['id', 'price'])->asArray()->all() as $item) {
+                    $json[$modification->id]['prices'][$item['id']] = $item['price'];
+                }
+
                 $i++;
             }
 
@@ -103,9 +107,21 @@ class ShowPrice extends \yii\base\Widget
                 $modPrice = $modification;
             }
 
-            if ($modPrice->available == 'yes') {
-                if ($modPrice->price_action > 0) {
-                    $this->parts['{price}'] = $modPrice->price;
+            if ($modPrice->available == 'yes' && $modPrice->price > 0) {
+                $this->parts['{main_price}'] = $modPrice->price;
+
+                $priceTypes = PriceType::find()->select(['id'])->asArray()->all();
+
+                foreach ($priceTypes as $item) {
+                    $this->parts['{price id="' . $item['id'] . '"}'] = $json[$modification->id];
+                }
+
+
+                /*if ($modPrice->price_action > 0) {
+
+
+
+
                     $this->parts['{price_action}'] = '<span class="oakcms-shop-price oakcms-shop-price-' . $this->model->id . '">' .
                         $modPrice->price_action .
                         '</span>';
@@ -118,7 +134,7 @@ class ShowPrice extends \yii\base\Widget
                         ]
                     );
 
-                } else if ($modPrice->price > 0) {
+                } else if () {
                     $this->parts['{price_action}'] = '';
                     $this->parts['{price}'] = '<span class="oakcms-shop-price oakcms-shop-price-' . $this->model->id . '">' .
                         $modPrice->price .
@@ -133,16 +149,15 @@ class ShowPrice extends \yii\base\Widget
                     );
                 } else {
                     $template = $notAvailable;
-                }
+                }*/
 
                 $this->parts['{currency}'] = $this->currency;
 
-                $return = strtr(
-                    $template,
-                    $this->parts
-                );
+//                $return = strtr(
+//                    $template,
+//                    $this->parts
+//                );
             } else {
-
                 $return = $notAvailable;
             }
         } else {

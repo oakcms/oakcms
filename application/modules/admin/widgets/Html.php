@@ -227,6 +227,9 @@ class Html extends \yii\bootstrap\Html
      */
     public static function hasCode($value)
     {
-        return (strpos($value, '<code>') !== false);
+        if(is_string($value)) {
+            return (strpos($value, '<code>') !== false);
+        }
+        return false;
     }
 }

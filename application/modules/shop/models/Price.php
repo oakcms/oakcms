@@ -14,7 +14,6 @@ use yii;
  * @property $name
  * @property $modification_id
  * @property $price
- * @property $price_action
  * @property $type_id
  * @property $amount
  * @property $sort
@@ -32,7 +31,7 @@ class Price extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces
         return [
             [['name', 'modification_id'], 'required'],
             [['name', 'available', 'code'], 'string', 'max' => 100],
-            [['price', 'price_action'], 'number'],
+            [['price'], 'number'],
             [['modification_id', 'amount', 'type_id'], 'integer'],
             [['modification_id', 'type_id'], 'unique', 'targetAttribute' => ['modification_id', 'type_id']]
         ];

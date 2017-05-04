@@ -167,7 +167,7 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
 
     public function getCartPrice()
     {
-        return 1;//$this->price;
+        return $this->price;
     }
 
     public function getCartOptions()
@@ -218,6 +218,7 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
         if($price) {
             return $price->price;
         }
+
         return null;
     }
 
