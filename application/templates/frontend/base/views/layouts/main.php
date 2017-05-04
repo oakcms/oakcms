@@ -20,6 +20,7 @@ $this->beginContent('@app/templates/frontend/base/views/layouts/content.php'); ?
 <?= Text::get('position_top_3'); ?>
 <?= Text::get('position_top_4'); ?>
 <?= Text::get('position_top_5'); ?>
+
 <div class="container">
     <?php if(isset($this->pageTitle) && $this->pageTitle != ''):?>
         <?php echo \yii\helpers\Html::tag($this->pageTitleHeading, $this->pageTitle) ?>
@@ -43,6 +44,8 @@ $this->beginContent('@app/templates/frontend/base/views/layouts/content.php'); ?
 <?= Text::get('position_bottom_3'); ?>
 <?= Text::get('position_bottom_4'); ?>
 <?= Text::get('position_bottom_5'); ?>
+
+<?= Text::get('footer') ?>
 
 <?php $this->endContent() ?>
 
