@@ -21,18 +21,27 @@ class ChangeOptions extends \yii\base\Widget
     public $type = NULL;
     public $cssClass = '';
     public $defaultValues = [];
+    public $options = [];
+
 
     public function init()
     {
         if ($this->type == NULL) {
             $this->type = self::TYPE_SELECT;
         }
+        if (!isset($this->options['id'])) {
+            $this->options['id'] = $this->getId();
+        }
 
-        parent::init();
+        if (!isset($this->options['class'])) {
+            $this->options['class'] = 'oakcms-change-options ' . $this->cssClass;
+        } else {
+            $this->options['class'] .= ' oakcms-change-options ' . $this->cssClass;
+        }
 
         \app\modules\cart\assets\WidgetAsset::register($this->getView());
 
-        return true;
+        parent::init();
     }
 
     public function run()
@@ -56,9 +65,9 @@ class ChangeOptions extends \yii\base\Widget
                     $optionData = [];
                 }
                 if(isset($optionData['variants'])) {
-                $cssClass = "{$changerCssClass} oakcms-cart-option{$id} ";
+                    $cssClass = "{$changerCssClass} oakcms-cart-option{$id} ";
 
-                $optionsArray = [];
+                    $optionsArray = [];
 
 
                     foreach ($optionData['variants'] as $variantId => $value) {
@@ -67,23 +76,23 @@ class ChangeOptions extends \yii\base\Widget
 
 
 
-                if ($this->type == 'select') {
+                    if ($this->type == 'select') {
 
-                    $list = Html::dropDownList('cart_options' . $id . '-' . $i,
-                        $this->_defaultValue($optionId),
-                        $optionsArray,
-                        ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-filter-id' => $optionId, 'data-name' => Html::encode($optionData['name']), 'data-id' => $id, 'class' => "form-control $cssClass"]
-                    );
-                } else {
-                    $list = Html::tag('div', Html::tag('strong', $optionData['name']), ['class' => 'oakcms-option-heading']);
-                    $list .= Html::radioList('cart_options' . $id . '-' . $i,
-                        $this->_defaultValue($optionId),
-                        $optionsArray,
-                        ['itemOptions' => ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-filter-id' => $optionId, 'data-name' => Html::encode($optionData['name']), 'data-id' => $id, 'class' => $cssClass]]
-                    );
-                }
+                        $list = Html::dropDownList('cart_options' . $id . '-' . $i,
+                            $this->_defaultValue($optionId),
+                            $optionsArray,
+                            ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-filter-id' => $optionId, 'data-name' => Html::encode($optionData['name']), 'data-id' => $id, 'class' => "form-control $cssClass"]
+                        );
+                    } else {
+                        $list = Html::tag('div', Html::tag('strong', $optionData['name']), ['class' => 'oakcms-option-heading']);
+                        $list .= Html::radioList('cart_options' . $id . '-' . $i,
+                            $this->_defaultValue($optionId),
+                            $optionsArray,
+                            ['itemOptions' => ['data-href' => Url::toRoute(["/cart/element/update"]), 'data-filter-id' => $optionId, 'data-name' => Html::encode($optionData['name']), 'data-id' => $id, 'class' => $cssClass]]
+                        );
+                    }
 
-                $options[] = Html::tag('div', $list, ['class' => "oakcms-option"]);
+                    $options[] = Html::tag('div', $list, ['class' => "oakcms-option"]);
                 }
                 $i++;
 
@@ -92,7 +101,7 @@ class ChangeOptions extends \yii\base\Widget
             return null;
         }
 
-        return Html::tag('div', implode('', $options), ['class' => 'oakcms-change-options ' . $this->cssClass]);
+        return Html::tag('div', implode('', $options), $this->options);
     }
 
     private function _defaultValue($option)

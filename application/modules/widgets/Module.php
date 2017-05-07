@@ -9,7 +9,7 @@ use app\modules\admin\widgets\Menu;
 /**
  * widgets module definition class
  */
-class Module extends \yii\base\Module implements ModuleEventsInterface
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
     public $widgetkit;
 

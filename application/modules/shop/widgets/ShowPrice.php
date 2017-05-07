@@ -11,6 +11,7 @@ namespace app\modules\shop\widgets;
 use app\modules\shop\models\Modification;
 use app\modules\shop\models\PriceType;
 use app\modules\shop\models\Product;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
@@ -32,7 +33,12 @@ class ShowPrice extends \yii\base\Widget
     public $cssClass = '';
 
     /** @var string */
-    public $template = '<div class="price">{main_price}{currency}</div><div class="price_action">{price id="1"}{currency}</div>';
+    public $template = '<div class="price">{main}</div>';
+
+    /** @var array */
+    public $pricesParts = [
+        '{main}' => '<span class="main-price">{main_price}{currency}</span>'
+    ];
 
     /** @var string */
     public $currency = '';
@@ -43,6 +49,7 @@ class ShowPrice extends \yii\base\Widget
     public $priceType = null;
 
     protected $parts = [];
+    protected $priceTypes;
 
     public $options = [];
 
@@ -81,17 +88,18 @@ class ShowPrice extends \yii\base\Widget
                     'product_id'   => $modification->product_id,
                     'name'         => $modification->name,
                     'code'         => $modification->code,
-                    'prices'       => [
-                        'main' => $modification->price
-                    ],
+                    'price'        => $modification->price,
+                    'prices'       => [],
                     'amount'       => $modification->amount,
                     'available'    => $modPrice ? $modPrice->available :  $modification->available,
                     'filter_value' => $modification->filtervariants,
                     'index'        => $i,
                 ];
 
-                foreach ($modification->getPrices()->select(['id', 'price'])->asArray()->all() as $item) {
-                    $json[$modification->id]['prices'][$item['id']] = $item['price'];
+                foreach ($modification->getPrices()->select(['type_id', 'price'])->asArray()->all() as $item) {
+                    if($item['price'] > 0) {
+                        $json[$modification->id]['prices'][$item['type_id']] = $item['price'];
+                    }
                 }
 
                 $i++;
@@ -103,60 +111,30 @@ class ShowPrice extends \yii\base\Widget
                 $modification = $this->model->modifications[0];
             }
 
-            if(($modPrice = $modification->getPrice($this->priceType, true)) === null) {
-                $modPrice = $modification;
-            }
+            if ($modification->available == 'yes' && $modification->price > 0) {
+                $this->parts['{main_price}'] = $modification->price;
 
-            if ($modPrice->available == 'yes' && $modPrice->price > 0) {
-                $this->parts['{main_price}'] = $modPrice->price;
+                $this->priceTypes = PriceType::find()->select(['id'])->asArray()->all();
 
-                $priceTypes = PriceType::find()->select(['id'])->asArray()->all();
-
-                foreach ($priceTypes as $item) {
-                    $this->parts['{price id="' . $item['id'] . '"}'] = $json[$modification->id];
+                foreach ($this->priceTypes as $item) {
+                    if(($price = $modification->getPrice($item['id'], false)) && $price > 0) {
+                        $this->parts['{price id="' . $item['id'] . '"}'] = $price;
+                    } else {
+                        $this->parts['{price id="' . $item['id'] . '"}'] = '';
+                    }
                 }
-
-
-                /*if ($modPrice->price_action > 0) {
-
-
-
-
-                    $this->parts['{price_action}'] = '<span class="oakcms-shop-price oakcms-shop-price-' . $this->model->id . '">' .
-                        $modPrice->price_action .
-                        '</span>';
-
-                    $template = strtr(
-                        $template,
-                        [
-                            '{priceTemplate}'       => '',
-                            '{priceActionTemplate}' => $this->priceActionTemplate,
-                        ]
-                    );
-
-                } else if () {
-                    $this->parts['{price_action}'] = '';
-                    $this->parts['{price}'] = '<span class="oakcms-shop-price oakcms-shop-price-' . $this->model->id . '">' .
-                        $modPrice->price .
-                        '</span>';
-
-                    $template = strtr(
-                        $template,
-                        [
-                            '{priceTemplate}'       => $this->priceTemplate,
-                            '{priceActionTemplate}' => '',
-                        ]
-                    );
-                } else {
-                    $template = $notAvailable;
-                }*/
 
                 $this->parts['{currency}'] = $this->currency;
 
-//                $return = strtr(
-//                    $template,
-//                    $this->parts
-//                );
+                $return = strtr(
+                    $template,
+                    $this->pricesParts
+                );
+
+                $return = strtr(
+                    $return,
+                    $this->parts
+                );
             } else {
                 $return = $notAvailable;
             }
@@ -175,8 +153,8 @@ class ShowPrice extends \yii\base\Widget
                     'id'                  => $this->options['id'],
                     'currency'            => $this->currency,
                     'template'            => $this->template,
-                    'priceTemplate'       => $this->priceTemplate,
-                    'priceActionTemplate' => $this->priceActionTemplate,
+                    'pricesParts'         => $this->pricesParts,
+                    'pricesTypes'         => ArrayHelper::getColumn($this->priceTypes, 'id'),
                     'notAvailable'        => $notAvailable
                 ]
             ];

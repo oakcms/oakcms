@@ -35,6 +35,7 @@ oakcms.modificationconstruct = {
             $id                     = options.element.closest('.oakcms-change-options').attr('id'),
             $return                 = '';
 
+
         if (typeof $id !== 'undefined') {
             delete options.element;
 
@@ -42,35 +43,29 @@ oakcms.modificationconstruct = {
                 parts                   = {},
                 currency                = optionsChange[$id].currency,
                 $template               = optionsChange[$id].template,
-                $priceTemplate          = optionsChange[$id].priceTemplate,
-                $priceActionTemplate    = optionsChange[$id].priceActionTemplate,
+                $pricesParts            = optionsChange[$id].pricesParts,
+                $pricesTypes            = optionsChange[$id].pricesTypes,
                 notAvailable            = optionsChange[$id].notAvailable,
                 id                      = optionsChange[$id].id;
 
-            if(m && m.available == 'yes') {
-                if (m.price_action > 0) {
-                    parts = {
-                        '{price}' : m.price,
-                        '{price_action}' : '<span class="oakcms-shop-price oakcms-shop-price-' + m.index + '">' + m.price_action + '</span>'
-                    };
-                    $template = $template.strtr({
-                        '{priceTemplate}'       : '',
-                        '{priceActionTemplate}' : $priceActionTemplate
-                    });
-                } else if (m.price > 0) {
-                    parts = {
-                        '{price}'               : '<span class="oakcms-shop-price oakcms-shop-price-' + m.index + '">' + m.price + '</span>',
-                        '{price_action}'        : ''
-                    };
-                    $template = $template.strtr({
-                        '{priceTemplate}'       : $priceTemplate,
-                        '{priceActionTemplate}' : ''
-                    });
-                } else {
-                    $template = notAvailable;
-                }
+            if(m && m.available == 'yes' && m.price > 0) {
+
                 parts['{currency}'] = currency;
-                $return = $template.strtr(parts);
+                parts['{main_price}'] = m.price;
+
+                $.each($pricesTypes, function (key, value) {
+                    var price = m.prices[value];
+
+                    if(typeof price !== 'undefined' && parseInt(price) > 0) {
+                        parts['{price id="'+value+'"}'] = price;
+                    } else {
+                        parts['{price id="'+value+'"}'] = '';
+                    }
+
+                });
+
+                $return = $template.strtr($pricesParts);
+                $return = $return.strtr(parts);
             } else {
                 $return = notAvailable;
             }

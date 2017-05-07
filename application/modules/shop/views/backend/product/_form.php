@@ -69,10 +69,10 @@ $variantTemplate = '
         ' . $selectFilter . '
     </td>
     <td>
-        <div class="w100">
+        <div class="w100 center-block">
             <input type="text" name="variants[price][]" class="form-control" value="{{price}}">
         </div>
-        <div>{{prices}}</div>
+        <div class="w100 center-block">{{prices}}</div>
     </td> 
     <td>
         <input type="text" name="variants[code][]" id="" class="form-control" value="{{code}}">

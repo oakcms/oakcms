@@ -47,7 +47,6 @@ oakcms.cart = {
         data.CartElement.id = id;
         data.CartElement.options = JSON.stringify(options);
 
-        console.log(data);
         oakcms.cart.sendData(data, jQuery(this).data('href'));
 
         return false;
@@ -63,6 +62,7 @@ oakcms.cart = {
         }
 
         options[filter_id] = $(this).val();
+        options['element'] = $(this);
 
         $(buyButton).data('options', options);
         $(buyButton).attr('data-options', JSON.stringify(options));
@@ -140,6 +140,7 @@ oakcms.cart = {
         data.CartElement.count = jQuery(this).data('count');
         data.CartElement.price = jQuery(this).data('price');
         data.CartElement.options = jQuery(this).data('options');
+        data.CartElement.name = jQuery(this).data('name');
 
 
         jQuery(document).trigger("addCartElement", data);
@@ -161,8 +162,6 @@ oakcms.cart = {
 
         data.elementsListWidgetParams = oakcms.cart.elementsListWidgetParams;
         data[oakcms.cart.csrf_param] = oakcms.cart.csrf;
-
-        console.log(data);
 
         jQuery.post(link, data,
             function(json) {

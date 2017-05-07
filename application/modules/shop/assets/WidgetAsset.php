@@ -22,6 +22,10 @@ class WidgetAsset extends AssetBundle
         'css/modification-construct.css',
     ];
 
+    public $publishOptions = [
+        'forceCopy' => true,
+    ];
+
     public function init()
     {
         $this->sourcePath = __DIR__ . '/../web/frontend';

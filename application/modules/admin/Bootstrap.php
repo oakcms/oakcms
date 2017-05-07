@@ -32,9 +32,7 @@ class Bootstrap implements BootstrapInterface
     public function bootstrap($app)
     {
         if (!$app->hasModule('admin')) {
-            $app->setModule('admin', [
-                'class' => 'app\modules\admin\Module'
-            ]);
+            $app->setModule('admin', ['class' => 'app\modules\admin\Module']);
         }
 
         /**
@@ -97,7 +95,7 @@ class Bootstrap implements BootstrapInterface
                             }
                         }
 
-                        if (isset($module->settings) AND is_array($module->settings)) {
+                        if (isset($module->settings) && is_array($module->settings)) {
                             $modules_backend[$name]['settings'] = $module->settings;
                         }
                     }
@@ -108,7 +106,7 @@ class Bootstrap implements BootstrapInterface
                         $modules_frontend[$name]['viewPath'] = '@app/modules/' . $module->name .
                             '/views/frontend';
 
-                        if (isset($module->settings) AND is_array($module->settings)) {
+                        if (isset($module->settings) && is_array($module->settings)) {
                             $modules_frontend[$name]['settings'] = $module->settings;
                         }
                     }
@@ -142,7 +140,6 @@ class Bootstrap implements BootstrapInterface
 
         Yii::setAlias('admin', '@app/modules/admin');
 
-        //print_r($adminModule->urlRules + $this->backendUrlRules);
         $configUrlRule = [
             'prefix' => $adminModule->urlPrefix,
             'rules'  => $adminModule->urlRules + $this->backendUrlRules,

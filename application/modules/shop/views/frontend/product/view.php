@@ -119,6 +119,9 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
                     'model'    => $model,
                     'cssClass' => 'colors row',
                     'type'     => 'radio',
+                    'options'  => [
+                        'id'    => 'main_price_product',
+                    ]
                 ]); ?>
             </div>
 
@@ -127,7 +130,13 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
                     <?= \app\modules\shop\widgets\ShowPrice::widget([
                         'model' => $model,
                         'htmlTag' => 'p',
-                        'cssClass' => 'no_padding col-xs-12 mob_center'
+                        'cssClass' => 'no_padding col-xs-12 mob_center',
+                        'htmlChangeID' => 'main_price_product',
+                        'template' => '<div class="price">{main}{action}</div>',
+                        'pricesParts' => [
+                            '{main}' => '<span class="main-price">{main_price}{currency}</span>',
+                            '{action}' => '<span class="main-price">{price id="2"}{currency}</span>'
+                        ]
                     ]) ?>
                 </div>
             </div>
