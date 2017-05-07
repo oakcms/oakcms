@@ -101,20 +101,21 @@ class Menu extends API
 
                 $items[] = [
                     'id'             => $model->id,
-                    'label'          => ArrayHelper::getValue($linkParams, 'title', $model->title),
+                    'label'          => $this->getValue($linkParams, 'title', $model->title),
                     'url'            => $linkType,
                     'access_rule'    => $model->access_rule,
                     'submenuOptions' => [
                         'class' => 'level-' . $model->level
                     ],
                     'options'        => [
-                        'class'   => ArrayHelper::getValue($linkParams, 'class'),
-                        'target'  => ArrayHelper::getValue($linkParams, 'target'),
-                        'style'   => ArrayHelper::getValue($linkParams, 'style'),
-                        'rel'     => ArrayHelper::getValue($linkParams, 'rel'),
-                        'onclick' => ArrayHelper::getValue($linkParams, 'onclick')
+                        'class'   => $this->getValue($linkParams, 'class'),
+                        'target'  => $this->getValue($linkParams, 'target'),
+                        'style'   => $this->getValue($linkParams, 'style'),
+                        'rel'     => $this->getValue($linkParams, 'rel'),
+                        'onclick' => $this->getValue($linkParams, 'onclick')
                     ]
                 ];
+
             } elseif ($level < $model->level) {
                 array_unshift($rawItems, $model);
                 $last = count($items) - 1;
@@ -148,5 +149,10 @@ class Menu extends API
         }
 
         return $breadcrumbs;
+    }
+
+    protected function getValue($array, $value, $default = null) {
+        $return = ArrayHelper::getValue($array, $value, $default);
+        return $return == '' ? $default : $return;
     }
 }
