@@ -18,6 +18,7 @@ namespace app\modules\menu\api;
 
 use app\components\API;
 use app\modules\menu\models\MenuItem;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 
@@ -88,20 +89,30 @@ class Menu extends API
         while ($model = array_shift($rawItems)) {
             if ($level == $model->level) {
                 $linkParams = (array)Json::decode($model->link_params);
+
+                $linkType = (
+                    $model->link_type == MenuItem::LINK_ROUTE ?
+                        (
+                            $model->secure ?
+                                $urlManager->createAbsoluteUrl($model->getFrontendViewLink(), 'https') :
+                                $urlManager->createUrl($model->getFrontendViewLink())
+                        ) : $model->link
+                );
+
                 $items[] = [
                     'id'             => $model->id,
-                    'label'          => @$linkParams['title'] ? $linkParams['title'] : $model->title,
-                    'url'            => $model->link_type == MenuItem::LINK_ROUTE ? ($model->secure ? $urlManager->createAbsoluteUrl($model->getFrontendViewLink(), 'https') : $urlManager->createUrl($model->getFrontendViewLink())) : $model->link,
+                    'label'          => ArrayHelper::getValue($linkParams, 'title', $model->title),
+                    'url'            => $linkType,
                     'access_rule'    => $model->access_rule,
                     'submenuOptions' => [
                         'class' => 'level-' . $model->level
                     ],
                     'options'        => [
-                        'class'   => @$linkParams['class'] ? $linkParams['class'] : null,
-                        'target'  => @$linkParams['target'] ? $linkParams['target'] : null,
-                        'style'   => @$linkParams['style'] ? $linkParams['style'] : null,
-                        'rel'     => @$linkParams['rel'] ? $linkParams['rel'] : null,
-                        'onclick' => @$linkParams['onclick'] ? $linkParams['onclick'] : null,
+                        'class'   => ArrayHelper::getValue($linkParams, 'class'),
+                        'target'  => ArrayHelper::getValue($linkParams, 'target'),
+                        'style'   => ArrayHelper::getValue($linkParams, 'style'),
+                        'rel'     => ArrayHelper::getValue($linkParams, 'rel'),
+                        'onclick' => ArrayHelper::getValue($linkParams, 'onclick')
                     ]
                 ];
             } elseif ($level < $model->level) {
@@ -115,12 +126,6 @@ class Menu extends API
         }
 
         return $items;
-    }
-
-    public static function getBreadcrumbs($slug) {
-        $breadcrumbs = [];
-
-        return $breadcrumbs;
     }
 
     public static function getBreadcrumbsById($id = null) {
