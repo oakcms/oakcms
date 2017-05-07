@@ -9,7 +9,6 @@ use app\modules\content\models\search\ContentCategorySearch;
 use Yii;
 use app\modules\content\models\ContentCategory;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * CategoryController implements the CRUD actions for ContentCategory model.
@@ -68,7 +67,10 @@ class CategoryController extends \app\components\CategoryController
                     $model->order = $parentCategory->order;
                     $model->appendTo($parentCategory);
                 } else {
-                    $model->attachBehavior('sortable', SortableModel::className());
+                    $model->attachBehavior('sortable', [
+                        'class' => SortableModel::className(),
+                        'orderAttribute' => 'order'
+                    ]);
                     $model->makeRoot();
                 }
 
