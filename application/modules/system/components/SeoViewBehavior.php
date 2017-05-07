@@ -8,7 +8,7 @@
 
 namespace app\modules\system\components;
 
-use yii\helpers\VarDumper;
+use yii\helpers\ArrayHelper;
 use yii\web\View;
 use yii\helpers\Html;
 use yii\base\Behavior;
@@ -31,7 +31,7 @@ class SeoViewBehavior extends Behavior
     public function events()
     {
         return [
-              View::EVENT_BEGIN_PAGE => 'beginPage'
+            View::EVENT_BEGIN_PAGE => 'beginPage',
         ];
     }
 
@@ -43,61 +43,14 @@ class SeoViewBehavior extends Behavior
 
         $this->_seo_data = [];
 
-        if($model !== null) {
+        if ($model !== null) {
             $this->_seo_data = [
-                'title' => $model->title,
-                'desc' => $model->description,
-                'keys' => $model->keywords,
+                'title'     => $model->title,
+                'desc'      => $model->description,
+                'keys'      => $model->keywords,
                 'canonical' => $model->canonical,
             ];
         }
-    }
-
-    /**
-     * Установка meta параметров страницы
-     *
-     * @param mixed $title 1) массив:
-     * array("title"=>"Page Title", "desc"=>"Page Descriptions", "keys"=>"Page, Keywords", "canonical" => "Canonical Link")
-     * 2) SeoModelBehavior
-     * 3) Строка для title страницы
-     * @param string $desc Meta description
-     * @param mixed $keys  Meta keywords, строка либо массив ключевиков
-     *
-     * @return static
-     */
-    public function setSeoData($title, $desc = '', $keys = '', $canonical = '')
-    {
-        if(is_array($title)) {
-            $data = [
-                'title' => isset($title['title']) ? $title['title'] : '',
-                'desc' => isset($title['desc']) ? $title['desc'] : '',
-                'keys' => isset($title['keys']) ? $title['keys'] : '',
-                'canonical' => isset($title['canonical']) ? $title['canonical'] : '',
-            ];
-        } elseif (is_string($title)) {
-            $data = array(
-                'title' => $title,
-                'desc' => $desc,
-                'keys' => !is_array($keys) ? $keys : implode(', ', $keys),
-                'canonical' => $canonical
-            );
-        } else {
-            $data = [];
-        }
-
-        if (isset($data['title']) && $data['title'] != '') {
-            $this->_page_title = $this->normalizeStr($data['title']);
-        }
-        if (isset($data['desc']) && $data['desc'] != '') {
-            $this->_meta_description = $this->normalizeStr($data['desc']);
-        }
-        if (isset($data['keys']) && $data['keys'] != '') {
-            $this->_meta_keywords = $this->normalizeStr($data['keys']);
-        }
-        if (isset($data['canonical']) && $data['canonical'] != '') {
-            $this->_meta_canonical = $this->normalizeStr($data['canonical']);
-        }
-        return $this;
     }
 
     public function renderMetaTags()
@@ -119,6 +72,7 @@ class SeoViewBehavior extends Behavior
             $view->registerMetaTag(['name' => 'robots', 'content' => $this->_noIndex]);
         }
     }
+
     /**
      * Нормализует строку, подготоваливает её для отображения
      *
@@ -132,6 +86,7 @@ class SeoViewBehavior extends Behavior
         $str = strip_tags($str);
         // Заменяем все пробелы, переносы строк и табы на один пробел
         $str = trim(preg_replace('/[\s]+/is', ' ', $str));
+
         return $str;
     }
 
@@ -139,7 +94,7 @@ class SeoViewBehavior extends Behavior
      * Установить meta-тег noindex для текущей страницы
      *
      * @param boolean $follow Разрешить поисковикам следовать по ссылкам? Если FALSE,
-     * то в мета-тег будет добавлено nofollow
+     *                        то в мета-тег будет добавлено nofollow
      */
     public function noIndex($follow = true)
     {
@@ -150,9 +105,59 @@ class SeoViewBehavior extends Behavior
     /**
      *
      */
-    public function beginPage() {
-        if(isset($this->_seo_data) && count($this->_seo_data)) {
+    public function beginPage()
+    {
+        if (isset($this->_seo_data) && count($this->_seo_data)) {
             $this->setSeoData($this->_seo_data);
         }
+    }
+
+    /**
+     * Установка meta параметров страницы
+     *
+     * @param mixed  $title 1) массив:
+     *                      array("title"=>"Page Title", "desc"=>"Page Descriptions", "keys"=>"Page, Keywords",
+     *                      "canonical" => "Canonical Link")
+     *                      2) SeoModelBehavior
+     *                      3) Строка для title страницы
+     * @param string $desc  Meta description
+     * @param mixed  $keys  Meta keywords, строка либо массив ключевиков
+     *
+     * @return static
+     */
+    public function setSeoData($title, $desc = '', $keys = '', $canonical = '')
+    {
+        if (is_array($title)) {
+            $data = [
+                'title'     => ArrayHelper::getValue($title, 'title', ''),
+                'desc'      => ArrayHelper::getValue($title, 'desc', ''),
+                'keys'      => ArrayHelper::getValue($title, 'keys', ''),
+                'canonical' => ArrayHelper::getValue($title, 'canonical', ''),
+            ];
+        } elseif (is_string($title)) {
+            $data = [
+                'title'     => $title,
+                'desc'      => $desc,
+                'keys'      => !is_array($keys) ? $keys : implode(', ', $keys),
+                'canonical' => $canonical,
+            ];
+        } else {
+            $data = [];
+        }
+
+        if (isset($data['title']) && $data['title'] != '') {
+            $this->_page_title = $this->normalizeStr($data['title']);
+        }
+        if (isset($data['desc']) && $data['desc'] != '') {
+            $this->_meta_description = $this->normalizeStr($data['desc']);
+        }
+        if (isset($data['keys']) && $data['keys'] != '') {
+            $this->_meta_keywords = $this->normalizeStr($data['keys']);
+        }
+        if (isset($data['canonical']) && $data['canonical'] != '') {
+            $this->_meta_canonical = $this->normalizeStr($data['canonical']);
+        }
+
+        return $this;
     }
 }
