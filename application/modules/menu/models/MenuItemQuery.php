@@ -1,22 +1,18 @@
 <?php
 /**
- * @link https://github.com/gromver/yii2-platform-basic.git#readme
- * @copyright Copyright (c) Gayazov Roman, 2014
- * @license https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
- * @package yii2-platform-basic
- * @version 1.0.0
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\menu\models;
-
 
 use creocoder\nestedsets\NestedSetsQueryBehavior;
 use yii\db\Query;
 
 /**
  * Class MenuItemQuery
- * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
  */
 class MenuItemQuery extends \yii\db\ActiveQuery
 {

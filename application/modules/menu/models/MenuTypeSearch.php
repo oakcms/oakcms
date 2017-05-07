@@ -1,22 +1,17 @@
 <?php
 /**
- * @link https://github.com/gromver/yii2-platform-basic.git#readme
- * @copyright Copyright (c) Gayazov Roman, 2014
- * @license https://github.com/gromver/yii2-platform-basic/blob/master/LICENSE
- * @package yii2-platform-basic
- * @version 1.0.0
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\menu\models;
 
-
-use Yii;
 use yii\data\ActiveDataProvider;
 
 /**
  * Class MenuTypeSearch represents the model behind the search form about `app\common\models\Menu`.
- * @package yii2-platform-basic
- * @author Gayazov Roman <gromver5@gmail.com>
  */
 class MenuTypeSearch extends MenuType
 {
@@ -44,9 +39,6 @@ class MenuTypeSearch extends MenuType
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            /*'sort' => [
-                'defaultOrder' => ['ordering' => SORT_ASC]
-            ]*/
         ]);
 
         if (!($this->load($params) && $this->validate())) {
