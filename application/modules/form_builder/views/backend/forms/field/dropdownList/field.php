@@ -51,7 +51,7 @@ return [
     'rules' => [
         [['name', 'label'], 'required'],
         [['additionalAttributes', 'value', 'label'], 'string'],
-        [['name', 'label', 'items'], 'string', ['max' => 100]],
+        [['name', 'label', 'items'], 'string', ['max' => 1000]],
         [['required'], 'integer'],
     ]
 ];
