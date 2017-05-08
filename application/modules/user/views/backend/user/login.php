@@ -136,7 +136,7 @@ $this->registerJs($js, \yii\web\View::POS_END, 'backstretch');
                         <?= $form->field($model, 'username', [
                             'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-envelope form-control-feedback\"></span>\n{hint}\n{error}</div>",
                             'labelOptions' => ['class' => 'control-label control-label-d4w col-md-4 text-right']
-                        ])->textInput(['placeholder' => Yii::t('user', 'Username')])->label(false) ?>
+                        ])->textInput(['placeholder' => Yii::t('user', 'Username'), 'autofocus' => 'autofocus'])->label(false) ?>
 
                         <?= $form->field($model, 'password', [
                             'template' => "<div class=\"form-group has-feedback\">{input}<span class=\"glyphicon glyphicon-lock form-control-feedback\"></span>\n{hint}\n{error}</div>",
