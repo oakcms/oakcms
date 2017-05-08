@@ -161,7 +161,12 @@ class FormBuilderField extends \app\components\ActiveRecord
                 $this->slug = ArrayHelper::getValue($saveData, 'name');
                 $this->data = Json::encode($saveData);
                 if ($this->save()) {
-                    $this->flash('success', Yii::t('form_builder', '{fieldName} saved.', ['fieldName' => $fieldData['title']]));
+                    Yii::$app->getSession()->setFlash(
+                        'success',
+                        Yii::t('form_builder', '{fieldName} saved.', [
+                            'fieldName' => $fieldData['title']
+                        ])
+                    );
                 }
             }
 

@@ -81,6 +81,6 @@ return [
 
     'sort'                  => 'Сортировать',
     '{fieldName} saved.'    => '{fieldName} сохранено.',
-    '{n} active submission' => '{N} активных представлений',
+    '{n} active submission' => '{n} активных представлений',
     'Not forms'             => 'Форм не найдено',
 ];

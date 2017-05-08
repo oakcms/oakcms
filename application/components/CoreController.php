@@ -23,11 +23,14 @@ class CoreController extends \yii\web\Controller
      * Write in sessions alert messages
      * @param string $type error or success
      * @param string $message alert body
+     * @return mixed
      */
     public function flash($type, $message)
     {
         if(Yii::$app instanceof Application) {
             return Yii::$app->getSession()->setFlash($type == 'error' ? 'danger' : $type, $message);
         }
+
+        return false;
     }
 }
