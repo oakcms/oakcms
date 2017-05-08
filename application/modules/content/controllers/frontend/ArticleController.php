@@ -12,7 +12,7 @@ use Yii;
 use app\modules\content\models\ContentArticles;
 use app\modules\content\models\ContentCategory;
 use yii\helpers\Url;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
 
 class ArticleController extends Controller

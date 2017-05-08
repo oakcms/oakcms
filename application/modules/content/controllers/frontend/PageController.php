@@ -20,9 +20,7 @@ namespace app\modules\content\controllers\frontend;
 use app\components\Controller;
 use app\modules\content\models\ContentPages;
 use app\modules\content\models\ContentPagesLang;
-use app\modules\menu\api\Menu;
 use app\modules\menu\models\MenuItems;
-use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 
 class PageController extends Controller

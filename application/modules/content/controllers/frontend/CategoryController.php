@@ -5,11 +5,9 @@ namespace app\modules\content\controllers\frontend;
 use app\modules\content\models\ContentArticles;
 use app\modules\content\models\ContentArticlesLang;
 use app\modules\content\models\ContentCategory;
-use app\modules\menu\api\Menu;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
+use app\components\Controller;
 use yii\web\NotFoundHttpException;
-use yii\widgets\LinkPager;
 
 class CategoryController extends Controller
 {

@@ -50,8 +50,7 @@ class CacheFlush extends \yii\base\Behavior
             } else {
                 Yii::$app->cache->delete($this->key);
             }
-        }
-        else{
+        } else {
             Yii::$app->cache->flush();
         }
     }
