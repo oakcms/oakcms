@@ -1,20 +1,16 @@
 <?php
-
 /**
- * Created by Vladimir Hryvinskyy.
- * Site: http://codice.in.ua/
- * Date: 15.09.2016
- * Project: osnovasite
- * File name: JsonValidator.php
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\validators;
 
 use yii\validators\Validator;
 use Yii;
-/**
- * @author Eugene Terentev <eugene@terentev.net>
- */
+
 class JsonValidator extends Validator
 {
     /**

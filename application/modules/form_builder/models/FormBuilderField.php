@@ -160,6 +160,13 @@ class FormBuilderField extends \app\components\ActiveRecord
                 $this->label = ArrayHelper::getValue($saveData, 'label');
                 $this->slug = ArrayHelper::getValue($saveData, 'name');
                 $this->data = Json::encode($saveData);
+
+                $maxOrderNum = (int)(new \yii\db\Query())
+                    ->select('MAX(`sort`)')
+                    ->from(self::tableName())
+                    ->scalar();
+                $this->sort = ++$maxOrderNum;
+
                 if ($this->save()) {
                     Yii::$app->getSession()->setFlash(
                         'success',

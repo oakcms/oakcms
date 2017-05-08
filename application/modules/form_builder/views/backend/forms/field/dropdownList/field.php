@@ -51,7 +51,9 @@ return [
     'rules' => [
         [['name', 'label'], 'required'],
         [['additionalAttributes', 'value', 'label'], 'string'],
-        [['name', 'label', 'items'], 'string', ['max' => 1000]],
+        [['name', 'label'], 'string', ['max' => 255]],
+        ['items', 'string'],
+        ['items', '\app\validators\YamlValidator'],
         [['required'], 'integer'],
     ]
 ];
