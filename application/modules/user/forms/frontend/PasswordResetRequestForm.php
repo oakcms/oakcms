@@ -1,9 +1,14 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\user\forms\frontend;
 
 use app\modules\user\models\User;
-use app\modules\user\Module;
 use yii\base\Model;
 use Yii;
 
@@ -39,8 +44,8 @@ class PasswordResetRequestForm extends Model
             ['email', 'email'],
             ['email', 'exist',
                 'targetClass' => User::className(),
-                'filter' => ['status' => User::STATUS_ACTIVE],
-                'message' => Module::t('module', 'ERROR_USER_NOT_FOUND_BY_EMAIL')
+                'filter'      => ['status' => User::STATUS_ACTIVE],
+                'message'     => Yii::t('module', 'ERROR_USER_NOT_FOUND_BY_EMAIL'),
             ],
             ['email', 'validateIsSent'],
         ];
@@ -52,7 +57,7 @@ class PasswordResetRequestForm extends Model
     public function attributeLabels()
     {
         return [
-            'email' => Module::t('module', 'USER_EMAIL'),
+            'email' => Yii::t('module', 'USER_EMAIL'),
         ];
     }
 
@@ -64,7 +69,7 @@ class PasswordResetRequestForm extends Model
     {
         if (!$this->hasErrors() && $user = $this->getUser()) {
             if (User::isPasswordResetTokenValid($user->$attribute, $this->_timeout)) {
-                $this->addError($attribute, Module::t('module', 'ERROR_TOKEN_IS_SENT'));
+                $this->addError($attribute, Yii::t('module', 'ERROR_TOKEN_IS_SENT'));
             }
         }
     }

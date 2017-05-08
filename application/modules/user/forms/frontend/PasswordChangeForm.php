@@ -1,9 +1,15 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\user\forms\frontend;
 
 use app\modules\user\models\User;
-use app\modules\user\Module;
+use Yii;
 use yii\base\Model;
 
 /**
@@ -49,9 +55,9 @@ class PasswordChangeForm extends Model
     public function attributeLabels()
     {
         return [
-            'newPassword' => Module::t('module', 'USER_NEW_PASSWORD'),
-            'newPasswordRepeat' => Module::t('module', 'USER_REPEAT_PASSWORD'),
-            'currentPassword' => Module::t('module', 'USER_CURRENT_PASSWORD'),
+            'newPassword'       => Yii::t('module', 'USER_NEW_PASSWORD'),
+            'newPasswordRepeat' => Yii::t('module', 'USER_REPEAT_PASSWORD'),
+            'currentPassword'   => Yii::t('module', 'USER_CURRENT_PASSWORD'),
         ];
     }
 
@@ -63,7 +69,7 @@ class PasswordChangeForm extends Model
     {
         if (!$this->hasErrors()) {
             if (!$this->_user->validatePassword($this->$attribute)) {
-                $this->addError($attribute, Module::t('module', 'ERROR_WRONG_CURRENT_PASSWORD'));
+                $this->addError($attribute, Yii::t('module', 'ERROR_WRONG_CURRENT_PASSWORD'));
             }
         }
     }

@@ -1,9 +1,15 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\user\forms\frontend;
 
 use app\modules\user\models\User;
-use app\modules\user\Module;
+use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Model;
 
@@ -56,7 +62,7 @@ class PasswordResetForm extends Model
     public function attributeLabels()
     {
         return [
-            'password' => Module::t('module', 'USER_NEW_PASSWORD'),
+            'password' => Yii::t('module', 'USER_NEW_PASSWORD'),
         ];
     }
 

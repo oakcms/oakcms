@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package    oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
 
 namespace app\modules\user\controllers\frontend;
 
@@ -54,7 +60,7 @@ class ProfileController extends Controller
         $model = new PasswordChangeForm($user);
 
         if ($model->load(Yii::$app->request->post()) && $model->changePassword()) {
-            Yii::$app->getSession()->setFlash('success', Module::t('module', 'FLASH_PASSWORD_CHANGE_SUCCESS'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('module', 'FLASH_PASSWORD_CHANGE_SUCCESS'));
             return $this->redirect(['index']);
         } else {
             return $this->render('passwordChange', [
