@@ -11,9 +11,6 @@ $this->params['breadcrumbs'][] = 'Обновить';
 \app\modules\shop\assets\BackendAsset::register($this);
 ?>
 <div class="producer-update">
-    <div class="shop-menu">
-        <?=$this->render('../parts/menu');?>
-    </div>
 
     <?= $this->render('_form', [
         'model' => $model,
