@@ -184,7 +184,7 @@ $this->params['actions_buttons'] = [
                                             /** @var $model FormBuilderField */
 
                                             return \app\widgets\ModalIFrame::widget([
-                                                'label'         => $model->label,
+                                                'label'         => strip_tags($model->label),
                                                 'url'           => ['update-field', 'id' => $model->id],
                                                 'dataHandler'   => '',
                                                 'actionHandler' => '',
