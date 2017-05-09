@@ -19,10 +19,10 @@ return [
             'label' => false,
             'options' => ['value' => BaseForm::INPUT_TEXTAREA]
         ],
-        'label' => [
+        'name' => [
             'type' => BaseForm::INPUT_TEXT,
         ],
-        'name' => [
+        'label' => [
             'type' => BaseForm::INPUT_TEXT,
         ],
         'value' => [
