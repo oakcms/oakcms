@@ -317,10 +317,25 @@ $this->params['actions_buttons'] = [
                                 'submission'
                             ) ?>
 
+                            <?= \app\modules\admin\widgets\Html::settingField(
+                                'after_submit_link',
+                                [
+                                    'type'  => 'textInput',
+                                    'value' => ArrayHelper::getValue($model->data, 'submission.after_submit_link', ''),
+                                    'template' => "<div class='container-fluid'><div class='form-group'>{label}\n{element}\n{hint}</div></div>",
+                                    'options' => [
+                                        'labelOptions' => ['class' => 'control-label']
+                                    ]
+                                ],
+                                'form_builder',
+                                'submission'
+                            ) ?>
+
                             <?= \app\widgets\Editor::widget([
                                 'name'     => 'submission[content]',
                                 'value'    => ArrayHelper::getValue($model->data, 'submission.content', '')
                             ]); ?>
+
                         </div>
                         <div class="col-sm-3">
                             <h3><?= Yii::t('form_builder', 'Available variables') ?></h3>

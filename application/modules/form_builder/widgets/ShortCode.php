@@ -27,7 +27,8 @@ class ShortCode extends \app\components\ShortCode
                         if($model === null) {
                             return null;
                         }
-                        return self::render(['model' => self::getForm($model)['model']]);
+
+                        return self::render($model);
                     }
                     return '';
                 }
@@ -36,8 +37,16 @@ class ShortCode extends \app\components\ShortCode
         return true;
     }
 
-    public static function render($options) {
-        return \Yii::$app->getView()->renderFile(__DIR__.'/view/form.php', $options);
+    public static function render($model) {
+        $models = self::getForm($model);
+
+        if(($submitForm = FormBuilderForms::submitForm($model, $models)) === false) {
+            return \Yii::$app->getView()->renderFile(__DIR__.'/view/form.php', ['model' => $models['model']]);
+        } else if(!is_array($submitForm)) {
+            return $submitForm;
+        } else {
+            return '';
+        }
     }
 
     /**

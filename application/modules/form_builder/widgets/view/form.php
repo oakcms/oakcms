@@ -12,7 +12,7 @@
 $index = new \app\components\Count();
 $form = \kartik\form\ActiveForm::begin([
     'id' => 'fb_form_id_'.$model->id.'_'.$index->getIndex(),
-    'action' => \yii\helpers\Url::to(['/form_builder/form/view', 'slug'=>$model->slug]),
+    'action' => \yii\helpers\Url::to(),
     'options' => ['class' => 'fb_form']
 ]);
 ?>

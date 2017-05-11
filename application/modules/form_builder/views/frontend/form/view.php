@@ -6,5 +6,5 @@
  * @version    0.0.1-beta.0.1
  */
 
-echo \app\modules\form_builder\widgets\ShortCode::render(['model' => $model]);
-?>
+echo \app\modules\form_builder\widgets\ShortCode::render($model);
+
