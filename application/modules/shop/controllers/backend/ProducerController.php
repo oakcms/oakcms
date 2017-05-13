@@ -5,6 +5,7 @@
 
 namespace app\modules\shop\controllers\backend;
 
+use app\modules\shop\models\Producer;
 use Yii;
 use app\modules\shop\models\producer\ProducerSearch;
 use yii\web\Controller;
@@ -56,7 +57,7 @@ class ProducerController extends Controller
 
     public function actionCreate()
     {
-        $model = $this->module->getService('producer');
+        $model = new Producer();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['update', 'id' => $model->id]);
@@ -90,9 +91,7 @@ class ProducerController extends Controller
 
     protected function findModel($id)
     {
-        $model = $this->module->getService('producer');
-
-        if (($model = $model::findOne($id)) !== null) {
+        if (($model = Producer::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

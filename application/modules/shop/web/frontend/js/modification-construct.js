@@ -48,7 +48,7 @@ oakcms.modificationconstruct = {
                 notAvailable            = optionsChange[$id].notAvailable,
                 id                      = optionsChange[$id].id;
 
-            if(m && m.available == 'yes' && m.price > 0) {
+            if(m && m.available == 'yes' && parseInt(m.price) > 0) {
 
                 parts['{currency}'] = currency;
                 parts['{main_price}'] = m.price;
@@ -85,10 +85,9 @@ oakcms.modificationconstruct = {
 
                 var options = [];
                 $.each(cartOptions, function (i, co) {
-                    options.push(co);
+                    options.push(parseInt(co));
                 });
                 var filter_value = $.makeArray(m.filter_value);
-
 
                 if (options.length == filter_value.length) {
                     var result = options.diff(filter_value);
@@ -97,7 +96,6 @@ oakcms.modificationconstruct = {
                     }
                 }
             });
-
             return ret;
         } else {
             return false;

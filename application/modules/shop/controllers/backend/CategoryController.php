@@ -95,7 +95,6 @@ class CategoryController extends BackendController
     public function actionUpdateNestable()
     {
         $success    = null;
-        $model      = $this->module->getService('category');
 
         $i                  = 0;
         $post               = Yii::$app->request->post();
@@ -105,7 +104,7 @@ class CategoryController extends BackendController
         // циклом проходимся по массиву и сохраняем в бд
         foreach ($readbleArray as $key => $value) {
             if (is_array($value)) {
-                $element                = $model::findOne($value['id']);
+                $element                = Category::findOne($value['id']);
                 $element->parent_id     = $value['parentID'];
                 $element->sort          = $key;
                 if(!$element->save()) {
@@ -115,9 +114,9 @@ class CategoryController extends BackendController
         }
 
         if($i == 0) {
-            $success['success'] = Yii::t('backend', 'Menu items updated');
+            $success['success'] = Yii::t('shop', 'Category items updated');
         } else {
-            $this->error = Yii::t('backend', 'error');
+            $this->error = Yii::t('shop', 'error');
         }
 
         return $this->formatResponse($success);

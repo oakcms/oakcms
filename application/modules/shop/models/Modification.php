@@ -124,7 +124,7 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
 
         if($selected = unserialize($this->filter_values)) {
             foreach($selected as $filter => $value) {
-                if($value != '') $return[] = $value;
+                if($value != '') $return[] = (int)$value;
             }
         }
 
@@ -235,6 +235,13 @@ class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\int
 //        }
 
         return parent::beforeValidate();
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        Price::deleteAll(["modification_id" => $this->id]);
     }
 
     public static function editField($id, $name, $value)

@@ -30,13 +30,15 @@ $asset = \app\templates\backend\base\assets\BaseAsset::register($this);
 $selectFilter = '';
 
 foreach ($model->getFilters() as $filter) {
-    $selectFilter .= '<div>'.$filter->name.'</div>';
-    $selectFilter .=  Html::dropDownList(
-        'variants[filter_values][][' . $filter->id . ']',
-        null,
-        ArrayHelper::map($filter->variants, 'id', 'value'),
-        ['class' => 'form-control', 'options' => ['data-available' => true]]
-    );
+    if($filter->is_filter == 'no' && in_array($model->category_id, $filter->relation_field_value)) {
+        $selectFilter .= '<div>'.$filter->name.'</div>';
+        $selectFilter .=  Html::dropDownList(
+            'variants[filter_values][][' . $filter->id . ']',
+            null,
+            ArrayHelper::map($filter->variants, 'id', 'value'),
+            ['class' => 'form-control', 'options' => ['data-available' => true]]
+        );
+    }
 }
 
 $variantTemplate = '
@@ -243,12 +245,14 @@ if (!$model->isNewRecord) {
                         $variant = $model->modifications[$i];
                         $selectFilter = unserialize($variant->filter_values);
 
-                        foreach ($selectFilter as $filter=>$value) {
-                            $template = preg_replace(
-                                '/name="variants\[filter_values\]\[\]\['.$filter.'\](.*)<option value="' . $value . '">/',
-                                'name="variants[filter_values][]['.$filter.']$1<option value="' . $value .  '" selected>',
-                                $template
-                            );
+                        if($selectFilter !== false) {
+                            foreach ($selectFilter as $filter=>$value) {
+                                $template = preg_replace(
+                                    '/name="variants\[filter_values\]\[\]\['.$filter.'\](.*)<option value="' . $value . '">/',
+                                    'name="variants[filter_values][]['.$filter.']$1<option value="' . $value .  '" selected>',
+                                    $template
+                                );
+                            }
                         }
 
                         if($i == 0) {

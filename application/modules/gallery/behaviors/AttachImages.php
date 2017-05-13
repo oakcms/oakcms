@@ -200,6 +200,11 @@ class AttachImages extends Behavior
             if (!file_exists($absolutePath)) {
                 throw new \Exception('File not exist! :' . $absolutePath);
             }
+        } else {
+            $file_headers = @get_headers($absolutePath);
+            if($file_headers[0] == 'HTTP/1.1 404 Not Found') {
+                return false;
+            }
         }
 
         if (!$this->owner->id) {

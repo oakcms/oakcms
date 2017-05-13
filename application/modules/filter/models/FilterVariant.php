@@ -8,8 +8,16 @@
 
 namespace app\modules\filter\models;
 
-use yii;
+use Yii;
 
+/**
+ * Class FilterVariant
+ * @package app\modules\filter\models
+ *
+ * @property integer $id
+ * @property integer $filter_id
+ * @property string $value
+ */
 class FilterVariant extends \yii\db\ActiveRecord
 {
     function behaviors()

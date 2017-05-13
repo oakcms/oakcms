@@ -109,6 +109,8 @@ class Filter extends \yii\db\ActiveRecord
             }
 
             $this->relation_field_value = serialize($values);
+        } elseif(is_array($this->relation_field_value)) {
+            $this->relation_field_value = serialize($this->relation_field_value);
         } else {
             $this->relation_field_value = serialize([]);
         }

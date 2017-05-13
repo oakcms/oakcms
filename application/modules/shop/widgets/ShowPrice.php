@@ -49,7 +49,7 @@ class ShowPrice extends \yii\base\Widget
     public $priceType = null;
 
     protected $parts = [];
-    protected $priceTypes;
+    protected $priceTypes = [];
 
     public $options = [];
 

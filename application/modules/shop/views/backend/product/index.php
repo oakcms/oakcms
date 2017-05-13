@@ -67,6 +67,7 @@ $this->params['actions_buttons'] = [
 echo \yii\grid\GridView::widget([
     'id' => 'grid',
     'dataProvider' => $dataProvider,
+    'filterModel'  => $searchModel,
     'tableOptions' => ['class' => 'table-mt table-mt-striped table-mt-hover table-mt-card'],
     'columns'      => [
         [

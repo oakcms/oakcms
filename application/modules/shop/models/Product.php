@@ -20,14 +20,14 @@ use yii\helpers\Url;
 /**
  * Class Product
  *
- * @property integer $id;
- * @property integer $category_id;
- * @property string $name;
- * @property string $slug;
- * @property string $code;
- * @property string $short_text;
- * @property string $text;
- * @property string $related_ids
+ * @property integer      $id
+ * @property integer      $category_id
+ * @property string       $name
+ * @property string       $slug
+ * @property string       $code
+ * @property string       $short_text
+ * @property string       $text
+ * @property string       $related_ids
  *
  * @property Modification $modifications
  *
@@ -35,8 +35,9 @@ use yii\helpers\Url;
  * @mixin AttachFields
  * @mixin AttachFilterValues
  */
-class Product extends \yii\db\ActiveRecord implements \app\modules\relations\interfaces\Torelate, \app\modules\cart\interfaces\CartElement
-{
+class Product extends \yii\db\ActiveRecord implements
+    \app\modules\relations\interfaces\Torelate,
+    \app\modules\cart\interfaces\CartElement {
     const IS_PROMO_YES = 'yes';
     const IS_PROMO_NO = 'no';
 
@@ -54,13 +55,21 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return '{{%shop_product}}';
     }
 
+    /**
+     * @inheritdoc
+     */
+    public static function frontendViewLink($model)
+    {
+        return ['/shop/product/view', 'slug' => $model['slug']];
+    }
+
     function behaviors()
     {
         return [
             [
-                'class' => SluggableBehavior::className(),
-                'attribute' => 'name',
-                'immutable' => true,
+                'class'        => SluggableBehavior::className(),
+                'attribute'    => 'name',
+                'immutable'    => true,
                 'ensureUnique' => true,
             ],
             'images'     => [
@@ -87,17 +96,10 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         ];
     }
 
-    public static function find()
-    {
-        $return = new ProductQuery(get_called_class());
-        //$return = $return->with('category');
-        return $return;
-    }
-
     public function rules()
     {
         return [
-            [['name'], 'required'],
+            [['category_id', 'name'], 'required'],
             [['category_id', 'producer_id', 'sort'], 'integer'],
             [['text', 'available', 'is_promo', 'is_popular', 'is_new', 'code'], 'string'],
             [['category_ids'], 'each', 'rule' => ['integer']],
@@ -163,7 +165,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     {
         $model = Modification::find()->where(['id' => $modificationID])->one();
 
-        if($type !== null && $model !== null) {
+        if ($type !== null && $model !== null) {
             return $model->getPrice($type, true);
         }
 
@@ -190,16 +192,26 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return $this->getPrice();
     }
 
-    public function getPrice() {
+    public function getPrice()
+    {
 
     }
 
-    public function getPriceByOption($options) {
-        if(is_array($options)) {
+    public function getPriceByOption($options)
+    {
+        if (is_array($options)) {
             $options = serialize($options);
         }
         $modification = $this->getModifications()->andWhere(['filter_values' => $options])->one();
+
         return $modification->price;
+    }
+
+    public function getModifications()
+    {
+        $return = $this->hasMany(Modification::className(), ['product_id' => 'id'])->orderBy('sort ASC');
+
+        return $return;
     }
 
     public function getCartOptions()
@@ -207,16 +219,17 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         $options = [];
 
         foreach ($this->modifications as $modification) {
-            $modification = unserialize($modification->filter_values);
-            foreach ($modification as $filter_id => $filter_variant_id) {
+            if($modification = unserialize($modification->filter_values)) {
+                foreach ($modification as $filter_id => $filter_variant_id) {
 
-                if ($filters = $this->getFilters()) {
-                    foreach ($filters as $filter) {
-                        if (($variants = $filter->variants) && $filter->id == $filter_id) {
-                            $options[$filter->id]['name'] = $filter->name;
-                            foreach ($variants as $variant) {
-                                if($variant->id == $filter_variant_id) {
-                                    $options[$filter->id]['variants'][$variant->id] = $variant->value;
+                    if ($filters = $this->getFilters()) {
+                        foreach ($filters as $filter) {
+                            if (($variants = $filter->variants) && $filter->id == $filter_id) {
+                                $options[$filter->id]['name'] = $filter->name;
+                                foreach ($variants as $variant) {
+                                    if ($variant->id == $filter_variant_id) {
+                                        $options[$filter->id]['variants'][$variant->id] = $variant->value;
+                                    }
                                 }
                             }
                         }
@@ -224,6 +237,7 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
                 }
             }
         }
+
         return $options;
     }
 
@@ -237,20 +251,14 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return $this;
     }
 
-    public function getModifications()
-    {
-        $return = $this->hasMany(Modification::className(), ['product_id' => 'id'])->orderBy('sort ASC');
-
-        return $return;
-    }
-
     public function getModification($id = null)
     {
-        if($id !== null) {
+        if ($id !== null) {
             $return = Modification::find()->where(['id' => $id, 'product_id' => $this->id])->orderBy('sort ASC')->all();
         } else {
             $return = Modification::find()->where(['product_id' => $this->id])->orderBy('sort ASC')->one();
         }
+
         return $return;
     }
 
@@ -266,6 +274,14 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     public function getActionProducts()
     {
         return self::find()->where(['is_promo' => self::IS_PROMO_YES])->available()->all();
+    }
+
+    public static function find()
+    {
+        $return = new ProductQuery(get_called_class());
+
+        //$return = $return->with('category');
+        return $return;
     }
 
     public function getLink()
@@ -293,7 +309,6 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
     {
         parent::afterDelete();
 
-        Price::deleteAll(["product_id" => $this->id]);
         ProductToCategory::deleteAll(["product_id" => $this->id]);
 
         foreach ($this->getModifications()->all() as $modification) {
@@ -335,21 +350,12 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return $profuctInStock->save();
     }
 
-
     /**
      * @inheritdoc
      */
     public function getFrontendViewLink()
     {
         return ['/shop/product/view', 'slug' => $this->slug];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function frontendViewLink($model)
-    {
-        return ['/shop/product/view', 'slug' => $model['slug']];
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -373,11 +379,13 @@ class Product extends \yii\db\ActiveRecord implements \app\modules\relations\int
         return true;
     }
 
-    public function getModificationsImages() {
+    public function getModificationsImages()
+    {
         $images = [];
         foreach ($this->getModifications()->all() as $modification) {
             $images[] = $modification->getImage();
         }
+
         return $images;
     }
 }
