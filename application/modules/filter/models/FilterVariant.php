@@ -2,13 +2,11 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\filter\models;
-
-use Yii;
 
 /**
  * Class FilterVariant
@@ -16,23 +14,31 @@ use Yii;
  *
  * @property integer $id
  * @property integer $filter_id
- * @property string $value
+ * @property integer $numeric_value
+ * @property string  $value
  */
 class FilterVariant extends \yii\db\ActiveRecord
 {
+    public static function tableName()
+    {
+        return '{{%filter_variant}}';
+    }
+
+    public static function saveEdit($id, $name, $value)
+    {
+        $setting = FilterVariant::findOne($id);
+        $setting->$name = $value;
+        $setting->save();
+    }
+
     function behaviors()
     {
         return [
             'images' => [
                 'class' => 'app\modules\gallery\behaviors\AttachImages',
-                'mode' => 'single',
+                'mode'  => 'single',
             ],
         ];
-    }
-
-    public static function tableName()
-    {
-        return '{{%filter_variant}}';
     }
 
     public function rules()
@@ -47,9 +53,9 @@ class FilterVariant extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'filter_id' => 'Фильтр',
-            'value' => 'Значение',
+            'id'            => 'ID',
+            'filter_id'     => 'Фильтр',
+            'value'         => 'Значение',
             'numeric_value' => 'Числовое значение',
         ];
     }
@@ -59,16 +65,9 @@ class FilterVariant extends \yii\db\ActiveRecord
         return $this->hasOne(Filter::className(), ['id' => 'filter_id']);
     }
 
-    public static function saveEdit($id, $name, $value)
-    {
-        $setting = FilterVariant::findOne($id);
-        $setting->$name = $value;
-        $setting->save();
-    }
-
     public function beforeValidate()
     {
-        if(empty($this->numeric_value)) {
+        if (empty($this->numeric_value)) {
             $this->numeric_value = (int)$this->value;
         }
 

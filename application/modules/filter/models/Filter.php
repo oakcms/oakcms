@@ -8,20 +8,20 @@
 
 namespace app\modules\filter\models;
 
-use yii;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%filter}}".
  *
  * @property integer $id
- * @property string $name
- * @property string $slug
- * @property string $type
- * @property string $description
- * @property string $is_filter
- * @property string $relation_field_name
- * @property string $relation_field_value
+ * @property string  $name
+ * @property string  $slug
+ * @property string  $type
+ * @property string  $description
+ * @property string  $is_filter
+ * @property string  $relation_field_name
+ * @property string  $relation_field_value
  * @property integer $sort
  */
 class Filter extends \yii\db\ActiveRecord
@@ -32,6 +32,13 @@ class Filter extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%filter}}';
+    }
+
+    public static function saveEdit($id, $name, $value)
+    {
+        $setting = self::findOne($id);
+        $setting->$name = $value;
+        $setting->save();
     }
 
     public function rules()
@@ -46,15 +53,15 @@ class Filter extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Имя',
-            'slug' => 'Код',
-            'sort' => 'Сортировка',
-            'description' => 'Описание',
-            'is_filter' => 'Фильтр',
-            'type' => 'Тип полей',
-            'relation_field_name' => 'Название поля',
-            'relation_field_value' => 'Привязать к'
+            'id'                   => 'ID',
+            'name'                 => 'Имя',
+            'slug'                 => 'Код',
+            'sort'                 => 'Сортировка',
+            'description'          => 'Описание',
+            'is_filter'            => 'Фильтр',
+            'type'                 => 'Тип полей',
+            'relation_field_name'  => 'Название поля',
+            'relation_field_value' => 'Привязать к',
         ];
     }
 
@@ -75,13 +82,6 @@ class Filter extends \yii\db\ActiveRecord
         return ArrayHelper::map($this->hasMany(FieldRelationValue::className(), ['filter_id' => 'id'])->all(), 'value', 'value');
     }
 
-    public static function saveEdit($id, $name, $value)
-    {
-        $setting = self::findOne($id);
-        $setting->$name = $value;
-        $setting->save();
-    }
-
     public function beforeDelete()
     {
         foreach ($this->hasMany(FieldRelationValue::className(), ['filter_id' => 'id'])->all() as $frv) {
@@ -99,9 +99,9 @@ class Filter extends \yii\db\ActiveRecord
     {
         $values = yii::$app->request->post('Filter')['relation_field_value'];
 
-        if(is_array($values)) {
+        if (is_array($values)) {
             FieldRelationValue::deleteAll(['filter_id' => $this->id]);
-            foreach($values as $value) {
+            foreach ($values as $value) {
                 $filterRelationValue = new FieldRelationValue;
                 $filterRelationValue->filter_id = $this->id;
                 $filterRelationValue->value = $value;
@@ -109,7 +109,7 @@ class Filter extends \yii\db\ActiveRecord
             }
 
             $this->relation_field_value = serialize($values);
-        } elseif(is_array($this->relation_field_value)) {
+        } elseif (is_array($this->relation_field_value)) {
             $this->relation_field_value = serialize($this->relation_field_value);
         } else {
             $this->relation_field_value = serialize([]);
@@ -120,9 +120,9 @@ class Filter extends \yii\db\ActiveRecord
 
     public function afterFind()
     {
-        if(empty($this->relation_field_value)) {
-            $this->relation_field_value = array();
-        } elseif(!is_array($this->relation_field_value)) {
+        if (empty($this->relation_field_value)) {
+            $this->relation_field_value = [];
+        } elseif (!is_array($this->relation_field_value)) {
             $this->relation_field_value = unserialize($this->relation_field_value);
         }
 

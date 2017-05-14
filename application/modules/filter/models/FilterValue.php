@@ -40,9 +40,9 @@ class FilterValue extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'filter_id' => 'Фильтр',
-            'item_id' => 'Элемент',
+            'id'         => 'ID',
+            'filter_id'  => 'Фильтр',
+            'item_id'    => 'Элемент',
             'variant_id' => 'Вариант',
         ];
     }
