@@ -2,18 +2,18 @@
 /**
  * @package    oakcms
  * @author     Hryvinskyi Volodymyr <script@email.ua>
- * @copyright  Copyright (c) 2015 - 2016. Hryvinskyi Volodymyr
- * @version    0.0.1
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
  */
 
 namespace app\modules\cart\controllers\frontend;
 
-use app\modules\cart\models\Cart;
+use app\components\Controller;
 use yii\filters\VerbFilter;
 use yii\helpers\Json;
-use yii;
+use Yii;
 
-class DefaultController extends \yii\web\Controller
+class DefaultController extends Controller
 {
     public function behaviors()
     {
@@ -29,7 +29,7 @@ class DefaultController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        $elements = yii::$app->cart->elements;
+        $elements = Yii::$app->cart->elements;
 
         return $this->render('index', [
             'elements' => $elements,

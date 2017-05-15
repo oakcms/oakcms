@@ -1,4 +1,5 @@
 <?php
+
 namespace app\modules\cart;
 
 use app\modules\cart\events\Cart as CartEvent;
@@ -19,10 +20,12 @@ class Cart extends Component
     const EVENT_ELEMENT_COST = 'element_cost';
     const EVENT_ELEMENT_PRICE = 'element_price';
     const EVENT_ELEMENT_ROUNDING = 'element_rounding';
+
     public $currency = null;
     public $elementBehaviors = [];
     public $currencyPosition = 'after';
     public $priceFormat = [2, '.', ''];
+
     private $cost = 0;
     private $element = null;
     private $cart = null;
