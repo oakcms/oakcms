@@ -18,13 +18,25 @@ use yii\helpers\Html;
             <div class="product-cut__photo">
                 <div class="product-photo">
                     <div class="product-photo__item">
-                        <?= Html::a(
-                            Html::img($model->getImage()->getUrl('387x285'), [
+                        <?php
+                        if(count($model->modifications)) {
+                            $img = Html::img($model->modifications[0]->getImage()->getUrl('387x285'), [
                                 'class' => 'product-photo__img',
                                 'alt' => $model->name,
                                 'title' => $model->name,
                                 'data-product-photo' => true,
-                            ]),
+                            ]);
+                        } else {
+                            $img = Html::img($model->getImage()->getUrl('387x285'), [
+                                'class' => 'product-photo__img',
+                                'alt' => $model->name,
+                                'title' => $model->name,
+                                'data-product-photo' => true,
+                            ]);
+                        }
+                        ?>
+                        <?= Html::a(
+                            $img,
                             ['/shop/product/view', 'slug' => $model->slug]
                         ) ?>
                     </div>
