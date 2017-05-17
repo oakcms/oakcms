@@ -1,6 +1,3 @@
-"use strict";
-exports.__esModule = true;
-var $ = require("jquery");
 var OakCMS;
 (function (OakCMS) {
     var Cart = (function () {

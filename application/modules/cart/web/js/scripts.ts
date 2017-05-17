@@ -1,4 +1,5 @@
-import * as $ from 'jquery';
+declare var jQuery: JQueryStatic;
+declare var $: JQueryStatic;
 
 module OakCMS {
 
