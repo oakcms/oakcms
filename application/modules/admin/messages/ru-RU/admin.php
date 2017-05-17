@@ -68,6 +68,7 @@ return [
     'Icon'                                                                    => 'Иконка',
     'If you\'ll leave this field empty, slug will be generated automatically' => '',
 
+    'Items per page:'                      => 'Елементов на страницу:',
     'Image'                                => 'Изображение',
     'Is Admin'                             => '',
     'Language'                             => 'Язык',

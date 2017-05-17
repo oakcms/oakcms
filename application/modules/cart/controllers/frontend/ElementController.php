@@ -8,11 +8,12 @@
 
 namespace app\modules\cart\controllers\frontend;
 
+use app\components\Controller;
 use yii\helpers\Json;
 use yii\filters\VerbFilter;
 use yii;
 
-class ElementController extends \yii\web\Controller
+class ElementController extends Controller
 {
     public function behaviors()
     {
@@ -29,21 +30,21 @@ class ElementController extends \yii\web\Controller
 
     public function actionDelete()
     {
-        $json = ['result' => 'undefind', 'error' => false];
-        $elementId = yii::$app->request->post('elementId');
+        $success = null;
 
-        $cart = yii::$app->cart;
+        $elementId = Yii::$app->request->post('elementId');
+
+        $cart = Yii::$app->cart;
 
         $elementModel = $cart->getElementById($elementId);
 
         if($elementModel->delete()) {
-            $json['result'] = 'success';
-        }
-        else {
-            $json['result'] = 'fail';
+            $success = ['message' => Yii::t('cart', 'Element success delete')];
+        } else {
+            $this->error = Yii::t('cart', 'Element fail delete');
         }
 
-        return $this->_cartJson($json);
+        return $this->formatResponse($success);
     }
 
     public function actionCreate()

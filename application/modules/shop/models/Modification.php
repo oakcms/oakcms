@@ -34,6 +34,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $filter_values
  *
  * @mixin AttachImages
+ * @mixin AttachImages
  */
 
 class Modification extends \yii\db\ActiveRecord implements \app\modules\cart\interfaces\CartElement

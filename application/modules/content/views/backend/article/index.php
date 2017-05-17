@@ -70,11 +70,13 @@ $this->params['actions_buttons'] = [
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <div class="table-responsive">
+        <?php echo \app\modules\admin\widgets\PageSize::widget(); ?>
         <?= GridView::widget([
             'id' => 'grid',
             'tableOptions' => ['class'=>'table table-striped table-bordered table-advance table-hover'],
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
+            'filterSelector' => 'select[name="per-page"]',
             'columns' => [
                 [
                     'class' => 'yii\grid\CheckboxColumn',

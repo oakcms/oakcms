@@ -65,6 +65,22 @@ class FilterVariant extends \yii\db\ActiveRecord
         return $this->hasOne(Filter::className(), ['id' => 'filter_id']);
     }
 
+    /**
+     * @param $id integer
+     * @param $filter_id integer
+     *
+     * @return null|array
+     */
+    public static function getVariantValue($id, $filter_id)
+    {
+        return self::find()
+            ->joinWith(['filter'], false)
+            ->select([self::tableName() . '.value', Filter::tableName() . '.name'])
+            ->where([self::tableName() . '.id' => $id, self::tableName() . '.filter_id' => $filter_id])
+            ->asArray()
+            ->one();
+    }
+
     public function beforeValidate()
     {
         if (empty($this->numeric_value)) {

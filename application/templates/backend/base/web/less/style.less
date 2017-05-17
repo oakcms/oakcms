@@ -46,6 +46,11 @@ a, button, code, div, img, input, label, li, p, pre, select, span, svg, table, t
   }
 }
 
+.inline-block {
+  display: inline-block;
+  width: auto;
+}
+
 .alert-success {
   background-color: #b4eaee !important;
   border-color: #b4eaee;
@@ -369,8 +374,18 @@ span[class^='ion-'] {
   border-top: 0
 }
 
-.table-mt .table-mt {
-  border-top: 1px solid rgba(0, 0, 0, .12)
+.table-mt {
+
+  .table-mt {
+    border-top: 1px solid rgba(0, 0, 0, .12);
+  }
+
+  .form-control {
+    padding: 3px 12px;
+    height: 28px;
+    font-weight: normal;
+    font-size: 12px;
+  }
 }
 
 .table-mt-bordered {

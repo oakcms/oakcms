@@ -68,7 +68,9 @@ echo \yii\grid\GridView::widget([
     'id' => 'grid',
     'dataProvider' => $dataProvider,
     'filterModel'  => $searchModel,
+    'filterSelector' => 'select[name="per-page"]',
     'tableOptions' => ['class' => 'table-mt table-mt-striped table-mt-hover table-mt-card'],
+    'layout' => '<div class="pull-left">{summary}</div><div class="pull-right">' . \app\modules\admin\widgets\PageSize::widget() . '</div>{items}{pager}',
     'columns'      => [
         [
             'class' => 'yii\grid\CheckboxColumn',

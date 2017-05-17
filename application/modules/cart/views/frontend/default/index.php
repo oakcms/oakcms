@@ -7,195 +7,175 @@
  */
 
 use yii\bootstrap\Html;
-use app\modules\cart\widgets\CartInformer;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use app\modules\filter\models\FilterVariant;
 
 /**
- * @var $elements app\modules\cart\Cart[]
+ * @var $this \app\components\CoreView
+ * @var $elements \app\modules\cart\events\CartElement[]
+ * @var $cart app\modules\cart\Cart
  */
-$this->title = yii::t('cart', 'Cart');
+$this->title = Yii::t('cart', 'Cart');
+$this->setSeoData($this->title);
+$cart = Yii::$app->cart;
 
 $this->params['breadcrumb'][] = "Корзина";
 
 ?>
 
-
-<div class="cart">
-    <h2><?= Yii::t('cart', 'Cart'); ?></h2>
-
-    <div class="cart-summary ">
-
-        <div class="cart-summary__items">
-            <?php foreach($elements as $element): ?>
-                <div class="cart__item cart__item-<?= $element->getModel()->id ?>">
-                    <div class="cart__item">
-                        <div class="image">
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="cart-summary__row">
-
-                    <div class="cart-summary__cell cart-summary__cell--delete">
-                        <div class="cart-summary__delete">
-                            <a class="cart-summary__delete-icon" href="" title="Удалить">x</a>
-                        </div>
-                    </div>
-
-                    <!-- Product kit -->
-                    <div class="cart-summary__cell">
-                        <div class="cart-summary__product">
-                            <div class="cart-product">
-
-                                <div class="cart-product__photo">
-
-                                    <div class="product-photo">
-                                        <a class="product-photo__item product-photo__item--xs" href="http://demoshop.imagecms.net/detskaia-krovatka-sonia-ld">
-                                            <?= Html::img($element->getModel()->getImage()->getUrl('200x125')) ?>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <!-- /.__photo -->
-
-                                <div class="cart-product__info">
-
-                                    <!-- Product brand -->
-                                    <div class="cart-product__brand">
-                                        Veres
-                                    </div>
-
-                                    <!-- Product title -->
-                                    <div class="cart-product__title">
-                                        <a class="cart-product__link" href="http://demoshop.imagecms.net/detskaia-krovatka-sonia-ld">Детская кроватка Соня ЛД из экологически чистых материалов</a>
-                                        <!-- System bonus module -->
-
-
-
-                                        <div class="bonus  " data-bonus="">
-                                            <span class="bonus__title">Вы получите</span> <span class="bonus__points">+<span data-bonus-points="">18</span> <span data-bonus-label="">баллов</span> </span>
-                                        </div>          </div>
-                                    <!-- Product option (variant) -->
-                                    <p class="cart-product__option">Бук</p>
-                                </div><!-- /.__info -->
-
-                            </div><!-- /.__product -->            </div>
-                    </div>
-                    <!-- END Including products -->
-
-
-                    <!-- Quantity of product -->
-                    <div class="cart-summary__cell">
-                        <form class="cart-summary__quantity" action="http://demoshop.imagecms.net/shop/cart/setQuantityProductByVariantId/18014" method="get" data-cart-summary--quantity="" data-cart-summary--href="http://demoshop.imagecms.net/shop/cart/api/setQuantityProductByVariantId/18014">
-
-                            <div class="form-input " data-form-quantity="" data-form-quantity-submit="">
-                                <div class="form-input__group">
-                                    <div class="form-input__group-item">
-                                        <button class="form-input__group-btn" type="button" data-form-quantity-control="minus">-</button>
-                                    </div>
-                                    <input class="form-input__control form-input__control--quantity" type="text" name="quantity" autocomplete="off" value="1" data-cart-summary--quantity-field="" data-form-quantity-field="" data-form-quantity-step="1">
-                                    <div class="form-input__group-item">
-                                        <button class="form-input__group-btn" type="button" data-form-quantity-control="plus">+</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-
-
-                    <!-- Product Price -->
-                    <div class="cart-summary__cell">
-                        <div class="cart-summary__price">
-
-                            <div class="cart-price">
-                                <div class="cart-price__main cart-price__main--small">
-                                    <span class="cart-price__main-cur">$</span><span class="cart-price__main-value">180</span>              </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-            <?php endforeach; ?>
-            <!-- /.__row -->
-        </div>
-
-              <!-- Gift coupon -->
-        <div class="cart-summary__subtotal">
-
-            <!-- Total origin price -->
-
-
-            <!-- Total discount -->
-
-            <!-- Total points from system bonus module -->
-            <div class="cart-summary__subtotal-item">
-                <div class="cart-summary__subtotal-title">
-                    Бонусные баллы      </div>
-                <div class="cart-summary__subtotal-value">
-                    <div class="cart-price">
-                        <div class="cart-price__main cart-price__main--small">
-                            18            баллов          </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <!-- Delivery price -->
-
-            <!-- Gift card code -->
-
-        </div><!-- /.__subtotal -->
-
-
-        <div class="cart-summary__total">
-
-            <!-- Gift coupon. Not visible in order view page -->
-            <div class="cart-summary__total-coupon">
-                <form class="form" action="http://demoshop.imagecms.net/shop/cart" method="post" data-cart-summary--coupon="">
-                    <div class="input-group">
-                        <input class="form-control" type="text" name="gift" value="" placeholder="Подарочный сертификат">
-                        <div class="input-group-btn">
-                            <button class="btn btn-default" type="submit">Активировать</button>
-                        </div>
-                    </div>
-
-
-                    <input type="hidden" value="f157347d6e5c73d11cf9200af57563e5" name="cms_token">      </form>
-            </div>
-
-
-            <div class="cart-summary__total-price cart-summary__total-price--order">
-                <div class="cart-summary__total-label">
-                    К оплате          </div>
-                <div class="cart-summary__total-value">
-                    <div class="cart-price">
-                        <div class="cart-price__main cart-price__main--lg">
-                            <span class="cart-price__main-cur">$</span><span class="cart-price__main-value">180</span>        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
+<div class="korzina">
+    <div class="title text-center">
+        <span>Корзина</span>
     </div>
 
+    <?php if(count($elements) > 0): ?>
+        <div class="title_decr">
+            Доставляем мебель быстро,вся мебель на складе! Даем дополнительные гарантии на комплектность и качество товара.
+        </div>
+        <div class="product_title hidden-xs">
 
-    <div class="cart__items">
+            <div class="col-md-7 text-left no_padding_left">
+                <span>Описание товара</span>
+            </div>
+            <div class="col-md-1">
+                <span>Цена</span>
+            </div>
+            <div class="col-md-2 text-center">
+                <span>Количество</span>
+            </div>
+            <div class="col-md-2">
+                <span class="sum">Общая сума</span>
+            </div>
+
+        </div>
         <?php foreach($elements as $element): ?>
-            <div class="cart__item cart__item-<?= $element->getModel()->id ?>">
-                <div class="cart__item">
-                    <div class="image">
-                        <?= Html::img($element->getModel()->getImage()->getUrl('200x125')) ?>
+            <?php
+            /** @var \app\modules\shop\models\Product $model */
+            $model = $element->getModel();
+            $filter_variants = \yii\helpers\Json::decode($element->options);
+            $modification = $model->getModificationByOptions($filter_variants);
+            ?>
+        <div class="product_decr">
+            <div class="row">
+                <div class="col-xs-12 col-md-2 col-sm-12 no_padding_left text-center">
+                    <?php echo Html::a(
+                        Html::img($model->getImage()->getUrl('200x125')),
+                        $model->getFrontendViewLink()
+                    ); ?>
+                </div>
+                <div class="col-md-5 col-xs-12 col-sm-12">
+                    <ul class=" list-unstyled product_decr_list">
+                        <li><?= $model->name ?></li>
+                        <li>Размер: </li>
+                        <?php foreach ($filter_variants as $k => $variant): ?>
+                            <?php
+                            $filter_data = FilterVariant::getVariantValue($variant, $k);
+                            echo ArrayHelper::getValue($filter_data, 'name', '');
+                            echo ArrayHelper::getValue($filter_data, 'value', '');
+                            ?>
+                        <li>Цвет: </li>
+                        <?php endforeach;?>
+                    </ul>
+                </div>
+                <div class="col-xs-4 col-xs-12 col-md-1 col-sm-2">
+
+                    <div class="prise_total hidden-xs hidden-sm">
+                        11 300P<br>
+                        <span>11 300P</span>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-2 col-sm-12">
+                    <div class="total">
+
+                        <button class="minus" style="line-height: 21px;
+                                font-size: 80px;
+                                padding-bottom: 18px;">
+                            -
+                        </button>
+
+                        <input id="count" type="text" value="1">
+
+                        <button class="plus">
+                            +
+                        </button>
                     </div>
 
                 </div>
+                <div class="col-xs-12 col-md-1 ">
+
+                    <div class="prise_total ">
+                        11 300P<br>
+                        <span>11 300P</span>
+                    </div>
+
+                </div>
+                <div class="col-xs-12  col-md-1  text-center">
+                    <?= Html::button('', [
+                        'data' => [
+                            'line-selector' => '.product_decr',
+                            'id' => $element->id,
+                            'url' => Url::to(['/cart/element/delete'])
+                        ],
+                        'class' => 'oakcms-cart-delete-button'
+                    ]) ?>
+                </div>
             </div>
+        </div>
         <?php endforeach; ?>
-    </div>
-    <div class="total">
-        <?= CartInformer::widget(['htmlTag' => 'h3']); ?>
-    </div>
+        <div class="total_prise text-right ">
+            <ul class="list-unstyled">
+                <li>Итого: <span><?//=  ?>P</span></li>
+                <li>Предварительная дата доставки 20 сентября 2016р</li>
+                <li>Общая сумма: 32 500Р</li>
+                <li>Сумма скидки: 6 000P</li>
+            </ul>
+            <button>
+                Оформить заказ
+            </button>
+        </div>
+        <div class="details text-left hidden-sm hidden-xs">
+            <img src="img/details.png" alt="">
+            Подробные условия:
+        </div>
+        <div class="specification row hidden-sm hidden-xs">
+            <div class="col-md-3">
+                <span>Доставка</span>
+                <ul class="list-unstyled">
+                    <li><span class="bold_text">Доставка по Москве</span> - безплатно</li>
+                    <li><span class="bold_text">Доставка по МО за МКАД</span> - 100p/км</li>
+                    <li><span class="bold_text">Доставка по России</span> - до</li>
+                    <li>транспортной компании - безплатно</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <span>Ожидаемое время доставки</span>
+                <ul class="list-unstyled">
+                    <li><span class="bold_text">Москва и область</span>- 1-2 дня</li>
+                    <li><span class="bold_text">По России</span>- 1-2 дней</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <span>Оплата </span>
+                <ul class="list-unstyled">
+                    <li><span class="bold_text">Москва и МО</span> наличными при</li>
+                    <li>получении, безналичными</li>
+                    <li><span class="bold_text">Россия</span>- безналичный расчет</li>
+                </ul>
+            </div>
+            <div class="col-md-3">
+                <span>Гарантия 12 месяцев</span>
+                <ul class="list-unstyled">
+                    <li><span class="bold_text">12 месяцев </span> официальной гарантии</li>
+                    <li>от производтеля</li>
+                    <li>Обмен/возврат товара в течении</li>
+                    <li>14 дней, при невскритой упаковке</li>
+                </ul>
+            </div>
+        </div>
+    <?else:?>
+        <div class="cart-empty">
+            Корзина Пустая.
+        </div>
+    <?php endif; ?>
 </div>

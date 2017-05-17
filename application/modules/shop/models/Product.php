@@ -14,6 +14,7 @@ use app\modules\shop\models\product\ProductQuery;
 use app\modules\field\behaviors\AttachFields;
 use app\modules\gallery\behaviors\AttachImages;
 use yii\behaviors\SluggableBehavior;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 
@@ -53,14 +54,6 @@ class Product extends \yii\db\ActiveRecord implements
     public static function tableName()
     {
         return '{{%shop_product}}';
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function frontendViewLink($model)
-    {
-        return ['/shop/product/view', 'slug' => $model['slug']];
     }
 
     function behaviors()
@@ -194,24 +187,37 @@ class Product extends \yii\db\ActiveRecord implements
 
     public function getPrice()
     {
-
+        if(($m = Modification::find()->where(['product_id' => $this->id])->orderBy(['id' => SORT_ASC])->one()) !== null) {
+            return $m->price;
+        }
+        return null;
     }
 
+    /**
+     * @param $options array|string
+     *
+     * @return float|null
+     */
     public function getPriceByOption($options)
     {
         if (is_array($options)) {
             $options = serialize($options);
         }
-        $modification = $this->getModifications()->andWhere(['filter_values' => $options])->one();
 
-        return $modification->price;
+        if(
+            ($modification = Modification::find()->where([
+                'filter_values' => $options,
+                'product_id' => $this->id
+            ])->one()) !== null
+        ) {
+            return $modification->price;
+        }
+        return null;
     }
 
     public function getModifications()
     {
-        $return = $this->hasMany(Modification::className(), ['product_id' => 'id'])->orderBy('sort ASC');
-
-        return $return;
+        return $this->hasMany(Modification::className(), ['product_id' => 'id'])->orderBy('sort ASC');
     }
 
     public function getCartOptions()
@@ -260,6 +266,34 @@ class Product extends \yii\db\ActiveRecord implements
         }
 
         return $return;
+    }
+
+
+    /**
+     * @param $options array|string
+     * @param $json boolean
+     *
+     * @return array|null|Modification
+     */
+    public function getModificationByOptions($options, $json = false) {
+
+        if($json === true) {
+            $options = Json::decode($options);
+        }
+
+        if(is_array($options)) {
+            $opt = [];
+            foreach ($options as $k => $option) {
+                $opt[(int)$k] = (int)$option;
+            }
+            $opt = serialize($opt);
+
+            return Modification::find()->where([
+                'filter_values' => $opt,
+                'product_id' => $this->id
+            ])->orderBy('sort ASC')->one();
+        }
+        return null;
     }
 
     public function getAmount()
@@ -356,6 +390,14 @@ class Product extends \yii\db\ActiveRecord implements
     public function getFrontendViewLink()
     {
         return ['/shop/product/view', 'slug' => $this->slug];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function frontendViewLink($model)
+    {
+        return ['/shop/product/view', 'slug' => $model['slug']];
     }
 
     public function afterSave($insert, $changedAttributes)
