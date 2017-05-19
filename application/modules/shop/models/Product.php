@@ -14,6 +14,7 @@ use app\modules\shop\models\product\ProductQuery;
 use app\modules\field\behaviors\AttachFields;
 use app\modules\gallery\behaviors\AttachImages;
 use yii\behaviors\SluggableBehavior;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 
@@ -56,7 +57,7 @@ class Product extends \yii\db\ActiveRecord implements
         return '{{%shop_product}}';
     }
 
-    function behaviors()
+    public function behaviors()
     {
         return [
             [
@@ -122,12 +123,17 @@ class Product extends \yii\db\ActiveRecord implements
         ];
     }
 
+    public static function find()
+    {
+        return new ProductQuery(get_called_class());
+    }
+
     public function getId()
     {
         return $this->id;
     }
 
-    public function minusAmount($count, $moderator = "false")
+    public function minusAmount($count)
     {
         $this->amount = $this->amount - $count;
         $this->save(false);
@@ -135,7 +141,7 @@ class Product extends \yii\db\ActiveRecord implements
         return $this;
     }
 
-    public function plusAmount($count, $moderator = "false")
+    public function plusAmount($count)
     {
         $this->amount = $this->amount + $count;
         $this->save(false);
@@ -288,11 +294,18 @@ class Product extends \yii\db\ActiveRecord implements
             }
             $opt = serialize($opt);
 
-            return Modification::find()->where([
-                'filter_values' => $opt,
-                'product_id' => $this->id
-            ])->orderBy('sort ASC')->one();
+            if(
+                ($modification = Modification::find()->where([
+                    'filter_values' => $opt,
+                    'product_id' => $this->id
+                ])->orderBy('sort ASC')->one()) === null
+            ) {
+                $modification = ArrayHelper::getValue($this->modifications, '0');
+            }
+
+            return $modification;
         }
+
         return null;
     }
 
@@ -308,14 +321,6 @@ class Product extends \yii\db\ActiveRecord implements
     public function getActionProducts()
     {
         return self::find()->where(['is_promo' => self::IS_PROMO_YES])->available()->all();
-    }
-
-    public static function find()
-    {
-        $return = new ProductQuery(get_called_class());
-
-        //$return = $return->with('category');
-        return $return;
     }
 
     public function getLink()

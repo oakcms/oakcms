@@ -9,34 +9,36 @@ module OakCMS {
         csrf: string | null = null;
         csrf_param: string | null = null;
 
-
-        public init() {
-
+        constructor(csrf:string = $('meta[name=csrf-token]').prop('content'), csrf_param:string = $('meta[name=csrf-param]').prop('content')) {
             $(document).on('change', '.oakcms-cart-element-count', (event) => this.changeElementCount(event));
             $(document).on('click', '.oakcms-cart-buy-button', (event) => this.addElement(event));
             $(document).on('click', '.oakcms-cart-truncate-button', (event) => this.truncate(event));
             $(document).on('click', '.oakcms-cart-delete-button', (event) => this.deleteElement(event));
-            $(document).on('click', '.oakcms-arr', (event) => Cart.changeInputValue(event));
-            $(document).on('change', '.oakcms-cart-element-before-count', (event) => Cart.changeBeforeElementCount(event));
-            $(document).on('change', '.oakcms-option-values-before', (event) => Cart.changeBeforeElementOptions(event));
+            $(document).on('click', '.oakcms-arr', (event) => this.changeInputValue(event));
+            $(document).on('change', '.oakcms-cart-element-before-count', (event) => this.changeBeforeElementCount(event));
+            $(document).on('change', '.oakcms-option-values-before', (event) => this.changeBeforeElementOptions(event));
             $(document).on('change', '.oakcms-option-values', (event) => this.changeElementOptions(event));
-
-            return true;
         }
 
         public addElement(e) {
-            let data: any = {};
-            data.CartElement = {};
-            data.CartElement.model = $(e.target).data('model');
-            data.CartElement.item_id = $(e.target).data('id');
-            data.CartElement.count = $(e.target).data('count');
-            data.CartElement.price = $(e.target).data('price');
-            data.CartElement.options = $(e.target).data('options');
-            data.CartElement.name = $(e.target).data('name');
+            let data: object = {
+                CartElement: {
+                    model:   $(e.target).data('model'),
+                    item_id: $(e.target).data('id'),
+                    count:   $(e.target).data('count'),
+                    price:   $(e.target).data('price'),
+                    options: $(e.target).data('options'),
+                    name:    $(e.target).data('name')
+                }
+            };
 
             $(document).trigger("addCartElement", data);
 
-            this.sendData(data, $(e.target).attr('href'));
+            $(e.target).button('loading');
+
+            this.sendData(data, $(e.target).attr('href'), function () {
+                $(e.target).button('reset');
+            });
 
             return false;
         }
@@ -63,7 +65,7 @@ module OakCMS {
             return false;
         }
 
-        public static changeInputValue(e) {
+        public changeInputValue(e) {
             let val: number = parseInt($(e.target).closest('.oakcms-change-count').find('input').val()),
                 input = $(e.target).closest('.oakcms-change-count').find('input');
 
@@ -72,7 +74,7 @@ module OakCMS {
                     return false;
                 }
                 $(input).val(val - 1);
-            } else {
+            } else if($(e.target).hasClass('oakcms-upArr')) {
                 $(input).val(val + 1);
             }
 
@@ -81,7 +83,7 @@ module OakCMS {
             return false;
         }
 
-        public static changeBeforeElementCount(e) {
+        public changeBeforeElementCount(e) {
             if ($(e.target).val() <= 0) {
                 $(e.target).val('0');
             }
@@ -113,18 +115,18 @@ module OakCMS {
                 options[id] = $(e.target).val();
             });
 
-            let data: any = {};
+            let data: object = {
+                CartElement: {
+                    id: $(e.target).data('id'),
+                    count: $(e.target).val(),
+                }
+            };
 
-            data.CartElement = {};
-            data.CartElement.id = jQuery(this).data('id');
-            data.CartElement.name = jQuery(this).data('id');
-            data.CartElement.count = jQuery(this).val();
-
-            this.sendData(data, jQuery(this).data('href'));
+            this.sendData(data, $(e.target).data('href'));
             return false;
         }
 
-        public static changeBeforeElementOptions(e) {
+        public changeBeforeElementOptions(e) {
             let $target: any = $(e.target),
                 filter_id: number = $target.data('filter-id'),
                 id: number = $target.data('id'),
@@ -174,7 +176,7 @@ module OakCMS {
             return false;
         }
 
-        public sendData(data: any, link: string = '/cart/element/create') {
+        public sendData(data: any, link: string = '/cart/element/create', callback:(...args: any[]) => any = null) {
             $(document).trigger("sendDataToCart", data);
 
             data.elementsListWidgetParams = this.elementsListWidgetParams;
@@ -184,25 +186,22 @@ module OakCMS {
                 if (json.result == 'error') {
                     console.log(json.error);
                 } else {
-                    Cart.renderCart(json);
+                    Cart.renderCart();
+                    if(typeof callback === "function") {
+                        callback.call(json);
+                    }
                 }
             }, "json");
 
             return false;
         }
 
-        public static renderCart(json: any) {
-            if (json === void 0) {
-                $.post('/cart/default/info', {}, function (answer) {
-                    json = answer
-                }, "json");
-            }
-
-            $('.oakcms-cart-block').replaceWith(json.elementsHTML);
-            $('.oakcms-cart-count').html(json.count);
-            $('.oakcms-cart-price').html(json.price);
-
-            $(document).trigger("renderCart", json);
+        public static renderCart() {
+            $.post('/cart/default/info', {}, function (json) {
+                $('.oakcms-cart-count').html(json.count);
+                $('.oakcms-cart-price').html(json.price);
+                $(document).trigger("renderCart", json);
+            }, "json");
         }
 
         public truncate(e) {
@@ -212,4 +211,4 @@ module OakCMS {
     }
 }
 
-new OakCMS.Cart().init();
+new OakCMS.Cart();

@@ -1,35 +1,39 @@
 var OakCMS;
 (function (OakCMS) {
     var Cart = (function () {
-        function Cart() {
+        function Cart(csrf, csrf_param) {
+            if (csrf === void 0) { csrf = $('meta[name=csrf-token]').prop('content'); }
+            if (csrf_param === void 0) { csrf_param = $('meta[name=csrf-param]').prop('content'); }
+            var _this = this;
             this.elementsListWidgetParams = [];
             //jsonResult: string | null = null;
             this.csrf = null;
             this.csrf_param = null;
-        }
-        Cart.prototype.init = function () {
-            var _this = this;
             $(document).on('change', '.oakcms-cart-element-count', function (event) { return _this.changeElementCount(event); });
             $(document).on('click', '.oakcms-cart-buy-button', function (event) { return _this.addElement(event); });
             $(document).on('click', '.oakcms-cart-truncate-button', function (event) { return _this.truncate(event); });
             $(document).on('click', '.oakcms-cart-delete-button', function (event) { return _this.deleteElement(event); });
-            $(document).on('click', '.oakcms-arr', function (event) { return Cart.changeInputValue(event); });
-            $(document).on('change', '.oakcms-cart-element-before-count', function (event) { return Cart.changeBeforeElementCount(event); });
-            $(document).on('change', '.oakcms-option-values-before', function (event) { return Cart.changeBeforeElementOptions(event); });
+            $(document).on('click', '.oakcms-arr', function (event) { return _this.changeInputValue(event); });
+            $(document).on('change', '.oakcms-cart-element-before-count', function (event) { return _this.changeBeforeElementCount(event); });
+            $(document).on('change', '.oakcms-option-values-before', function (event) { return _this.changeBeforeElementOptions(event); });
             $(document).on('change', '.oakcms-option-values', function (event) { return _this.changeElementOptions(event); });
-            return true;
-        };
+        }
         Cart.prototype.addElement = function (e) {
-            var data = {};
-            data.CartElement = {};
-            data.CartElement.model = $(e.target).data('model');
-            data.CartElement.item_id = $(e.target).data('id');
-            data.CartElement.count = $(e.target).data('count');
-            data.CartElement.price = $(e.target).data('price');
-            data.CartElement.options = $(e.target).data('options');
-            data.CartElement.name = $(e.target).data('name');
+            var data = {
+                CartElement: {
+                    model: $(e.target).data('model'),
+                    item_id: $(e.target).data('id'),
+                    count: $(e.target).data('count'),
+                    price: $(e.target).data('price'),
+                    options: $(e.target).data('options'),
+                    name: $(e.target).data('name')
+                }
+            };
             $(document).trigger("addCartElement", data);
-            this.sendData(data, $(e.target).attr('href'));
+            $(e.target).button('loading');
+            this.sendData(data, $(e.target).attr('href'), function () {
+                $(e.target).button('reset');
+            });
             return false;
         };
         Cart.prototype.deleteElement = function (e) {
@@ -46,7 +50,7 @@ var OakCMS;
             }
             return false;
         };
-        Cart.changeInputValue = function (e) {
+        Cart.prototype.changeInputValue = function (e) {
             var val = parseInt($(e.target).closest('.oakcms-change-count').find('input').val()), input = $(e.target).closest('.oakcms-change-count').find('input');
             if ($(e.target).hasClass('oakcms-downArr')) {
                 if (val <= 0) {
@@ -54,13 +58,13 @@ var OakCMS;
                 }
                 $(input).val(val - 1);
             }
-            else {
+            else if ($(e.target).hasClass('oakcms-upArr')) {
                 $(input).val(val + 1);
             }
             $(input).change();
             return false;
         };
-        Cart.changeBeforeElementCount = function (e) {
+        Cart.prototype.changeBeforeElementCount = function (e) {
             if ($(e.target).val() <= 0) {
                 $(e.target).val('0');
             }
@@ -82,15 +86,16 @@ var OakCMS;
                 //let name:number = $(this).data('id');
                 options[id] = $(e.target).val();
             });
-            var data = {};
-            data.CartElement = {};
-            data.CartElement.id = jQuery(this).data('id');
-            data.CartElement.name = jQuery(this).data('id');
-            data.CartElement.count = jQuery(this).val();
-            this.sendData(data, jQuery(this).data('href'));
+            var data = {
+                CartElement: {
+                    id: $(e.target).data('id'),
+                    count: $(e.target).val()
+                }
+            };
+            this.sendData(data, $(e.target).data('href'));
             return false;
         };
-        Cart.changeBeforeElementOptions = function (e) {
+        Cart.prototype.changeBeforeElementOptions = function (e) {
             var $target = $(e.target), filter_id = $target.data('filter-id'), id = $target.data('id'), buyButton = $('.oakcms-cart-buy-button' + id), options = $(buyButton).data('options');
             if (!options) {
                 options = {};
@@ -121,8 +126,9 @@ var OakCMS;
             this.sendData(data, $(e.target).data('href'));
             return false;
         };
-        Cart.prototype.sendData = function (data, link) {
+        Cart.prototype.sendData = function (data, link, callback) {
             if (link === void 0) { link = '/cart/element/create'; }
+            if (callback === void 0) { callback = null; }
             $(document).trigger("sendDataToCart", data);
             data.elementsListWidgetParams = this.elementsListWidgetParams;
             data[this.csrf_param] = this.csrf;
@@ -131,21 +137,20 @@ var OakCMS;
                     console.log(json.error);
                 }
                 else {
-                    Cart.renderCart(json);
+                    Cart.renderCart();
+                    if (typeof callback === "function") {
+                        callback.call(json);
+                    }
                 }
             }, "json");
             return false;
         };
-        Cart.renderCart = function (json) {
-            if (json === void 0) {
-                $.post('/cart/default/info', {}, function (answer) {
-                    json = answer;
-                }, "json");
-            }
-            $('.oakcms-cart-block').replaceWith(json.elementsHTML);
-            $('.oakcms-cart-count').html(json.count);
-            $('.oakcms-cart-price').html(json.price);
-            $(document).trigger("renderCart", json);
+        Cart.renderCart = function () {
+            $.post('/cart/default/info', {}, function (json) {
+                $('.oakcms-cart-count').html(json.count);
+                $('.oakcms-cart-price').html(json.price);
+                $(document).trigger("renderCart", json);
+            }, "json");
         };
         Cart.prototype.truncate = function (e) {
             this.sendData({}, $(e.target).attr('href'));
@@ -155,4 +160,4 @@ var OakCMS;
     }());
     OakCMS.Cart = Cart;
 })(OakCMS || (OakCMS = {}));
-new OakCMS.Cart().init();
+new OakCMS.Cart();

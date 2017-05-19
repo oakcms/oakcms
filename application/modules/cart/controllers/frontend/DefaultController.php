@@ -56,10 +56,9 @@ class DefaultController extends Controller
         return $this->_cartJson();
     }
 
-    private function _cartJson($json)
+    private function _cartJson($json = [])
     {
-        if ($cartModel = yii::$app->cart) {
-            $json['elementsHTML'] = \app\modules\cart\widgets\ElementsList::widget();
+        if ($cartModel = Yii::$app->cart) {
             $json['count'] = $cartModel->getCount();
             $json['price'] = $cartModel->getCostFormatted();
         } else {

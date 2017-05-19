@@ -71,42 +71,47 @@ $this->params['breadcrumb'][] = "Корзина";
                         <?php foreach ($filter_variants as $k => $variant): ?>
                             <?php
                             $filter_data = FilterVariant::getVariantValue($variant, $k);
-                            echo ArrayHelper::getValue($filter_data, 'name', '');
+                            echo ArrayHelper::getValue($filter_data, 'name', '') . ': ';
                             echo ArrayHelper::getValue($filter_data, 'value', '');
                             ?>
-                        <li>Цвет: </li>
                         <?php endforeach;?>
                     </ul>
                 </div>
                 <div class="col-xs-4 col-xs-12 col-md-1 col-sm-2">
 
                     <div class="prise_total hidden-xs hidden-sm">
-                        11 300P<br>
-                        <span>11 300P</span>
+                        <?php if(isset($modification) && ($price = $modification->getPrice(2)) && $price > 0): ?>
+                            <?= $price ?><br>
+                            <span><?= $element->price ?>P</span>
+                        <?php else: ?>
+                            <?= $element->price ?>
+                        <?php endif; ?>
                     </div>
+
                 </div>
                 <div class="col-xs-12 col-md-2 col-sm-12">
-                    <div class="total">
+                    <div class="total oakcms-change-count">
 
-                        <button class="minus" style="line-height: 21px;
-                                font-size: 80px;
-                                padding-bottom: 18px;">
-                            -
-                        </button>
-
-                        <input id="count" type="text" value="1">
-
-                        <button class="plus">
-                            +
-                        </button>
+                        <button class="minus oakcms-arr oakcms-downArr">-</button>
+                        <?= Html::input('number', 'CartElement[count]', $element->getCount(), [
+                            'class' => 'count oakcms-cart-element-count',
+                            'data' => [
+                                'role' => 'cart-element-count',
+                                'line-selector' => '.product_decr',
+                                'id' => $element->id,
+                                'href' => Url::to(['/cart/element/update'])
+                            ],
+                            'min' => 1
+                        ]) ?>
+                        <button class="plus oakcms-arr oakcms-upArr">+</button>
                     </div>
 
                 </div>
                 <div class="col-xs-12 col-md-1 ">
 
                     <div class="prise_total ">
-                        11 300P<br>
-                        <span>11 300P</span>
+                        <?= $element->getPrice() ?>P<br>
+                        <span><?= $element->getPrice() ?>P</span>
                     </div>
 
                 </div>

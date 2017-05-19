@@ -1,7 +1,13 @@
 <?php
+/**
+ * @package    oakcms/oakcms
+ * @author     Hryvinskyi Volodymyr <script@email.ua>
+ * @copyright  Copyright (c) 2015 - 2017. Hryvinskyi Volodymyr
+ * @version    0.0.1-beta.0.1
+ */
+
 namespace app\modules\cart\models;
 
-use app\modules\cart\models\Cart;
 use app\modules\cart\events\CartElement as CartElementEvent;
 use app\modules\cart\interfaces\ElementService;
 use yii;
@@ -28,12 +34,12 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
     public function getModel($withCartElementModel = true)
     {
-        if(!$withCartElementModel) {
+        if (!$withCartElementModel) {
             return $this->model;
         }
 
-        $model = '\\'.$this->model;
-        if(is_string($this->model) && class_exists($this->model)) {
+        $model = '\\' . $this->model;
+        if (is_string($this->model) && class_exists($this->model)) {
             $productModel = new $model();
             if ($productModel = $productModel::findOne($this->item_id)) {
                 $model = $productModel;
@@ -50,7 +56,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
     public function getOptions()
     {
-        if(empty($this->options)) {
+        if (empty($this->options)) {
             return [];
         }
 
@@ -66,14 +72,15 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     {
         $this->count = $count;
 
-        if($andSave) {
+        if ($andSave) {
             $this->save();
         }
     }
 
     public function countIncrement($count)
     {
-        $this->count = $this->count+$count;
+        $this->count = $this->count + $count;
+
         return $this->save();
     }
 
@@ -81,17 +88,13 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     {
         $price = $this->price;
 
-		$cart = yii::$app->cart;
+        $cart = yii::$app->cart;
 
-        if($withTriggers) {
+        if ($withTriggers) {
             $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
             $cart->trigger($cart::EVENT_ELEMENT_PRICE, $elementEvent);
             $price = $elementEvent->cost;
         }
-
-		$elementEvent = new CartElementEvent(['element' => $this, 'cost' => $price]);
-		$cart->trigger($cart::EVENT_ELEMENT_ROUNDING, $elementEvent);
-		$price = $elementEvent->cost;
 
         return $price;
     }
@@ -108,13 +111,13 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
     public function setOptions($options, $andSave = false)
     {
-        if(is_array($options)) {
+        if (is_array($options)) {
             $this->options = json_encode($options);
         } else {
             $this->options = $options;
         }
 
-        if($andSave) {
+        if ($andSave) {
             $this->save();
         }
     }
@@ -126,9 +129,9 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
     public function getCost($withTriggers = true)
     {
-        $cost = $this->getPrice($withTriggers)*$this->count;
+        $cost = $this->getPrice($withTriggers) * $this->count;
         $cart = \Yii::$app->cart;
-        if($withTriggers) {
+        if ($withTriggers) {
             $elementEvent = new CartElementEvent(['element' => $this, 'cost' => $cost]);
             $cart->trigger($cart::EVENT_ELEMENT_COST, $elementEvent);
             $cost = $elementEvent->cost;
@@ -169,14 +172,14 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
     public function attributeLabels()
     {
         return [
-            'id' => yii::t('cart', 'ID'),
+            'id'        => yii::t('cart', 'ID'),
             'parent_id' => yii::t('cart', 'Parent element'),
-            'price' => yii::t('cart', 'Price'),
-            'hash' => yii::t('cart', 'Hash'),
-            'model' => yii::t('cart', 'Model name'),
-            'cart_id' => yii::t('cart', 'Cart ID'),
-            'item_id' => yii::t('cart', 'Item ID'),
-            'count' => yii::t('cart', 'Count'),
+            'price'     => yii::t('cart', 'Price'),
+            'hash'      => yii::t('cart', 'Hash'),
+            'model'     => yii::t('cart', 'Model name'),
+            'cart_id'   => yii::t('cart', 'Cart ID'),
+            'item_id'   => yii::t('cart', 'Item ID'),
+            'count'     => yii::t('cart', 'Count'),
         ];
     }
 
@@ -191,7 +194,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
         $this->trigger(self::EVENT_ELEMENT_UPDATE, $elementEvent);
 
-        if($elementEvent->stop) {
+        if ($elementEvent->stop) {
             return false;
         } else {
             return true;
@@ -204,7 +207,7 @@ class CartElement extends \yii\db\ActiveRecord implements ElementService
 
         $this->trigger(self::EVENT_ELEMENT_DELETE, $elementEvent);
 
-        if($elementEvent->stop) {
+        if ($elementEvent->stop) {
             return false;
         } else {
             return true;

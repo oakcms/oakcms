@@ -9,6 +9,7 @@
 namespace app\modules\cart\controllers\frontend;
 
 use app\components\Controller;
+use app\modules\cart\interfaces\CartElement;
 use yii\helpers\Json;
 use yii\filters\VerbFilter;
 use yii;
@@ -49,15 +50,14 @@ class ElementController extends Controller
 
     public function actionCreate()
     {
-        $json = ['result' => 'undefind', 'error' => false];
+        $success = [];
 
         $cart = Yii::$app->cart;
 
         $postData = Yii::$app->request->post();
 
         $model = $postData['CartElement']['model'];
-        if($model) {
-            $productModel = new $model();
+        if($model && ($productModel = new $model()) instanceof CartElement) {
             $productModel = $productModel::findOne($postData['CartElement']['item_id']);
 
             $options = [];
@@ -65,22 +65,15 @@ class ElementController extends Controller
                 $options = $postData['CartElement']['options'];
             }
 
-
             $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
-//            if($postData['CartElement']['price'] && $postData['CartElement']['price'] != 'false' && $postData['CartElement']['price'] > 0) {
-//                $elementModel = $cart->putWithPrice($productModel, $postData['CartElement']['price'], $postData['CartElement']['count'], $options);
-//            } else {
-//                $elementModel = $cart->put($productModel, $postData['CartElement']['count'], $options);
-//            }
 
-            $json['elementId'] = $elementModel->getId();
-            $json['result'] = 'success';
+            $success['elementId'] = $elementModel->getId();
+            $success['result'] = 'success';
         } else {
-            $json['result'] = 'fail';
-            $json['error'] = 'empty model';
+            $this->error = Yii::t('cart', 'Empty model '.$model);
         }
 
-        return $this->_cartJson($json);
+        return $this->formatResponse($success);
     }
 
     public function actionUpdate()
