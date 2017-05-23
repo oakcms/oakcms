@@ -30,9 +30,17 @@ var OakCMS;
                 }
             };
             $(document).trigger("addCartElement", data);
-            $(e.target).button('loading');
+            $(e.target).addClass('loading');
+            if ($(e.target).prop("tagName") === 'BUTTON') {
+                $(e.target).prop('disabled', true);
+            }
             this.sendData(data, $(e.target).attr('href'), function () {
-                $(e.target).button('reset');
+                setTimeout(function () {
+                    $(e.target).removeClass('loading');
+                    if ($(e.target).prop("tagName") === 'BUTTON') {
+                        $(e.target).prop('disabled', false);
+                    }
+                }, 1000);
             });
             return false;
         };
@@ -74,7 +82,6 @@ var OakCMS;
             return true;
         };
         Cart.prototype.changeElementCount = function (e) {
-            $(document).trigger("changeCartElementOptions", this);
             var id = $(e.target).data('id'), options = {}, els;
             if ($(e.target).is('select')) {
                 els = $('.oakcms-cart-option' + id);
@@ -92,6 +99,7 @@ var OakCMS;
                     count: $(e.target).val()
                 }
             };
+            $(document).trigger("changeCartElementOptions", data);
             this.sendData(data, $(e.target).data('href'));
             return false;
         };
@@ -101,14 +109,13 @@ var OakCMS;
                 options = {};
             }
             options[filter_id] = $target.val();
-            options['element'] = $target;
             $(buyButton).data('options', options);
             $(buyButton).attr('data-options', JSON.stringify(options));
+            options['element'] = $target;
             $(document).trigger("beforeChangeCartElementOptions", options);
             return true;
         };
         Cart.prototype.changeElementOptions = function (e) {
-            $(document).trigger("changeCartElementOptions", this);
             var id = $(e.target).data('id'), options = {}, data = {}, els;
             if ($(e.target).is('select')) {
                 els = $('.oakcms-cart-option' + id);
@@ -123,6 +130,8 @@ var OakCMS;
             data.CartElement = {};
             data.CartElement.id = id;
             data.CartElement.options = JSON.stringify(options);
+            //console.log(data);
+            $(document).trigger("changeCartElementOptions", data);
             this.sendData(data, $(e.target).data('href'));
             return false;
         };

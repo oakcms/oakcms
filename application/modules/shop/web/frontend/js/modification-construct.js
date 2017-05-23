@@ -77,6 +77,7 @@ oakcms.modificationconstruct = {
         $(document).trigger("shopSetModification", m);
     },
     getData: function (options) {
+
         if (oakcms.modificationconstruct.modifications) {
             var cartOptions = options,
                 ret = false;

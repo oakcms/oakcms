@@ -32,11 +32,11 @@ class Module extends \app\components\module\Module implements ModuleEventsInterf
         'api/content/<catslug:[\w\-]+>/<slug:[\w\-]+>' => 'content/api-article/view',
         'api/content/<slug:[\w\-]+>'                   => 'content/api-category/view',
 
+        'content/page/<slug:[\w\-]+>'                  => 'content/page/view',
         'content/tag/<tag:(.*)>'                       => 'content/article/tag',
         'content/search'                               => 'content/search/search',
         'content/<slug:[\w\-]+>'                       => 'content/category/view',
         'content/<catslug:[\w\-]+>/<slug:[\w\-]+>'     => 'content/article/view',
-        'content/page/<slug:[\w\-]+>'                  => 'content/page/view',
     ];
 
     public $settings = [

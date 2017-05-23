@@ -67,6 +67,20 @@ class AttachImages extends Behavior
         }
     }
 
+    public function getImage()
+    {
+        $finder = $this->getImagesFinder();
+        $imageQuery = Image::find()->where($finder);
+        $imageQuery->orderBy(['isMain' => SORT_DESC, 'sort' => SORT_DESC, 'id' => SORT_ASC]);
+        $image = $imageQuery->one();
+
+        if ($image === null) {
+            return $this->getModule()->getPlaceHolder();
+        }
+
+        return $image;
+    }
+
     public function getImages()
     {
         $finder = $this->getImagesFinder();
@@ -314,19 +328,5 @@ class AttachImages extends Behavior
     public function hasImage()
     {
         return ($this->getImage() instanceof PlaceHolder) ? false : true;
-    }
-
-    public function getImage()
-    {
-        $finder = $this->getImagesFinder();
-        $imageQuery = Image::find()->where($finder);
-        $imageQuery->orderBy(['isMain' => SORT_DESC, 'sort' => SORT_DESC, 'id' => SORT_ASC]);
-        $image = $imageQuery->one();
-
-        if ($image === null) {
-            return $this->getModule()->getPlaceHolder();
-        }
-
-        return $image;
     }
 }

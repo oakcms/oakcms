@@ -160,13 +160,10 @@ $this->registerJsFile('//yastatic.net/share2/share.js');
                             'cssClass' => 'buy_button',
                             'text'     => 'купить',
                             'htmlTag'  => 'button',
-                            'options'  => [
-                                'data-loading-text' => '<i class=\'fa fa-circle-o-notch fa-spin\'></i> Загрузка'
-                            ]
                         ]); ?>
-                        <img class="margin_left hidden-xs hidden-sm" src="img/icon-like.png" alt="">
-                        <img class="hidden-xs hidden-sm" src="img/icon-home.png" alt="">
-                        <a class="mob_center" style="display:block;" href="#">Купить в 1 клик</a>
+                        <img class="margin_left hidden-xs hidden-sm" src="application/media/images/icon-like.png" alt="">
+                        <img class="hidden-xs hidden-sm" src="application/media/images/icon-home.png" alt="">
+                        <a class="mob_center byOneClick--js" style="display:block;" href="#">Купить в 1 клик</a>
                     </div>
                 </div>
             </div>

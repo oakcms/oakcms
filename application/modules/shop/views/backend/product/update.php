@@ -20,9 +20,6 @@ $this->params['breadcrumbs'][] = 'Обновить';
                 <a href="#product-product" data-toggle="tab"><?= Yii::t('shop', 'Card Product') ?></a>
             </li>
             <li>
-                <a href="#product-images" data-toggle="tab"><?= Yii::t('shop', 'Images') ?></a>
-            </li>
-            <li>
                 <a href="#product-stores" data-toggle="tab"><?= Yii::t('shop', 'Warehouses') ?></a>
             </li>
             <li>
@@ -73,12 +70,6 @@ $this->params['breadcrumbs'][] = 'Обновить';
                         ],
                     ]); ?>
                 <?php } ?>
-            </div>
-
-            <div class="tab-pane" id="product-images">
-                <div class="mb-20">
-                    <?= \app\modules\gallery\widgets\Gallery::widget(['model' => $model]); ?>
-                </div>
             </div>
 
             <div class="tab-pane" id="product-filters">

@@ -194,8 +194,14 @@ class Product extends \yii\db\ActiveRecord implements
     public function getPrice()
     {
         if(($m = Modification::find()->where(['product_id' => $this->id])->orderBy(['id' => SORT_ASC])->one()) !== null) {
+
+            if(($price = Price::find()->where(['modification_id' => $m->id, 'type_id' => 2])->one()) !== null) {
+                return $price->price;
+            }
+
             return $m->price;
         }
+
         return null;
     }
 

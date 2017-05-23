@@ -30,6 +30,25 @@ $this->params['breadcrumb'][] = "Корзина";
     </div>
 
     <?php if(count($elements) > 0): ?>
+
+        <?php
+        $cartJs = '$(document).ready(function(){
+                $(document).on("changeCartElementOptions", function (e, data) {
+                    var element = $(\'[data-id="\' + data.CartElement.id + \'"]\'),
+                        price = element.data(\'price\')
+                        cost = price * data.CartElement.count;
+                         
+                    element.find(\'.priceCost--js\').html(cost + \' P\');
+                });
+                $(document).on("renderCart", function (e, data) {
+                    console.log(data);
+                   // $(\'.cart__total--js\').html(data.);
+                }); 
+            });';
+
+        $this->registerJs($cartJs, \yii\web\View::POS_END, 'cart_on_click');
+        ?>
+
         <div class="title_decr">
             Доставляем мебель быстро,вся мебель на складе! Даем дополнительные гарантии на комплектность и качество товара.
         </div>
@@ -56,7 +75,7 @@ $this->params['breadcrumb'][] = "Корзина";
             $filter_variants = \yii\helpers\Json::decode($element->options);
             $modification = $model->getModificationByOptions($filter_variants);
             ?>
-        <div class="product_decr">
+        <div class="product_decr" data-price="<?= $element->price ?>" data-id="<?= $element->id ?>">
             <div class="row">
                 <div class="col-xs-12 col-md-2 col-sm-12 no_padding_left text-center">
                     <?php echo Html::a(
@@ -82,9 +101,9 @@ $this->params['breadcrumb'][] = "Корзина";
                     <div class="prise_total hidden-xs hidden-sm">
                         <?php if(isset($modification) && ($price = $modification->getPrice(2)) && $price > 0): ?>
                             <?= $price ?><br>
-                            <span><?= $element->price ?>P</span>
+                            <span><?= Yii::$app->formatter->asDecimal($element->price, 2) ?>P</span>
                         <?php else: ?>
-                            <?= $element->price ?>
+                            <?= Yii::$app->formatter->asCurrency($element->price * 1, 'RUR') ?>
                         <?php endif; ?>
                     </div>
 
@@ -108,12 +127,9 @@ $this->params['breadcrumb'][] = "Корзина";
 
                 </div>
                 <div class="col-xs-12 col-md-1 ">
-
-                    <div class="prise_total ">
-                        <?= $element->getPrice() ?>P<br>
-                        <span><?= $element->getPrice() ?>P</span>
+                    <div class="prise_total priceCost--js">
+                        <?= $element->getCost() ?> P
                     </div>
-
                 </div>
                 <div class="col-xs-12  col-md-1  text-center">
                     <?= Html::button('', [
@@ -130,7 +146,7 @@ $this->params['breadcrumb'][] = "Корзина";
         <?php endforeach; ?>
         <div class="total_prise text-right ">
             <ul class="list-unstyled">
-                <li>Итого: <span><?//=  ?>P</span></li>
+                <li>Итого: <span class="cart__total--js"><?= Yii::$app->cart->getCost() ?></span> P</li>
                 <li>Предварительная дата доставки 20 сентября 2016р</li>
                 <li>Общая сумма: 32 500Р</li>
                 <li>Сумма скидки: 6 000P</li>
@@ -178,6 +194,9 @@ $this->params['breadcrumb'][] = "Корзина";
                 </ul>
             </div>
         </div>
+        <script>
+
+        </script>
     <?else:?>
         <div class="cart-empty">
             Корзина Пустая.

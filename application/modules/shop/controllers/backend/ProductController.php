@@ -6,6 +6,7 @@
 namespace app\modules\shop\controllers\backend;
 
 use app\components\BackendController;
+use app\modules\gallery\behaviors\AttachImages;
 use app\modules\gallery\models\Image;
 use app\modules\shop\events\ProductEvent;
 use app\modules\shop\models\Modification;
@@ -168,11 +169,13 @@ class ProductController extends BackendController
                 $changeImage = true;
             }
 
-            if(isset($post['variants']['id'][$i]) AND $post['variants']['id'][$i] != ''){
+            if(isset($post['variants']['id'][$i]) AND $post['variants']['id'][$i] != '') {
                 $modification = Modification::findOne($post['variants']['id'][$i]);
             } else {
                 $modification = new Modification();
             }
+
+            $modification->detachBehavior('images');
 
             $modification->product_id       = $model->id;
             $modification->price            = $post['variants']['price'][$i];
@@ -189,6 +192,7 @@ class ProductController extends BackendController
             }
 
             $photoUpload = UploadedFile::getInstanceByName('image'.$i);
+
             if ($photoUpload) {
                 $uploadsPath = Yii::getAlias(Yii::$app->getModule('gallery')->imagesStorePath.'/');
                 if (!file_exists($uploadsPath)) {
@@ -197,9 +201,15 @@ class ProductController extends BackendController
 
                 $photoUpload->saveAs("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
 
+                $modification->attachBehavior('images', [
+                    'class' => AttachImages::className(),
+                    'mode' => 'single',
+                ]);
+
                 foreach ($modification->getImages() as $image) {
                     $image->delete();
                 }
+
                 $modification->attachImage("{$uploadsPath}/{$photoUpload->baseName}.{$photoUpload->extension}");
                 $this->flash('success', 'Image change');
             } else {

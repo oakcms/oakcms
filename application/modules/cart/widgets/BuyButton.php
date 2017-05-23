@@ -22,6 +22,7 @@ class BuyButton extends \yii\base\Widget
     public $cssClass = NULL;
     public $htmlTag = 'a';
     public $options = null;
+    public $htmlOptions = [];
 
     public function init()
     {
@@ -51,7 +52,7 @@ class BuyButton extends \yii\base\Widget
         }
 
         $model = $this->model;
-        return Html::tag($this->htmlTag, $this->text, [
+        $options = yii\helpers\ArrayHelper::merge([
             'href' => Url::to(['/cart/element/create']),
             'class' => "oakcms-cart-buy-button oakcms-cart-buy-button{$this->model->getCartId()} {$this->cssClass}",
             'data-id' => $model->getCartId(),
@@ -60,6 +61,8 @@ class BuyButton extends \yii\base\Widget
             'data-options' => json_encode($this->options),
             'data-description' => $this->description,
             'data-model' => $model::className()
-        ]);
+        ], $this->htmlOptions);
+
+        return Html::tag($this->htmlTag, $this->text, $options);
     }
 }

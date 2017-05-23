@@ -9,7 +9,7 @@ return array(
     'config' => array(
 
         'name'  => 'slider',
-        'label' => 'Slider',
+        'label' => 'Slider2',
         'core'  => true,
         'icon'  => 'plugins/widgets/slider/widget.svg',
         'view'  => 'plugins/widgets/slider/views/widget.php',

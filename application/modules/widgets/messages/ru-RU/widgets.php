@@ -26,7 +26,7 @@
 return [
     'Data' => '',
     'ID' => '',
-    'Light Slider' => 'Слайдер',
+    'Light Slider' => '',
     'Name' => 'Название',
     'Type' => 'Тип',
     'Widgets' => 'Виджеты',

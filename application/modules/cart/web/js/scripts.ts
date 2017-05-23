@@ -34,10 +34,19 @@ module OakCMS {
 
             $(document).trigger("addCartElement", data);
 
-            $(e.target).button('loading');
+            $(e.target).addClass('loading');
+
+            if($(e.target).prop("tagName") === 'BUTTON') {
+                $(e.target).prop('disabled', true);
+            }
 
             this.sendData(data, $(e.target).attr('href'), function () {
-                $(e.target).button('reset');
+                setTimeout(function () {
+                    $(e.target).removeClass('loading');
+                    if($(e.target).prop("tagName") === 'BUTTON') {
+                        $(e.target).prop('disabled', false);
+                    }
+                }, 1000);
             });
 
             return false;
@@ -98,7 +107,6 @@ module OakCMS {
         }
 
         public changeElementCount(e) {
-            $(document).trigger("changeCartElementOptions", this);
 
             let id: number = $(e.target).data('id'),
                 options: object = {},
@@ -122,6 +130,8 @@ module OakCMS {
                 }
             };
 
+            $(document).trigger("changeCartElementOptions", data);
+
             this.sendData(data, $(e.target).data('href'));
             return false;
         }
@@ -138,10 +148,11 @@ module OakCMS {
             }
 
             options[filter_id] = $target.val();
-            options['element'] = $target;
 
             $(buyButton).data('options', options);
             $(buyButton).attr('data-options', JSON.stringify(options));
+
+            options['element'] = $target;
 
             $(document).trigger("beforeChangeCartElementOptions", options);
 
@@ -149,8 +160,6 @@ module OakCMS {
         }
 
         public changeElementOptions(e) {
-            $(document).trigger("changeCartElementOptions", this);
-
             let id: number = $(e.target).data('id'),
                 options: any = {},
                 data: any = {},
@@ -170,6 +179,10 @@ module OakCMS {
             data.CartElement = {};
             data.CartElement.id = id;
             data.CartElement.options = JSON.stringify(options);
+
+            //console.log(data);
+
+            $(document).trigger("changeCartElementOptions", data);
 
             this.sendData(data, $(e.target).data('href'));
 

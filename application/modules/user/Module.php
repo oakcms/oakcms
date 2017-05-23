@@ -12,7 +12,7 @@ use app\components\module\ModuleEventsInterface;
 use app\modules\admin\widgets\events\MenuItemsEvent;
 use app\modules\admin\widgets\Menu;
 
-class Module extends \yii\base\Module implements ModuleEventsInterface
+class Module extends \app\components\module\Module implements ModuleEventsInterface
 {
 
     /**

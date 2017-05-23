@@ -391,6 +391,10 @@ if (!$model->isNewRecord) {
 
     <?= $form->field($model, 'short_text')->textInput(['maxlength' => true]) ?>
 
+    <div class="mb-20">
+        <?= \app\modules\gallery\widgets\Gallery::widget(['model' => $model]); ?>
+    </div>
+
     <div class="panel panel-default">
         <div class="panel-heading"><strong>Связанные продукты</strong></div>
         <div class="panel-body">

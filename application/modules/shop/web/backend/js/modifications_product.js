@@ -10,7 +10,7 @@ $.exists = function (selector) {
 };
 
 $(function() {
-    $("#addVariant").on("click", function(){
+    $("#addVariant").on("click", function() {
         var variantsTable = $('#modifications-table tbody');
         var mainImageName = variantsTable.find('tr').last().find('.mainImageName').val();
         var countVarRows = variantsTable.children('tr').length;
@@ -117,7 +117,7 @@ $(function() {
             if(id != '') {
                 $.post(url + '/' + id, function( data ) {
                     if(data.result == 'success') {
-                        grow(data.message, 'success');
+                        grow(data.success, 'success');
                     } else {
                         grow(data.error, 'danger');
                     }
