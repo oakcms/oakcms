@@ -44,9 +44,9 @@ class LoginForm extends Model
 
             if (!$user || !$user->validatePassword($this->password)) {
                 $this->addError('password', Yii::t('user', 'Неверное имя пользователя или пароль.'));
-            } elseif ($user && $user->status == User::S_BLOCKED) {
+            } elseif ($user && $user->status == User::STATUS_BLOCKED) {
                 $this->addError('username', Yii::t('user', 'Ваш аккаунт заблокирован.'));
-            } elseif ($user && $user->status == User::S_WAIT) {
+            } elseif ($user && $user->status == User::STATUS_WAIT) {
                 $this->addError('username', Yii::t('user', 'Ваш аккаунт не подтвежден.'));
             }
         }
@@ -76,5 +76,14 @@ class LoginForm extends Model
         }
 
         return $this->_user;
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'username' => Yii::t('user', 'User Name'),
+            'password' => Yii::t('user', 'Password'),
+            'rememberMe' => Yii::t('user', 'Remember me'),
+        ];
     }
 }

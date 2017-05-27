@@ -6,13 +6,6 @@
  * @version    0.0.1-alpha.0.4
  */
 
-/**
- * @var $this yii\web\View
- * @var $model \app\modules\shop\models\Product
- * @var $form ActiveForm
- * @var $lang Language
- */
-
 use app\modules\admin\widgets\Button;
 use app\modules\language\models\Language;
 use app\modules\shop\models\Category;
@@ -21,7 +14,14 @@ use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\bootstrap\Html;
-use yii\widgets\ActiveForm;
+use app\modules\admin\widgets\ActiveForm;
+
+/**
+ * @var $this yii\web\View
+ * @var $model \app\modules\shop\models\Product
+ * @var $form ActiveForm
+ * @var $lang Language
+ */
 
 yii\jui\JuiAsset::register($this);
 $asset = \app\templates\backend\base\assets\BaseAsset::register($this);

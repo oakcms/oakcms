@@ -19,6 +19,7 @@ use app\modules\filter\models\FilterVariant;
 $this->title = Yii::t('cart', 'Cart');
 $this->setSeoData($this->title);
 $cart = Yii::$app->cart;
+$assest = \app\templates\frontend\mu_mebel\assets\BaseAsset::register($this);
 
 $this->params['breadcrumb'][] = "Корзина";
 
@@ -41,8 +42,8 @@ $this->params['breadcrumb'][] = "Корзина";
                     element.find(\'.priceCost--js\').html(cost + \' P\');
                 });
                 $(document).on("renderCart", function (e, data) {
-                    console.log(data);
-                   // $(\'.cart__total--js\').html(data.);
+                    $(\'.cart__cost--js\').html(data.price);
+                    $(\'.cart__total--js\').html(data.price);
                 }); 
             });';
 
@@ -146,17 +147,17 @@ $this->params['breadcrumb'][] = "Корзина";
         <?php endforeach; ?>
         <div class="total_prise text-right ">
             <ul class="list-unstyled">
-                <li>Итого: <span class="cart__total--js"><?= Yii::$app->cart->getCost() ?></span> P</li>
-                <li>Предварительная дата доставки 20 сентября 2016р</li>
-                <li>Общая сумма: 32 500Р</li>
-                <li>Сумма скидки: 6 000P</li>
+                <li>Итого: <span class="cart__cost--js"><?= Yii::$app->cart->getCost() ?>р.</span></li>
+                <li>Предварительная дата доставки <?= Yii::$app->formatter->asDate(time() + 3 * 24 * 60 * 60, 'long') ?></li>
+                <li>Общая сумма: <span class="cart__total--js"><?= Yii::$app->cart->getCost() ?>р.</span></li>
+                <li>Сумма скидки: 6 000р.</li>
             </ul>
             <button>
                 Оформить заказ
             </button>
         </div>
         <div class="details text-left hidden-sm hidden-xs">
-            <img src="img/details.png" alt="">
+            <img src="<?= $assest->baseUrl ?>/img/details.png" alt="">
             Подробные условия:
         </div>
         <div class="specification row hidden-sm hidden-xs">
@@ -194,9 +195,6 @@ $this->params['breadcrumb'][] = "Корзина";
                 </ul>
             </div>
         </div>
-        <script>
-
-        </script>
     <?else:?>
         <div class="cart-empty">
             Корзина Пустая.

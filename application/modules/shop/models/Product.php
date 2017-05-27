@@ -213,13 +213,23 @@ class Product extends \yii\db\ActiveRecord implements
     public function getPriceByOption($options)
     {
         if (is_array($options)) {
-            $options = serialize($options);
+            $optionsInt = serialize(array_map('intval', $options));
+            $optionsStr = serialize(array_map('strval', $options));
+        } else {
+            $options = unserialize($options);
+            $optionsInt = serialize(array_map('intval', $options));
+            $optionsStr = serialize(array_map('strval', $options));
         }
 
         if(
             ($modification = Modification::find()->where([
-                'filter_values' => $options,
-                'product_id' => $this->id
+                'and',
+                ['product_id' => $this->id],
+                [
+                    'or',
+                    ['filter_values' => $optionsInt],
+                    ['filter_values' => $optionsStr]
+                ]
             ])->one()) !== null
         ) {
             return $modification->price;

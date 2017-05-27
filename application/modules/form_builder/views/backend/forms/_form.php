@@ -147,7 +147,7 @@ $this->params['actions_buttons'] = [
                                         'dataHandler'   => '',
                                         'actionHandler' => '',
                                         'options'       => ['class' => 'btn btn-circle btn-primary btn-sm'],
-                                        'popupOptions'  => ['width' => 600]
+                                        'popupOptions'  => ['width' => 900]
                                     ]); ?>
                                 </div>
                             </div>

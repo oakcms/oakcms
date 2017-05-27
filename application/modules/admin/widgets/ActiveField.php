@@ -8,7 +8,11 @@
 
 namespace app\modules\admin\widgets;
 
+use kartik\daterange\DateRangePicker;
+use kartik\select2\Select2;
 use yii\helpers\ArrayHelper;
+use yii\jui\DatePicker;
+use yii\jui\Spinner;
 
 class ActiveField extends \yii\widgets\ActiveField {
 
@@ -188,17 +192,4 @@ class ActiveField extends \yii\widgets\ActiveField {
 
         return $this;
     }
-
-    public function multiSelect($options = []) {
-        $this->parts['{input}'] = MultiSelect::widget(array_merge($options, ['model' => $this->model, 'attribute' => $this->attribute]));
-
-        return $this;
-    }
-
-    public function range($options = []) {
-        $this->parts['{input}'] = IonRangeSlider::widget(array_merge($options, ['model' => $this->model, 'attribute' => $this->attribute]));
-
-        return $this;
-    }
-
 }

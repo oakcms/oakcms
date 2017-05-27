@@ -220,11 +220,17 @@ class DefaultController extends BackendController
 
         $files = [];
         if($file) {
-            if(is_file($fileL = Yii::getAlias('@frontendTemplate/modules/text/layouts/'.$file.'/plugin.php')))
-                $files[] = require $fileL;
-            else
-                $files[] = require Yii::getAlias('@app/modules/text/views/frontend/layouts/'.$file.'/plugin.php');
-
+            if(is_file($fileL = Yii::getAlias('@frontendTemplate/modules/text/layouts/'.$file.'/plugin.php'))) {
+                $require = require $fileL;
+                if(is_array($require)) {
+                    $files[] = $require;
+                }
+            } else {
+                $require = require Yii::getAlias('@app/modules/text/views/frontend/layouts/'.$file.'/plugin.php');
+                if(is_array($require)) {
+                    $files[] = $require;
+                }
+            }
         } else {
 
             $core = glob(Yii::getAlias('@app/modules/text/views/frontend/layouts/*/plugin.php'));
@@ -232,17 +238,23 @@ class DefaultController extends BackendController
 
             foreach ($core as $plugin) {
                 if(is_file($plugin)) {
-                    $file = require $plugin;
-                    $files[$file['name']] =  $file;
+                    $require = require $plugin;
+                    if(is_array($require)) {
+                        $files[$require['name']] = $require;
+                    }
                 }
             }
+
             foreach ($template as $plugin) {
                 if(is_file($plugin)) {
-                    $file = require $plugin;
-                    $files[$file['name']] =  $file;
+                    $require = require $plugin;
+                    if(is_array($require)) {
+                        $files[$require['name']] = $require;
+                    }
                 }
             }
         }
+
         return $files;
     }
 

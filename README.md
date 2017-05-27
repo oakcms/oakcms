@@ -18,7 +18,7 @@ OakCMS is installed through Composer.
 1) With Composer installed, you can install OakCMS by running:
 `composer create-project --prefer-dist oakcms/oakcms=dev-master oakcms`
 
-2) Execute the command `cd oakcms` and also 2 times the command `php application/yii migrate`.
+2) Execute the command `cd oakcms` and `php application/yii migrate`.
 
 REQUIREMENTS
 ------------

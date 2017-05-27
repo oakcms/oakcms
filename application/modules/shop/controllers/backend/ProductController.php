@@ -183,7 +183,7 @@ class ProductController extends BackendController
             $modification->available        = $post['variants']['available'][$i];
             $modification->name             = $post['variants']['name'][$i];
             $modification->amount           = $post['variants']['amount'][$i];
-            $modification->filter_values    = serialize(ArrayHelper::getValue($post, 'variants.filter_values.' . $i, []));
+            $modification->filter_values    = serialize(array_map('intval', ArrayHelper::getValue($post, 'variants.filter_values.' . $i, [])));
             $modification->sort             = $i;
 
             if(!$modification->save()) {
