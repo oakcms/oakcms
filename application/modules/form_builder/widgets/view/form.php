@@ -6,16 +6,21 @@
  * @version    0.0.1-beta.0.1
  */
 
+use app\modules\form_builder\components\ActiveForm;
+
 /**
  * @var $model \app\modules\form_builder\models\FormBuilderForms
+ * @var $formModel \app\modules\form_builder\models\FormBuilder
  */
 $index = new \app\components\Count();
-$form = \kartik\form\ActiveForm::begin([
-    'id' => 'fb_form_id_'.$model->id.'_'.$index->getIndex(),
-    'action' => \yii\helpers\Url::to(),
-    'options' => ['class' => 'fb_form']
+$form = ActiveForm::begin([
+    'model'   => $formModel,
+    'formId'  => $model->id,
+    'id'      => 'fb_form_id_' . $model->id . '_' . $index->getIndex(),
+    'action'  => \yii\helpers\Url::to(),
+    'options' => ['class' => 'fb_form'],
 ]);
 ?>
-    <?= $model->renderForm($form); ?>
+<?= $model->renderForm($form); ?>
 <?php
-\kartik\form\ActiveForm::end();
+ActiveForm::end();

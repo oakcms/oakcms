@@ -10,6 +10,7 @@ namespace app\modules\form_builder\widgets;
 
 use app\modules\form_builder\models\FormBuilder;
 use app\modules\form_builder\models\FormBuilderForms;
+use app\modules\form_builder\Module;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
@@ -18,7 +19,7 @@ class ShortCode extends \app\components\ShortCode
     public static function shortCode($event)
     {
         if(isset($event->output)) {
-            $event->output = (new \app\components\ShortCode)->parse(
+            $return = (new \app\components\ShortCode)->parse(
                 'form_builder',
                 $event->output,
                 function($attrs) {
@@ -33,25 +34,22 @@ class ShortCode extends \app\components\ShortCode
                     return '';
                 }
             );
+
+            $event->output = $return;
         }
         return true;
     }
 
     public static function render($model) {
-        $models = self::getForm($model);
-
-        if(($submitForm = FormBuilderForms::submitForm($model, $models)) === false) {
-            return \Yii::$app->getView()->renderFile(__DIR__.'/view/form.php', ['model' => $models['model']]);
-        } else if(!is_array($submitForm)) {
-            return $submitForm;
-        } else {
-            return '';
+        if(!Module::$htmlFormSuccess) {
+            return \Yii::$app->getView()->renderFile(__DIR__.'/view/form.php', self::getForm($model));
         }
+        return Module::$htmlFormSuccess;
     }
 
     /**
-     * @param array $attrs
-     * @return string Html for text block
+     * @param $model
+     * @return array
      */
     public static function getForm(&$model) {
         $fields = $model->fields;

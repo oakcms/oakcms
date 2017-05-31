@@ -9,6 +9,7 @@
 namespace app\modules\form_builder\models;
 
 use app\helpers\StringHelper;
+use app\modules\form_builder\widgets\ShortCode;
 use kartik\builder\Form;
 use Yii;
 use yii\behaviors\SluggableBehavior;
@@ -88,15 +89,20 @@ class FormBuilderForms extends \app\components\ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSubmissions()
     {
         return $this->hasMany(FormBuilderSubmission::className(), ['form_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getFields()
     {
-        return $this->hasMany(FormBuilderField::className(), ['form_id' => 'id'])
-            ->orderBy(['sort' => SORT_ASC]);
+        return $this->hasMany(FormBuilderField::className(), ['form_id' => 'id'])->orderBy(['sort' => SORT_ASC]);
     }
 
     /**
@@ -300,117 +306,127 @@ class FormBuilderForms extends \app\components\ActiveRecord
     }
 
     /**
-     * @param $model self
-     * @param $models
-     *
      * @return mixed
      */
-    public static function submitForm($model, $models) {
-        /** @var FormBuilderForms $formModel */
-        $formModel = $models['formModel'];
-        $success = [];
-        if ($formModel->load(Yii::$app->request->post()) && $formModel->validate()) {
-            $format = Yii::$app->request->get('format');
+    public static function submitForm() {
 
-            $submission = new FormBuilderSubmission();
-            $submission->form_id    = $model->id;
-            $submission->created    = time();
-            $submission->ip         = Yii::$app->request->userIP;
-            $submission->status     = FormBuilderSubmission::STATUS_DRAFT;
+        $request = Yii::$app->request;
+        if(
+            ($formBuilder = $request->post('FormBuilder')) &&
+            ($formId = ArrayHelper::getValue($formBuilder, 'formId'))
+        ) {
+            $model = FormBuilderForms::find()
+                ->where(['id' => $formId, 'status' => FormBuilderForms::STATUS_PUBLISHED])
+                ->one();
 
-            $attachments = [];
-            foreach ($models['model']->fields as $field) {
-                if($field->type == 'fileInput' && ($attachment = UploadedFile::getInstance($formModel,'rezume'))) {
-                    $fieldData = Json::decode($field->data);
-                    $uploadsPath = Yii::getAlias($fieldData['destination']);
-                    $urlDownload = Yii::getAlias('@webroot');
-                    $urlDownload = Yii::getAlias('@web'.str_replace($urlDownload, '', $uploadsPath));
-                    if (!file_exists($uploadsPath)) {
-                        mkdir($uploadsPath, 0777, true);
-                    }
-                    $uniqid = uniqid();
-                    $fileName = $uploadsPath . '/' . $uniqid .'.'. $attachment->extension;
-                    $fileDownload = $urlDownload . '/' . $uniqid .'.'. $attachment->extension;
-                    $attachment->saveAs($fileName);
-                    $attributes = $formModel->attributes;
-                    $attributes[$field->slug] = $fileDownload;
-                    $formModel->attributes = $attributes;
-                    foreach ($fieldData['attach_file_to'] as $datum) {
-                        $attachments[$datum][] = $fileName;
+            $models = ShortCode::getForm($model);
+
+            /** @var FormBuilderForms $formModel */
+            $formModel = $models['formModel'];
+            $success = [];
+            if ($formModel->load(Yii::$app->request->post()) && $formModel->validate()) {
+                $format = Yii::$app->request->get('format');
+
+                $submission = new FormBuilderSubmission();
+                $submission->form_id    = $model->id;
+                $submission->created    = time();
+                $submission->ip         = Yii::$app->request->userIP;
+                $submission->status     = FormBuilderSubmission::STATUS_DRAFT;
+
+                $attachments = [];
+                foreach ($models['model']->fields as $field) {
+                    if($field->type == 'fileInput' && ($attachment = UploadedFile::getInstance($formModel, $field->slug))) {
+                        $fieldData = Json::decode($field->data);
+                        $uploadsPath = Yii::getAlias($fieldData['destination']);
+                        $urlDownload = Yii::getAlias('@webroot');
+                        $urlDownload = Yii::getAlias('@web'.str_replace($urlDownload, '', $uploadsPath));
+                        if (!file_exists($uploadsPath)) {
+                            mkdir($uploadsPath, 0777, true);
+                        }
+                        $uniqid = uniqid();
+                        $fileName = $uploadsPath . '/' . $uniqid .'.'. $attachment->extension;
+                        $fileDownload = $urlDownload . '/' . $uniqid .'.'. $attachment->extension;
+                        $attachment->saveAs($fileName);
+                        $attributes = $formModel->attributes;
+                        $attributes[$field->slug] = $fileDownload;
+                        $formModel->attributes = $attributes;
+                        foreach ($fieldData['attach_file_to'] as $datum) {
+                            $attachments[$datum][] = $fileName;
+                        }
                     }
                 }
-            }
 
-            $submission->data       = Json::encode($formModel->attributes);
-            if($submission->save()) {
-                if(ArrayHelper::getValue($model->data, 'email.sendToUser'))
-                    if(ArrayHelper::getValue($model->data, 'email.sendToUser')) {
-                        if(($field_id = ArrayHelper::getValue($model->data, 'email.userEmail')) && ($field = FormBuilderField::findOne($field_id))) {
-                            $userEmail = $formModel->{$field->slug};
-                            $mailer = Yii::$app->mailer->compose()
-                                ->setFrom(getenv('ROBOT_EMAIL'))
-                                ->setTo($userEmail)
-                                ->setSubject(ArrayHelper::getValue($model->data, 'email.userEmailSubject'))
-                                ->setHtmlBody($model->parseContent($formModel, 'email.userEmailContent'));
+                $submission->data       = Json::encode($formModel->attributes);
+                if($submission->save()) {
+                    if(ArrayHelper::getValue($model->data, 'email.sendToUser'))
+                        if(ArrayHelper::getValue($model->data, 'email.sendToUser')) {
+                            if(($field_id = ArrayHelper::getValue($model->data, 'email.userEmail')) && ($field = FormBuilderField::findOne($field_id))) {
+                                $userEmail = $formModel->{$field->slug};
+                                $mailer = Yii::$app->mailer->compose()
+                                    ->setFrom(getenv('ROBOT_EMAIL'))
+                                    ->setTo($userEmail)
+                                    ->setSubject(ArrayHelper::getValue($model->data, 'email.userEmailSubject'))
+                                    ->setHtmlBody($model->parseContent($formModel, 'email.userEmailContent'));
 
-                            foreach ($attachments as $key => $attachment) {
-                                if($key == 'useremail') {
-                                    foreach ($attachment as $filename) {
-                                        $mailer->attach($filename);
+                                foreach ($attachments as $key => $attachment) {
+                                    if($key == 'useremail') {
+                                        foreach ($attachment as $filename) {
+                                            $mailer->attach($filename);
+                                        }
                                     }
                                 }
-                            }
 
-                            $mailer->send();
-                        }
-                    }
-
-                if(ArrayHelper::getValue($model->data, 'email.sendToAdmin')) {
-                    $email = ArrayHelper::getValue($model->data, 'email.adminEmail', getenv('ADMIN_EMAIL'));
-                    $email = $model->parseFields($formModel, $email);
-                    $email = str_replace(' ', '', $email);
-                    $emails = explode(',', $email);
-
-                    $mailer = Yii::$app->mailer
-                        ->compose()
-                        ->setFrom(getenv('ROBOT_EMAIL'))
-                        ->setTo($emails)
-                        ->setSubject(ArrayHelper::getValue($model->data, 'email.adminEmailSubject'))
-                        ->setHtmlBody($model->parseContent($formModel, 'email.adminEmailContent'));
-
-                    foreach ($attachments as $key => $attachment) {
-                        if($key == 'adminemail') {
-                            foreach ($attachment as $filename) {
-                                $mailer->attach($filename);
+                                $mailer->send();
                             }
                         }
+
+                    if(ArrayHelper::getValue($model->data, 'email.sendToAdmin')) {
+                        $email = ArrayHelper::getValue($model->data, 'email.adminEmail', getenv('ADMIN_EMAIL'));
+                        $email = $model->parseFields($formModel, $email);
+                        $email = str_replace(' ', '', $email);
+                        $emails = explode(',', $email);
+
+                        $mailer = Yii::$app->mailer
+                            ->compose()
+                            ->setFrom(getenv('ROBOT_EMAIL'))
+                            ->setTo($emails)
+                            ->setSubject(ArrayHelper::getValue($model->data, 'email.adminEmailSubject'))
+                            ->setHtmlBody($model->parseContent($formModel, 'email.adminEmailContent'));
+
+                        foreach ($attachments as $key => $attachment) {
+                            if($key == 'adminemail') {
+                                foreach ($attachment as $filename) {
+                                    $mailer->attach($filename);
+                                }
+                            }
+                        }
+
+                        $mailer->send();
                     }
 
-                    $mailer->send();
+                    if($format == 'json') {
+                        $success = ['success' => ArrayHelper::getValue($model->data, 'submission.content')];
+                    } else {
+                        Yii::$app->getSession()->setFlash('success', Yii::t('form_builder', 'Form submited.'));
+                    }
+
+                } else {
+                    if($format == 'json') {
+                        $success = ['error' => Yii::t('form_builder', 'Email not sending.')];
+                    } else {
+                        Yii::$app->getSession()->setFlash('danger', Yii::t('form_builder', 'Email not sending.'));
+                    }
                 }
 
                 if($format == 'json') {
-                    $success = ['success' => ArrayHelper::getValue($model->data, 'submission.content')];
-                } else {
-                    Yii::$app->getSession()->setFlash('success', Yii::t('form_builder', 'Form submited.'));
+                    return $success;
                 }
 
-            } else {
-                if($format == 'json') {
-                    $success = ['error' => Yii::t('form_builder', 'Email not sending.')];
-                } else {
-                    Yii::$app->getSession()->setFlash('danger', Yii::t('form_builder', 'Email not sending.'));
+                if(ArrayHelper::getValue($model->data, 'submission.after_submit') == 'thankyou') {
+                    return ArrayHelper::getValue($model->data, 'submission.content');
+                } elseif(ArrayHelper::getValue($model->data, 'submission.after_submit') == 'redirect') {
+                    Yii::$app->response->redirect(ArrayHelper::getValue($model->data, 'submission.after_submit_link'));
                 }
-            }
-
-            if($format == 'json') {
-                return $success;
-            }
-
-            if(ArrayHelper::getValue($model->data, 'submission.after_submit') == 'thankyou') {
-                return ArrayHelper::getValue($model->data, 'submission.content');
-            } elseif(ArrayHelper::getValue($model->data, 'submission.after_submit') == 'redirect') {
-                Yii::$app->response->redirect(ArrayHelper::getValue($model->data, 'submission.after_submit_link'));
             }
         }
 

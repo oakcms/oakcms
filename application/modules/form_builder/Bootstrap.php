@@ -10,8 +10,10 @@ namespace app\modules\form_builder;
 
 use app\components\Controller;
 use app\components\CoreView;
+use app\modules\form_builder\models\FormBuilderForms;
 use yii\base\BootstrapInterface;
 use Yii;
+use yii\web\Response;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -20,5 +22,13 @@ class Bootstrap implements BootstrapInterface
         \yii\base\Event::on(Controller::className(), Controller::EVENT_BEFORE_ACTION, function () {
             Yii::$app->view->on(CoreView::EVENT_AFTER_RENDER, ['app\modules\form_builder\widgets\ShortCode', 'shortCode']);
         });
+
+        if(is_array($submitForm = FormBuilderForms::submitForm())) {
+            $app->response->format = Response::FORMAT_JSON;
+            echo json_encode($submitForm);
+            $app->end();
+        } else {
+            Module::$htmlFormSuccess = $submitForm;
+        }
     }
 }
