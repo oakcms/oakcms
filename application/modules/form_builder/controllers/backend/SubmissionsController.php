@@ -69,7 +69,7 @@ class SubmissionsController extends BackendController
         $dataProvider = new ArrayDataProvider([
             'allModels' => $arrayData,
             'pagination' => [
-                //'pageSize' => 10,
+                'pageSize' => Yii::$app->request->get('per-page', 20),
             ],
             'sort' => [
                 'attributes' => $sortAttributes,
