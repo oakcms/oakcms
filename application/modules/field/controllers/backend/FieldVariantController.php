@@ -51,7 +51,7 @@ class FieldVariantController extends Controller
             foreach($list as $variant) {
                 $model = new FieldVariant();
                 $model->value = htmlspecialchars($variant);
-                $model->field_id = (int) ArrayHelper::getValue(Yii::$app->request->post('FieldVariant'), 'field_id');
+                $model->field_id = (int) ArrayHelper::getValue($post, 'field_id');
                 $model->save();
             }
 
