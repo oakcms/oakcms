@@ -8,16 +8,13 @@
 
 namespace app\modules\field\controllers\backend;
 
-use yii;
-use app\modules\field\models\Field;
-use app\modules\field\models\tools\FieldSearch;
+use Yii;
 use app\modules\field\models\FieldVariant;
-use app\modules\field\models\tools\FieldVariantSearch;
 use yii\web\Controller;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use yii\helpers\Url;
 
 class FieldVariantController extends Controller
 {
@@ -44,7 +41,9 @@ class FieldVariantController extends Controller
 
     public function actionCreate()
     {
-        $list = Yii::$app->request->post('list');
+        $post = Yii::$app->request->post('FieldVariant');
+        $list = ArrayHelper::getValue($post, 'list', '');
+
         if($list == '' || $list) {
             $list = array_map('trim', explode("\n", $list));
             $list = array_diff($list, array(''));
@@ -52,7 +51,7 @@ class FieldVariantController extends Controller
             foreach($list as $variant) {
                 $model = new FieldVariant();
                 $model->value = htmlspecialchars($variant);
-                $model->field_id = (int)yii::$app->request->post('FieldVariant')['field_id'];
+                $model->field_id = (int) ArrayHelper::getValue(Yii::$app->request->post('FieldVariant'), 'field_id');
                 $model->save();
             }
 
@@ -65,16 +64,20 @@ class FieldVariantController extends Controller
             $json = [];
             $model = new FieldVariant();
 
-            $post = yii::$app->request->post('FieldVariant');
+
             //Если такой вариант уже есть у этого товара, просто выставляем его выделение
-            if(!empty($post['value']) && $have = $model::find()->where(['value' => $post['value'], 'field_id' => $post['field_id']])->one()) {
+            $value = ArrayHelper::getValue($post, 'value');
+            if(
+                !empty($value) &&
+                ($have = $model::find()->where(['value' => $value, 'field_id' => ArrayHelper::getValue($post, 'field_id')])->one())
+            ) {
                 $json['result'] = 'success';
                 $json['value'] = $have->value;
                 $json['id'] = $have->id;
                 $json['new'] = false;
             //Если варианта нет, создаем
             } else {
-                if ($model->load(yii::$app->request->post()) && $model->save()) {
+                if ($model->load($post) && $model->save()) {
                     $json['result'] = 'success';
                     $json['value'] = $model->value;
                     $json['id'] = $model->id;
