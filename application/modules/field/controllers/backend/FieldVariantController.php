@@ -44,8 +44,10 @@ class FieldVariantController extends Controller
 
     public function actionCreate()
     {
-        if(yii::$app->request->post('list')) {
-            $list = array_map('trim', explode("\n", yii::$app->request->post('list')));
+        $list = Yii::$app->request->post('list');
+        if($list == '' || $list) {
+            $list = array_map('trim', explode("\n", $list));
+            $list = array_diff($list, array(''));
 
             foreach($list as $variant) {
                 $model = new FieldVariant();
@@ -56,6 +58,8 @@ class FieldVariantController extends Controller
 
             if(isset($model)) {
                 return $this->redirect(['/admin/field/field/update', 'id' => $model->field_id]);
+            } else {
+                return $this->redirect(Yii::$app->request->referrer);
             }
         } else {
             $json = [];
@@ -63,7 +67,7 @@ class FieldVariantController extends Controller
 
             $post = yii::$app->request->post('FieldVariant');
             //Если такой вариант уже есть у этого товара, просто выставляем его выделение
-            if($have = $model::find()->where(['value' => $post['value'], 'field_id' => $post['field_id']])->one()) {
+            if(!empty($post['value']) && $have = $model::find()->where(['value' => $post['value'], 'field_id' => $post['field_id']])->one()) {
                 $json['result'] = 'success';
                 $json['value'] = $have->value;
                 $json['id'] = $have->id;
