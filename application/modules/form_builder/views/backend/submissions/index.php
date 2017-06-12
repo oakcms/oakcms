@@ -81,6 +81,7 @@ $columns = array_merge($columns, [
         <?php
         echo \kartik\select2\Select2::widget([
             'name' => 'form',
+            'id' => 'form_select',
             'value' => Url::to(['index', 'form_id' => $formModel->id]),
             'data' => $arrayForms
         ]);
