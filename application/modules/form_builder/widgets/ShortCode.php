@@ -65,7 +65,10 @@ class ShortCode extends \app\components\ShortCode
             $attributes[$field->slug] = $field->label;
             if($required = ArrayHelper::getValue($data, 'required')) {
                 $rulesRequired[] = $field->slug;
-            } elseif ($recaptcha_secret = ArrayHelper::getValue($data, 'recaptcha_api_key')) {
+            } elseif (
+                $recaptcha_pub = ArrayHelper::getValue($data, 'recaptcha_api_key') &&
+                $recaptcha_secret = ArrayHelper::getValue($data, 'recaptcha_api_key_secret')
+            ) {
                 $recaptcha = $field;
             } else {
                 $rulesSafe[] = $field->slug;
