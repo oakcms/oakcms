@@ -42,9 +42,12 @@ return [
         'recaptcha_api_key' => [
             'type' => BaseForm::INPUT_TEXT,
         ],
+        'recaptcha_api_key_secret' => [
+            'type' => BaseForm::INPUT_TEXT,
+        ],
     ],
     'rules' => [
-        [['label', 'name', 'recaptcha_api_key'], 'required'],
+        [['label', 'name', 'recaptcha_api_key', 'recaptcha_api_key_secret'], 'required'],
         [['additionalAttributes', 'label', 'helpText'], 'string'],
         [['cssClass', 'name'], 'string', ['max' => 100]]
     ]
