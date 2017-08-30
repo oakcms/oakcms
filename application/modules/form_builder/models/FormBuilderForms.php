@@ -142,6 +142,9 @@ class FormBuilderForms extends \app\components\ActiveRecord
             }
 
             switch ($field->type) {
+                case 'reCaptcha':
+                    $element = '<div class="g-recaptcha" data-sitekey="'. ArrayHelper::getValue($field->data, 'recaptcha_api_key') .'"></div>';
+                    break;
                 case 'button':
                     $element = Html::button(ArrayHelper::getValue($fieldData, 'value', 'Send'), array_merge(
                         $attr,

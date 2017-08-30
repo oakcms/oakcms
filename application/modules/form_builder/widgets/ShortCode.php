@@ -8,6 +8,7 @@
 
 namespace app\modules\form_builder\widgets;
 
+use app\modules\form_builder\components\validators\ReCaptchaValidator;
 use app\modules\form_builder\models\FormBuilder;
 use app\modules\form_builder\models\FormBuilderForms;
 use app\modules\form_builder\Module;
@@ -57,11 +58,15 @@ class ShortCode extends \app\components\ShortCode
         $attributes = [];
         $rulesRequired = [];
         $rulesSafe = [];
+        $recaptcha = [];
+        $recaptcha_secret = '';
         foreach ($fields as $field) {
             $data = Json::decode($field->data);
             $attributes[$field->slug] = $field->label;
             if($required = ArrayHelper::getValue($data, 'required')) {
                 $rulesRequired[] = $field->slug;
+            } elseif ($recaptcha_secret = ArrayHelper::getValue($data, 'recaptcha_api_key')) {
+                $recaptcha = $field;
             } else {
                 $rulesSafe[] = $field->slug;
             }
@@ -70,6 +75,11 @@ class ShortCode extends \app\components\ShortCode
         $formModel = new FormBuilder(array_keys($attributes));
         $formModel->addRule($rulesRequired, 'required');
         $formModel->addRule($rulesSafe, 'safe');
+
+        if(count($recaptcha) > 0) {
+            $formModel->addRule($recaptcha->slug,  ReCaptchaValidator::className(), ['secret' => $recaptcha_secret]);
+        }
+
         $formModel->setAttributesLabels($attributes);
 
         $model->setAttributesFields($attributes);
